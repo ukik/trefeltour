@@ -260,6 +260,22 @@
                       "
                       :items="dataRow.details.items ? dataRow.details.items : []"
                     ></badaso-select>
+
+                    <!-- ADDITIONAL -->
+                    <badaso-select
+                      v-if="dataRow.type == 'select_readonly'"
+                      :style="'pointer-events:none;'"
+                      :label="dataRow.displayName"
+                      :placeholder="dataRow.displayName"
+                      v-model="dataRow.value"
+                      size="12"
+                      :alert="
+                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      "
+                      :items="dataRow.details.items ? dataRow.details.items : []"
+                    ></badaso-select>
+
+
                     <badaso-select-multiple
                       v-if="dataRow.type == 'select_multiple'"
                       :label="dataRow.displayName"
@@ -312,6 +328,30 @@
                         errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       "
                     ></badaso-select>
+
+                    <!-- ADDITIONAL -->
+                    <badaso-select
+                      v-if="
+                        dataRow.type == 'relation_readonly' &&
+                        dataRow.relation.relationType == 'belongs_to'
+                      "
+                      :style="'pointer-events:none;'"
+                      :label="dataRow.displayName"
+                      :placeholder="dataRow.displayName"
+                      v-model="dataRow.value"
+                      size="12"
+                      :items="
+                        relationData[
+                          $caseConvert.stringSnakeToCamel(
+                            dataRow.relation.destinationTable
+                          )
+                        ]
+                      "
+                      :alert="
+                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      "
+                    ></badaso-select>
+
                     <badaso-select-multiple
                       v-if="
                         dataRow.type == 'relation' &&
@@ -474,6 +514,66 @@
           return;
         }
 
+        // ADDITIONAL
+        dataRows['status'] = 'rent'
+
+        try {
+            // this.validation(dataRows)
+            this.saveData(dataRows)
+        } catch (error) {
+            this.errors = error.errors;
+            this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+        }
+
+        // dipindahkan ke validation()
+        // // start request
+        // this.$openLoader();
+        // this.$api.badasoEntity
+        //   .add({
+        //     slug: this.$route.params.slug,
+        //     data: dataRows,
+        //   })
+        //   .then((response) => {
+        //     this.$closeLoader();
+        //     this.$router.push({
+        //       name: "CrudGeneratedBrowse",
+        //       params: {
+        //         slug: this.$route.params.slug,
+        //       },
+        //     });
+        //   })
+        //   .catch((error) => {
+        //     this.requestObjectStoreData();
+        //     this.errors = error.errors;
+        //     this.$closeLoader();
+        //     this.$vs.notify({
+        //       title: this.$t("alert.danger"),
+        //       text: error.message,
+        //       color: "danger",
+        //     });
+        //   });
+      },
+    //   validation(dataRows) {
+    //     return
+    //     console.log(dataRows)
+    //     let out_of_slot = true
+    //     if(dataRows.room_id in this.slot.slot_room) {
+    //         if(this.slot_room[dataRows.room_id] > 0) {
+    //             out_of_slot = false
+    //         }
+    //     }
+    //     if(out_of_slot) {
+    //         throw new Error('ruangan terpakai')
+    //     }
+    //   },
+
+      saveData(dataRows) {
+        // dipindahkan ke validation()
         // start request
         this.$openLoader();
         this.$api.badasoEntity
@@ -500,7 +600,59 @@
               color: "danger",
             });
           });
+
+        // return;
+        // start request
+        // this.$openLoader();
+        // this.$api.badasoEntity
+        //   .add({
+        //     slug: this.$route.params.slug,
+        //     data: dataRows,
+        //   })
+        //   .then((response) => {
+        //     console.log('saveData', response)
+        //     this.$api.badasoEntity.read({
+        //         slug:'campus-rooms',
+        //         id: dataRows.room_id
+        //     })
+        //   })
+        //   .then((response) => {
+        //     let data = response.data
+        //     data.slot -= 1
+        //     if(data.slot == 0) {
+        //         data.slot = 0
+        //     }
+        //     console.log(data)
+
+        //     this.$api.badasoEntity.edit({
+        //         slug: 'campus-rooms',
+        //         data: data,
+        //     })
+
+        //   })
+        //   .then((response) => {})
+        //   .catch((error) => {
+        //     this.requestObjectStoreData();
+        //     this.errors = error.errors;
+        //     this.$closeLoader();
+        //     this.$vs.notify({
+        //       title: this.$t("alert.danger"),
+        //       text: error.message,
+        //       color: "danger",
+        //     });
+        //   })
+        //   .catch((error) => {
+        //     this.requestObjectStoreData();
+        //     this.errors = error.errors;
+        //     this.$closeLoader();
+        //     this.$vs.notify({
+        //       title: this.$t("alert.danger"),
+        //       text: error.message,
+        //       color: "danger",
+        //     });
+        //   });
       },
+
       async getDataType() {
         this.$openLoader();
 
@@ -508,6 +660,22 @@
           const response = await this.$api.badasoCrud.readBySlug({
             slug: this.$route.params.slug,
           });
+
+        //   // ADDITIONAL
+        //   const response_rooms = await this.$api.badasoEntity.browse({
+        //     slug: 'campus-rooms'
+        //   })
+
+        //   let rooms = response_rooms.data.data
+        //   let slot_room = {}
+        //   for(let room of rooms) {
+        //     console.log('xxxxxxxxxxx',room_id)
+        //     slot_room[room_id] = room.slot
+        //   }
+        //   this.slot_room = slot_room
+
+        //   console.log('getDataType 2', response_rooms, this.slot_room, slot_room)
+
 
           this.$closeLoader();
           this.dataType = response.data.crudData;
@@ -535,6 +703,20 @@
             } else if (data.value == undefined) {
               data.value = "";
             }
+
+
+            // ADDITIONAL
+            if(data.field == 'user_id') {
+                if(!this.isAdmin) {
+                    data.value = this.userId
+                    data.type = 'relation_readonly'
+                }
+            }
+            if(data.field == 'status') {
+                data.value = 'rent'
+                data.type = 'select_readonly'
+            }
+
             try {
               data.details = JSON.parse(data.details);
               if (data.type == "hidden") {
@@ -543,6 +725,7 @@
             } catch (error) {}
             return data;
           });
+
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
 
         } catch (error) {
@@ -567,6 +750,35 @@
           .then((response) => {
             this.$closeLoader();
             this.relationData = response.data;
+
+            // let relationData = response.data;
+            // // // ADDITIONAL
+            // // let arr = [];
+            // // for(let data of response.data.campusRooms) {
+            // //     if(data.slot <= 0) {
+            // //         arr.push({
+            // //             id:'',
+            // //             label:"kosong",
+            // //             name:"kosong",
+            // //             slot:0,
+            // //             value:1,
+            // //         })
+            // //         break
+            // //     }
+            // //     // if(!this.isAdmin) {
+            // //     //     if(data.userId == this.userId) {
+            // //     //         tickets.push(data)
+            // //     //     }
+            // //     // } else {
+            // //     //     tickets.push(data)
+            // //     // }
+            // // }
+
+            // // relationData.campusRooms = arr
+            // this.relationData = relationData
+
+            // console.log('getRelationDataBySlug', this.relationData)
+
           })
           .catch((error) => {
             if (error.status == 503) {

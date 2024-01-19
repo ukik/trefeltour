@@ -30,3 +30,5 @@ package-lock.json
 composer.lock
 
 /DB
+/__node_modules
+___.git

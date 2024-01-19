@@ -309,6 +309,29 @@
                       ]
                     "
                   ></badaso-select>
+
+                    <!--  -->
+                  <badaso-select
+                    v-if="
+                      dataRow.type == 'relation_readonly' &&
+                      dataRow.relation.relationType == 'belongs_to'
+                    "
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :items="
+                      relationData[
+                        $caseConvert.stringSnakeToCamel(
+                          dataRow.relation.destinationTable
+                        )
+                      ]
+                    "
+                  ></badaso-select>
+
+
+
                   <badaso-select-multiple
                     v-if="
                       dataRow.type == 'relation' &&
@@ -412,13 +435,54 @@ export default {
     dataLength: 0,
     pathname: location.pathname,
     isMaintenance: false,
-  }),
-  mounted() {
-    this.getDetailEntity();
-    this.getRelationDataBySlug();
-    this.requestObjectStoreData();
-  },
+    userId: "",
+      isAdmin: false,
+    }),
+    async mounted() {
+        const response_user = await this.$api.badasoAuthUser.user({})
+        console.log('response_user', response_user)
+        this.userId = response_user.data.user.id;
+
+        for(let role of response_user.data.user.roles) {
+            switch (role.name) {
+                case 'customer':
+                case 'student':
+                    this.isAdmin = false;
+                    break;
+                case 'administrator':
+                    this.isAdmin = true;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        await this.getUser();
+        this.getDetailEntity();
+        await this.getRelationDataBySlug();
+        await this.requestObjectStoreData();
+    },
   methods: {
+    getUser() {
+        this.errors = {};
+        this.$openLoader();
+        this.$api.badasoAuthUser
+          .user({})
+          .then((response) => {
+            this.$closeLoader();
+            this.userId = response.data.user.id;
+          })
+          .catch((error) => {
+            this.errors = error.errors;
+            this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          });
+      },
     submitForm() {
       // init data row
       const dataRows = {};
@@ -541,6 +605,16 @@ export default {
               data.value =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
             }
+
+
+            // ADDITIONAL
+            if(data.field == 'user_id') {
+                if(!this.isAdmin) {
+                    data.value = this.userId
+                    data.type = 'relation_readonly'
+                }
+            }
+
           } catch (error) {}
           return data;
         });

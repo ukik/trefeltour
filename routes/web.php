@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return User::all();
+    //return User::all();
     //return view('welcome');
 });
+
+// Route::get('/trevolia-api/v1/table/relation-data-by-slug', function () {
+//     return 111;
+//     //return view('welcome');
+// });
+
+// Route::group(['prefix' => ''], function ($request) {
+//     // dd(request('slug'));
+//     Route::get('/trevolia-api/v1/table/relation-data-by-slug', function () {
+//         return 111;
+//         //return view('welcome');
+//     });
+
+//     // switch ($request('slug')) {
+//     //     case 'campus-bookings':
+//     //         Illuminate\Support\Facades\
+
+//     //         // Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug')
+//     //         break;
+
+//     //     default:
+//     //         # code...
+//     //         break;
+//     // }
+//     // Route::get('/data-type', 'BadasoTableController@getDataType')->middleware(BadasoAuthenticate::class);
+//     // Route::get('/', 'BadasoTableController@browse')->middleware(BadasoAuthenticate::class);
+//     // Route::get('/read', 'BadasoTableController@read')->middleware(BadasoAuthenticate::class);
+//     // Route::get('/data', 'BadasoTableController@getDataByTable')->middleware(BadasoAuthenticate::class);
+//     // Route::get('/generate-crud', 'BadasoTableController@generateCRUD')->middleware(BadasoAuthenticate::class);
+//     // Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug')->middleware(BadasoAuthenticate::class);
+// });

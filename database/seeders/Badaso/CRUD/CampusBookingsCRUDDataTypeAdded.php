@@ -36,7 +36,7 @@ class CampusBookingsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => NULL,
+                'controller' => 'App\\Http\\Controllers\\Campus\\CampusBookingController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
@@ -48,7 +48,7 @@ class CampusBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-01-11T23:42:08.000000Z',
-                'updated_at' => '2024-01-11T23:43:08.000000Z',
+                'updated_at' => '2024-01-12T07:42:59.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('campus_bookings');

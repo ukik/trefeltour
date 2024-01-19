@@ -167,12 +167,12 @@ class CampusBookingsCRUDDataRowAdded extends Seeder
 "size":12,
 "items":[
 {
-"label":"Available",
-"value":"available"
+"label":"Rent",
+"value":"rent"
 },
 {
-"label":"Not Available",
-"value":"not available"
+"label":"Done",
+"value":"done"
 }
 ]
 }',
