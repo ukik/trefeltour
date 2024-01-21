@@ -63,5 +63,16 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'sanctum_1' => \App\Http\Middleware\CheckTokenAndAddToHeaderMiddleware::class,
+        'sanctum_2' => \App\Http\Middleware\AddSanctumTokenToHeaders::class,
+
+
+        'BADASO_ApiRequest' => \App\Http\Middleware\ApiRequest::class,
+        'BADASO_BadasoCheckPermissions' => \App\Http\Middleware\BadasoCheckPermissions::class,
+
+
+
+        // 'jwt' => \App\Http\Middleware\JWTMiddleware::class,
     ];
 }

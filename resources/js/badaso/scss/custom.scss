@@ -1,0 +1,29 @@
+button.vs-select--item span {
+    text-transform: capitalize;
+}
+
+td.td.vs-table--td span,
+td.td.vs-table--td span p {
+    text-transform: capitalize;
+}
+
+ol.vs-breadcrumb--ol li a,
+ol.vs-breadcrumb--ol li {
+    text-transform: capitalize;
+}
+
+span.text-on.text-switch.vs-switch--text.active-text {
+    font-size: 14px;
+}
+
+span.text-off.text-switch.vs-switch--text.active-text {
+    font-size: 14px;
+}
+
+button.vs-component.vs-switch.vs-switch-primary.vs-switch-active {
+    width: 60px !important;
+}
+
+button.vs-component.vs-switch.vs-switch-primary {
+    width: 60px !important;
+}

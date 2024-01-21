@@ -32,3 +32,4 @@ composer.lock
 /DB
 /__node_modules
 ___.git
+/___vendor

@@ -23,6 +23,7 @@
                 :key="rowIndex"
                 :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
               >
+                {{ dataRow.displayName }}
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
                 <template v-if="dataRow.add == 1">
@@ -36,21 +37,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
-
-                    <!-- ADDITIONAL -->
-                    <badaso-text
-                        v-if="dataRow.type == 'text_readonly'"
-                        :style="'pointer-events:none;'"
-                        :label="dataRow.displayName"
-                        :placeholder="dataRow.displayName"
-                        v-model="dataRow.value"
-                        size="12"
-                        :alert="
-                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        "
-                    ></badaso-text>
-
-
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -143,21 +129,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-datetime>
-
-                    <!-- ADDITIONAL -->
-                    <badaso-datetime
-                        v-if="dataRow.type == 'datetime_readonly'"
-                        :style="'pointer-events:none;'"
-                        :label="dataRow.displayName"
-                        :placeholder="dataRow.displayName"
-                        v-model="dataRow.value"
-                        value-zone="local"
-                        size="12"
-                        :alert="
-                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        "
-                    ></badaso-datetime>
-
                   <badaso-upload-image
                     v-if="dataRow.type == 'upload_image'"
                     :label="dataRow.displayName"
@@ -290,23 +261,6 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
-
-
-                    <!-- ADDITIONAL -->
-                    <badaso-select
-                    v-if="dataRow.type == 'relation_readonly' &&
-                        dataRow.relation.relationType == 'belongs_to'"
-                        :style="'pointer-events:none;'"
-                        :label="dataRow.displayName"
-                        :placeholder="dataRow.displayName"
-                        v-model="dataRow.value"
-                        size="12"
-                        :alert="
-                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        "
-                        :items="dataRow.details.items ? dataRow.details.items : []"
-                    ></badaso-select>
-
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
                     :label="dataRow.displayName"
@@ -461,43 +415,13 @@ export default {
     dataLength: 0,
     pathname: location.pathname,
     userId: "",
-    isAdmin: true,
   }),
-    async mounted() {
-        const response_user = await this.$api.badasoAuthUser.user({})
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                    this.isAdmin = true;
-                    break;
-
-                default:
-                    break;
-            }
-            // if(role.name == 'customer') {
-            //     this.isAdmin = false;
-            // } else if( role.name == 'administrator' ) {
-            //     this.isAdmin = true;
-            // }
-        }
-
-        await this.getUser();
-        await this.getDataType();
-        await this.getRelationDataBySlug();
-        await this.requestObjectStoreData();
-
-        // this.getUser();
-        // this.getDataType();
-        // this.getRelationDataBySlug();
-        // this.requestObjectStoreData();
-    },
+  mounted() {
+    this.getDataType();
+    this.getRelationDataBySlug();
+    this.requestObjectStoreData();
+    this.getUser();
+  },
   methods: {
     submitForm() {
       this.errors = {};
@@ -556,17 +480,6 @@ export default {
           slug: this.$route.params.slug,
         });
 
-        // ADDITIONAL
-        // dipindahkan ke mounted
-        // const response_user = await this.$api.badasoAuthUser.user({})
-        // let isAdmin = true;
-        // for(let role of response_user.data.user.roles) {
-        //     if(role.name == 'customer') {
-        //         isAdmin = false;
-        //         break;
-        //     }
-        // }
-
         this.$closeLoader();
         this.dataType = response.data.crudData;
         const dataRows = response.data.crudData.dataRows.map((data) => {
@@ -593,34 +506,6 @@ export default {
           } else if (data.value == undefined) {
             data.value = "";
           }
-
-
-        //   ADDITIONAL
-        if(!this.isAdmin) {
-            if(data.field == "user_id") {
-                data.value = this.userId //response_user.data.user.id
-                data.type = 'relation_readonly'
-            }
-            if(data.field == 'payment_date') {
-                data.value = new Date();
-                data.type = 'datetime_readonly'
-            }
-            if(data.field == 'price') {
-                data.value = "Rp. 35000"
-                data.type = "text_readonly"
-            }
-            if(data.field == "status") {
-                data.value = "pending"
-                data.type = "select_readonly"
-            }
-        } else {
-            if(data.field == "payment_date") {
-                data.value = new Date();
-            }
-        }
-
-
-
           try {
             data.details = JSON.parse(data.details);
             if (data.type == "hidden") {
@@ -645,7 +530,6 @@ export default {
     },
 
     getRelationDataBySlug() {
-        const vm = this
       this.$openLoader();
       this.$api.badasoTable
         .relationDataBySlug({
@@ -653,23 +537,7 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-            //this.relationData = response.data;
-            let relationData = response.data;
-            // ADDITIONAL
-            let tickets = [];
-            for(let data of response.data.cinemaTickets) {
-                if(!this.isAdmin) {
-                    if(data.userId == this.userId) {
-                        tickets.push(data)
-                    }
-                } else {
-                    tickets.push(data)
-                }
-            }
-
-            relationData.cinemaTickets = tickets
-            vm.relationData = relationData
-
+          this.relationData = response.data;
         })
         .catch((error) => {
           if (error.status == 503) {
@@ -691,14 +559,13 @@ export default {
       });
     },
     getUser() {
-        const vm = this
       this.errors = {};
       this.$openLoader();
       this.$api.badasoAuthUser
         .user({})
         .then((response) => {
           this.$closeLoader();
-          vm.userId = response.data.user.id;
+          this.userId = response.data.user.id;
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -709,9 +576,7 @@ export default {
             color: "danger",
           });
         });
-
-        console.log()
-    }
+    },
   },
   computed: {
     isOnline: {

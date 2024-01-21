@@ -1,0 +1,59 @@
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "plane",
+            "value": "plane"
+        },
+        {
+            "label": "ship",
+            "value": "ship"
+        },
+        {
+            "label": "train",
+            "value": "train"
+        },
+        {
+            "label": "bus",
+            "value": "bus"
+        },
+        {
+            "label": "car",
+            "value": "car"
+        },
+        {
+            "label": "motor",
+            "value": "motor"
+        }
+    ]
+}
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "yes",
+            "value": "yes"
+        },
+        {
+            "label": "no",
+            "value": "no"
+        },
+    ]
+}
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "yes",
+            "value": true
+        },
+        {
+            "label": "no",
+            "value": false
+        },
+    ]
+}
+
+Id,Name,Email,Phone,Avatar
