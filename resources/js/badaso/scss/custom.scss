@@ -1,3 +1,6 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+// @import 'node_modules/bootstrap-vue/src/index.scss';
+
 button.vs-select--item span {
     text-transform: capitalize;
 }
@@ -26,4 +29,13 @@ button.vs-component.vs-switch.vs-switch-primary.vs-switch-active {
 
 button.vs-component.vs-switch.vs-switch-primary {
     width: 60px !important;
+}
+
+td.badaso-table__value p,
+td.badaso-table__value span {
+    text-transform: capitalize;
+}
+
+input.input-select.vs-select--input {
+    text-transform: capitalize;
 }

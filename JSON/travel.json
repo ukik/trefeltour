@@ -56,4 +56,60 @@
     ]
 }
 
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "One Way",
+            "value": "one way"
+        },
+        {
+            "label": "Pulang Pergi",
+            "value": "pulang pergi"
+        }
+    ]
+}
+
+,
 Id,Name,Email,Phone,Avatar
+
+tunai,bank transfer,e-wallet,qris,lainnya
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "tunai",
+            "value": "tunai"
+        },
+        {
+            "label": "bank transfer",
+            "value": "bank transfer"
+        },
+        {
+            "label": "e-wallet",
+            "value": "e-wallet"
+        },
+        {
+            "label": "qris",
+            "value": "qris"
+        },
+        {
+            "label": "lainnya",
+            "value": "lainnya"
+        }
+    ]
+}
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "pending",
+            "value": "pending"
+        },
+        {
+            "label": "success",
+            "value": "success"
+        },
+    ]
+}

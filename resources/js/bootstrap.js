@@ -10,6 +10,12 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// import Vue from "vue";
+// // import BootstrapVue from 'bootstrap-vue' //Importing
+// // Vue.use(BootstrapVue) // Telling Vue to use this in whole application
+// import TypeHeadUser from "./badaso/components/TypeHeadUser";
+// Vue.component('TypeHeadUser', TypeHeadUser)
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -26,3 +32,4 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+

@@ -276,6 +276,12 @@ abstract class Controller extends BaseController
         } else {
             $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
+
+        // menghindari join
+        $record = GetData::getRelationData($data_type, $record);
+
+        return $record;
+
         if (count($field_other_relation) > 0) {
             foreach ($data_rows as $key => $data_row) {
                 if (isset($data_row->relation) && $data_row->relation['relation_type'] == 'belongs_to_many') {

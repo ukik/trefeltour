@@ -28,10 +28,10 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'Id',
+                    'display_name' => 'ID',
                     'required' => 1,
-                    'browse' => 0,
-                    'read' => 0,
+                    'browse' => 1,
+                    'read' => 1,
                     'edit' => 0,
                     'add' => 0,
                     'delete' => 0,
@@ -45,33 +45,17 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'field' => 'customer_id',
                     'type' => 'relation',
                     'display_name' => 'Customer',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","email","gender"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'code_table',
-                    'type' => 'hidden',
-                    'display_name' => 'Code Table',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 3,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","phone"]}',
+                    'order' => 2,
                 ),
-                3 => 
+                2 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'category',
@@ -109,6 +93,34 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
 {
 "label": "motor",
 "value": "motor"
+}
+]
+}',
+                    'relation' => NULL,
+                    'order' => 3,
+                ),
+                3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'ticket_status',
+                    'type' => 'select',
+                    'display_name' => 'Status Tiket',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "One Way",
+"value": "one way"
+},
+{
+"label": "Pulang Pergi",
+"value": "pulang pergi"
 }
 ]
 }',
@@ -239,19 +251,7 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "yes",
-"value": true
-},
-{
-"label": "no",
-"value": false
-},
-]
-}',
+                    'details' => '{}',
                     'relation' => NULL,
                     'order' => 12,
                 ),
@@ -267,28 +267,16 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "yes",
-"value": true
-},
-{
-"label": "no",
-"value": false
-},
-]
-}',
+                    'details' => '{}',
                     'relation' => NULL,
                     'order' => 13,
                 ),
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'created_at',
-                    'type' => 'hidden',
-                    'display_name' => 'Created At',
+                    'field' => 'code_table',
+                    'type' => 'text',
+                    'display_name' => 'Code Table',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -302,9 +290,9 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'updated_at',
-                    'type' => 'hidden',
-                    'display_name' => 'Updated At',
+                    'field' => 'created_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Dibuat Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -318,18 +306,34 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                 15 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'uuid',
-                    'type' => 'hidden',
-                    'display_name' => 'Uuid',
+                    'field' => 'updated_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Diubah Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 16,
+                ),
+                16 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'uuid',
+                    'type' => 'text',
+                    'display_name' => 'UUID',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 17,
                 ),
             ));
 

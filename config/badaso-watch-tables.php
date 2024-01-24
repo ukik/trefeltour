@@ -112,4 +112,5 @@ return [
     'travel_payments',
     'travel_payments_validations',
     'travel_reservations',
+    'travel_tickets',
 ];

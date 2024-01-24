@@ -24,4 +24,4 @@ mix.js('resources/js/app.js', 'public/js')
 // Badaso
 mix.js("vendor/badaso/core/src/resources/js/app.js", "public/js/badaso.js")
     .sass("vendor/badaso/core/src/resources/js/assets/scss/style.scss", "public/css/badaso.css")
-    .vue()
+    .vue();

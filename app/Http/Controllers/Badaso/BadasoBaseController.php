@@ -11,9 +11,31 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
+use Illuminate\Support\Facades\Auth;
 
 class BadasoBaseController extends Controller
 {
+
+    public $isLogged;
+    public $isRole;
+
+    public function __construct() {
+
+        if(Auth::check()) {
+
+            $this->isLogged = true;
+
+            foreach (Auth::user()->roles as $key => $value) {
+                $role = $value->name;
+            }
+
+            $this->isRole = $role;
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+
     public function browse(Request $request)
     {
         try {
@@ -115,6 +137,11 @@ class BadasoBaseController extends Controller
             $data['code_table'] = ucfirst($slug);
             $data['uuid'] = $table_entity->uuid ?: ShortUuid();
 
+            if($this->isRole != 'administrator') {
+                unset($data['is_cancel']);
+                unset($data['is_reserved']);
+            }
+
             $updated = $this->updateData($data, $data_type);
 
             DB::commit();
@@ -162,6 +189,14 @@ class BadasoBaseController extends Controller
             // ADDITIONAL
             $data['code_table'] = ucfirst($slug);
             $data['uuid'] = ShortUuid();
+
+            if($this->isRole != 'administrator') {
+                $data['is_cancel'] = 'false';
+                $data['is_reserved'] = 'false';
+            }
+
+            $updated = $this->updateData($data, $data_type);
+
 
             $stored_data = $this->insertData($data, $data_type);
 

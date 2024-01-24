@@ -30,6 +30,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::group(['prefix' => '/typehead', 'middleware' => ['sanctum_1'], 'namespace' => 'App\Http\Controllers'], function ($request) {
+    Route::get('/user', 'TypeHeadController@getUser');
+    Route::get('/user-travel-reservations', 'TypeHeadController@edit_get_user');
+
+    // travel-tickets
+    Route::get('/user-travel-tickets', 'TypeHeadController@edit_travel_tickets_customer_id');
+    Route::get('/search-travel-tickets', 'TypeHeadController@list_travel_tickets_reservation_id');
+    Route::get('/edit-travel-tickets', 'TypeHeadController@edit_travel_tickets_reservation_id');
+
+    // travel-bookings
+    Route::get('/user-travel-bookings', 'TypeHeadController@edit_travel_bookings_customer_id');
+    Route::get('/search-travel-bookings', 'TypeHeadController@list_travel_bookings_ticket_id');
+    Route::get('/edit-travel-bookings', 'TypeHeadController@edit_travel_bookings_ticket_id');
+
+});
+
 Route::group(['prefix' => 'v1', 'middleware' => ['sanctum_1','BADASO_ApiRequest']], function ($request) {
     // Route::get('/v1/table/relation-data-by-slug', 'App\Http\Controllers\Badaso\BadasoTableController@getRelationDataBySlug');
     //     ->middleware(Uasoft\Badaso\Middleware\BadasoAuthenticate::class);

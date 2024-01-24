@@ -166,6 +166,7 @@ class BadasoTableController extends Controller
             })->all();
 
             foreach ($relational_rows as $key => $field) {
+
                 $relation_detail = [];
 
                 try {
@@ -210,10 +211,18 @@ class BadasoTableController extends Controller
                         if($role == 'administrator') {
                             $relation_data = $relation_data->get();
                         } else {
-                            if($destination_table == "badaso_users") {
-                                $relation_data = $relation_data->where('id', Auth::user()->id)->get();
-                            } else {
-                                $relation_data = $relation_data->get();
+
+                            switch ($destination_table) {
+                                case 'badaso_users':
+                                    $relation_data = $relation_data->where('id', Auth::user()->id)->get();
+                                    break;
+                                case 'travel_reservations':
+                                    $relation_data = $relation_data->where('customer_id', Auth::user()->id)->get();
+                                    break;
+
+                                default:
+                                    $relation_data = $relation_data->get();
+                                    break;
                             }
                         }
 

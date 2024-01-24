@@ -14,6 +14,11 @@ use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 |
 */
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['sanctum_1']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
+
 Route::get('/', function () {
     //return User::all();
     //return view('welcome');
