@@ -342,7 +342,7 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].ticketId,
+                                  id: data[index].id,
                                   slug: 'travel-tickets',
                                 },
                               }"
@@ -363,11 +363,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].id,
+                                  id: data[index].travelBooking?.id,
                                   slug: 'travel-bookings',
                                 },
                               }"
                               v-if="
+                                data[index].travelBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -384,12 +385,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelPayment?.id,
+                                  id: data[index].travelBooking?.travelPayment?.id,
                                   slug: 'travel-payments',
                                 },
                               }"
                               v-if="
-                                data[index].travelPayment?.id &&
+                                data[index].travelBooking?.travelPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -406,12 +407,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelPaymentsValidation[0].id,
+                                  id: data[index].travelBooking?.travelPayment?.travelPaymentsValidation?.id,
                                   slug: 'travel-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].travelPaymentsValidation?.length > 0 &&
+                                data[index].travelBooking?.travelPayment?.travelPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',

@@ -30,5 +30,10 @@ class TravelPaymentsValidations extends Model
         // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+    public function travelPayment()
+    {
+        return $this->belongsTo(TravelPayments::class,'payment_id','id');
+    }
+
 }
 

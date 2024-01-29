@@ -426,12 +426,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelPaymentsValidation[0].id,
+                                  id: data[index].travelPayment?.travelPaymentsValidation?.id,
                                   slug: 'travel-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].travelPaymentsValidation?.length > 0 &&
+                                data[index].travelPayment?.travelPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',

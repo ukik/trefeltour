@@ -23,7 +23,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
             $data_type = Badaso::model('DataType')::where('name', 'travel_payments_validations')->first();
 
             \DB::table('badaso_data_rows')->insert(array (
-                0 =>
+                0 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
@@ -39,7 +39,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 1,
                 ),
-                1 =>
+                1 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'validator_id',
@@ -55,7 +55,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","phone","avatar"]}',
                     'order' => 2,
                 ),
-                2 =>
+                2 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'payment_id',
@@ -71,7 +71,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => '{"relation_type":"belongs_to","destination_table":"travel_payments","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","booking_id","total_amount","method","date","status","uuid"]}',
                     'order' => 3,
                 ),
-                3 =>
+                3 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_valid',
@@ -87,8 +87,23 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 4,
                 ),
-
-                5 =>
+                4 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'validate_time',
+                    'type' => 'datetime',
+                    'display_name' => 'Waktu Validasi XXX',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 5,
+                ),
+                5 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -104,7 +119,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 6,
                 ),
-                6 =>
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -120,7 +135,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 7,
                 ),
-                7 =>
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -136,7 +151,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 8,
                 ),
-                8 =>
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
@@ -152,7 +167,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 9,
                 ),
-                9 =>
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'ticket_id',
@@ -168,7 +183,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 10,
                 ),
-                10 =>
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'reservation_id',
@@ -184,7 +199,7 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 11,
                 ),
-                11 =>
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'booking_id',
@@ -200,12 +215,12 @@ class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 12,
                 ),
-                12 =>
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
-                    'display_name' => 'DeletedAt',
+                    'display_name' => 'Dihapus Pada',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,

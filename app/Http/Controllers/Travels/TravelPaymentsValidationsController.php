@@ -49,7 +49,13 @@ class TravelPaymentsValidationsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TravelPaymentsValidations::with(['badasoUsers','travelPayments'])->orderBy('id','desc');
+            $data = \TravelPaymentsValidations::with([
+                'badasoUsers',
+                'travelPayments',
+                'travelPayment',
+                'travelPayment.travelBooking.travelTicket',
+                'travelPayment.travelBooking.travelReservation'
+            ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -98,7 +104,13 @@ class TravelPaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelPaymentsValidations::with('travelPayments','badasoUsers')->whereId($request->id)->first();
+            $data = \TravelPaymentsValidations::with([
+                'badasoUsers',
+                'travelPayments',
+                'travelPayment',
+                'travelPayment.travelBooking.travelTicket',
+                'travelPayment.travelBooking.travelReservation'
+            ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

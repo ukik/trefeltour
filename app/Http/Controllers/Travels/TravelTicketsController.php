@@ -55,12 +55,12 @@ class TravelTicketsController extends Controller
                 'travelReservations',
                 'travelReservation',
                 'travelBooking',
-                'travelPayment.travelPaymentValidation',
+                'travelBooking.travelPayment.travelPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
-            return $data = $data->paginate(request()->perPage);
+            $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
             // $decode = json_decode($encode);
@@ -110,7 +110,13 @@ class TravelTicketsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelTickets::with('travelReservations','badasoUsers')->whereId($request->id)->first();
+            $data = \TravelTickets::with([
+                'badasoUsers',
+                'travelReservations',
+                'travelReservation',
+                'travelBooking',
+                'travelBooking.travelPayment.travelPaymentsValidation',
+            ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

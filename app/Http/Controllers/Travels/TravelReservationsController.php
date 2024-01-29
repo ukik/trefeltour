@@ -51,7 +51,14 @@ class TravelReservationsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TravelReservations::with('badasoUsers')->orderBy('id','desc');
+            $data = \TravelReservations::with([
+                'badasoUsers',
+                // 'travelTicket.travelReservations',
+                // 'travelTicket.travelReservation',
+                'travelTicket.travelBooking',
+                'travelTicket.travelPayment',
+                'travelTicket.travelPayment.travelPaymentsValidation',
+            ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -105,7 +112,14 @@ class TravelReservationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelReservations::with('badasoUsers')->whereId($request->id)->first();
+            $data = \TravelReservations::with([
+                'badasoUsers',
+                // 'travelTicket.travelReservations',
+                // 'travelTicket.travelReservation',
+                'travelTicket.travelBooking',
+                'travelTicket.travelPayment',
+                'travelTicket.travelPayment.travelPaymentsValidation',
+            ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

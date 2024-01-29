@@ -51,7 +51,13 @@ class TravelPaymentsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TravelPayments::with(['badasoUsers','travelBookings'])->orderBy('id','desc');
+            $data = \TravelPayments::with([
+                'badasoUsers',
+                'travelBookings',
+                'travelBooking.travelTicket',
+                'travelBooking.travelReservation',
+                'travelPaymentsValidation'
+            ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -105,7 +111,13 @@ class TravelPaymentsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelPayments::with(['badasoUsers','travelBookings'])->whereId($request->id)->first();
+            $data = \TravelPayments::with([
+                'badasoUsers',
+                'travelBookings',
+                'travelBooking.travelTicket',
+                'travelBooking.travelReservation',
+                'travelPaymentsValidation'
+            ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;
@@ -397,10 +409,10 @@ class TravelPaymentsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelPayments::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelPaymentValidation')->get();
+            $filters = TravelPayments::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelPaymentsValidation')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->travelPaymentValidation == null) {
+                if($value->travelPaymentsValidation == null) {
                     array_push($temp, $value['id']);
                 }
             }

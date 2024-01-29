@@ -377,6 +377,25 @@
                   <vs-icon icon="save"></vs-icon>
                   {{ $t("crudGenerated.edit.button") }}
                 </vs-button>
+
+                <!-- ADDITIONAL -->
+                <vs-button class="float-right" color="success" type="relief" :to="{
+                    name: 'CrudGeneratedRead',
+                    params: {
+                        id: $route.params.id,
+                        slug: $route.params.slug,
+                    },
+                }">
+                  <vs-icon icon="visibility"></vs-icon>
+                  {{ $t("crudGenerated.lihat.button") }}
+                </vs-button>
+
+                <vs-button class="float-right mr-2" color="danger" type="relief" @click="$router.back()">
+                  <vs-icon icon="arrow_back_ios"></vs-icon>
+                  {{ $t("crudGenerated.back.button") }}
+                </vs-button>
+                <!-- -------------------- -->
+
                 <vs-button
                   :to="{
                     name: 'DataPendingEditRead',
