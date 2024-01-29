@@ -14,8 +14,8 @@
                 }}
               </h3>
 
-              <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" />
-              <TypeHeadTravelTicket v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
+              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
 
             </div>
             <vs-row>
@@ -30,7 +30,7 @@
                 <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-                    {{ dataRow.value }}
+
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -422,13 +422,13 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHeadTravelTicket from './TypeHeadTravelTicket.vue'
+// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
+import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer, TypeHeadTravelTicket
+    TypeHead_ReservationId
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -525,8 +525,11 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
-                el.value = value;
+            if(el.field == 'reservation_id') {
+                el.value = value ? value?.id : '';
+            }
+            if(el.field == 'customer_id') {
+                el.value = value ? value?.customer_id : '';
             }
         });
 

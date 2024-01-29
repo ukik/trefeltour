@@ -2,11 +2,11 @@
 
 /**
   * @OA\Get(
-  *      path="/v1/entities/travel-tickets",
-  *      operationId="browseTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Browse Travel Tiket",
-  *      description="Returns list of Travel Tiket",
+  *      path="/v1/entities/travel-payments-validations",
+  *      operationId="browseTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Browse Travel Pembayaran Validasi",
+  *      description="Returns list of Travel Pembayaran Validasi",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -20,11 +20,11 @@
 
 /**
   * @OA\Get(
-  *      path="/v1/entities/travel-tickets/read?slug=travel-tickets&id={id}",
-  *      operationId="readTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Get Travel Tiket based on id",
-  *      description="Returns Travel Tiket based on id",
+  *      path="/v1/entities/travel-payments-validations/read?slug=travel-payments-validations&id={id}",
+  *      operationId="readTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Get Travel Pembayaran Validasi based on id",
+  *      description="Returns Travel Pembayaran Validasi based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -46,11 +46,11 @@
 
 /**
   * @OA\Post(
-  *      path="/v1/entities/travel-tickets/add",
-  *      operationId="addTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Insert new Travel Tiket",
-  *      description="Insert new Travel Tiket into database",
+  *      path="/v1/entities/travel-payments-validations/add",
+  *      operationId="addTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Insert new Travel Pembayaran Validasi",
+  *      description="Insert new Travel Pembayaran Validasi into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"seatNo":"Abc", "ticketStatus":"Abc", "nameUnit":"Abc", "travelDate":"2021-01-01T00:00:00.000Z", "description":"Abc", "ticketPrice":"123", "ticketDiscountPrice":"123", "ticketCashbackPrice":"123", "departureTerminal":"Abc", "arrivelTerminal":"Abc", "codeTicket":"Abc", "policy":"Abc", "images":"Abc"},
+  *                     example={"isValid":"Abc"},
   *                 ),
   *             )
   *         )
@@ -76,11 +76,11 @@
 
 /**
   * @OA\Put(
-  *      path="/v1/entities/travel-tickets/edit",
-  *      operationId="editTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Edit an existing Travel Tiket",
-  *      description="Edit an existing Travel Tiket",
+  *      path="/v1/entities/travel-payments-validations/edit",
+  *      operationId="editTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Edit an existing Travel Pembayaran Validasi",
+  *      description="Edit an existing Travel Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"seatNo":"Abc", "ticketStatus":"Abc", "nameUnit":"Abc", "travelDate":"2021-01-01T00:00:00.000Z", "description":"Abc", "ticketPrice":"123", "ticketDiscountPrice":"123", "ticketCashbackPrice":"123", "departureTerminal":"Abc", "arrivelTerminal":"Abc", "codeTicket":"Abc", "policy":"Abc", "images":"Abc"},
+  *                     example={"isValid":"Abc"},
   *                ),
   *             )
   *         )
@@ -106,18 +106,18 @@
 
 /**
   * @OA\Delete(
-  *      path="/v1/entities/travel-tickets/delete",
-  *      operationId="deleteTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Delete one record of Travel Tiket",
-  *      description="Delete one record of Travel Tiket",
+  *      path="/v1/entities/travel-payments-validations/delete",
+  *      operationId="deleteTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Delete one record of Travel Pembayaran Validasi",
+  *      description="Delete one record of Travel Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
   *             @OA\Schema(
   *                 @OA\Property(
   *                     property="slug",
-  *                     example="travel-tickets",
+  *                     example="travel-payments-validations",
   *                     type="string"
   *                 ),
   *                 @OA\Property(
@@ -145,18 +145,18 @@
 
 /**
   * @OA\Delete(
-  *      path="/v1/entities/travel-tickets/delete-multiple",
-  *      operationId="deleteMultipleTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Delete multiple record of Travel Tiket",
-  *      description="Delete multiple record of Travel Tiket",
+  *      path="/v1/entities/travel-payments-validations/delete-multiple",
+  *      operationId="deleteMultipleTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Delete multiple record of Travel Pembayaran Validasi",
+  *      description="Delete multiple record of Travel Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
   *             @OA\Schema(
   *                 @OA\Property(
   *                     property="slug",
-  *                     example="travel-tickets",
+  *                     example="travel-payments-validations",
   *                     type="string"
   *                 ),
   *                 @OA\Property(
@@ -184,46 +184,38 @@
 
 /**
   * @OA\Put(
-  *      path="/v1/entities/travel-tickets/sort",
-  *      operationId="sortTravelTiket",
-  *      tags={"travel-tickets"},
-  *      summary="Sort existing Travel Tiket",
-  *      description="Sort existing Travel Tiket",
+  *      path="/v1/entities/travel-payments-validations/sort",
+  *      operationId="sortTravelPembayaranValidasi",
+  *      tags={"travel-payments-validations"},
+  *      summary="Sort existing Travel Pembayaran Validasi",
+  *      description="Sort existing Travel Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
   *             @OA\Schema(
   *                 @OA\Property(
   *                     property="slug",
-  *                     example="travel-tickets",
+  *                     example="travel-payments-validations",
   *                     type="string"
   *                 ),
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "reservationId":"", "customerId":"", "seatNo":"Abc", "ticketStatus":"Abc", "nameUnit":"Abc", "travelDate":"2021-01-01T00:00:00.000Z", "description":"Abc", "ticketPrice":"123", "ticketDiscountPrice":"123", "ticketCashbackPrice":"123", "departureTerminal":"Abc", "arrivelTerminal":"Abc", "codeTicket":"Abc", "policy":"Abc", "images":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "reservationId":"", "customerId":"", "seatNo":"Abc", "ticketStatus":"Abc", "nameUnit":"Abc", "travelDate":"2021-01-01T00:00:00.000Z", "description":"Abc", "ticketPrice":"123", "ticketDiscountPrice":"123", "ticketCashbackPrice":"123", "departureTerminal":"Abc", "arrivelTerminal":"Abc", "codeTicket":"Abc", "policy":"Abc", "images":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "validatorId":"", "paymentId":"", "isValid":"Abc", "validateTime":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "ticketId":"123", "reservationId":"123", "bookingId":"123", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "validatorId":"", "paymentId":"", "isValid":"Abc", "validateTime":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "ticketId":"123", "reservationId":"123", "bookingId":"123", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="string", property="reservationId"), 
-  *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="seatNo"), 
-  *                         @OA\Property(type="string", property="ticketStatus"), 
-  *                         @OA\Property(type="string", property="nameUnit"), 
-  *                         @OA\Property(type="string", property="travelDate"), 
-  *                         @OA\Property(type="string", property="description"), 
-  *                         @OA\Property(type="integer", property="ticketPrice"), 
-  *                         @OA\Property(type="integer", property="ticketDiscountPrice"), 
-  *                         @OA\Property(type="integer", property="ticketCashbackPrice"), 
-  *                         @OA\Property(type="string", property="departureTerminal"), 
-  *                         @OA\Property(type="string", property="arrivelTerminal"), 
-  *                         @OA\Property(type="string", property="codeTicket"), 
-  *                         @OA\Property(type="string", property="policy"), 
-  *                         @OA\Property(type="string", property="images"), 
+  *                         @OA\Property(type="string", property="validatorId"), 
+  *                         @OA\Property(type="string", property="paymentId"), 
+  *                         @OA\Property(type="string", property="isValid"), 
+  *                         @OA\Property(type="string", property="validateTime"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="integer", property="ticketId"), 
+  *                         @OA\Property(type="integer", property="reservationId"), 
+  *                         @OA\Property(type="integer", property="bookingId"), 
   *                         @OA\Property(type="string", property="deletedAt"),
   *                     ),
   *                ),

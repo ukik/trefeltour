@@ -313,6 +313,122 @@
                             icon="more_vert"
                           ></vs-button>
                           <vs-dropdown-menu>
+
+
+                            <!-- ADDITIONAL -->
+                            <!-- travel-reservations -->
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedEdit',
+                                params: {
+                                  id: data[index].reservationId,
+                                  slug: 'travel-reservations',
+                                },
+                              }"
+                              v-if="
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="edit"
+                            >
+                              Form Reservation
+                            </badaso-dropdown-item>
+                            <!-- travel-tickets -->
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedEdit',
+                                params: {
+                                  id: data[index].ticketId,
+                                  slug: 'travel-tickets',
+                                },
+                              }"
+                              v-if="
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="edit"
+                            >
+                              Form Tiket
+                            </badaso-dropdown-item>
+                            <!-- travel-bookings -->
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedEdit',
+                                params: {
+                                  id: data[index].id,
+                                  slug: 'travel-bookings',
+                                },
+                              }"
+                              v-if="
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="edit"
+                            >
+                              Form Booking
+                            </badaso-dropdown-item>
+                            <!-- travel-payments -->
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedEdit',
+                                params: {
+                                  id: data[index].travelPayment?.id,
+                                  slug: 'travel-payments',
+                                },
+                              }"
+                              v-if="
+                                data[index].travelPayment?.id &&
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="edit"
+                            >
+                              Form Payment
+                            </badaso-dropdown-item>
+                            <!-- travel-payments-validations -->
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedEdit',
+                                params: {
+                                  id: data[index].travelPaymentsValidation[0].id,
+                                  slug: 'travel-payments-validations',
+                                },
+                              }"
+                              v-if="
+                                data[index].travelPaymentsValidation?.length > 0 &&
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="edit"
+                            >
+                              Form Payment Validation
+                            </badaso-dropdown-item>
+
+                            <hr class="m-0 my-1">
+
+                            <!-- --------------------- -->
+
+
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',

@@ -14,8 +14,7 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <TypeHead_BookingId v-if="isAdmin" @onBubbleEvent="updateTypeHead('booking_id', $event)" />
 
             </div>
             <vs-row>
@@ -40,6 +39,20 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+                  <!-- ADDITIONAL -->
+                  <badaso-text required
+                    v-if="dataRow.type == 'text_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -423,13 +436,12 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
+import TypeHead_BookingId from './TypeHead_BookingId.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_ReservationId
+    TypeHead_BookingId
   },
   data: () => ({
     isValid: true,
@@ -481,12 +493,16 @@ export default {
 
         temp.forEach(el => {
 
+            if(el.field == "total_amount") {
+                el.type = "text_readonly"
+            }
+
             switch (vm.userRole) {
                 case 'customer':
                 case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
-                    }
+                    // if(el.field == "customer_id") {
+                    //     el.value = vm.userId
+                    // }
                     break;
                 case 'administrator':
                 case 'admin':
@@ -510,11 +526,11 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'reservation_id') {
+            if(el.field == field) {
                 el.value = value ? value?.id : '';
             }
-            if(el.field == 'customer_id') {
-                el.value = value ? value?.customer_id : '';
+            if(el.field == 'total_amount') {
+                el.value = value ? value?.get_total_amount : '';
             }
         });
 

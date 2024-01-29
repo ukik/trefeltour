@@ -31,7 +31,7 @@ class TravelTicketsCRUDDataTypeAdded extends Seeder
                 'id' => 31,
                 'name' => 'travel_tickets',
                 'slug' => 'travel-tickets',
-                'display_name_singular' => 'Travel Tickets',
+                'display_name_singular' => 'Travel Tiket',
                 'display_name_plural' => 'Travel Tickets',
                 'icon' => NULL,
                 'model_name' => NULL,
@@ -46,9 +46,9 @@ class TravelTicketsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => false,
+                'is_soft_delete' => true,
                 'created_at' => '2024-01-23T03:38:01.000000Z',
-                'updated_at' => '2024-01-23T04:17:09.000000Z',
+                'updated_at' => '2024-01-28T06:13:25.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_tickets');

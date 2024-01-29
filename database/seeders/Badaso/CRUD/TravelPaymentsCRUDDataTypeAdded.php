@@ -36,7 +36,7 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => NULL,
+                'controller' => 'App\\Http\\Controllers\\Travels\\TravelPaymentsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
@@ -46,9 +46,9 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => false,
+                'is_soft_delete' => 1,
                 'created_at' => '2024-01-21T12:37:45.000000Z',
-                'updated_at' => '2024-01-21T12:40:20.000000Z',
+                'updated_at' => '2024-01-28T10:49:42.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_payments');

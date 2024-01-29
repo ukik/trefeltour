@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TravelReservations extends Model
+class TravelPayments extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -20,13 +20,18 @@ class TravelReservations extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'travel_reservations', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'travel_payments', 'id', 'customer_id');
         // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
-    public function travelTicket()
+    public function travelBookings()
     {
-        return $this->hasOne(TravelTickets::class, 'reservation_id', 'id');
+        return $this->belongsToMany(TravelBookings::class, 'travel_payments', 'id', 'booking_id');
+        // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+    public function travelPaymentValidation()
+    {
+        return $this->hasOne(TravelPaymentsValidations::class, 'payment_id', 'id');
+    }
 }

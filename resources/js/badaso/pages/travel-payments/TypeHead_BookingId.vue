@@ -2,19 +2,19 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <label class="badaso-text__label col-12 p-1">Tiket UUID</label>
+        <label class="badaso-text__label col-12 p-1">Booking UUID</label>
 
-        <router-link target="_blank" :to="{
+        <router-link v-if="$route?.name !== 'CrudGeneratedEdit'" target="_blank" :to="{
             path:'/trevolia-dashboard/general/travel-tickets'
         }" class="btn btn-success col-auto mr-0">
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </router-link>
 
-        <vue-typeahead-bootstrap ref="typeahead" class="col p-0" v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `Tiket UUID (${item.uuid}) - Kode Tiket (${item.code_ticket}) - Nomor Kursi (${item.seat_no}) - Status Tiket (${item.ticket_status}) - Nama Armada (${item.name_unit}) - Waktu Berangkat (${item.travel_date}) - Harga Tiket (${item.ticket_price}) - Terminal Berangkat (${item.departure_terminal}) - Terminal Tiba (${item.arrivel_terminal}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})` }"
-            @hit="selecteduser = $event" placeholder="Ketik: Tiket UUID, Nomor Kursi, Status Tiket, Nama Armada, Waktu Berangkat, Harga Tiket, Terminal Berangkat, Terminal Tiba, Nama, Email, Telp" @input="lookupUser" required>
+        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
+            :serializer="item => { return `Booking UUID (${item.uuid}) - Harga Tiket (${item.get_price}) - Diskon (${item.get_discount}) - Total Tagihan (${item.get_total_amount}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})` }"
+            @hit="selecteduser = $event" placeholder="Ketik: Booking UUID, Harga Tiket, Diskon, Total Tagihan, Nama, Email, Telp" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name !== 'CrudGeneratedEdit'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
     </div>
@@ -39,7 +39,7 @@ export default {
     },
     watch: {
         selecteduser(val) {
-            this.$emit('onBubbleEvent', val ? val?.id : null)
+            this.$emit('onBubbleEvent', val)
         }
     },
     mounted() {
@@ -61,9 +61,9 @@ export default {
                 })
                 .then(response => {
                     if(!response.data) return
-                    console.log('AXIOS TypeHeadTravelTicket TypeHeadTravelBooking', response)
                     const item = response.data
-                    this.$refs.typeahead.inputValue =  `Tiket UUID (${item.uuid}) - Kode Tiket (${item.code_ticket}) - Nomor Kursi (${item.seat_no}) - Status Tiket (${item.ticket_status}) - Nama Armada (${item.name_unit}) - Waktu Berangkat (${item.travel_date}) - Harga Tiket (${item.ticket_price}) - Terminal Berangkat (${item.departure_terminal}) - Terminal Tiba (${item.arrivel_terminal}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})`
+                    console.log('AXIOS TypeHeadTravelTicket getInitEdit', response)
+                    this.$refs.typeahead.inputValue = `Booking UUID (${item.uuid}) - Harga Tiket (${item.get_price}) - Diskon (${item.get_discount}) - Total Tagihan (${item.get_total_amount}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})`
                     this.selecteduser = response.data;
                 })
             }

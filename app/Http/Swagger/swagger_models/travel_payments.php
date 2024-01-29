@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc"},
+  *                     example={"totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTransaction":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "uuid":"Abc"},
+  *                     example={"totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTransaction":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc"}, {"id":"123", "bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc"}},
+  *                     example={{"id":"123", "bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "customerId":"", "ticketId":"123", "reservationId":"123", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTransaction":"Abc"}, {"id":"123", "bookingId":"", "totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "uuid":"Abc", "customerId":"", "ticketId":"123", "reservationId":"123", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTransaction":"Abc"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -214,7 +214,12 @@
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="uuid"),
+  *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="customerId"), 
+  *                         @OA\Property(type="integer", property="ticketId"), 
+  *                         @OA\Property(type="integer", property="reservationId"), 
+  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="string", property="codeTransaction"),
   *                     ),
   *                ),
   *             )

@@ -14,8 +14,8 @@
                 }}
               </h3>
 
-              <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" />
-              <TypeHeadTravelBooking v-if="isAdmin" @onBubbleEvent="updateTypeHead('ticket_id', $event)" />
+              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
+              <TypeHead_TicketId v-if="isAdmin" @onBubbleEvent="updateTypeHead('ticket_id', $event)" />
 
             </div>
             <vs-row>
@@ -29,6 +29,7 @@
               >
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
+
                 <template v-if="dataRow.add == 1">
                   <badaso-text required
                     v-if="dataRow.type == 'text'"
@@ -40,6 +41,21 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+                  <!-- ADDITIONAL -->
+                  <badaso-text required
+                    v-if="dataRow.type == 'text_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -423,13 +439,13 @@
 </template>
 
 <script>
-import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHeadTravelBooking from './TypeHeadTravelBooking.vue'
+// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
+import TypeHead_TicketId from './TypeHead_TicketId.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer,TypeHeadTravelBooking
+    TypeHead_TicketId
   },
   data: () => ({
     isValid: true,
@@ -479,8 +495,20 @@ export default {
 
         const vm = this
 
-
         temp.forEach(el => {
+
+            if(el.field == "get_price") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_discount") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_cashback") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_total_amount") {
+                el.type = "text_readonly"
+            }
 
             switch (vm.userRole) {
                 case 'customer':
@@ -525,7 +553,20 @@ export default {
         temp.forEach(el => {
 
             if(el.field == field) {
-                el.value = value;
+                el.value = value ? value?.id : '';
+            }
+
+            if(el.field == "get_price") {
+                el.value = value ? value?.ticket_price : '';
+            }
+            if(el.field == "get_discount") {
+                el.value = value ? value?.ticket_discount_price : '';
+            }
+            if(el.field == "get_cashback") {
+                el.value = value ? value?.ticket_cashback_price : '';
+            }
+            if(el.field == "get_total_amount") {
+                el.value = value ? (Number(value?.ticket_price) - ((Number(value?.ticket_price) * Number(value?.ticket_discount_price)/100)) - Number(value?.ticket_cashback_price)) : '';
             }
         });
 

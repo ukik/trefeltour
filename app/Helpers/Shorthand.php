@@ -26,6 +26,7 @@ if (!function_exists('CodeUuid')) {
 if (!function_exists('ShortUuid')) {
     function ShortUuid(){
         $arr = explode("-", uuid());
+        return strtoupper($arr[1].'-'.$arr[0]);
         return sprintf("%04s", rand(0,1000)).'-'.$arr[count($arr)-1];
     }
 }
@@ -63,6 +64,7 @@ if (!function_exists('isAdmin')) {
 
             foreach (Auth::user()->roles as $key => $value) {
                 switch ($value->name) {
+                    case 'administrator':
                     case 'admin':
                         return true;
                         break;
@@ -90,3 +92,18 @@ if (!function_exists('isOnlyAdmin')) {
 //         return $label.'-'.$user_id.'-'.prepand_zero(rand(0,100000), 5).'-'.uuid();
 //     }
 // }
+
+if (!function_exists('SqlWithBinding')) {
+    function SqlWithBinding($sql, $bindDataArr)
+    {
+        foreach ($bindDataArr as $binding) {
+            $value = is_numeric($binding) ? $binding : "'" . $binding . "'";
+            $sql = preg_replace('/\?/', $value, $sql, 1);
+        }
+        return $sql;
+    }
+
+    # $data = Model::first();
+    # usage example: SqlWithBinding($data->toSql(), $data->getBindings());
+    # You can not ->paginate() or ->toSql() after Post::all() / Post::get()
+}

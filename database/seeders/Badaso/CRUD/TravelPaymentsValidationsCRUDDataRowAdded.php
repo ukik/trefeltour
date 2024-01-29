@@ -5,7 +5,7 @@ namespace Database\Seeders\Badaso\CRUD;
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;
 
-class TravelPaymentsCRUDDataRowAdded extends Seeder
+class TravelPaymentsValidationsCRUDDataRowAdded extends Seeder
 {
     /**
      * Auto generated seed file
@@ -20,10 +20,10 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
 
         try {
 
-            $data_type = Badaso::model('DataType')::where('name', 'travel_payments')->first();
+            $data_type = Badaso::model('DataType')::where('name', 'travel_payments_validations')->first();
 
             \DB::table('badaso_data_rows')->insert(array (
-                0 => 
+                0 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
@@ -39,12 +39,12 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 1,
                 ),
-                1 => 
+                1 =>
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'booking_id',
+                    'field' => 'validator_id',
                     'type' => 'relation',
-                    'display_name' => 'Booking UUID',
+                    'display_name' => 'Admin Validator',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -52,15 +52,31 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"travel_bookings","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","customer_id","ticket_id","is_cancelled","get_price","get_discount","is_agreed","uuid"]}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","phone","avatar"]}',
                     'order' => 2,
                 ),
-                2 => 
+                2 =>
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'total_amount',
-                    'type' => 'number',
-                    'display_name' => 'Total Tagihan',
+                    'field' => 'payment_id',
+                    'type' => 'relation',
+                    'display_name' => 'Payment UUID',
+                    'required' => 1,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"travel_payments","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","booking_id","total_amount","method","date","status","uuid"]}',
+                    'order' => 3,
+                ),
+                3 =>
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'is_valid',
+                    'type' => 'switch',
+                    'display_name' => 'Validasi Admin',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -68,110 +84,11 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'add' => 1,
                     'delete' => 1,
                     'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 3,
-                ),
-                3 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'method',
-                    'type' => 'select',
-                    'display_name' => 'Metode',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 0,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "Tunai",
-"value": "tunai"
-},
-{
-"label": "Bank Transfer",
-"value": "bank transfer"
-},
-{
-"label": "E-Wallet",
-"value": "e-wallet"
-},
-{
-"label": "Qris",
-"value": "qris"
-},
-{
-"label": "Lainnya",
-"value": "lainnya"
-}
-]
-}',
                     'relation' => NULL,
                     'order' => 4,
                 ),
-                4 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'date',
-                    'type' => 'date',
-                    'display_name' => 'Tanggal',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '',
-                    'relation' => NULL,
-                    'order' => 5,
-                ),
-                5 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'status',
-                    'type' => 'select',
-                    'display_name' => 'Status',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "Pending",
-"value": "pending"
-},
-{
-"label": "Sukses",
-"value": "success"
-}
-]
-}',
-                    'relation' => NULL,
-                    'order' => 6,
-                ),
-                6 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'receipt',
-                    'type' => 'upload_image',
-                    'display_name' => 'Bukti Lunas',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 7,
-                ),
-                7 => 
+
+                5 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -185,9 +102,9 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 6,
                 ),
-                8 => 
+                6 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -201,9 +118,9 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 7,
                 ),
-                9 => 
+                7 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -217,9 +134,9 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 8,
                 ),
-                10 => 
+                8 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
@@ -233,25 +150,9 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 9,
                 ),
-                11 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'customer_id',
-                    'type' => 'relation',
-                    'display_name' => 'Customer',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","avatar","phone"]}',
-                    'order' => 12,
-                ),
-                12 => 
+                9 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'ticket_id',
@@ -265,9 +166,9 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 10,
                 ),
-                13 => 
+                10 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'reservation_id',
@@ -281,14 +182,30 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 11,
                 ),
-                14 => 
+                11 =>
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'booking_id',
+                    'type' => 'number',
+                    'display_name' => 'BookingId',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 12,
+                ),
+                12 =>
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
-                    'display_name' => 'Dihapus Pada',
+                    'display_name' => 'DeletedAt',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,
@@ -297,23 +214,7 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
-                ),
-                15 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'code_transaction',
-                    'type' => 'text',
-                    'display_name' => 'Kode Transaksi',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 16,
+                    'order' => 13,
                 ),
             ));
 

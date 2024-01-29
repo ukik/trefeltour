@@ -74,9 +74,9 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                 3 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_cancelled',
-                    'type' => 'switch',
-                    'display_name' => 'Dibatalkan',
+                    'field' => 'description',
+                    'type' => 'textarea',
+                    'display_name' => 'Deskripsi',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -90,10 +90,10 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                 4 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'description',
-                    'type' => 'textarea',
-                    'display_name' => 'Deskripsi',
-                    'required' => 1,
+                    'field' => 'get_price',
+                    'type' => 'number',
+                    'display_name' => 'Harga Tiket',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -106,9 +106,9 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                 5 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_price',
+                    'field' => 'get_discount',
                     'type' => 'number',
-                    'display_name' => 'Harga Tiket',
+                    'display_name' => 'Diskon Tiket',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -122,9 +122,9 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_discount',
+                    'field' => 'get_cashback',
                     'type' => 'number',
-                    'display_name' => 'Diskon',
+                    'display_name' => 'Cashback Tiket',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -138,10 +138,10 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_agreed',
-                    'type' => 'switch',
-                    'display_name' => 'Telah Setuju',
-                    'required' => 1,
+                    'field' => 'get_total_amount',
+                    'type' => 'number',
+                    'display_name' => 'Total Tagihan',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -152,6 +152,38 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'order' => 8,
                 ),
                 8 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'is_agreed',
+                    'type' => 'switch',
+                    'display_name' => 'Telah Setuju',
+                    'required' => 1,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 9,
+                ),
+                9 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'is_cancelled',
+                    'type' => 'switch',
+                    'display_name' => 'Dibatalkan',
+                    'required' => 1,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 10,
+                ),
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -165,14 +197,14 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 11,
                 ),
-                9 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
                     'type' => 'datetime',
-                    'display_name' => 'Created At',
+                    'display_name' => 'Dibuat Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -181,14 +213,14 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 12,
                 ),
-                10 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
                     'type' => 'datetime',
-                    'display_name' => 'Updated At',
+                    'display_name' => 'Diubah Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -197,9 +229,9 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 13,
                 ),
-                11 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
@@ -213,7 +245,39 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 14,
+                ),
+                14 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'reservation_id',
+                    'type' => 'number',
+                    'display_name' => 'ReservationId',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 15,
+                ),
+                15 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'deleted_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Dihapus Pada',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 16,
                 ),
             ));
 

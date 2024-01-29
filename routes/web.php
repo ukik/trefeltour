@@ -20,6 +20,26 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['sanctum_1']],
 
 
 Route::get('/', function () {
+    $arr = explode("-", uuid());
+    return strtoupper($arr[0].'-'.$arr[1]);
+    return sprintf("%04s", rand(0,1000)).'-'.$arr[count($arr)-1];
+
+    // ADDITIONAL BULK DELETE
+    // -------------------------------------------- //
+    $filters = TravelReservations::whereIn('id', [35,34,33])->with('travelTickets')->get();
+    // return dump($filters[1]);
+    $temp = [];
+    // for ($i=0; $i < count($filters); $i++) {
+    //     dump($filters[$i]);
+    //     # code...
+    // }
+    foreach ($filters as $value) {
+        // dump($value);
+        if($value->travelTickets == null) {
+            array_push($temp, $value);
+        }
+    }
+    return $temp;
     //return User::all();
     //return view('welcome');
 });

@@ -14,8 +14,7 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <TypeHeadPaymentId v-if="isAdmin" @onBubbleEvent="updateTypeHead('payment_id', $event)" />
 
             </div>
             <vs-row>
@@ -423,13 +422,13 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
+
+import TypeHeadPaymentId from './typeHead_PaymentId.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_ReservationId
+    TypeHeadPaymentId
   },
   data: () => ({
     isValid: true,
@@ -484,13 +483,19 @@ export default {
             switch (vm.userRole) {
                 case 'customer':
                 case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
+                    if(el.field == "is_valid") {
+                        el.value = false
+                        el.type = "hidden"
                     }
                     break;
                 case 'administrator':
                 case 'admin':
-
+                    if(el.field == "validator_id") {
+                        el.value = vm.userId
+                    }
+                    if(el.field == "is_valid") {
+                        el.value = false
+                    }
                     break;
             }
 
@@ -510,12 +515,10 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'reservation_id') {
+            if(el.field == 'payment_id') {
                 el.value = value ? value?.id : '';
             }
-            if(el.field == 'customer_id') {
-                el.value = value ? value?.customer_id : '';
-            }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

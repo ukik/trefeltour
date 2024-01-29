@@ -4,7 +4,8 @@
     class="vs-component vs-con-table"
   >
   <!-- {{ datax }} --- {{ pagination }} -->
-    <!-- header -->
+
+  <!-- header -->
     <header class="header-table vs-table--header">
       <vs-row class="badaso-table__table-header">
         <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="pagination">
@@ -40,6 +41,16 @@
             <tr>
               <th v-if="multiple || hasExpadableData" class="td-check">
                 <!-- <span v-if="multiple" class="con-td-check">
+                  <vs-checkbox
+                    :key="isCheckedLine ? 'remove' : 'check'"
+                    :icon="isCheckedLine ? 'remove' : 'check'"
+                    :checked="isCheckedMultiple"
+                    size="small"
+                    @change="changeCheckedMultiple"
+                  />
+                </span> -->
+
+                <!-- <span v-if="value?.length > 0" class="con-td-check">
                   <vs-checkbox
                     :key="isCheckedLine ? 'remove' : 'check'"
                     :icon="isCheckedLine ? 'remove' : 'check'"
@@ -193,6 +204,7 @@ export default {
     hasExpadableData: false,
     currentSortKey: null,
     currentSortType: null,
+    value:[],
   }),
   computed: {
     getTotalPages() {

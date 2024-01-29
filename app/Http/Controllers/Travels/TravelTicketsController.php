@@ -13,6 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
+use TravelBookings;
+use TravelTickets;
 
 class TravelTicketsController extends Controller
 {
@@ -48,7 +50,17 @@ class TravelTicketsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TravelTickets::with(['badasoUsers','travelReservations'])->orderBy('id','desc')->paginate(request()->perPage);
+            $data = \TravelTickets::with([
+                'badasoUsers',
+                'travelReservations',
+                'travelReservation',
+                'travelBooking',
+                'travelPayment.travelPaymentValidation',
+            ])->orderBy('id','desc');
+            if(request()['showSoftDelete'] == 'true') {
+                $data = $data->onlyTrashed();
+            }
+            return $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
             // $decode = json_decode($encode);
@@ -115,20 +127,28 @@ class TravelTicketsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
+        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+
+        $value = request()['data']['id'];
+        $check = TravelBookings::where('ticket_id', $value)->first();
+        if($check && !isAdmin()) {
+            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        }
+
         try {
 
             // get slug by route name and get data type
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            if(!isAdmin() || !isSuperAdmin()) return ApiResponse::failed('Maaf harus dari admin');
-
             $table_entity = \TravelTickets::where('id', $request->data['id'])->first();
+
+            $temp = \TravelReservations::where('id', $request->data['reservation_id'])->first();
 
             $req = request()['data'];
             $data = [
-                'reservation_id' => $req['reservation_id'] ,
-                'customer_id' => $req['customer_id'] ,
+                'reservation_id' => $temp->id ,
+                'customer_id' => $temp->customer_id ,
                 'seat_no' => $req['seat_no'] ,
                 'ticket_status' => $req['ticket_status'] ,
                 'name_unit' => $req['name_unit'] ,
@@ -146,10 +166,11 @@ class TravelTicketsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'reservation_id' => [
-                        'required', \Illuminate\Validation\Rule::unique('travel_tickets')->ignore($req['id'])
-                    ],
+                    'reservation_id' => 'required',
+                    // susah karena pake softDelete, pakai cara manual saja
+                    // 'reservation_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('travel_tickets')->ignore($req['id'])
+                    // ],
                 ],
             );
 
@@ -194,18 +215,26 @@ class TravelTicketsController extends Controller
     {
         DB::beginTransaction();
 
+        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+
+        // UNIQUE + SoftDelete
+        // cukup CREATE aja karena di edit tidak bisa di edit relationship
+        $unique = TravelTickets::where('reservation_id', $request->data['reservation_id'])
+            ->where('deleted_at',NULL)->first();
+        if($unique) return ApiResponse::failed('Reservasi UUID sudah dipakai');
+
         try {
             // get slug by route name and get data type in table
             $slug = $this->getSlug($request);
 
             $data_type = $this->getDataType($slug);
 
-            if(!isAdmin() || !isSuperAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+            $temp = \TravelReservations::where('id', $request->data['reservation_id'])->first();
 
             $req = request()['data'];
             $data = [
-                'reservation_id' => $req['reservation_id'] ,
-                'customer_id' => $req['customer_id'] ,
+                'reservation_id' => $temp->id ,
+                'customer_id' => $temp->customer_id ,
                 'seat_no' => $req['seat_no'] ,
                 'ticket_status' => $req['ticket_status'] ,
                 'name_unit' => $req['name_unit'] ,
@@ -223,7 +252,9 @@ class TravelTicketsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
+                    'reservation_id' => 'required',
+                    // susah karena pake softDelete, pakai cara manual saja
+                    // 'reservation_id' => 'unique:travel_tickets'
                 ],
             );
             if ($validator->fails()) {
@@ -235,8 +266,8 @@ class TravelTicketsController extends Controller
 
             $data['images'] = $req['images'];
 
-            $check_duplicate_reservation_id = \TravelTickets::where('reservation_id', $request->data['reservation_id'])->first();
-            if($check_duplicate_reservation_id) return ApiResponse::failed('Maaf reservasi UUID tidak tersedia');
+            // $check_duplicate_reservation_id = \TravelTickets::where('reservation_id', $request->data['reservation_id'])->first();
+            // if($check_duplicate_reservation_id) return ApiResponse::failed('Maaf reservasi UUID tidak tersedia');
 
             $stored_data = \TravelTickets::insert($data);
 
@@ -262,6 +293,14 @@ class TravelTicketsController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
+        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+
+        $value = request()['data'][0]['value'];
+        $check = TravelBookings::where('ticket_id', $value)->first();
+        if($check) {
+            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
+        }
 
         try {
             $request->validate([
@@ -348,6 +387,8 @@ class TravelTicketsController extends Controller
     {
         DB::beginTransaction();
 
+        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -380,6 +421,19 @@ class TravelTicketsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
+
+            // ADDITIONAL BULK DELETE
+            // -------------------------------------------- //
+            $filters = TravelTickets::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelBooking')->get();
+            $temp = [];
+            foreach ($filters as $value) {
+                if($value->travelBooking == null) {
+                    array_push($temp, $value['id']);
+                }
+            }
+            $id_list = $temp;
+            // -------------------------------------------- //
+
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;
                 $this->deleteData($should_delete, $data_type, $is_hard_delete);

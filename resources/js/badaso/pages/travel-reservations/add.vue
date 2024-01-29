@@ -422,7 +422,7 @@
 </template>
 
 <script>
-import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
+import TypeHeadCustomer from './TypeHeadCustomer.vue'
 
 export default {
   name: "CrudGeneratedAdd",
@@ -521,8 +521,8 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
-                el.value = value;
+            if(el.field == 'customer_id') {
+                el.value = value ? value?.id : '';
             }
         });
 

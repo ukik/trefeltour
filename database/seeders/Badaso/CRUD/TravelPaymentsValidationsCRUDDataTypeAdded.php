@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Models\MenuItem;
 
-class TravelBookingsCRUDDataTypeAdded extends Seeder
+class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
 {
     /**
      * Auto generated seed file
@@ -21,22 +21,22 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
 
         try {
 
-            $data_type = Badaso::model('DataType')->where('name', 'travel_bookings')->first();
+            $data_type = Badaso::model('DataType')->where('name', 'travel_payments_validations')->first();
 
             if ($data_type) {
-                Badaso::model('DataType')->where('name', 'travel_bookings')->delete();
+                Badaso::model('DataType')->where('name', 'travel_payments_validations')->delete();
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 33,
-                'name' => 'travel_bookings',
-                'slug' => 'travel-bookings',
-                'display_name_singular' => 'Travel Booking',
-                'display_name_plural' => 'Travel Bookings',
+                'id' => 34,
+                'name' => 'travel_payments_validations',
+                'slug' => 'travel-payments-validations',
+                'display_name_singular' => 'Travel Pembayaran Validasi',
+                'display_name_plural' => 'Travel Payments Validations',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => 'App\\Http\\Controllers\\Travels\\TravelBookingsController',
+                'controller' => 'App\\Http\\Controllers\\Travels\\TravelPaymentsValidationsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
@@ -47,41 +47,41 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => 1,
-                'created_at' => '2024-01-23T15:56:15.000000Z',
-                'updated_at' => '2024-01-29T04:15:44.000000Z',
+                'created_at' => '2024-01-24T10:23:49.000000Z',
+                'updated_at' => '2024-01-28T10:29:53.000000Z',
             ));
 
-            Badaso::model('Permission')->generateFor('travel_bookings');
+            Badaso::model('Permission')->generateFor('travel_payments_validations');
 
             $menu = Badaso::model('Menu')->where('key', config('badaso.default_menu'))->firstOrFail();
 
             $menu_item = Badaso::model('MenuItem')
                 ->where('menu_id', $menu->id)
-                ->where('url', '/general/travel-bookings')
+                ->where('url', '/general/travel-payments-validations')
                 ->first();
 
             $order = Badaso::model('MenuItem')->highestOrderMenuItem($menu->id);
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Bookings',
+                    'title' => 'Travel Payments Validations',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
                     'parent_id' => null,
-                    'permissions' => 'browse_travel_bookings',
+                    'permissions' => 'browse_travel_payments_validations',
                     'order' => $order,
                 ])->save();
             } else {
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
-                $menu_item->url = '/general/travel-bookings';
-                $menu_item->title = 'Travel Bookings';
+                $menu_item->url = '/general/travel-payments-validations';
+                $menu_item->title = 'Travel Payments Validations';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
-                $menu_item->permissions = 'browse_travel_bookings';
+                $menu_item->permissions = 'browse_travel_payments_validations';
                 $menu_item->order = $order;
                 $menu_item->save();
             }

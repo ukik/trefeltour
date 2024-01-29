@@ -32,18 +32,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => '/typehead', 'middleware' => ['sanctum_1'], 'namespace' => 'App\Http\Controllers'], function ($request) {
-    Route::get('/user', 'TypeHeadController@getUser');
-    Route::get('/user-travel-reservations', 'TypeHeadController@edit_get_user');
+    Route::get('/user', 'TravelTypeHeadController@getUser');
+    Route::get('/user-travel-reservations', 'TravelTypeHeadController@edit_get_user');
 
     // travel-tickets
-    Route::get('/user-travel-tickets', 'TypeHeadController@edit_travel_tickets_customer_id');
-    Route::get('/search-travel-tickets', 'TypeHeadController@list_travel_tickets_reservation_id');
-    Route::get('/edit-travel-tickets', 'TypeHeadController@edit_travel_tickets_reservation_id');
+    Route::get('/user-travel-tickets', 'TravelTypeHeadController@edit_travel_tickets_customer_id');
+    Route::get('/search-travel-tickets', 'TravelTypeHeadController@list_travel_tickets_reservation_id');
+    Route::get('/edit-travel-tickets', 'TravelTypeHeadController@edit_travel_tickets_reservation_id');
 
     // travel-bookings
-    Route::get('/user-travel-bookings', 'TypeHeadController@edit_travel_bookings_customer_id');
-    Route::get('/search-travel-bookings', 'TypeHeadController@list_travel_bookings_ticket_id');
-    Route::get('/edit-travel-bookings', 'TypeHeadController@edit_travel_bookings_ticket_id');
+    Route::get('/user-travel-bookings', 'TravelTypeHeadController@edit_travel_bookings_customer_id');
+    Route::get('/search-travel-bookings', 'TravelTypeHeadController@list_travel_bookings_ticket_id');
+    Route::get('/edit-travel-bookings', 'TravelTypeHeadController@edit_travel_bookings_ticket_id');
+
+    // travel-payments
+    // Route::get('/user-travel-payments', 'TravelTypeHeadController@edit_travel_payments_customer_id');
+    Route::get('/search-travel-payments', 'TravelTypeHeadController@list_travel_payments_booking_id');
+    Route::get('/edit-travel-payments', 'TravelTypeHeadController@edit_travel_payments_booking_id');
+
+    // travel-payments-validations
+    Route::get('/user-travel-payments-validations', 'TravelTypeHeadController@edit_travel_payments_validations_validator_id');
+    Route::get('/search-travel-payments-validations', 'TravelTypeHeadController@list_travel_payments_validations_payment_id');
+    Route::get('/edit-travel-payments-validations', 'TravelTypeHeadController@edit_travel_payments_validations_payment_id');
 
 });
 
