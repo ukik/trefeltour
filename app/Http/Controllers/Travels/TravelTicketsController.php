@@ -133,7 +133,7 @@ class TravelTicketsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         $value = request()['data']['id'];
         $check = TravelBookings::where('ticket_id', $value)->first();
@@ -221,7 +221,7 @@ class TravelTicketsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -300,7 +300,7 @@ class TravelTicketsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         $value = request()['data'][0]['value'];
         $check = TravelBookings::where('ticket_id', $value)->first();
@@ -393,7 +393,7 @@ class TravelTicketsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         try {
             $request->validate([

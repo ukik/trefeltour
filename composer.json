@@ -31,7 +31,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "classmap": [
-            "app/Models/Table/Travel"
+            "app/Models/Table/Travel",
+            "app/Models/Table/Transport"
         ],
         "files": [
             "app/Helpers/Shorthand.php"

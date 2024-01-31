@@ -129,7 +129,7 @@ class TravelPaymentsValidationsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
         $value = request()['data']['id'];
         $check = TravelPaymentsValidations::where('id', $value)->where('is_valid','true')->first();
         if($check && !isAdmin()) {
@@ -200,7 +200,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -266,7 +266,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
         $value = request()['data'][0]['value'];
         $check = TravelPaymentsValidations::where('id', $value)->where('is_valid','true')->first();
         if($check) {
@@ -358,7 +358,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        isOnlyAdmin();
 
         try {
             $request->validate([

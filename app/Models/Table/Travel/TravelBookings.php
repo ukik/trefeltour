@@ -38,17 +38,16 @@ class TravelBookings extends Model
         return $this->belongsTo(TravelTickets::class,'ticket_id','id');
     }
 
-    public function travelPayment()
-    {
-        return $this->hasOne(TravelPayments::class, 'booking_id', 'id');
-    }
-
     public function travelReservation()
     {
         // return $this->belongsToMany(TravelReservations::class, 'travel_bookings', 'id', 'reservation_id');
         return $this->belongsTo(TravelReservations::class,'reservation_id','id');
     }
 
+    public function travelPayment()
+    {
+        return $this->hasOne(TravelPayments::class, 'booking_id', 'id');
+    }
 
     public function travelPaymentsValidation() {
 

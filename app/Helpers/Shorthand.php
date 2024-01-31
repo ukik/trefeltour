@@ -82,7 +82,7 @@ if (!function_exists('isAdmin')) {
 
 if (!function_exists('isOnlyAdmin')) {
     function isOnlyAdmin(){
-        if(!isAdmin() && !isSuperAdmin()) return ApiResponse::failed('Maaf harus dari admin');
+        if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');
     }
 }
 

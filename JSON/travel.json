@@ -113,3 +113,118 @@ tunai,bank transfer,e-wallet,qris,lainnya
         },
     ]
 }
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "motor",
+            "value": "motor"
+        },
+        {
+            "label": "mobil",
+            "value": "mobil"
+        },
+        {
+            "label": "general",
+            "value": "general"
+        },
+        {
+            "label": "others",
+            "value": "others"
+        },
+    ]
+}
+
+,,,,,,
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "sunday",
+            "value": "sunday"
+        },
+        {
+            "label": "monday",
+            "value": "monday"
+        },
+        {
+            "label": "tuesday",
+            "value": "tuesday"
+        },
+        {
+            "label": "wednesday",
+            "value": "wednesday"
+        },
+        {
+            "label": "thursday",
+            "value": "thursday"
+        },
+        {
+            "label": "friday",
+            "value": "friday"
+        },
+        {
+            "label": "saturday",
+            "value": "saturday"
+        }
+    ]
+}
+
+
+,,,,,
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "car",
+            "value": "car"
+        },
+        {
+            "label": "motor",
+            "value": "motor"
+        },
+        {
+            "label": "bus",
+            "value": "bus"
+        },
+        {
+            "label": "truck",
+            "value": "truck"
+        },
+        {
+            "label": "pickup",
+            "value": "pickup"
+        },
+        {
+            "label": "others",
+            "value": "others"
+        }
+    ]
+}
+
+,,,,
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "gasoline",
+            "value": "gasoline"
+        },
+        {
+            "label": "solar",
+            "value": "solar"
+        },
+        {
+            "label": "electric",
+            "value": "electric"
+        },
+        {
+            "label": "hidrogen",
+            "value": "hidrogen"
+        },
+        {
+            "label": "others",
+            "value": "others"
+        }
+    ]
+}
