@@ -139,7 +139,7 @@ class TransportReturnsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_wrecked',
-                    'type' => 'select',
+                    'type' => 'switch',
                     'display_name' => 'Terjadi Kerusakan',
                     'required' => 0,
                     'browse' => 1,

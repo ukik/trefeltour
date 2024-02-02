@@ -53,6 +53,7 @@ class TransportPaymentsController extends Controller
 
             $data = \TransportPayments::with([
                 'badasoUsers',
+                'transportBookings',
                 'transportPaymentsValidations',
                 'transportPaymentsValidation',
                 'transportBooking.transportDriver',
@@ -115,6 +116,7 @@ class TransportPaymentsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportPayments::with([
                 'badasoUsers',
+                'transportBookings',
                 'transportPaymentsValidations',
                 'transportPaymentsValidation',
                 'transportBooking.transportDriver',
@@ -159,11 +161,14 @@ class TransportPaymentsController extends Controller
                 'customer_id' => $temp->customer_id,
 
                 'total_amount' => $temp->get_total_amount,
+                'total_amount_driver' => $temp->get_total_amount_driver ,
+
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => date("Y-m-d", strtotime($req['date'])),
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
+                // 'description' => $req['description'],
                 'code_table' => ($slug),
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
@@ -171,7 +176,7 @@ class TransportPaymentsController extends Controller
             $validator = Validator::make(
                 $data,
                 [
-                    'booking_id' => 'required',
+                    '*' => 'required',
                     'booking_id' => 'unique:view_transport_payments_check_booking,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
@@ -183,6 +188,8 @@ class TransportPaymentsController extends Controller
                     return ApiResponse::failed(implode('', $value));
                 }
             }
+
+            $data['description'] = $req['description'];
 
             \TransportPayments::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -234,11 +241,13 @@ class TransportPaymentsController extends Controller
                 'booking_id' => $temp->id,
 
                 'total_amount' => $temp->get_total_amount,
+                'total_amount_driver' => $temp->get_total_amount_driver ,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => date("Y-m-d", strtotime($req['date'])),
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
+                // 'description' => $req['description'],
                 'code_table' => ($slug),
                 'uuid' => ShortUuid(),
             ];
@@ -246,7 +255,7 @@ class TransportPaymentsController extends Controller
             $validator = Validator::make(
                 $data,
                 [
-                    'booking_id' => 'required',
+                    '*' => 'required',
                     'booking_id' => 'unique:view_transport_payments_check_booking'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments'
@@ -258,6 +267,8 @@ class TransportPaymentsController extends Controller
                     return ApiResponse::failed(implode('', $value));
                 }
             }
+
+            $data['description'] = $req['description'];
 
             $stored_data = \TransportPayments::insert($data);
 

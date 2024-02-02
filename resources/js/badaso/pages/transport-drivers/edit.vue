@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
+              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>

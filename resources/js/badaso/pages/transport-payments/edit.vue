@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHead_BookingId v-if="isAdmin" @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id', $event)" />
 
             </div>
             <vs-row>
@@ -454,12 +454,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHead_BookingId from './TypeHead_BookingId.vue'
+import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_BookingId
+    TransportMaintenance_TypeHeadBooking
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -507,6 +507,10 @@ export default {
                 el.type = "text_readonly"
             }
 
+            if(el.field == "total_amount_driver") {
+                el.type = "text_readonly"
+            }
+
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
@@ -516,27 +520,27 @@ export default {
                         el.value =  new Date(this.record[key]);
                     }
 
-                    switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            // if(el.field == "customer_id" && key == 'customerId') {
-                            //     el.value = vm.userId
-                            // }
-                            break;
-                        case 'administrator':
-                        case 'admin':
-                            // if(el.field == "customer_id" && key == 'customerId') {
-                            //     el.value = this.record[key]
-                            // }
-                            break;
-                    }
+                    // switch (vm.userRole) {
+                    //     case 'customer':
+                    //     case 'student':
+                    //         // if(el.field == "customer_id" && key == 'customerId') {
+                    //         //     el.value = vm.userId
+                    //         // }
+                    //         break;
+                    //     case 'administrator':
+                    //     case 'admin':
+                    //         // if(el.field == "customer_id" && key == 'customerId') {
+                    //         //     el.value = this.record[key]
+                    //         // }
+                    //         break;
+                    // }
 
                 }
             }
         });
 
         // REDIRECT
-        if(this.record['travelPaymentsValidation'] && !this.isAdmin) {
+        if(this.record['transportPaymentsValidation'] && !this.isAdmin) {
             this.$router.replace({
                 name: 'CrudGeneratedRead',
                 params: {
@@ -569,6 +573,9 @@ export default {
             }
             if(el.field == 'total_amount') {
                 el.value = value ? value?.get_total_amount : '';
+            }
+            if(el.field == 'total_amount_driver') {
+                el.value = value ? value?.get_total_amount_driver : '';
             }
         });
 

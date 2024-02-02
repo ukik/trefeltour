@@ -27,7 +27,7 @@ class TransportTypeHeadController extends Controller
     function transport_drivers() {
         $keyword = request()->keyword;
 
-        if(request()->id) {
+        if(request()->id && !request()['keyword']) {
             return \TransportDrivers::where('id',request()->id)->with('user')->first();
         }
 
@@ -93,7 +93,7 @@ class TransportTypeHeadController extends Controller
     function transport_rentals() {
         $keyword = request()->keyword;
 
-        if(isAdminTransport()) {
+        if(isAdminTransport() && !request()['keyword']) {
            return \TransportRentals::where('user_id',Auth::user()->id)->first();
         }
 
@@ -148,7 +148,7 @@ class TransportTypeHeadController extends Controller
     function transport_vehicles() {
         $keyword = request()->keyword;
 
-        if(request()->id) {
+        if(request()->id && !request()['keyword']) {
             return \TransportVehicles::where('id',request()->id)->first();
         }
 
@@ -211,9 +211,19 @@ class TransportTypeHeadController extends Controller
     function transport_bookings() {
         $keyword = request()->keyword;
 
-        $columns = Schema::getColumnListing('transport_bookings');
+        if(request()->id && !request()['keyword'] && !request()['label']) {
+            $check = \ViewTransportBookingsCheckPayements::where('id',request()->id)->with('user')->first();
+            return $check;
+        }
 
-        $query = \TransportBookings::with([
+        if(request()['label'] == 'transport-returns') {
+            $check = \ViewTransportBookingsCheckPayements::where('id',request()->id)->with('user')->first();
+            return \TransportDrivers::where('id',$check?->driver_id)->with('user')->first();
+        }
+
+        $columns = Schema::getColumnListing('view_transport_bookings_check_payments');
+
+        $query = \ViewTransportBookingsCheckPayements::with([
             'user' => function($q) use ($keyword) {
                 return $q;
             }])
@@ -222,7 +232,8 @@ class TransportTypeHeadController extends Controller
                 ->where('email','like','%'.$keyword.'%')
                 ->orWhere('name','like','%'.$keyword.'%')
                 ->orWhere('phone','like','%'.$keyword.'%');
-        });
+        })
+        ->where('booking_id',NULL);
 
         foreach ($columns as $value) {
             switch ($value) {
@@ -238,20 +249,25 @@ class TransportTypeHeadController extends Controller
             }
         }
 
-        if(isAdmin()) {
-            return $query = $query->limit(20)->get();
+        if(isAdminTransport()) {
+            return $query = $query->where('customer_id',userId())->limit(20)->get();
         }
 
-        return $query = $query->where('customer_id',userId())->limit(20)->get();
+        return $query = $query->limit(20)->get();
     }
 
     // PAYMENT
     function transport_payments() {
         $keyword = request()->keyword;
 
-        $columns = Schema::getColumnListing('transport_payments');
+        if(request()->id && !request()['keyword'] && !request()['label']) {
+            $check = \ViewTransportPaymentsCheckValidations::where('id',request()->id)->with('user')->first();
+            return $check;
+        }
 
-        $query = \TransportPayments::with([
+        $columns = Schema::getColumnListing('view_transport_payments_check_validations');
+
+        $query = \ViewTransportPaymentsCheckValidations::with([
             'transportBooking',
             'user' => function($q) use ($keyword) {
                 return $q;

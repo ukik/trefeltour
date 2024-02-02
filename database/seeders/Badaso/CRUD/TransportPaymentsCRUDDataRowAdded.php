@@ -92,7 +92,7 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'total_amount',
                     'type' => 'number',
-                    'display_name' => 'Total Tagihan',
+                'display_name' => 'Total Tagihan Kendaraan (Rp)',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -106,9 +106,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                 5 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'code_transaction',
-                    'type' => 'text',
-                    'display_name' => 'Kode Transaksi',
+                    'field' => 'total_amount_driver',
+                    'type' => 'number',
+                'display_name' => 'Total Tagihan Supir (Rp)',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -120,6 +120,22 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'order' => 6,
                 ),
                 6 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'code_transaction',
+                    'type' => 'text',
+                    'display_name' => 'Kode Transaksi',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 7,
+                ),
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'method',
@@ -157,9 +173,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 8,
                 ),
-                7 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'date',
@@ -173,9 +189,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'status',
@@ -201,13 +217,13 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'receipt',
-                    'type' => 'textarea',
+                    'type' => 'upload_image',
                     'display_name' => 'Bukti Lunas',
                     'required' => 1,
                     'browse' => 1,
@@ -217,9 +233,25 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
-                10 => 
+                11 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'description',
+                    'type' => 'textarea',
+                    'display_name' => 'Catatan',
+                    'required' => 1,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 12,
+                ),
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -233,9 +265,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 13,
                 ),
-                11 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -249,9 +281,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 14,
                 ),
-                12 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -265,9 +297,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 15,
                 ),
-                13 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -281,7 +313,7 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 16,
                 ),
             ));
 

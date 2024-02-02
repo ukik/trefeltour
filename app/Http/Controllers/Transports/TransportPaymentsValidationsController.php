@@ -53,10 +53,10 @@ class TransportPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
-                'transportPayment.travelBooking.transportDriver',
-                'transportPayment.travelBooking.transportReturn',
-                'transportPayment.travelBooking.transportVehicle.transportRental',
-                'transportPayment.travelBooking.transportVehicle.transportMaintenance',
+                'transportPayment.transportBooking.transportDriver',
+                'transportPayment.transportBooking.transportReturn',
+                'transportPayment.transportBooking.transportVehicle.transportRental',
+                'transportPayment.transportBooking.transportVehicle.transportMaintenance',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -110,10 +110,10 @@ class TransportPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
-                'transportPayment.travelBooking.transportDriver',
-                'transportPayment.travelBooking.transportReturn',
-                'transportPayment.travelBooking.transportVehicle.transportRental',
-                'transportPayment.travelBooking.transportVehicle.transportMaintenance',
+                'transportPayment.transportBooking.transportDriver',
+                'transportPayment.transportBooking.transportReturn',
+                'transportPayment.transportBooking.transportVehicle.transportRental',
+                'transportPayment.transportBooking.transportVehicle.transportMaintenance',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -227,7 +227,7 @@ class TransportPaymentsValidationsController extends Controller
                 'validator_id' => userId(),
                 'payment_id' => $temp->id,
 
-                'is_valid' => $req['is_valid'],
+                'is_valid' => $req['is_valid'] ? 'true' : 'false',
                 'code_table' => ($slug),
                 'uuid' => ShortUuid(),
             ];

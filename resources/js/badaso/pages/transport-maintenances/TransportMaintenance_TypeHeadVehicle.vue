@@ -5,15 +5,24 @@
 
         <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Kendaraan</label>
 
-        <router-link v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'"  target="_blank" :to="{
-            name: 'CrudGeneratedRead',
+        <router-link v-if="$route?.name == 'CrudGeneratedAdd'"  target="_blank" :to="{
+            name: 'CrudGeneratedBrowse',
             params: {
-                id: selecteduser?.id,
                slug: 'transport-vehicles'
             }
         }" class="btn btn-success col-auto mr-0">
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </router-link>
+        <router-link v-else  target="_blank" :to="{
+            name: 'CrudGeneratedRead',
+            params: {
+                id: selecteduser?.customer_id,
+               slug: 'transport-vehicles'
+            }
+        }" class="btn btn-success col-auto mr-0">
+            <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
+        </router-link>
+
 
         <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
             :serializer="item => { return `Kendaraan UUID (${item.uuid}) - Model Unit (${item.model}) - Brand (${item.brand}) - Sewa Harian (Rp ${item.daily_price}) - Diskon Harian (${item.discount_daily_price} %) - Cashback Harian (Rp ${item.cashback_daily_price}) - Kategori (${item.category}) - Bahan Bakar (${item.fuel_type}) - Tanggal Pabrik (${item.date_production}) - Warna (${item.color}) - STNK (${item.code_stnk}) - Jumlah Penumpang (${item.slot_passanger}) - Unit Tersedia (${item.is_available})` }"

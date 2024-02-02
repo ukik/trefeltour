@@ -14,6 +14,7 @@ export default {
 
         let userRole = null;
         let isAdmin = null;
+        let isAdminTransport = null
         for (let role of response_user.data.user.roles) {
             switch (role.name) {
                 case 'customer':
@@ -24,6 +25,12 @@ export default {
                 case 'admin':
                     isAdmin = true;
                     break;
+                case 'administrator':
+                case 'admin':
+                case 'admin-transport':
+                    isAdmin = true;
+                    isAdminTransport = true;
+                    break;
             }
             userRole = role.name
         }
@@ -31,7 +38,8 @@ export default {
         return {
             userId: response_user.data.user.id,
             userRole,
-            isAdmin
+            isAdmin,
+            isAdminTransport,
         }
     }
 }

@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHead_BookingId v-if="isAdmin" @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id', $event)" />
 
             </div>
             <vs-row>
@@ -436,12 +436,12 @@
 </template>
 
 <script>
-import TypeHead_BookingId from './TypeHead_BookingId.vue'
+import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_BookingId
+    TransportMaintenance_TypeHeadBooking
   },
   data: () => ({
     isValid: true,
@@ -497,18 +497,23 @@ export default {
                 el.type = "text_readonly"
             }
 
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    // if(el.field == "customer_id") {
-                    //     el.value = vm.userId
-                    // }
-                    break;
-                case 'administrator':
-                case 'admin':
-
-                    break;
+            if(el.field == "total_amount_driver") {
+                el.type = "text_readonly"
             }
+
+
+            // switch (vm.userRole) {
+            //     case 'customer':
+            //     case 'student':
+            //         // if(el.field == "customer_id") {
+            //         //     el.value = vm.userId
+            //         // }
+            //         break;
+            //     case 'administrator':
+            //     case 'admin':
+
+            //         break;
+            // }
 
         });
 
@@ -531,6 +536,9 @@ export default {
             }
             if(el.field == 'total_amount') {
                 el.value = value ? value?.get_total_amount : '';
+            }
+            if(el.field == 'total_amount_driver') {
+                el.value = value ? value?.get_total_amount_driver : '';
             }
         });
 

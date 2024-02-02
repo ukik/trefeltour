@@ -15,6 +15,7 @@
               </h3>
 
               <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id',$event)" />
+              <TransportMaintenance_TypeHeadDriver />
 
             </div>
             <vs-row>
@@ -441,13 +442,13 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-// import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
+import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
 import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
 
 export default {
   name: "CrudGeneratedEdit",
   components: {
-    TransportMaintenance_TypeHeadBooking
+    TransportMaintenance_TypeHeadBooking, TransportMaintenance_TypeHeadDriver
   },
   data: () => ({
     isValid: true,
@@ -494,14 +495,15 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'is_maintenance' && key == 'isMaintenance') {
+                    if(el.field == 'is_wrecked' && key == 'isWrecked') {
                         el.value = isVal
                     }
-                    if(el.field == 'maintenance_date' && key == 'maintenanceDate') {
+                    if(el.field == 'date_return' && key == 'dateReturn') {
                         el.value = this.record[key]
                     }
-
-
+                    if(el.field == 'time_return' && key == 'timeReturn') {
+                        el.value = this.record[key]
+                    }
                 }
             }
         });

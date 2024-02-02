@@ -52,11 +52,11 @@ class TransportReturnsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportReturns::with([
-                'badasoUsers',
+                // 'badasoUsers',
                 'transportBookings',
                 'transportDrivers',
                 'transportDriver',
-                'transportBooking.transportRental',
+                'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
                 'transportBooking.transportPayments.transportPaymentsValidation',
             ])->orderBy('id','desc');
@@ -114,11 +114,11 @@ class TransportReturnsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportReturns::with([
-                'badasoUsers',
+                // 'badasoUsers',
                 'transportBookings',
                 'transportDrivers',
                 'transportDriver',
-                'transportBooking.transportRental',
+                'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
                 'transportBooking.transportPayments.transportPaymentsValidation',
             ])->whereId($request->id)->first();
@@ -150,8 +150,8 @@ class TransportReturnsController extends Controller
 
             $req = request()['data'];
             $data = [
-                'booking_id' => $req['booking_id'] ,
-                'driver_id' => $req['driver_id'] ,
+                'booking_id' => $table_entity->booking_id ,
+                'driver_id' => $table_entity->driver_id ,
                 'date_return' => date("Y-m-d", strtotime($req['date_return'])) ,
                 'time_return' => date("h:m:i", strtotime($req['time_return'])) ,
                 'officer' => $req['officer'] ,
@@ -163,7 +163,7 @@ class TransportReturnsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'booking_id' => 'required',
+                    '*' => 'required',
                     'booking_id' => 'unique:view_transport_returns_check_booking,booking_id,'.$req['id']
                 ],
                 [
@@ -215,14 +215,16 @@ class TransportReturnsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
+            $table_entity = \TransportBookings::where('id', $request->data['booking_id'])->first();
+
             $req = request()['data'];
             $data = [
-                'booking_id' => $req['booking_id'] ,
-                'driver_id' => $req['driver_id'] ,
+                'booking_id' => $table_entity->id ,
+                'driver_id' => $table_entity->driver_id ,
                 'date_return' => date("Y-m-d", strtotime($req['date_return'])) ,
                 'time_return' => date("h:m:i", strtotime($req['time_return'])) ,
                 'officer' => $req['officer'] ,
-                'is_wrecked' => $req['is_wrecked'] ,
+                'is_wrecked' => $req['is_wrecked'] ? 'true' : 'false',
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -230,7 +232,7 @@ class TransportReturnsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'booking_id' => 'required',
+                    '*' => 'required',
                     'booking_id' => 'unique:view_transport_returns_check_booking'
                 ],
                 [

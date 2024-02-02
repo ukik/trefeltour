@@ -3,24 +3,41 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
 
-        <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Admin Rental</label>
+        <label class="badaso-text__label col-12 p-1">Pembayaran</label>
 
-        <router-link v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'"  target="_blank" :to="{
+        <router-link v-if="$route?.name == 'CrudGeneratedAdd'"  target="_blank" :to="{
+            name: 'CrudGeneratedBrowse',
+            params: {
+               slug: 'transport-payments'
+            }
+        }" class="btn btn-success col-auto mr-0">
+            <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
+        </router-link>
+        <router-link v-else  target="_blank" :to="{
             name: 'CrudGeneratedRead',
             params: {
-                id: selecteduser?.id,
-               slug: 'transport-rentals'
+                id: selecteduser?.customer_id,
+               slug: 'transport-payments'
             }
         }" class="btn btn-success col-auto mr-0">
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </router-link>
 
-        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `UUID (${item.uuid}) - Nama Rental (${item.name}) - Email (${item.email}) - Telpon (${item.phone}) - Peta Lokasi (${item.location}) - Gambar (${item.image}) - Alamat (${item.address}) - Kodepos (${item.codepos}) - Kota (${item.city}) - Negara (${item.country}) - Kebijakan (${item.policy}) - Deskripsi (${item.description}) - Rental Aktif (${item.is_available}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})` }"
-            @hit="selecteduser = $event" placeholder="Ketik: Reservasi UUID, Kategori, Status Tiket, Tanggal Berangkat, Jam Berangkat, Min Budget, Max Budget, Lokasi Berangkat, Lokasi Tiba, Nama, Email, Telp" @input="lookupUser" required>
+
+        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'"
+            ref="typeahead"
+            class="col p-0"
+            :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"
+            v-model="query" :ieCloseFix="false"
+            :data="users"
+            :serializer="item => { return `Pembayaran UUID (${item.uuid}) - Total Tagihan Kendaraan (Rp ${item.total_amount}) - Total Tagihan Supir (Rp ${item.total_amount_driver}) - Metode (${item.method}) - Tanggal (${item.date}) - Status (${item.status}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})` }"
+            @hit="selecteduser = $event"
+            placeholder="Ketik: Pembayaran UUID, Total Tagihan Kendaraan, Total Tagihan Supir, Metode, Tanggal, Status, Nama, Email, Telp"
+            @input="lookupUser"
+            required>
         </vue-typeahead-bootstrap>
 
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="() => selecteduser" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
     </div>
@@ -39,7 +56,7 @@ export default {
     data() {
         return {
             query: '',
-            selecteduser: {},
+            selecteduser: null,
             users: [],
             userRole: '',
         }
@@ -59,13 +76,14 @@ export default {
     },
     methods: {
         onHapus() {
+            this.users = []
             this.selecteduser = {}
             this.$refs.typeahead.inputValue = ``;
         },
         getInitEdit: debounce(function() {
             if(this.$route.params?.id) {
                 axios
-                    .get(`/api/typehead/transport/transport-rentals?id=` + this.$route.params?.id, {
+                    .get(`/api/typehead/transport/transport-payments?id=` + this.$route.params?.id, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
@@ -74,12 +92,13 @@ export default {
                         if(!response.data) return
                         const item = response.data
                         console.log('AXIOS TypeHeadTravelTicket getInitEdit', response)
-                        this.$refs.typeahead.inputValue = `UUID (${item.uuid}) - Nama Rental (${item.name}) - Email (${item.email}) - Telpon (${item.phone}) - Peta Lokasi (${item.location}) - Gambar (${item.image}) - Alamat (${item.address}) - Kodepos (${item.codepos}) - Kota (${item.city}) - Negara (${item.country}) - Kebijakan (${item.policy}) - Deskripsi (${item.description}) - Rental Aktif (${item.is_available}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})`;
+                        this.$refs.typeahead.inputValue = `Payment UUID (${item.uuid}) - Total Tagihan Kendaraan (Rp ${item.total_amount}) - Total Tagihan Supir (Rp ${item.total_amount_driver}) - Metode (${item.method}) - Tanggal (${item.date}) - Status (${item.status}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})`;
                         this.selecteduser = response.data;
                     })
             } else {
+                return
                 axios
-                    .get(`/api/typehead/transport/transport-rentals?id=` + this.$route.params?.id, {
+                    .get(`/api/typehead/transport/transport-payments?id=` + this.$route.params?.id, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
@@ -88,7 +107,7 @@ export default {
                         if(!response.data) return
                         const item = response.data
                         console.log('AXIOS TypeHeadTravelTicket getInitEdit', response)
-                        this.$refs.typeahead.inputValue = `UUID (${item.uuid}) - Nama Rental (${item.name}) - Email (${item.email}) - Telpon (${item.phone}) - Peta Lokasi (${item.location}) - Gambar (${item.image}) - Alamat (${item.address}) - Kodepos (${item.codepos}) - Kota (${item.city}) - Negara (${item.country}) - Kebijakan (${item.policy}) - Deskripsi (${item.description}) - Rental Aktif (${item.is_available}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.email})`;
+                        this.$refs.typeahead.inputValue = `Kendaraan UUID (${item.uuid}) - Model Unit (${item.model}) - Brand (${item.brand}) - Sewa Harian (Rp ${item.daily_price}) - Diskon Harian (${item.discount_daily_price} %) - Cashback Harian (Rp ${item.cashback_daily_price}) - Kategori (${item.category}) - Bahan Bakar (${item.fuel_type}) - Tanggal Pabrik (${item.date_production}) - Warna (${item.color}) - STNK (${item.code_stnk}) - Jumlah Penumpang (${item.slot_passanger}) - Unit Tersedia (${item.is_available})`;
                         this.selecteduser = response.data;
                     })
 
@@ -97,7 +116,7 @@ export default {
         lookupUser: debounce(function () {
             // in practice this action should be debounced
             axios
-                .get(`/api/typehead/transport/transport-rentals?keyword=` + this.query, {
+                .get(`/api/typehead/transport/transport-payments?keyword=` + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

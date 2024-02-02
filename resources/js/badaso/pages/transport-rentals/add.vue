@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <type-head-customer v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
+              <type-head-customer @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>

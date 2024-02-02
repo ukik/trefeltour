@@ -458,7 +458,7 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-            if(el.field == "is_maintenance") {
+            if(el.field == "is_wrecked") {
                 el.value = false
             }
 

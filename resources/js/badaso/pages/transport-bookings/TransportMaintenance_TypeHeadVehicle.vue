@@ -3,12 +3,20 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
 
-        <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Kendaraan</label>
+        <label class="badaso-text__label col-12 p-1">Kendaraan</label>
 
-        <router-link v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'"  target="_blank" :to="{
+        <router-link v-if="$route?.name == 'CrudGeneratedAdd'"  target="_blank" :to="{
+            name: 'CrudGeneratedBrowse',
+            params: {
+               slug: 'transport-vehicles'
+            }
+        }" class="btn btn-success col-auto mr-0">
+            <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
+        </router-link>
+        <router-link v-else  target="_blank" :to="{
             name: 'CrudGeneratedRead',
             params: {
-                id: selecteduser?.id,
+                id: selecteduser?.customer_id,
                slug: 'transport-vehicles'
             }
         }" class="btn btn-success col-auto mr-0">
@@ -59,6 +67,7 @@ export default {
     },
     methods: {
         onHapus() {
+            this.users = []
             this.selecteduser = {}
             this.$refs.typeahead.inputValue = ``;
         },

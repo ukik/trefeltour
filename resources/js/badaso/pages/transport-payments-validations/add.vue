@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHeadPaymentId v-if="isAdmin" @onBubbleEvent="updateTypeHead('payment_id', $event)" />
+              <TransportMaintenance_TypeHeadPayment @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -423,12 +423,12 @@
 
 <script>
 
-import TypeHeadPaymentId from './typeHead_PaymentId.vue'
+import TransportMaintenance_TypeHeadPayment from './TransportMaintenance_TypeHeadPayment.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadPaymentId
+    TransportMaintenance_TypeHeadPayment
   },
   data: () => ({
     isValid: true,
@@ -443,32 +443,11 @@ export default {
     isAdmin: false,
   }),
     async mounted() {
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
         await this.getDataType();
         // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
@@ -481,15 +460,16 @@ export default {
         temp.forEach(el => {
 
             switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "is_valid") {
-                        el.value = false
-                        el.type = "hidden"
-                    }
-                    break;
+                // case 'customer':
+                // case 'student':
+                //     if(el.field == "is_valid") {
+                //         el.value = false
+                //         el.type = "hidden"
+                //     }
+                //     break;
                 case 'administrator':
                 case 'admin':
+                case 'admin-transport':
                     if(el.field == "validator_id") {
                         el.value = vm.userId
                     }
@@ -506,8 +486,8 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 

@@ -3,7 +3,7 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
         <!-- {{ userRole !== 'admin-transport' }} xxxxxxxxxxxxxx -->
-        <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Customer</label>
+        <label class="badaso-text__label col-12 p-1">Customer</label>
 
         <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
             :serializer="item => { return `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})` }"
@@ -76,6 +76,7 @@ export default {
     },
     methods: {
         onHapus() {
+            this.users = []
             this.selecteduser = {}
             this.$refs.typeahead.inputValue = ``;
         },

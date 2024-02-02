@@ -23,7 +23,8 @@
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </router-link>
 
-        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
+
+        <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
             :serializer="item => { return `Driver UUID (${item.uuid}) - Fee Harian (Rp ${item.daily_price}) - Pengalaman Sejak (${item.year_exp}) - Sedang Bekerja (${item.is_available}) - Jasa Tersedia (${item.is_reserved}) || Nama (${item?.user.name}) Email (${item?.user.email}) Telp (${item?.user.phone})` }"
             @hit="selecteduser = $event" placeholder="Ketik: Driver UUID, Fee Harian, Pengalaman Sejak, Sedang Bekerja, Jasa Tersedia, Nama, Email, Telp" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
@@ -74,22 +75,7 @@ export default {
         getInitEdit: debounce(function() {
             if(this.$route.params?.id) {
                 axios
-                    .get(`/api/typehead/transport/transport-drivers?id=` + this.$route.params?.id, {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
-                        }
-                    })
-                    .then(response => {
-                        if(!response.data) return
-                        const item = response.data
-                        console.log('AXIOS TypeHeadTravelTicket getInitEdit', response)
-                        this.$refs.typeahead.inputValue = `Driver UUID (${item.uuid}) - Fee Harian (Rp ${item.daily_price}) - Pengalaman Sejak (${item.year_exp}) - Sedang Bekerja (${item.is_available}) - Jasa Tersedia (${item.is_reserved}) || Nama (${item?.user.name}) Email (${item?.user.email}) Telp (${item?.user.phone})`;
-                        this.selecteduser = response.data;
-                    })
-            } else {
-                return
-                axios
-                    .get(`/api/typehead/transport/transport-drivers?id=` + this.$route.params?.id, {
+                    .get(`/api/typehead/transport/transport-bookings?id=` + this.$route.params?.id + `&label=transport-returns`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
@@ -106,7 +92,7 @@ export default {
         lookupUser: debounce(function () {
             // in practice this action should be debounced
             axios
-                .get(`/api/typehead/transport/transport-drivers?keyword=` + this.query, {
+                .get(`/api/typehead/transport/transport-bookings?keyword=` + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

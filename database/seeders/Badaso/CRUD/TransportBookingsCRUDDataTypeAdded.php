@@ -46,9 +46,9 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-01T14:49:14.000000Z',
-                'updated_at' => '2024-02-01T15:39:49.000000Z',
+                'updated_at' => '2024-02-02T08:13:37.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_bookings');

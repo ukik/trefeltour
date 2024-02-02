@@ -9,7 +9,7 @@
             :serializer="item => { return `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})` }"
             @hit="selecteduser = $event" placeholder="Ketik: Nama, Email, Telp" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="() => selecteduser" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
     </div>
@@ -74,6 +74,10 @@ export default {
         }
     },
     methods: {
+        onHapus() {
+            this.selecteduser = {}
+            this.$refs.typeahead.inputValue = ``;
+        },
         lookupUser: debounce(function () {
             // in practice this action should be debounced
             axios

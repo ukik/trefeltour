@@ -14,8 +14,7 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHeadRental v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
+              <TransportMaintenance_TypeHeadRental @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -443,12 +442,12 @@
 import * as _ from "lodash";
 
 // import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHeadRental from './TypeHeadRental.vue'
+import TransportMaintenance_TypeHeadRental from './TransportMaintenance_TypeHeadRental.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadRental
+    TransportMaintenance_TypeHeadRental
   },
   name: "CrudGeneratedEdit",
   data: () => ({

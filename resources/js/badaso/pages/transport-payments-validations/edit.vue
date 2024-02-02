@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHeadPaymentId v-if="isAdmin" @onBubbleEvent="updateTypeHead('payment_id', $event)" />
+              <TransportMaintenance_TypeHeadPayment @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHeadPaymentId from './typeHead_PaymentId.vue'
+import TransportMaintenance_TypeHeadPayment from './TransportMaintenance_TypeHeadPayment.vue'
 
 export default {
   name: "CrudGeneratedEdit",
   components: {
-    TypeHeadPaymentId
+    TransportMaintenance_TypeHeadPayment
   },
   data: () => ({
     isValid: true,
@@ -503,14 +503,15 @@ export default {
                     }
 
                     switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            if(el.field == "is_valid" && key == 'isValid') {
-                                el.type = "hidden"
-                            }
-                            break;
+                        // case 'customer':
+                        // case 'student':
+                        //     if(el.field == "is_valid" && key == 'isValid') {
+                        //         el.type = "hidden"
+                        //     }
+                        //     break;
                         case 'administrator':
                         case 'admin':
+                        case 'admin-transport':
                             if(el.field == "validator_id" && key == 'validatorId') {
                                 el.value = this.record[key]
                             }
@@ -540,9 +541,9 @@ export default {
 
   },
   methods: {
-    updateTypeHead(field, value) {
+    updateTypeHead(value) {
 
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 

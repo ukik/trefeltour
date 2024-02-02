@@ -3,24 +3,41 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
 
-        <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Booking</label>
+        <label class="badaso-text__label col-12 p-1">Booking</label>
 
-        <router-link v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'"  target="_blank" :to="{
+        <router-link v-if="$route?.name == 'CrudGeneratedAdd'"  target="_blank" :to="{
+            name: 'CrudGeneratedBrowse',
+            params: {
+               slug: 'transport-bookings'
+            }
+        }" class="btn btn-success col-auto mr-0">
+            <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
+        </router-link>
+        <router-link v-else  target="_blank" :to="{
             name: 'CrudGeneratedRead',
             params: {
-                id: selecteduser?.id,
+                id: selecteduser?.customer_id,
                slug: 'transport-bookings'
             }
         }" class="btn btn-success col-auto mr-0">
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </router-link>
 
-        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'" ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']" v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `Booking UUID (${item.uuid}) - Lama Hari Sewa (${item.days_duration}) - Tanggal Mulai Sewa (${item.date_rent}) - Jam Mulai Sewa (${item.time_depart}) - Waktu Pengembalian (${item.time_arrive}) - Tujuan (${item.destination}) - Sewa Harian (Rp ${item.get_price}) - Diskon Harian (${item.get_discount} %) - Cashback Harian (Rp ${item.get_cashback}) - Total Tagihan (${item.get_driver_daily_price}) - Fee Harian Supir (Rp ${item.get_total_amount})` }"
-            @hit="selecteduser = $event" placeholder="Ketik: Booking UUID, Lama Hari Sewa, Tanggal Mulai Sewa, Jam Mulai Sewa, Waktu Pengembalian, Tujuan, Sewa Harian, Diskon Harian, Cashback Harian, Total Tagihan,  Fee Harian Supir" @input="lookupUser" required>
+
+        <vue-typeahead-bootstrap :disabled="$route?.name == 'CrudGeneratedEdit' || userRole == 'admin-transport'"
+            ref="typeahead"
+            class="col p-0"
+            :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"
+            v-model="query" :ieCloseFix="false"
+            :data="users"
+            :serializer="item => { return `Booking UUID (${item.uuid}) - Lama Hari Sewa (${item.days_duration}) - Tanggal Mulai Sewa (${item.date_rent}) - Jam Mulai Sewa (${item.time_depart}) - Waktu Pengembalian (${item.time_arrive}) - Tujuan (${item.destination}) - Sewa Harian (Rp ${item.get_price}) - Diskon Harian (${item.get_discount} %) - Cashback Harian (Rp ${item.get_cashback}) - Total Tagihan (${item.get_driver_daily_price}) - Fee Harian Supir (Rp ${item.get_total_amount}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.phone})` }"
+            @hit="selecteduser = $event"
+            placeholder="Ketik: Booking UUID, Lama Hari Sewa, Tanggal Mulai Sewa, Jam Mulai Sewa, Waktu Pengembalian, Tujuan, Sewa Harian, Diskon Harian, Cashback Harian, Total Tagihan, Fee Harian Supir, Nama, Email, Telp"
+            @input="lookupUser"
+            required>
         </vue-typeahead-bootstrap>
 
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="() => selecteduser" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
     </div>
@@ -39,7 +56,7 @@ export default {
     data() {
         return {
             query: '',
-            selecteduser: {},
+            selecteduser: null,
             users: [],
             userRole: '',
         }
@@ -59,6 +76,7 @@ export default {
     },
     methods: {
         onHapus() {
+            this.users = []
             this.selecteduser = {}
             this.$refs.typeahead.inputValue = ``;
         },
@@ -74,7 +92,7 @@ export default {
                         if(!response.data) return
                         const item = response.data
                         console.log('AXIOS TypeHeadTravelTicket getInitEdit', response)
-                        this.$refs.typeahead.inputValue = `Booking UUID (${item.uuid}) - Lama Hari Sewa (${item.days_duration}) - Tanggal Mulai Sewa (${item.date_rent}) - Jam Mulai Sewa (${item.time_depart}) - Waktu Pengembalian (${item.time_arrive}) - Tujuan (${item.destination}) - Sewa Harian (Rp ${item.get_price}) - Diskon Harian (${item.get_discount} %) - Cashback Harian (Rp ${item.get_cashback}) - Total Tagihan (${item.get_driver_daily_price}) - Fee Harian Supir (Rp ${item.get_total_amount})`;
+                        this.$refs.typeahead.inputValue = `Booking UUID (${item.uuid}) - Lama Hari Sewa (${item.days_duration}) - Tanggal Mulai Sewa (${item.date_rent}) - Jam Mulai Sewa (${item.time_depart}) - Waktu Pengembalian (${item.time_arrive}) - Tujuan (${item.destination}) - Sewa Harian (Rp ${item.get_price}) - Diskon Harian (${item.get_discount} %) - Cashback Harian (Rp ${item.get_cashback}) - Total Tagihan (${item.get_driver_daily_price}) - Fee Harian Supir (Rp ${item.get_total_amount}) || Nama (${item?.user?.name}) - Email (${item?.user?.email}) - Telp (${item?.user?.phone})`;
                         this.selecteduser = response.data;
                     })
             } else {

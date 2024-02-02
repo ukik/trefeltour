@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "description":"Abc", "getDriverDailyPrice":"123"},
+  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "description":"Abc", "getDriverDailyPrice":"123"},
+  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "description":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "description":"Abc", "getDriverDailyPrice":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "description":"Abc", "getDriverDailyPrice":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "getTotalAmountDriver":"123", "description":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "getTotalAmountDriver":"123", "description":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -218,12 +218,13 @@
   *                         @OA\Property(type="integer", property="getDiscount"), 
   *                         @OA\Property(type="integer", property="getCashback"), 
   *                         @OA\Property(type="integer", property="getTotalAmount"), 
-  *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="getDriverDailyPrice"), 
+  *                         @OA\Property(type="integer", property="getTotalAmountDriver"), 
+  *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="deletedAt"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
-  *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"),
+  *                         @OA\Property(type="string", property="updatedAt"),
   *                     ),
   *                ),
   *             )
