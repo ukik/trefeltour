@@ -61,9 +61,11 @@ class TransportBookingsController extends Controller
                 'transportVehicles',
                 'transportDriver',
                 'transportReturn',
+                'transportVehicle',
                 'transportVehicle.transportRental',
                 'transportVehicle.transportMaintenance',
                 'transportPayments',
+                'transportPayment',
                 'transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
@@ -125,9 +127,11 @@ class TransportBookingsController extends Controller
                 'transportVehicles',
                 'transportDriver',
                 'transportReturn',
+                'transportVehicle',
                 'transportVehicle.transportRental',
                 'transportVehicle.transportMaintenance',
                 'transportPayments',
+                'transportPayment',
                 'transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 

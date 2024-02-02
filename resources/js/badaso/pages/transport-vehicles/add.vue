@@ -442,7 +442,7 @@ export default {
     userRole: "",
     isAdmin: false,
   }),
-    async mounted() {
+    async mounted() { this.$openLoader();
         const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
           this.errors = error.errors;
           // this.$closeLoader();

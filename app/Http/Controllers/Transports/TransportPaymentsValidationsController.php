@@ -53,8 +53,10 @@ class TransportPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
+                'transportPayment.transportBooking',
                 'transportPayment.transportBooking.transportDriver',
                 'transportPayment.transportBooking.transportReturn',
+                'transportPayment.transportBooking.transportVehicle',
                 'transportPayment.transportBooking.transportVehicle.transportRental',
                 'transportPayment.transportBooking.transportVehicle.transportMaintenance',
             ])->orderBy('id', 'desc');
@@ -110,8 +112,10 @@ class TransportPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
+                'transportPayment.transportBooking',
                 'transportPayment.transportBooking.transportDriver',
                 'transportPayment.transportBooking.transportReturn',
+                'transportPayment.transportBooking.transportVehicle',
                 'transportPayment.transportBooking.transportVehicle.transportRental',
                 'transportPayment.transportBooking.transportVehicle.transportMaintenance',
             ])->whereId($request->id)->first();

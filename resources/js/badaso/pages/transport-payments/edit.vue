@@ -474,7 +474,7 @@ export default {
     userRole: "",
     isAdmin: false,
   }),
-    async mounted() {
+    async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
         this.userId = userId
         this.userRole = userRole

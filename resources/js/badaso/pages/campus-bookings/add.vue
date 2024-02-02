@@ -456,7 +456,7 @@
       userId: "",
       isAdmin: false,
     }),
-    async mounted() {
+    async mounted() { this.$openLoader();
         const response_user = await this.$api.badasoAuthUser.user({})
         console.log('response_user', response_user)
         this.userId = response_user.data.user.id;

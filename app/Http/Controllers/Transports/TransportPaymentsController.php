@@ -56,8 +56,10 @@ class TransportPaymentsController extends Controller
                 'transportBookings',
                 'transportPaymentsValidations',
                 'transportPaymentsValidation',
+                'transportBooking',
                 'transportBooking.transportDriver',
                 'transportBooking.transportReturn',
+                'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
             ])->orderBy('id', 'desc');
@@ -119,8 +121,10 @@ class TransportPaymentsController extends Controller
                 'transportBookings',
                 'transportPaymentsValidations',
                 'transportPaymentsValidation',
+                'transportBooking',
                 'transportBooking.transportDriver',
                 'transportBooking.transportReturn',
+                'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
             ])->whereId($request->id)->first();

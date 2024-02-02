@@ -16,7 +16,7 @@
         <router-link v-else  target="_blank" :to="{
             name: 'CrudGeneratedRead',
             params: {
-                id: selecteduser?.customer_id,
+                id: selecteduser?.id,
                slug: 'transport-bookings'
             }
         }" class="btn btn-success col-auto mr-0">
@@ -66,7 +66,7 @@ export default {
             this.$emit('onBubbleEvent', val)
         }
     },
-    async mounted() {
+    async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
         this.userRole = userRole

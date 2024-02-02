@@ -55,9 +55,11 @@ class TransportVehiclesController extends Controller
                 'transportRentals',
                 'transportRental',
                 'transportMaintenance',
+                'transportBooking',
                 'transportBooking.transportDriver',
                 'transportBooking.transportReturn',
-                'transportBooking.transportPayments.transportPaymentsValidation',
+                'transportBooking.transportPayment',
+                'transportBooking.transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -116,9 +118,11 @@ class TransportVehiclesController extends Controller
                 'transportRentals',
                 'transportRental',
                 'transportMaintenance',
+                'transportBooking',
                 'transportBooking.transportDriver',
                 'transportBooking.transportReturn',
-                'transportBooking.transportPayments.transportPaymentsValidation',
+                'transportBooking.transportPayment',
+                'transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle

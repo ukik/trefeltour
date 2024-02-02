@@ -231,7 +231,7 @@
       isMaintenance: false,
     isAuth: {},
   }),
-  async mounted() {
+  async mounted() { this.$openLoader();
     this.isAuth = await this.$authUtil.getAuth(this.$api)
 
       this.getDetailEntity();

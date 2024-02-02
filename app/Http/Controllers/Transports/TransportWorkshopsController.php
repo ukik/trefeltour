@@ -60,7 +60,8 @@ class TransportWorkshopsController extends Controller
                 'transportMaintenance.transportVehicle.transportBooking',
                 'transportMaintenance.transportVehicle.transportBooking.transportDriver',
                 'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayments.transportPaymentsValidation',
+                'transportMaintenance.transportVehicle.transportBooking.transportPayment' => function($q) { return $q->select('id','booking_id','customer_id'); },
+                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation' => function($q) { return $q->select('id','payment_id'); },
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -124,7 +125,8 @@ class TransportWorkshopsController extends Controller
                 'transportMaintenance.transportVehicle.transportBooking',
                 'transportMaintenance.transportVehicle.transportBooking.transportDriver',
                 'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayments.transportPaymentsValidation',
+                'transportMaintenance.transportVehicle.transportBooking.transportPayment',
+                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle

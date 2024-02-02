@@ -54,10 +54,13 @@ class TransportRentalsController extends Controller
             $data = \TransportRentals::with([
                 'badasoUsers',
                 'transportVehicles',
+                'transportVehicle',
                 'transportVehicle.transportMaintenance',
+                'transportVehicle.transportBooking',
                 'transportVehicle.transportBooking.transportDriver',
                 'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayments.transportPaymentsValidation',
+                'transportVehicle.transportBooking.transportPayment',
+                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -115,10 +118,13 @@ class TransportRentalsController extends Controller
             $data = \TransportRentals::with([
                 'badasoUsers',
                 'transportVehicles',
+                'transportVehicle',
                 'transportVehicle.transportMaintenance',
+                'transportVehicle.transportBooking',
                 'transportVehicle.transportBooking.transportDriver',
                 'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayments.transportPaymentsValidation',
+                'transportVehicle.transportBooking.transportPayment',
+                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle

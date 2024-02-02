@@ -3,7 +3,7 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
 
-        <label v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" class="badaso-text__label col-12 p-1">Admin Rental</label>
+        <label class="badaso-text__label col-12 p-1">Rental</label>
 
         <router-link v-if="$route?.name == 'CrudGeneratedAdd'"  target="_blank" :to="{
             name: 'CrudGeneratedBrowse',
@@ -16,7 +16,7 @@
         <router-link v-else  target="_blank" :to="{
             name: 'CrudGeneratedRead',
             params: {
-                id: selecteduser?.customer_id,
+                id: selecteduser?.id,
                slug: 'transport-rentals'
             }
         }" class="btn btn-success col-auto mr-0">
@@ -57,7 +57,7 @@ export default {
             this.$emit('onBubbleEvent', val)
         }
     },
-    async mounted() {
+    async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
         this.userRole = userRole

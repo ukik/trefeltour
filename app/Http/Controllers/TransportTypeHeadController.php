@@ -182,6 +182,11 @@ class TransportTypeHeadController extends Controller
     function transport_workshops() {
         $keyword = request()->keyword;
 
+        if(request()->id && !request()['keyword']) {
+            $workshop_id = \TransportMaintenances::where('id',request()->id)->value('workshop_id');
+            return \TransportWorkshops::where('id',$workshop_id)->first();
+        }
+
         $columns = Schema::getColumnListing('transport_workshops');
 
         $query = \TransportWorkshops::query();
