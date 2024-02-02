@@ -14,8 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadWorkshop @onBubbleEvent="updateTypeHead('workshop_id',$event)" />
-              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id',$event)" />
+              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id',$event)" />
 
             </div>
             <vs-row>
@@ -442,15 +441,14 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
-import TransportMaintenance_TypeHeadWorkshop from './TransportMaintenance_TypeHeadWorkshop.vue'
+// import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
+import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
 
 export default {
-  name: "CrudGeneratedAdd",
-  components: {
-    TransportMaintenance_TypeHeadVehicle, TransportMaintenance_TypeHeadWorkshop
-  },
   name: "CrudGeneratedEdit",
+  components: {
+    TransportMaintenance_TypeHeadBooking
+  },
   data: () => ({
     isValid: true,
     errors: {},
