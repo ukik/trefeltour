@@ -28,6 +28,7 @@ class TransportReturnsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 38,
                 'name' => 'transport_returns',
                 'slug' => 'transport-returns',
                 'display_name_singular' => 'Transport Pengembalian',
@@ -41,13 +42,13 @@ class TransportReturnsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-01-31T01:46:05.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T01:46:05.000000Z',
-                'id' => 38,
+                'updated_at' => '2024-02-01T13:02:05.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_returns');

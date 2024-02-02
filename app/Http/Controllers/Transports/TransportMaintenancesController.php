@@ -52,7 +52,7 @@ class TransportMaintenancesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportMaintenances::with([
-                'badasoUsers',
+                // 'badasoUsers',
                 'transportWorkshops',
                 'transportVehicles',
                 'transportWorkshop',
@@ -116,7 +116,7 @@ class TransportMaintenancesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportMaintenances::with([
-                'badasoUsers',
+                // 'badasoUsers',
                 'transportWorkshops',
                 'transportVehicles',
                 'transportWorkshop',
@@ -142,7 +142,7 @@ class TransportMaintenancesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -156,7 +156,7 @@ class TransportMaintenancesController extends Controller
             $data = [
                 'workshop_id' => $req['workshop_id'],
                 'vehicle_id' => $req['vehicle_id'],
-                'maintenance_date' => $req['maintenance_date'],
+                'maintenance_date' => date("Y-m-d", strtotime($req['maintenance_date'])),
                 'fee' => $req['fee'],
                 'description' => $req['description'],
                 'is_maintenance' => $req['is_maintenance'],
@@ -166,7 +166,7 @@ class TransportMaintenancesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'workshop_id' => 'required',
+                    '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -222,7 +222,7 @@ class TransportMaintenancesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -235,17 +235,17 @@ class TransportMaintenancesController extends Controller
             $data = [
                 'workshop_id' => $req['workshop_id'],
                 'vehicle_id' => $req['vehicle_id'],
-                'maintenance_date' => $req['maintenance_date'],
+                'maintenance_date' => date("Y-m-d", strtotime($req['maintenance_date'])),
                 'fee' => $req['fee'],
                 'description' => $req['description'],
-                'is_maintenance' => $req['is_maintenance'],
+                'is_maintenance' => $req['is_maintenance'] ? 'true' : 'false',
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    'workshop_id' => 'required',
+                    '*' => 'required',
                     'vehicle_id' => [
                         'required',
                          Rule::unique('transport_maintenances')->where(function ($query) use($req) {
@@ -380,7 +380,7 @@ class TransportMaintenancesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
             $request->validate([

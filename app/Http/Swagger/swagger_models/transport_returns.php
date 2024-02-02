@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"dateReturn":"Abc", "timeReturn":"Abc", "officer":"Abc", "isWrecked":"Abc", "description":"Abc", "codeTable":"Abc"},
+  *                     example={"dateReturn":"Abc", "timeReturn":"Abc", "officer":"Abc", "isWrecked":"Abc", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"dateReturn":"Abc", "timeReturn":"Abc", "officer":"Abc", "isWrecked":"Abc", "description":"Abc", "codeTable":"Abc"},
+  *                     example={"dateReturn":"Abc", "timeReturn":"Abc", "officer":"Abc", "isWrecked":"Abc", "description":"Abc"},
   *                ),
   *             )
   *         )

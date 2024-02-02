@@ -14,7 +14,8 @@
                 }}
               </h3>
 
-              <type-head-customer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" />
+              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
+              <TypeHeadRental v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -180,7 +181,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch'"
+                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -422,12 +423,13 @@
 </template>
 
 <script>
-import TypeHeadCustomer from './TypeHeadCustomer.vue'
+// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
+import TypeHeadRental from './TypeHeadRental.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer
+    TypeHeadRental
   },
   data: () => ({
     isValid: true,
@@ -469,7 +471,7 @@ export default {
             this.userRole = role.name
         }
         await this.getDataType();
-        //await this.getRelationDataBySlug();
+        // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
         // await this.getUser();
 
@@ -478,32 +480,22 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
-                    }
-                    if(el.field == "is_reserved") {
-                        el.value = false
-                        el.type = "hidden"//"switch_readonly"
-                    }
-                    if(el.field == "is_cancel") {
-                        el.value = false
-                        el.type = "hidden"//"switch_readonly"
-                    }
-                    break;
-                case 'administrator':
-                case 'admin':
-                    if(el.field == "is_reserved") {
-                        el.value = false
-                    }
-                    if(el.field == "is_cancel") {
-                        el.value = false
-                    }
-                    break;
+            if(el.field == "is_available") {
+                el.value = true
             }
+
+            // switch (vm.userRole) {
+            //     case 'customer':
+            //     case 'student':
+            //         if(el.field == "customer_id") {
+            //             el.value = vm.userId
+            //         }
+            //         break;
+            //     case 'administrator':
+            //     case 'admin':
+
+            //         break;
+            // }
 
         });
 
@@ -512,8 +504,8 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -521,9 +513,10 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'customer_id') {
+            if(el.field == 'rental_id') {
                 el.value = value ? value?.id : '';
             }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

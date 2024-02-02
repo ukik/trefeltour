@@ -28,6 +28,7 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 44,
                 'name' => 'transport_vehicles',
                 'slug' => 'transport-vehicles',
                 'display_name_singular' => 'Transport Kendaraan',
@@ -41,13 +42,13 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-01-31T08:38:52.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T08:38:52.000000Z',
-                'id' => 44,
+                'updated_at' => '2024-02-01T03:05:04.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_vehicles');

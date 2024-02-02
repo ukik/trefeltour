@@ -52,7 +52,6 @@ class TransportVehiclesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportVehicles::with([
-                'badasoUsers',
                 'transportRentals',
                 'transportRental',
                 'transportMaintenance',
@@ -114,7 +113,6 @@ class TransportVehiclesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportVehicles::with([
-                'badasoUsers',
                 'transportRentals',
                 'transportRental',
                 'transportMaintenance',
@@ -138,7 +136,7 @@ class TransportVehiclesController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -147,21 +145,24 @@ class TransportVehiclesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $table_entity = \TransportVehicles::where('id', $request->data['id'])->first();
+            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'rental_id' => $table_entity->rental_id,
+                'user_id' => $temp->user_id,
                 'model' => $req['model'],
                 'brand' => $req['brand'],
                 'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['cashback_daily_price'],
+                'discount_daily_price' => $req['discount_daily_price'],
+                'cashback_daily_price' => $req['cashback_daily_price'],
                 'category' => $req['category'],
                 'fuel_type' => $req['fuel_type'],
                 'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
                 'color' => $req['color'],
                 'code_stnk' => $req['code_stnk'],
                 'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'],
+                'is_available' => $req['is_available'] ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
@@ -169,8 +170,8 @@ class TransportVehiclesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'rental_id' => 'required',
-                    'code_stnk' => 'required',
+                    '*' => 'required',
+                    'discount_daily_price' => 'max:3',
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id']
                     'code_stnk' => 'unique:view_transport_vehicles_check_stnk,code_stnk,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
@@ -220,7 +221,7 @@ class TransportVehiclesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -229,20 +230,24 @@ class TransportVehiclesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
+            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+
             $req = request()['data'];
             $data = [
+                'user_id' => $temp->user_id,
                 'rental_id' => $req['rental_id'],
                 'model' => $req['model'],
                 'brand' => $req['brand'],
                 'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['cashback_daily_price'],
+                'discount_daily_price' => $req['discount_daily_price'],
+                'cashback_daily_price' => $req['cashback_daily_price'],
                 'category' => $req['category'],
                 'fuel_type' => $req['fuel_type'],
                 'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
                 'color' => $req['color'],
                 'code_stnk' => $req['code_stnk'],
                 'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'],
+                'is_available' => $req['is_available'] ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -250,8 +255,10 @@ class TransportVehiclesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'rental_id' => 'required',
-                    'code_stnk' => 'required',
+                    '*' => 'required',
+                    'discount_daily_price' => 'max:3',
+                    // 'rental_id' => 'required',
+                    // 'code_stnk' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     'code_stnk' => 'unique:view_transport_vehicles_check_stnk'
                 ],

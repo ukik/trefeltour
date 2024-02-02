@@ -14,8 +14,9 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_TicketId v-if="isAdmin" @onBubbleEvent="updateTypeHead('ticket_id', $event)" />
+              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
+              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id', $event)" />
+              <TransportMaintenance_TypeHeadDriver @onBubbleEvent="updateTypeHeadDriver('driver_id', $event)" />
 
             </div>
             <vs-row>
@@ -456,13 +457,13 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_TicketId from './TypeHead_TicketId.vue'
+import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
+import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
 
 export default {
-  name: "CrudGeneratedAdd",
   components: {
-    TypeHead_TicketId
+    TransportMaintenance_TypeHeadUser, TransportMaintenance_TypeHeadDriver, TransportMaintenance_TypeHeadVehicle
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -517,54 +518,61 @@ export default {
             if(el.field == "get_total_amount") {
                 el.type = "text_readonly"
             }
-
+            if(el.field == "get_driver_daily_price") {
+                el.type = "text_readonly"
+            }
 
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
-                    const isVal = element == undefined || element == 'false' ? false : !!(element)
+                    // const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'is_cancelled' && key == 'isCancelled') {
-                        el.value = isVal
-                    } else if (el.field == 'is_agreed' && key == 'isAgreed') {
-                        el.value = isVal
+                    if(el.field == 'date_rent' && key == 'dateRent') {
+                        el.value = this.record[key]
+                    }
+                    if (el.field == 'time_depart' && key == 'timeDepart') {
+                        el.value = this.record[key]
+                    }
+                    if (el.field == 'time_arrive' && key == 'timeArrive') {
+                        el.value = new Date(this.record[key])
                     }
 
-                    switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            if(el.field == "customer_id" && key == 'customerId') {
-                                el.value = vm.userId
-                            }
-                            if(el.field == "is_cancelled" && key == 'isCancelled') {
-                                el.type = "hidden"
-                            }
-                            if(el.field == "is_agreed" && key == 'isAgreed') {
-                                el.type = "hidden"
-                            }
-                            break;
-                        case 'administrator':
-                        case 'admin':
-                            if(el.field == "customer_id" && key == 'customerId') {
-                                el.value = this.record[key]
-                            }
-                            break;
-                    }
+
+                    // switch (vm.userRole) {
+                    //     case 'customer':
+                    //     case 'student':
+                    //         if(el.field == "customer_id" && key == 'customerId') {
+                    //             el.value = vm.userId
+                    //         }
+                    //         if(el.field == "is_cancelled" && key == 'isCancelled') {
+                    //             el.type = "hidden"
+                    //         }
+                    //         if(el.field == "is_agreed" && key == 'isAgreed') {
+                    //             el.type = "hidden"
+                    //         }
+                    //         break;
+                    //     case 'administrator':
+                    //     case 'admin':
+                    //         if(el.field == "customer_id" && key == 'customerId') {
+                    //             el.value = this.record[key]
+                    //         }
+                    //         break;
+                    // }
 
                 }
             }
         });
 
         // REDIRECT
-        if(this.record['travelPayment'] && !this.isAdmin) {
-            this.$router.replace({
-                name: 'CrudGeneratedRead',
-                params: {
-                    id: this.$route.params.id,
-                    slug: this.$route.params.slug,
-                },
-            })
-        }
+        // if(this.record['travelPayment'] && !this.isAdmin) {
+        //     this.$router.replace({
+        //         name: 'CrudGeneratedRead',
+        //         params: {
+        //             id: this.$route.params.id,
+        //             slug: this.$route.params.slug,
+        //         },
+        //     })
+        // }
 
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
@@ -575,7 +583,6 @@ export default {
   },
   methods: {
     updateTypeHead(field, value) {
-
         console.log('updateTypeHead', field, value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
@@ -589,17 +596,48 @@ export default {
             }
 
             if(el.field == "get_price") {
-                el.value = value ? value?.ticket_price : '';
+                el.value = value ? value?.daily_price : '';
             }
             if(el.field == "get_discount") {
-                el.value = value ? value?.ticket_discount_price : '';
+                el.value = value ? value?.discount_daily_price : '';
             }
             if(el.field == "get_cashback") {
-                el.value = value ? value?.ticket_cashback_price : '';
+                el.value = value ? value?.cashback_daily_price : '';
             }
             if(el.field == "get_total_amount") {
-                el.value = value ? (Number(value?.ticket_price) - ((Number(value?.ticket_price) * Number(value?.ticket_discount_price)/100)) - Number(value?.ticket_cashback_price)) : '';
+                const total =  (Number(value?.daily_price) - ((Number(value?.daily_price) * Number(value?.discount_daily_price)/100)) - Number(value?.cashback_daily_price))
+
+                el.value = value ? total : '';
+
+                // this.total_amount = total
             }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadDriver(field, value) {
+        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == field) {
+                el.value = value ? value?.id : '';
+            }
+            if(el.field == "get_driver_daily_price") {
+
+                el.value = value ? value?.daily_price : '';
+
+                // this.total_amount = this.total_amount + value?.daily_price
+            }
+            // if(el.field == "get_total_amount") {
+            //     el.value = this.total_amount
+            // }
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

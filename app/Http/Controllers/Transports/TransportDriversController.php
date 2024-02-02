@@ -155,7 +155,7 @@ class TransportDriversController extends Controller
                 'user_id' => $req['user_id'] ,
                 'uuid' => $req['uuid'] ,
                 'daily_price' => $req['daily_price'] ,
-                'year_exp' => $req['year_exp'] ,
+                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
                 'is_available' => $req['is_available'] ,
                 'is_reserved' => $req['is_reserved'] ,
                 'description' => $req['description'] ,
@@ -165,7 +165,7 @@ class TransportDriversController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    '*' => 'required',
                     'user_id' => 'unique:view_transport_drivers_check_user,user_id,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
@@ -212,12 +212,6 @@ class TransportDriversController extends Controller
     {
         DB::beginTransaction();
 
-        // UNIQUE + SoftDelete
-        // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TransportDrivers::where('ticket_id', $request->data['ticket_id'])
-            ->where('deleted_at',NULL)->first();
-        if($unique) return ApiResponse::failed('Tiket UUID sudah dipakai');
-
         try {
 
             // get slug by route name and get data type in table
@@ -230,9 +224,9 @@ class TransportDriversController extends Controller
                 'user_id' => $req['user_id'] ,
                 'uuid' => $req['uuid'] ,
                 'daily_price' => $req['daily_price'] ,
-                'year_exp' => $req['year_exp'] ,
-                'is_available' => $req['is_available'] ,
-                'is_reserved' => $req['is_reserved'] ,
+                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
+                'is_available' => $req['is_available'] ? 'true' : 'false' ,
+                'is_reserved' => $req['is_reserved'] ? 'true' : 'false' ,
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -240,7 +234,7 @@ class TransportDriversController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    '*' => 'required',
                     'user_id' => 'unique:view_transport_drivers_check_user'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [

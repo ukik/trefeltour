@@ -135,11 +135,11 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        // if(!isAdmin()) {
+        // if(!isAdminTransport()) {
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -161,6 +161,7 @@ class TransportRentalsController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'policy' => $req['policy'],
+                'country' => $req['country'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
 
@@ -215,7 +216,7 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -236,8 +237,9 @@ class TransportRentalsController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'policy' => $req['policy'],
+                'country' => $req['country'],
                 'description' => $req['description'],
-                'is_available' => $req['is_available'],
+                'is_available' => $req['is_available'] ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -245,7 +247,8 @@ class TransportRentalsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    '*' => 'required',
+                    'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -256,8 +259,6 @@ class TransportRentalsController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
-
-            // $data['description'] = $req['description'];
 
             $stored_data = \TransportRentals::insert($data);
 
@@ -284,7 +285,7 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
         $check = TransportVehicles::where('rental_id', $value)->first();
@@ -377,7 +378,7 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
             $request->validate([

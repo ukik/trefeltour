@@ -80,6 +80,35 @@ if (!function_exists('isAdmin')) {
     }
 }
 
+if (!function_exists('isAdminTransport')) {
+    function isAdminTransport(){
+        if(Auth::check()) {
+
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'administrator':
+                    case 'admin':
+                    case 'admin-transport':
+                        return true;
+                        break;
+                    default:
+                        return false;
+                        break;
+                }
+            }
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
+
+if (!function_exists('isOnlyAdminTransport')) {
+    function isOnlyAdminTransport(){
+        if(!isAdminTransport()) return ApiResponse::failed('Maaf harus dari admin');
+    }
+}
+
 if (!function_exists('isOnlyAdmin')) {
     function isOnlyAdmin(){
         if(!isAdmin()) return ApiResponse::failed('Maaf harus dari admin');

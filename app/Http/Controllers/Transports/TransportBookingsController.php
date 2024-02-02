@@ -63,7 +63,8 @@ class TransportBookingsController extends Controller
                 'transportReturn',
                 'transportVehicle.transportRental',
                 'transportVehicle.transportMaintenance',
-                'transportPayments.transportPaymentsValidation',
+                'transportPayments',
+                'transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -126,7 +127,8 @@ class TransportBookingsController extends Controller
                 'transportReturn',
                 'transportVehicle.transportRental',
                 'transportVehicle.transportMaintenance',
-                'transportPayments.transportPaymentsValidation',
+                'transportPayments',
+                'transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -144,7 +146,13 @@ class TransportBookingsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
+
+        $value = request()['data']['id'];
+        $check = \TransportPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTransport()) {
+            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        }
 
         try {
 
@@ -158,22 +166,23 @@ class TransportBookingsController extends Controller
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver_id = TransportDrivers::where('id', $request->data['user_id'])->value('id');
+            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver_id ,
+                'driver_id' => $driver->id ,
                 'vehicle_id' => $temp->id ,
                 'days_duration' => $req['days_duration'] ,
-                'date_rent' => $req['date_rent'] ,
-                'time_depart' => $req['time_depart'] ,
-                'time_arrive' => $req['time_arrive'] ,
+                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
+                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
+                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
                 'destination' => $req['destination'] ,
                 'get_price' => $temp->daily_price ,
                 'get_discount' => $temp->discount_daily_price ,
                 'get_cashback' => $temp->cashback_daily_price ,
                 'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
+                'get_driver_daily_price' => $driver->daily_price ,
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
@@ -228,7 +237,7 @@ class TransportBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -241,22 +250,23 @@ class TransportBookingsController extends Controller
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver_id = TransportDrivers::where('id', $request->data['user_id'])->value('id');
+            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver_id ,
+                'driver_id' => $driver->id ,
                 'vehicle_id' => $temp->id ,
                 'days_duration' => $req['days_duration'] ,
-                'date_rent' => $req['date_rent'] ,
-                'time_depart' => $req['time_depart'] ,
-                'time_arrive' => $req['time_arrive'] ,
+                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
+                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
+                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
                 'destination' => $req['destination'] ,
                 'get_price' => $temp->daily_price ,
                 'get_discount' => $temp->discount_daily_price ,
                 'get_cashback' => $temp->cashback_daily_price ,
                 'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
+                'get_driver_daily_price' => $driver->daily_price ,
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -264,9 +274,10 @@ class TransportBookingsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'customer_id' => 'required',
-                    'driver_id' => 'required',
-                    'vehicle_id' => 'required',
+                    '*' => 'required',
+                    // 'customer_id' => 'required',
+                    // 'driver_id' => 'required',
+                    // 'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -305,7 +316,7 @@ class TransportBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
         $check = TransportPayments::where('booking_id', $value)->first();
@@ -398,7 +409,7 @@ class TransportBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
             $request->validate([

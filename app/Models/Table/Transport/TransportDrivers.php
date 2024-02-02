@@ -36,12 +36,12 @@ class TransportDrivers extends Model
 
     public function transportBookings()
     {
-        return $this->belongsToMany(TransportBookings::class, 'transport_drivers', 'id', 'driver_id');
+        return $this->hasMany(TransportBookings::class, 'driver_id', 'id');
     }
 
     public function transportBooking()
     {
-        return $this->belongsTo(TransportBookings::class,'driver_id','id');
+        return $this->hasOne(TransportBookings::class, 'driver_id', 'id');
     }
 
 }

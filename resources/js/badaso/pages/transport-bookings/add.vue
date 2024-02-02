@@ -14,8 +14,10 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_TicketId v-if="isAdmin" @onBubbleEvent="updateTypeHead('ticket_id', $event)" />
+              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
+              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id', $event)" />
+              <TransportMaintenance_TypeHeadDriver @onBubbleEvent="updateTypeHeadDriver('driver_id', $event)" />
+
 
             </div>
             <vs-row>
@@ -439,13 +441,16 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_TicketId from './TypeHead_TicketId.vue'
+
+import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
+import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
+
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_TicketId
+    TransportMaintenance_TypeHeadUser, TransportMaintenance_TypeHeadDriver, TransportMaintenance_TypeHeadVehicle
   },
   data: () => ({
     isValid: true,
@@ -455,37 +460,17 @@ export default {
     isMaintenance: false,
     dataLength: 0,
     pathname: location.pathname,
+    total_amount: 0,
     userId: "",
     userRole: "",
     isAdmin: false,
   }),
     async mounted() {
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
         await this.getDataType();
         // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
@@ -509,32 +494,35 @@ export default {
             if(el.field == "get_total_amount") {
                 el.type = "text_readonly"
             }
-
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
-                    }
-                    if(el.field == "is_agreed") {
-                        el.value = false
-                        el.type = "hidden"//"switch_readonly"
-                    }
-                    if(el.field == "is_cancelled") {
-                        el.value = false
-                        el.type = "hidden"//"switch_readonly"
-                    }
-                    break;
-                case 'administrator':
-                case 'admin':
-                    if(el.field == "is_agreed") {
-                        el.value = false
-                    }
-                    if(el.field == "is_cancelled") {
-                        el.value = false
-                    }
-                    break;
+            if(el.field == "get_driver_daily_price") {
+                el.type = "text_readonly"
             }
+
+            // switch (vm.userRole) {
+            //     case 'customer':
+            //     case 'student':
+            //         if(el.field == "customer_id") {
+            //             el.value = vm.userId
+            //         }
+            //         if(el.field == "is_agreed") {
+            //             el.value = false
+            //             el.type = "hidden"//"switch_readonly"
+            //         }
+            //         if(el.field == "is_cancelled") {
+            //             el.value = false
+            //             el.type = "hidden"//"switch_readonly"
+            //         }
+            //         break;
+            //     case 'administrator':
+            //     case 'admin':
+            //         if(el.field == "is_agreed") {
+            //             el.value = false
+            //         }
+            //         if(el.field == "is_cancelled") {
+            //             el.value = false
+            //         }
+            //         break;
+            // }
 
         });
 
@@ -557,17 +545,48 @@ export default {
             }
 
             if(el.field == "get_price") {
-                el.value = value ? value?.ticket_price : '';
+                el.value = value ? value?.daily_price : '';
             }
             if(el.field == "get_discount") {
-                el.value = value ? value?.ticket_discount_price : '';
+                el.value = value ? value?.discount_daily_price : '';
             }
             if(el.field == "get_cashback") {
-                el.value = value ? value?.ticket_cashback_price : '';
+                el.value = value ? value?.cashback_daily_price : '';
             }
             if(el.field == "get_total_amount") {
-                el.value = value ? (Number(value?.ticket_price) - ((Number(value?.ticket_price) * Number(value?.ticket_discount_price)/100)) - Number(value?.ticket_cashback_price)) : '';
+                const total =  (Number(value?.daily_price) - ((Number(value?.daily_price) * Number(value?.discount_daily_price)/100)) - Number(value?.cashback_daily_price))
+
+                el.value = value ? total : '';
+
+                // this.total_amount = total
             }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadDriver(field, value) {
+        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == field) {
+                el.value = value ? value?.id : '';
+            }
+            if(el.field == "get_driver_daily_price") {
+
+                el.value = value ? value?.daily_price : '';
+
+                // this.total_amount = this.total_amount + value?.daily_price
+            }
+            // if(el.field == "get_total_amount") {
+            //     el.value = this.total_amount
+            // }
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

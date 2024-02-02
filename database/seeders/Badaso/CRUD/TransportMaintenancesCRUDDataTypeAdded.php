@@ -28,6 +28,7 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 39,
                 'name' => 'transport_maintenances',
                 'slug' => 'transport-maintenances',
                 'display_name_singular' => 'Transport Perbaikan',
@@ -41,13 +42,13 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-01-31T01:56:52.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T01:56:52.000000Z',
-                'id' => 39,
+                'updated_at' => '2024-02-01T07:10:14.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_maintenances');

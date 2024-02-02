@@ -48,7 +48,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T03:27:15.000000Z',
-                'updated_at' => '2024-01-31T03:29:37.000000Z',
+                'updated_at' => '2024-02-01T12:37:18.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_drivers');

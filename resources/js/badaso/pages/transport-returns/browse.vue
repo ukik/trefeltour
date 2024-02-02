@@ -315,13 +315,14 @@
                           <vs-dropdown-menu>
 
 
+
                             <!-- ADDITIONAL -->
                             <!-- travel-reservations -->
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].reservationId,
+                                  id: data[index].id,
                                   slug: 'travel-reservations',
                                 },
                               }"
@@ -342,11 +343,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].id,
+                                  id: data[index].travelTicket?.id,
                                   slug: 'travel-tickets',
                                 },
                               }"
                               v-if="
+                                data[index].travelTicket?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -363,12 +365,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelBooking?.id,
+                                  id: data[index].travelTicket?.travelBooking?.id,
                                   slug: 'travel-bookings',
                                 },
                               }"
                               v-if="
-                                data[index].travelBooking?.id &&
+                                data[index].travelTicket?.travelBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -385,12 +387,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelBooking?.travelPayment?.id,
+                                  id: data[index].travelTicket?.travelPayment?.id,
                                   slug: 'travel-payments',
                                 },
                               }"
                               v-if="
-                                data[index].travelBooking?.travelPayment?.id &&
+                                data[index].travelTicket?.travelPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -407,12 +409,12 @@
                               :to="{
                                 name: 'CrudGeneratedEdit',
                                 params: {
-                                  id: data[index].travelBooking?.travelPayment?.travelPaymentsValidation?.id,
+                                  id: data[index].travelTicket?.travelPayment?.travelPaymentsValidation?.id,
                                   slug: 'travel-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].travelBooking?.travelPayment?.travelPaymentsValidation?.id &&
+                                data[index].travelTicket?.travelPayment?.travelPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -428,6 +430,8 @@
                             <hr class="m-0 my-1">
 
                             <!-- --------------------- -->
+
+
 
 
                             <badaso-dropdown-item
@@ -983,7 +987,7 @@ export default {
       });
     },
     getEntity: _.debounce(async function () {
-    // async getEntity(function () {
+    // async getEntity() {
       this.$openLoader();
       try {
         const {

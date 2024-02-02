@@ -5,7 +5,7 @@ namespace Database\Seeders\Badaso\CRUD;
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;
 
-class TransportWorkshopsCRUDDataRowAdded extends Seeder
+class TransportBookingsCRUDDataRowAdded extends Seeder
 {
     /**
      * Auto generated seed file
@@ -20,7 +20,7 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
 
         try {
 
-            $data_type = Badaso::model('DataType')::where('name', 'transport_workshops')->first();
+            $data_type = Badaso::model('DataType')::where('name', 'transport_bookings')->first();
 
             \DB::table('badaso_data_rows')->insert(array (
                 0 => 
@@ -42,9 +42,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
+                    'field' => 'customer_id',
                     'type' => 'relation',
-                    'display_name' => 'Petugas',
+                    'display_name' => 'Customer UUID',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -52,10 +52,42 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","phone"]}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","avatar","phone"]}',
                     'order' => 2,
                 ),
                 2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'driver_id',
+                    'type' => 'relation',
+                    'display_name' => 'Supir UUID',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_drivers","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","user_id","uuid","daily_price","year_exp","is_available","is_reserved"]}',
+                    'order' => 3,
+                ),
+                3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'vehicle_id',
+                    'type' => 'relation',
+                    'display_name' => 'Kendaraan UUID',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_vehicles","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","rental_id","user_id","uuid","model","brand","daily_price","discount_daily_price","cashback_daily_price","category"]}',
+                    'order' => 4,
+                ),
+                4 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
@@ -69,46 +101,14 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 3,
-                ),
-                3 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'name',
-                    'type' => 'text',
-                    'display_name' => 'Nama Bengkel',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 4,
-                ),
-                4 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'email',
-                    'type' => 'email',
-                    'display_name' => 'Email',
-                    'required' => 1,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
                     'order' => 5,
                 ),
                 5 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'phone',
-                    'type' => 'text',
-                    'display_name' => 'Telpon',
+                    'field' => 'days_duration',
+                    'type' => 'number',
+                    'display_name' => 'Lama Hari Sewa',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -122,9 +122,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'location',
-                    'type' => 'url',
-                    'display_name' => 'Peta Lokasi',
+                    'field' => 'date_rent',
+                    'type' => 'date',
+                    'display_name' => 'Tanggal Mulai Sewa',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -138,9 +138,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'image',
-                    'type' => 'upload_image',
-                    'display_name' => 'Gambar',
+                    'field' => 'time_depart',
+                    'type' => 'time',
+                    'display_name' => 'Jam Mulai Sewa',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -154,9 +154,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 8 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'address',
-                    'type' => 'textarea',
-                    'display_name' => 'Alamat',
+                    'field' => 'time_arrive',
+                    'type' => 'datetime',
+                    'display_name' => 'Waktu Pengembalian',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -170,9 +170,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 9 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'codepos',
-                    'type' => 'number',
-                    'display_name' => 'Kodepos',
+                    'field' => 'destination',
+                    'type' => 'textarea',
+                    'display_name' => 'Tujuan',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -186,10 +186,10 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 10 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'country',
-                    'type' => 'text',
-                    'display_name' => 'Negara',
-                    'required' => 1,
+                    'field' => 'get_price',
+                    'type' => 'number',
+                'display_name' => 'Sewa Harian (Rp)',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -202,10 +202,10 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 11 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'city',
-                    'type' => 'text',
-                    'display_name' => 'Kota',
-                    'required' => 1,
+                    'field' => 'get_discount',
+                    'type' => 'number',
+                'display_name' => 'Diskon Harian (%)',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -218,10 +218,10 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 12 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'policy',
-                    'type' => 'textarea',
-                    'display_name' => 'Kebijakan',
-                    'required' => 1,
+                    'field' => 'get_cashback',
+                    'type' => 'number',
+                'display_name' => 'Cashback Harian (Rp)',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -234,46 +234,26 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'category',
-                    'type' => 'select',
-                    'display_name' => 'Kategori Bengkel',
+                    'field' => 'get_total_amount',
+                    'type' => 'number',
+                    'display_name' => 'Total Tagihan',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "motor",
-"value": "motor"
-},
-{
-"label": "mobil",
-"value": "mobil"
-},
-{
-"label": "general",
-"value": "general"
-},
-{
-"label": "others",
-"value": "others"
-}
-]
-}',
+                    'details' => '{}',
                     'relation' => NULL,
                     'order' => 14,
                 ),
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'year_exp',
-                    'type' => 'number',
-                    'display_name' => 'Tahun Berdiri',
-                    'required' => 0,
+                    'field' => 'description',
+                    'type' => 'textarea',
+                    'display_name' => 'Deskripsi',
+                    'required' => 1,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -286,132 +266,20 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 15 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'day_open',
-                    'type' => 'select',
-                    'display_name' => 'Hari Buka',
+                    'field' => 'get_driver_daily_price',
+                    'type' => 'number',
+                'display_name' => 'Fee Harian Supir (Rp)',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "sunday",
-"value": "sunday"
-},
-{
-"label": "monday",
-"value": "monday"
-},
-{
-"label": "tuesday",
-"value": "tuesday"
-},
-{
-"label": "wednesday",
-"value": "wednesday"
-},
-{
-"label": "thursday",
-"value": "thursday"
-},
-{
-"label": "friday",
-"value": "friday"
-},
-{
-"label": "saturday",
-"value": "saturday"
-}
-]
-}',
+                    'details' => '{}',
                     'relation' => NULL,
                     'order' => 16,
                 ),
                 16 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'day_close',
-                    'type' => 'select',
-                    'display_name' => 'Hari Tutup',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "sunday",
-"value": "sunday"
-},
-{
-"label": "monday",
-"value": "monday"
-},
-{
-"label": "tuesday",
-"value": "tuesday"
-},
-{
-"label": "wednesday",
-"value": "wednesday"
-},
-{
-"label": "thursday",
-"value": "thursday"
-},
-{
-"label": "friday",
-"value": "friday"
-},
-{
-"label": "saturday",
-"value": "saturday"
-}
-]
-}',
-                    'relation' => NULL,
-                    'order' => 17,
-                ),
-                17 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'time_open',
-                    'type' => 'time',
-                    'display_name' => 'Jam Buka',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 18,
-                ),
-                18 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'time_close',
-                    'type' => 'time',
-                    'display_name' => 'Jam Tutup',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 19,
-                ),
-                19 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -425,9 +293,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 20,
+                    'order' => 17,
                 ),
-                20 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -441,9 +309,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 21,
+                    'order' => 18,
                 ),
-                21 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -457,9 +325,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 22,
+                    'order' => 19,
                 ),
-                22 => 
+                19 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -473,7 +341,7 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 23,
+                    'order' => 20,
                 ),
             ));
 

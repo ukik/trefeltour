@@ -27,7 +27,7 @@
                   })
                 }}
               </h3>
-              <bootstrap-alert />
+              <!-- <bootstrap-alert /> -->
             </div>
             <vs-row>
               <vs-col

@@ -142,7 +142,7 @@ class TransportWorkshopsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -178,6 +178,7 @@ class TransportWorkshopsController extends Controller
             $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
+                    'codepos' => 'max:6',
                     'user_id' => 'unique:view_transport_workshops_check_user,user_id,'.$req['id']
 
                     // susah karena pake softDelete, pakai cara manual saja
@@ -225,7 +226,7 @@ class TransportWorkshopsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -260,6 +261,7 @@ class TransportWorkshopsController extends Controller
             $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
+                    'codepos' => 'max:6',
                     'user_id' => 'unique:view_transport_workshops_check_user'
 
                     // susah karena pake softDelete, pakai cara manual saja
@@ -392,7 +394,7 @@ class TransportWorkshopsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
             $request->validate([

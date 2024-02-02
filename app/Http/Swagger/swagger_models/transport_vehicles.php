@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"123", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"123", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"123", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"123", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -217,7 +217,7 @@
   *                         @OA\Property(type="string", property="dateProduction"), 
   *                         @OA\Property(type="string", property="color"), 
   *                         @OA\Property(type="string", property="codeStnk"), 
-  *                         @OA\Property(type="integer", property="slotPassanger"), 
+  *                         @OA\Property(type="string", property="slotPassanger"), 
   *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 

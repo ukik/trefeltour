@@ -14,8 +14,8 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <TransportMaintenance_TypeHeadWorkshop @onBubbleEvent="updateTypeHead('workshop_id',$event)" />
+              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id',$event)" />
 
             </div>
             <vs-row>
@@ -181,7 +181,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -423,13 +423,13 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
+import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
+import TransportMaintenance_TypeHeadWorkshop from './TransportMaintenance_TypeHeadWorkshop.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_ReservationId
+    TransportMaintenance_TypeHeadVehicle, TransportMaintenance_TypeHeadWorkshop
   },
   data: () => ({
     isValid: true,
@@ -444,32 +444,11 @@ export default {
     isAdmin: false,
   }),
     async mounted() {
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
         await this.getDataType();
         // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
@@ -480,19 +459,25 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
-                    }
-                    break;
-                case 'administrator':
-                case 'admin':
-
-                    break;
+            if(el.field == "is_maintenance") {
+                el.value = false
             }
+
+            // switch (vm.userRole) {
+            //     // case 'customer':
+            //     // case 'student':
+            //     //     if(el.field == "is_reserved") {
+            //     //         el.value = false
+            //     //         el.type = "hidden"
+            //     //     }
+            //     //     break;
+            //     case 'administrator':
+            //     case 'admin':
+            //         if(el.field == "is_available") {
+            //             el.value = false
+            //         }
+            //         break;
+            // }
 
         });
 
@@ -509,12 +494,8 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         temp.forEach(el => {
-
-            if(el.field == 'reservation_id') {
+            if(el.field == field) {
                 el.value = value ? value?.id : '';
-            }
-            if(el.field == 'customer_id') {
-                el.value = value ? value?.customer_id : '';
             }
         });
 

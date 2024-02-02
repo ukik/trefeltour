@@ -231,8 +231,10 @@ class TravelPaymentsController extends Controller
 
             $req = request()['data'];
             $data = [
-                'customer_id' => $temp->customer_id ,
                 'booking_id' => $temp->id ,
+                'ticket_id' => $temp->ticket_id ,
+                'customer_id' => $temp->customer_id ,
+                'reservation_id' => $temp->reservation_id ,
                 'total_amount' => $temp->get_total_amount ,
                 'code_transaction' => $req['code_transaction'] ,
                 'method' => $req['method'] ,

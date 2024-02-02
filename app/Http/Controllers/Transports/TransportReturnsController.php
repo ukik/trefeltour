@@ -138,7 +138,7 @@ class TransportReturnsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -206,7 +206,7 @@ class TransportReturnsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
 
@@ -269,7 +269,7 @@ class TransportReturnsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
         $check = TransportBookings::where('booking_id', $value)->first();
@@ -362,7 +362,7 @@ class TransportReturnsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTransport();
 
         try {
             $request->validate([

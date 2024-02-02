@@ -122,9 +122,9 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'description',
-                    'type' => 'textarea',
-                    'display_name' => 'Deskripsi',
+                    'field' => 'is_maintenance',
+                    'type' => 'switch',
+                    'display_name' => 'Sedang Perbaikan',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -138,9 +138,9 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'code_table',
-                    'type' => 'text',
-                    'display_name' => 'Code Table',
+                    'field' => 'description',
+                    'type' => 'textarea',
+                    'display_name' => 'Deskripsi',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -154,11 +154,11 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                 8 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'created_at',
-                    'type' => 'datetime',
-                    'display_name' => 'Dibuat Pada',
+                    'field' => 'code_table',
+                    'type' => 'text',
+                    'display_name' => 'Nama Tabel',
                     'required' => 0,
-                    'browse' => 1,
+                    'browse' => 0,
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
@@ -170,9 +170,9 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                 9 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'updated_at',
+                    'field' => 'created_at',
                     'type' => 'datetime',
-                    'display_name' => 'Diubah Pada',
+                    'display_name' => 'Dibuat Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -186,6 +186,22 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                 10 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'updated_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Diubah Pada',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 11,
+                ),
+                11 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
                     'display_name' => 'Dihapus Pada',
@@ -197,7 +213,7 @@ class TransportMaintenancesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 12,
                 ),
             ));
 

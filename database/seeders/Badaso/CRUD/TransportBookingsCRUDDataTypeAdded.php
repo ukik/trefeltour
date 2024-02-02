@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Models\MenuItem;
 
-class TravelBookingsCRUDDataTypeAdded extends Seeder
+class TransportBookingsCRUDDataTypeAdded extends Seeder
 {
     /**
      * Auto generated seed file
@@ -21,22 +21,22 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
 
         try {
 
-            $data_type = Badaso::model('DataType')->where('name', 'travel_bookings')->first();
+            $data_type = Badaso::model('DataType')->where('name', 'transport_bookings')->first();
 
             if ($data_type) {
-                Badaso::model('DataType')->where('name', 'travel_bookings')->delete();
+                Badaso::model('DataType')->where('name', 'transport_bookings')->delete();
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 33,
-                'name' => 'travel_bookings',
-                'slug' => 'travel-bookings',
-                'display_name_singular' => 'Travel Booking',
-                'display_name_plural' => 'Travel Booking',
+                'id' => 45,
+                'name' => 'transport_bookings',
+                'slug' => 'transport-bookings',
+                'display_name_singular' => 'Transport Booking',
+                'display_name_plural' => 'Transport Booking',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => 'App\\Http\\Controllers\\Travels\\TravelBookingsController',
+                'controller' => 'App\\Http\\Controllers\\Transports\\TransportBookingsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
@@ -46,42 +46,42 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-23T15:56:15.000000Z',
-                'updated_at' => '2024-02-01T14:49:59.000000Z',
+                'is_soft_delete' => true,
+                'created_at' => '2024-02-01T14:49:14.000000Z',
+                'updated_at' => '2024-02-01T15:39:49.000000Z',
             ));
 
-            Badaso::model('Permission')->generateFor('travel_bookings');
+            Badaso::model('Permission')->generateFor('transport_bookings');
 
             $menu = Badaso::model('Menu')->where('key', config('badaso.default_menu'))->firstOrFail();
 
             $menu_item = Badaso::model('MenuItem')
                 ->where('menu_id', $menu->id)
-                ->where('url', '/general/travel-bookings')
+                ->where('url', '/general/transport-bookings')
                 ->first();
 
             $order = Badaso::model('MenuItem')->highestOrderMenuItem($menu->id);
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Booking',
+                    'title' => 'Transport Booking',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
                     'parent_id' => null,
-                    'permissions' => 'browse_travel_bookings',
+                    'permissions' => 'browse_transport_bookings',
                     'order' => $order,
                 ])->save();
             } else {
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
-                $menu_item->url = '/general/travel-bookings';
-                $menu_item->title = 'Travel Booking';
+                $menu_item->url = '/general/transport-bookings';
+                $menu_item->title = 'Transport Booking';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
-                $menu_item->permissions = 'browse_travel_bookings';
+                $menu_item->permissions = 'browse_transport_bookings';
                 $menu_item->order = $order;
                 $menu_item->save();
             }

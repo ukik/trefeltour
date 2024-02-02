@@ -55,13 +55,17 @@ class TransportBookings extends Model
         return $this->hasOne(TransportReturns::class, 'booking_id', 'id');
     }
 
+    public function transportPayments()
+    {
+        return $this->hasMany(TransportPayments::class, 'booking_id', 'id');
+    }
 
-    public function travelPayment()
+    public function transportPayment()
     {
         return $this->hasOne(TransportPayments::class, 'booking_id', 'id');
     }
 
-    public function travelPaymentsValidation() {
+    public function transportPaymentsValidation() {
 
         // return $this->hasManyThrough(TravelPaymentsValidations::class, TravelPayments::class);
         return $this->hasManyThrough(

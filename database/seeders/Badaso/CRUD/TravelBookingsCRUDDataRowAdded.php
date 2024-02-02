@@ -188,7 +188,7 @@ class TravelBookingsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
-                    'display_name' => 'Code Table',
+                    'display_name' => 'Nama Tabel',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,

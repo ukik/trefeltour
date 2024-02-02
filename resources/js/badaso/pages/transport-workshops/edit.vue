@@ -14,8 +14,7 @@
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <TransportMaintenance_TypeHeadUser v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -442,13 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
+import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_ReservationId
+    TransportMaintenance_TypeHeadUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -489,47 +487,34 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.type == 'datetime' && key == 'travelDate') {
-                        el.value =  new Date(this.record[key]);
-                    }
-
-                    switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            if(el.field == "customer_id" && key == 'customerId') {
-                                el.value = vm.userId
-                            }
-                            break;
-                        case 'administrator':
-                        case 'admin':
-                            if(el.field == "customer_id" && key == 'customerId') {
-                                el.value = this.record[key]
-                            }
-                            break;
+                    if(el.field == 'year_exp' && key == 'yearExp') {
+                        el.value = this.record[key]
                     }
 
                 }
             }
         });
 
-        // REDIRECT
-        if(this.record['travelBooking'] && !this.isAdmin) {
-            this.$router.replace({
-                name: 'CrudGeneratedRead',
-                params: {
-                    id: this.$route.params.id,
-                    slug: this.$route.params.slug,
-                },
-            })
-        }
 
+
+
+        // REDIRECT
+        // if(this.record['travelTicket'] && !this.isAdmin) {
+        //     this.$router.replace({
+        //         name: 'CrudGeneratedRead',
+        //         params: {
+        //             id: this.$route.params.id,
+        //             slug: this.$route.params.slug,
+        //         },
+        //     })
+        // }
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
@@ -538,9 +523,9 @@ export default {
 
   },
   methods: {
-    updateTypeHead(field, value) {
+    updateTypeHead(value) {
 
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -548,11 +533,8 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'reservation_id') {
+            if(el.field == 'user_id') {
                 el.value = value ? value?.id : '';
-            }
-            if(el.field == 'customer_id') {
-                el.value = value ? value?.customer_id : '';
             }
         });
 

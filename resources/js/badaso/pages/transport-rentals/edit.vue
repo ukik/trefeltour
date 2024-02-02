@@ -2,20 +2,19 @@
   <div>
     <template v-if="!isMaintenance">
       <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
-      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('add', dataType)">
+      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
         <vs-col vs-lg="12">
           <vs-card>
             <div slot="header">
               <h3>
                 {{
-                  $t("crudGenerated.add.title", {
+                  $t("crudGenerated.edit.title", {
                     tableName: dataType.displayNameSingular,
                   })
                 }}
               </h3>
 
-              <!-- <TypeHeadCustomer v-if="isAdmin" @onBubbleEvent="updateTypeHead('customer_id', $event)" /> -->
-              <TypeHead_ReservationId v-if="isAdmin" @onBubbleEvent="updateTypeHead('reservation_id', $event)" />
+              <type-head-customer v-if="isAdmin" @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -27,10 +26,11 @@
                 :key="rowIndex"
                 :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
               >
-                <!-- <input type="text" v-model="dataRow.value"> -->
-                <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-                <template v-if="dataRow.add == 1">
-                  <badaso-text required
+                <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
+                  <!-- <input type="text" v-model="dataRow.value"> -->
+                  <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
+
+                  <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -105,7 +105,6 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -126,7 +125,6 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -137,9 +135,9 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    size="12"
                     :private-only="dataRow.details.type == 'private-only'"
                     :shares-only="dataRow.details.type == 'shares-only'"
-                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
@@ -149,9 +147,9 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    size="12"
                     :private-only="dataRow.details.type == 'private-only'"
                     :shares-only="dataRow.details.type == 'shares-only'"
-                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
@@ -161,9 +159,9 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    size="12"
                     :private-only="dataRow.details.type == 'private-only'"
                     :shares-only="dataRow.details.type == 'shares-only'"
-                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
@@ -173,15 +171,15 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    size="12"
                     :private-only="dataRow.details.type == 'private-only'"
                     :shares-only="dataRow.details.type == 'shares-only'"
-                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -245,10 +243,11 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' ||
-                          dataRow.type == 'data_identifier' ||
-                          dataRow.type == 'relation'"
-
+                    v-if="
+                      dataRow.type == 'hidden' ||
+                      dataRow.type == 'data_identifier' ||
+                      dataRow.type == 'relation'
+                    "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -278,7 +277,6 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
-
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
                     :label="dataRow.displayName"
@@ -327,10 +325,8 @@
                         )
                       ]
                     "
-                    :alert="
-                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    "
                   ></badaso-select>
+
 
 
                   <badaso-select-multiple
@@ -352,7 +348,8 @@
                         )
                       ]
                     "
-                  ></badaso-select-multiple>
+                  >
+                  </badaso-select-multiple>
                 </template>
               </vs-col>
             </vs-row>
@@ -364,11 +361,31 @@
               <vs-col vs-lg="12">
                 <vs-button color="primary" type="relief" @click="submitForm">
                   <vs-icon icon="save"></vs-icon>
-                  {{ $t("crudGenerated.add.button") }}
+                  {{ $t("crudGenerated.edit.button") }}
                 </vs-button>
+
+                <!-- ADDITIONAL -->
+                <vs-button class="float-right" color="success" type="relief" :to="{
+                    name: 'CrudGeneratedRead',
+                    params: {
+                        id: $route.params.id,
+                        slug: $route.params.slug,
+                    },
+                }">
+                  <vs-icon icon="visibility"></vs-icon>
+                  {{ $t("crudGenerated.lihat.button") }}
+                </vs-button>
+
+                <vs-button class="float-right mr-2" color="danger" type="relief" @click="$router.back()">
+                  <vs-icon icon="arrow_back_ios"></vs-icon>
+                  {{ $t("crudGenerated.back.button") }}
+                </vs-button>
+                <!-- -------------------- -->
+
+
                 <vs-button
                   :to="{
-                    name: 'DataPendingAddBrowse',
+                    name: 'DataPendingEditRead',
                     params: {
                       urlBase64: base64PathName,
                     },
@@ -378,9 +395,7 @@
                   type="relief"
                 >
                   <vs-icon icon="history"></vs-icon>
-                  <strong
-                    >{{ dataLength }} {{ $t("offlineFeature.dataPending") }}
-                  </strong>
+                  <strong>{{ $t("offlineFeature.dataUpdatePending") }}</strong>
                 </vs-button>
               </vs-col>
             </vs-row>
@@ -394,7 +409,7 @@
               <vs-col vs-lg="12">
                 <h3>
                   {{
-                    $t("crudGenerated.warning.notAllowedToAdd", {
+                    $t("crudGenerated.warning.notAllowedToEdit", {
                       tableName: dataType.displayNameSingular,
                     })
                   }}
@@ -408,7 +423,7 @@
     <template v-if="isMaintenance">
       <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
 
-      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('add', dataType)">
+      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
             <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
@@ -423,86 +438,91 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TypeHead_ReservationId from './TypeHead_ReservationId.vue'
+// eslint-disable-next-line no-unused-vars
+import * as _ from "lodash";
+
+import TypeHeadCustomer from './TypeHeadCustomer.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_ReservationId
+    TypeHeadCustomer
   },
+  name: "CrudGeneratedEdit",
   data: () => ({
     isValid: true,
     errors: {},
     dataType: {},
     relationData: {},
-    isMaintenance: false,
     dataLength: 0,
     pathname: location.pathname,
+    isMaintenance: false,
     userId: "",
     userRole: "",
     isAdmin: false,
   }),
     async mounted() {
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
 
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
-        await this.getDataType();
-        // await this.getRelationDataBySlug();
+
+        await this.getDetailEntity();
+        //await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
-        // await this.getUser();
+
+        // REDIRECT 1
+        if(!this.record) {
+            this.$router.replace({
+                name: "CrudGeneratedBrowse",
+                params: {
+                    slug: this.$route.params.slug,
+                },
+            });
+            return
+        }
 
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
+            for (const key in this.record) {
+                if (Object.hasOwnProperty.call(this.record, key)) {
+                    const element = this.record[key];
+                    const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "customer_id") {
-                        el.value = vm.userId
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
-                    break;
-                case 'administrator':
-                case 'admin':
-
-                    break;
+                }
             }
-
         });
+
+
+        // REDIRECT
+        // if(this.record['travelTicket'] && !this.isAdmin) {
+        //     this.$router.replace({
+        //         name: 'CrudGeneratedRead',
+        //         params: {
+        //             id: this.$route.params.id,
+        //             slug: this.$route.params.slug,
+        //         },
+        //     })
+        // }
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
         console.log('dataType', this.dataType.dataRows)
+
+
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -510,11 +530,8 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'reservation_id') {
+            if(el.field == 'user_id') {
                 el.value = value ? value?.id : '';
-            }
-            if(el.field == 'customer_id') {
-                el.value = value ? value?.customer_id : '';
             }
         });
 
@@ -522,21 +539,11 @@ export default {
 
     },
     submitForm() {
-      this.errors = {};
-      this.isValid = true;
-
-      // init data rows
+      // init data row
       const dataRows = {};
-
-      console.log('submitForm', this.dataType.dataRows)
-
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value;
-
-        if (row.type == "data_identifier") {
-          dataRows[row.field] = this.userId;
-        }
-
+         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         console.log(row.field, row.value)
       }
 
       // validate values in data rows must not equals 0
@@ -545,10 +552,9 @@ export default {
         return;
       }
 
-      // start request
       this.$openLoader();
       this.$api.badasoEntity
-        .add({
+        .edit({
           slug: this.$route.params.slug,
           data: dataRows,
         })
@@ -563,7 +569,6 @@ export default {
         })
         .catch((error) => {
           this.requestObjectStoreData();
-          this.errors = error.errors;
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -572,48 +577,96 @@ export default {
           });
         });
     },
-    async getDataType() {
+    async getDetailEntity() {
       this.$openLoader();
 
       try {
-        const response = await this.$api.badasoCrud.readBySlug({
+        const response = await this.$api.badasoEntity.read({
+          slug: this.$route.params.slug,
+          id: this.$route.params.id,
+        });
+
+        const {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
         });
 
         this.$closeLoader();
-        this.dataType = response.data.crudData;
-        const dataRows = response.data.crudData.dataRows.map((data) => {
-          if (
-            data.value == undefined &&
-            (data.type == "upload_image" || data.type == "upload_file")
-          ) {
-            data.value = "";
-          } else if (
-            data.value == undefined &&
-            (data.type == "upload_image_multiple" ||
-              data.type == "upload_file_multiple" ||
-              data.type == "select_multiple" ||
-              data.type == "checkbox")
-          ) {
-            data.value = Array;
-          }
-           else if (data.value == undefined && data.type == "slider") {
-            data.value = 0;
-          } else if (data.value == undefined && data.type == "switch") {
-            data.value = 0;
-          } else if (data.value == undefined && data.type == "tags") {
-            data.value = "";
-          } else if (data.value == undefined) {
-            data.value = "";
-          }
+        this.dataType = dataType;
+        this.record = response.data;
+
+        const dataRows = await this.dataType.dataRows.map((data) => {
           try {
+
+            data.add = data.add == 1;
+            data.edit = data.edit == 1;
+            data.read = data.read == 1;
             data.details = JSON.parse(data.details);
-            if (data.type == "hidden") {
+
+            if (
+              data.type == "upload_image_multiple" ||
+              data.type == "upload_file_multiple" ||
+              data.type == "checkbox" ||
+              data.type == "select_multiple"
+            ) {
+              const val =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              if (val) {
+                data.value = val.split(",");
+              }
+            } else if (data.type == "switch") {
+              const val = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)];
+
+              data.value = val > 0 ? true : false;
+            } else if (data.type == "slider") {
+              data.value = parseInt(
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+              );
+            } else if (data.type == "datetime" || data.type == "date") {
+              var dateValue = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
+                : null;
+              data.value = new Date(dateValue);
+            } else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
+            } else if (
+              data.type == "text" ||
+              data.type == "hidden" ||
+              data.type == "url" ||
+              data.type == "search" ||
+              data.type == "password"
+            ) {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+                : "";
+            } else if (
+              data.type == "relation" &&
+              data.relation.relationType == "belongs_to_many"
+            ) {
+              let record =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              let destinationTableId = data.relation.destinationTable + "Id";
+              data.value = [];
+              Object.entries(record).filter(function (item, key) {
+                return (data.value[key] = item[1][destinationTableId]);
+              });
+            } else {
+              data.value =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
             }
+
           } catch (error) {}
           return data;
         });
+
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
 
       } catch (error) {
@@ -628,7 +681,6 @@ export default {
         });
       }
     },
-
     getRelationDataBySlug() {
       this.$openLoader();
       this.$api.badasoTable
@@ -638,6 +690,8 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.relationData = response.data;
+
+          console.log('getRelationDataBySlug', this.relationData)
         })
         .catch((error) => {
           if (error.status == 503) {
@@ -657,25 +711,6 @@ export default {
           this.dataLength = store.result.data.length;
         }
       });
-    },
-    getUser() {
-      this.errors = {};
-      this.$openLoader();
-      this.$api.badasoAuthUser
-        .user({})
-        .then((response) => {
-          this.$closeLoader();
-          this.userId = response.data.user.id;
-        })
-        .catch((error) => {
-          this.errors = error.errors;
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
     },
   },
   computed: {
