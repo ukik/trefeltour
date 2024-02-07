@@ -1,0 +1,837 @@
+<template>
+  <div>
+    <template v-if="!isMaintenance">
+      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
+      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
+        <vs-col vs-lg="12">
+          <vs-card>
+            <div slot="header">
+              <h3>
+                {{
+                  $t("crudGenerated.edit.title", {
+                    tableName: dataType.displayNameSingular,
+                  })
+                }}
+              </h3>
+
+              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
+              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id', $event)" />
+              <TransportMaintenance_TypeHeadDriver @onBubbleEvent="updateTypeHeadDriver('driver_id', $event)" />
+
+            </div>
+            <vs-row>
+              <vs-col vs-lg="12" v-if="!isValid">
+                <p class="is-error">No fields have been filled</p>
+              </vs-col>
+              <vs-col
+                v-for="(dataRow, rowIndex) in dataType.dataRows"
+                :key="rowIndex"
+                :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
+              >
+                <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
+                  <!-- <input type="text" v-model="dataRow.value"> -->
+                  <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
+
+                  <badaso-text
+                    v-if="dataRow.type == 'text'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <!-- ADDITIONAL -->
+                  <badaso-text required
+                    v-if="dataRow.type == 'text_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <badaso-email
+                    v-if="dataRow.type == 'email'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-email>
+                  <badaso-password
+                    v-if="dataRow.type == 'password'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-password>
+                  <badaso-textarea
+                    v-if="dataRow.type == 'textarea'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-textarea>
+                  <badaso-search
+                    v-if="dataRow.type == 'search'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-search>
+                  <badaso-number
+                    v-if="dataRow.type == 'number'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-number>
+                  <badaso-url
+                    v-if="dataRow.type == 'url'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-url>
+                  <badaso-time
+                    v-if="dataRow.type == 'time'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-time>
+                  <badaso-date
+                    v-if="dataRow.type == 'date'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-date>
+                  <badaso-datetime
+                    v-if="dataRow.type == 'datetime'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-datetime>
+                  <badaso-upload-image
+                    v-if="dataRow.type == 'upload_image'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-image>
+                  <badaso-upload-image-multiple
+                    v-if="dataRow.type == 'upload_image_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-image-multiple>
+                  <badaso-upload-file
+                    v-if="dataRow.type == 'upload_file'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-file>
+                  <badaso-upload-file-multiple
+                    v-if="dataRow.type == 'upload_file_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-file-multiple>
+                  <badaso-switch
+                    v-if="dataRow.type == 'switch'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-switch>
+
+                    <!-- ADDITIONAL -->
+                  <!-- <badaso-switch
+                    v-if="dataRow.type == 'switch_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-switch> -->
+
+                  <badaso-slider
+                    v-if="dataRow.type == 'slider'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-slider>
+                  <badaso-editor
+                    v-if="dataRow.type == 'editor'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-editor>
+                  <badaso-tags
+                    v-if="dataRow.type == 'tags'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-tags>
+                  <badaso-color-picker
+                    v-if="dataRow.type == 'color_picker'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-color-picker>
+                  <badaso-hidden
+                    v-if="
+                      dataRow.type == 'hidden' ||
+                      dataRow.type == 'data_identifier' ||
+                      dataRow.type == 'relation'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-hidden>
+                  <badaso-checkbox
+                    v-if="dataRow.type == 'checkbox'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-checkbox>
+                  <badaso-select
+                    v-if="dataRow.type == 'select'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select>
+                  <badaso-select-multiple
+                    v-if="dataRow.type == 'select_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select-multiple>
+                  <badaso-radio
+                    v-if="dataRow.type == 'radio'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-radio>
+                  <badaso-code-editor
+                    v-if="dataRow.type == 'code'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-code-editor>
+                  <badaso-select
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :items="
+                      relationData[
+                        $caseConvert.stringSnakeToCamel(
+                          dataRow.relation.destinationTable
+                        )
+                      ]
+                    "
+                  ></badaso-select>
+
+
+
+                  <badaso-select-multiple
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to_many'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="
+                      relationData[
+                        $caseConvert.stringSnakeToCamel(
+                          dataRow.relation.destinationTable
+                        )
+                      ]
+                    "
+                  >
+                  </badaso-select-multiple>
+                </template>
+              </vs-col>
+            </vs-row>
+          </vs-card>
+        </vs-col>
+        <vs-col vs-lg="12">
+          <vs-card class="action-card">
+            <vs-row>
+              <vs-col vs-lg="12">
+                <vs-button color="primary" type="relief" @click="submitForm">
+                  <vs-icon icon="save"></vs-icon>
+                  {{ $t("crudGenerated.edit.button") }}
+                </vs-button>
+
+                <!-- ADDITIONAL -->
+                <vs-button class="float-right" color="success" type="relief" :to="{
+                    name: 'CrudGeneratedRead',
+                    params: {
+                        id: $route.params.id,
+                        slug: $route.params.slug,
+                    },
+                }">
+                  <vs-icon icon="visibility"></vs-icon>
+                  {{ $t("crudGenerated.lihat.button") }}
+                </vs-button>
+
+                <vs-button class="float-right mr-2" color="danger" type="relief" @click="$router.back()">
+                  <vs-icon icon="arrow_back_ios"></vs-icon>
+                  {{ $t("crudGenerated.back.button") }}
+                </vs-button>
+                <!-- -------------------- -->
+
+
+                <vs-button
+                  :to="{
+                    name: 'DataPendingEditRead',
+                    params: {
+                      urlBase64: base64PathName,
+                    },
+                  }"
+                  v-if="dataLength > 0 && !isOnline"
+                  color="success"
+                  type="relief"
+                >
+                  <vs-icon icon="history"></vs-icon>
+                  <strong>{{ $t("offlineFeature.dataUpdatePending") }}</strong>
+                </vs-button>
+              </vs-col>
+            </vs-row>
+          </vs-card>
+        </vs-col>
+      </vs-row>
+      <vs-row v-else>
+        <vs-col vs-lg="12">
+          <vs-card>
+            <vs-row>
+              <vs-col vs-lg="12">
+                <h3>
+                  {{
+                    $t("crudGenerated.warning.notAllowedToEdit", {
+                      tableName: dataType.displayNameSingular,
+                    })
+                  }}
+                </h3>
+              </vs-col>
+            </vs-row>
+          </vs-card>
+        </vs-col>
+      </vs-row>
+    </template>
+    <template v-if="isMaintenance">
+      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
+
+      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
+        <vs-col vs-lg="12">
+          <div class="badaso-maintenance__container">
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
+            <h1 class="badaso-maintenance__text">
+              We are under <br />maintenance
+            </h1>
+          </div>
+        </vs-col>
+      </vs-row>
+    </template>
+  </div>
+</template>
+
+<script>
+// eslint-disable-next-line no-unused-vars
+import * as _ from "lodash";
+
+import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
+import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
+
+export default {
+  components: {
+    TransportMaintenance_TypeHeadUser, TransportMaintenance_TypeHeadDriver, TransportMaintenance_TypeHeadVehicle
+  },
+  name: "CrudGeneratedEdit",
+  data: () => ({
+    isValid: true,
+    errors: {},
+    dataType: {},
+    relationData: {},
+    dataLength: 0,
+    pathname: location.pathname,
+    isMaintenance: false,
+    userId: "",
+    userRole: "",
+    isAdmin: false,
+  }),
+    async mounted() { this.$openLoader();
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
+
+
+        await this.getDetailEntity();
+        //await this.getRelationDataBySlug();
+        await this.requestObjectStoreData();
+
+        // REDIRECT 1
+        if(!this.record) {
+            this.$router.replace({
+                name: "CrudGeneratedBrowse",
+                params: {
+                    slug: this.$route.params.slug,
+                },
+            });
+            return
+        }
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        const vm = this
+
+        temp.forEach(el => {
+
+            if(el.field == "get_price") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_discount") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_cashback") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_total_amount") {
+                el.type = "text_readonly"
+            }
+            if(el.field == "get_driver_daily_price") {
+                el.type = "text_readonly"
+            }
+
+            for (const key in this.record) {
+                if (Object.hasOwnProperty.call(this.record, key)) {
+                    const element = this.record[key];
+                    // const isVal = element == undefined || element == 'false' ? false : !!(element)
+
+                    if(el.field == 'date_rent' && key == 'dateRent') {
+                        el.value = this.record[key]
+                    }
+                    if (el.field == 'time_depart' && key == 'timeDepart') {
+                        el.value = this.record[key]
+                    }
+                    if (el.field == 'time_arrive' && key == 'timeArrive') {
+                        el.value = new Date(this.record[key])
+                    }
+
+
+                    // switch (vm.userRole) {
+                    //     case 'customer':
+                    //     case 'student':
+                    //         if(el.field == "customer_id" && key == 'customerId') {
+                    //             el.value = vm.userId
+                    //         }
+                    //         if(el.field == "is_cancelled" && key == 'isCancelled') {
+                    //             el.type = "hidden"
+                    //         }
+                    //         if(el.field == "is_agreed" && key == 'isAgreed') {
+                    //             el.type = "hidden"
+                    //         }
+                    //         break;
+                    //     case 'administrator':
+                    //     case 'admin':
+                    //         if(el.field == "customer_id" && key == 'customerId') {
+                    //             el.value = this.record[key]
+                    //         }
+                    //         break;
+                    // }
+
+                }
+            }
+        });
+
+        // REDIRECT
+        if(this.record['transportPayment'] && !this.isAdmin) {
+            this.$router.replace({
+                name: 'CrudGeneratedRead',
+                params: {
+                    id: this.$route.params.id,
+                    slug: this.$route.params.slug,
+                },
+            })
+        }
+
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+        console.log('dataType', this.dataType.dataRows)
+
+
+  },
+  methods: {
+    updateTypeHead(field, value) {
+        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == field) {
+                el.value = value ? value?.id : '';
+            }
+
+            if(el.field == "get_price") {
+                el.value = value ? value?.daily_price : '';
+            }
+            if(el.field == "get_discount") {
+                el.value = value ? value?.discount_daily_price : '';
+            }
+            if(el.field == "get_cashback") {
+                el.value = value ? value?.cashback_daily_price : '';
+            }
+            if(el.field == "get_total_amount") {
+                const total =  (Number(value?.daily_price) - ((Number(value?.daily_price) * Number(value?.discount_daily_price)/100)) - Number(value?.cashback_daily_price))
+
+                el.value = value ? total : '';
+
+                // this.total_amount = total
+            }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadDriver(field, value) {
+        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == field) {
+                el.value = value ? value?.id : '';
+            }
+            if(el.field == "get_driver_daily_price") {
+
+                el.value = value ? value?.daily_price : '';
+
+                // this.total_amount = this.total_amount + value?.daily_price
+            }
+            // if(el.field == "get_total_amount") {
+            //     el.value = this.total_amount
+            // }
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    submitForm() {
+      // init data row
+      const dataRows = {};
+      for (const row of this.dataType.dataRows) {
+         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         console.log(row.field, row.value)
+      }
+
+      // validate values in data rows must not equals 0
+      if (Object.values(dataRows).length == 0) {
+        this.isValid = false;
+        return;
+      }
+
+      this.$openLoader();
+      this.$api.badasoEntity
+        .edit({
+          slug: this.$route.params.slug,
+          data: dataRows,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.$router.push({
+            name: "CrudGeneratedBrowse",
+            params: {
+              slug: this.$route.params.slug,
+            },
+          });
+        })
+        .catch((error) => {
+          this.requestObjectStoreData();
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    async getDetailEntity() {
+      this.$openLoader();
+
+      try {
+        const response = await this.$api.badasoEntity.read({
+          slug: this.$route.params.slug,
+          id: this.$route.params.id,
+        });
+
+        const {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
+          slug: this.$route.params.slug,
+        });
+
+        this.$closeLoader();
+        this.dataType = dataType;
+        this.record = response.data;
+
+        const dataRows = await this.dataType.dataRows.map((data) => {
+          try {
+
+            data.add = data.add == 1;
+            data.edit = data.edit == 1;
+            data.read = data.read == 1;
+            data.details = JSON.parse(data.details);
+
+            if (
+              data.type == "upload_image_multiple" ||
+              data.type == "upload_file_multiple" ||
+              data.type == "checkbox" ||
+              data.type == "select_multiple"
+            ) {
+              const val =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              if (val) {
+                data.value = val.split(",");
+              }
+            } else if (data.type == "switch") {
+              const val = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)];
+
+              data.value = val > 0 ? true : false;
+            } else if (data.type == "slider") {
+              data.value = parseInt(
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+              );
+            } else if (data.type == "datetime" || data.type == "date") {
+              var dateValue = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
+                : null;
+              data.value = new Date(dateValue);
+            } else if (data.value == undefined && data.type == "hidden") {
+              data.value = data.details.value ? data.details.value : "";
+            } else if (
+              data.type == "text" ||
+              data.type == "hidden" ||
+              data.type == "url" ||
+              data.type == "search" ||
+              data.type == "password"
+            ) {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+                : "";
+            } else if (
+              data.type == "relation" &&
+              data.relation.relationType == "belongs_to_many"
+            ) {
+              let record =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              let destinationTableId = data.relation.destinationTable + "Id";
+              data.value = [];
+              Object.entries(record).filter(function (item, key) {
+                return (data.value[key] = item[1][destinationTableId]);
+              });
+            } else {
+              data.value =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+            }
+
+          } catch (error) {}
+          return data;
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+
+      } catch (error) {
+        if (error.status == 503) {
+          this.isMaintenance = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
+    },
+    getRelationDataBySlug() {
+      this.$openLoader();
+      this.$api.badasoTable
+        .relationDataBySlug({
+          slug: this.$route.params.slug,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.relationData = response.data;
+
+          console.log('getRelationDataBySlug', this.relationData)
+        })
+        .catch((error) => {
+          if (error.status == 503) {
+            this.isMaintenance = true;
+          }
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    requestObjectStoreData() {
+      this.$readObjectStore(this.pathname).then((store) => {
+        if (store.result) {
+          this.dataLength = store.result.data.length;
+        }
+      });
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
+    },
+    base64PathName() {
+      return window.btoa(location.pathname);
+    },
+    maintenanceImg() {
+      const config = this.$store.getters["badaso/getConfig"];
+      return config.maintenanceImage;
+    },
+  },
+};
+</script>
