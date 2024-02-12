@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use TransportBookings;
 use TravelPayments;
 
-use App\Models\Table\BadasoUsers;
+use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
 use TransportDrivers;
 use TransportPayments;

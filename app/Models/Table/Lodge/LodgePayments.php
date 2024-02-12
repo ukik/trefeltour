@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LodgePayments extends Model
@@ -13,4 +13,5 @@ class LodgePayments extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "lodge_payments";
 }

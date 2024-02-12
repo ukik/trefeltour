@@ -31,6 +31,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "classmap": [
+            "app/Models/Table",
             "app/Models/Table/Tourism",
             "app/Models/Table/Travel",
             "app/Models/Table/Transport"

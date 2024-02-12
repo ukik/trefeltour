@@ -164,6 +164,7 @@
                           ]
                         "
                       >
+
                         <template v-if="dataRow.browse == 1">
                           <img
                             v-if="dataRow.type == 'upload_image'"
@@ -295,35 +296,9 @@
                               ]
                             }}
                           </div>
-                          <span v-else-if="dataRow.type == 'relation'">
-
-                            <!-- ADDITIONAL -->
-                            <!-- <template v-if="dataRow.field === 'ticket_id'">
-                                <router-link :to='{
-                                    name: "CrudGeneratedRead",
-                                    params: {
-                                        slug: "travel-tickets",
-                                        id: record[
-                                            $caseConvert.stringSnakeToCamel(dataRow.field)
-                                        ]
-                                    }
-                                }' class="text-uppercase font-weight-bold" style="font-size: 12px;">
-                                    {{ displayRelationData(record, dataRow) }}
-                                </router-link>
-                            </template>
-                            <template v-else>
-                                {{
-                                    displayRelationData(record, dataRow)
-                                }}
-                            </template> -->
-
-                            <template>
-                                {{
-                                    displayRelationData(record, dataRow)
-                                }}
-                            </template>
-
-                          </span>
+                          <span v-else-if="dataRow.type == 'relation'">{{
+                            displayRelationData(record, dataRow)
+                          }}</span>
                           <span v-else>{{
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -341,18 +316,19 @@
                           <vs-dropdown-menu>
 
 
+
                             <!-- ADDITIONAL -->
 
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].id,
+                                  id: data[index].transportVehicle?.transportBooking?.id,
                                   slug: 'transport-bookings',
                                 },
                               }"
                               v-if="
-                                data[index].id &&
+                                data[index].transportVehicle?.transportBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -369,12 +345,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportPayment?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportPayment?.id,
                                   slug: 'transport-payments',
                                 },
                               }"
                               v-if="
-                                data[index].transportPayment?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -391,12 +367,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportPayment?.transportPaymentsValidation?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id,
                                   slug: 'transport-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].transportPayment?.transportPaymentsValidation?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -413,12 +389,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportDriver?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportDriver?.id,
                                   slug: 'transport-drivers',
                                 },
                               }"
                               v-if="
-                                data[index].transportDriver?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportDriver?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -435,12 +411,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportVehicle?.transportRental?.id,
+                                  id: data[index].id,
                                   slug: 'transport-rentals',
                                 },
                               }"
                               v-if="
-                                data[index].transportVehicle?.transportRental?.id &&
+                                data[index].id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -479,12 +455,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportReturn?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportReturn?.id,
                                   slug: 'transport-returns',
                                 },
                               }"
                               v-if="
-                                data[index].transportReturn?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportReturn?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -501,12 +477,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportDriver?.id,
+                                  id: data[index].transportVehicle?.id,
                                   slug: 'transport-vehicles',
                                 },
                               }"
                               v-if="
-                                data[index].transportDriver?.id &&
+                                data[index].transportVehicle?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -522,6 +498,8 @@
                             <hr class="m-0 my-1">
 
                             <!-- --------------------- -->
+
+
 
                             <badaso-dropdown-item
                               :to="{
@@ -1017,7 +995,6 @@ export default {
     }
     // this.getEntity();
     this.loadIdsOfflineDelete();
-    console.log('this.$route', this.$route)
   },
   methods: {
     onChangePage(val) {
@@ -1077,7 +1054,7 @@ export default {
       });
     },
     getEntity: _.debounce(async function () {
-    // async getEntity(function () {
+    // async getEntity() {
       this.$openLoader();
       try {
         const {
@@ -1106,6 +1083,12 @@ export default {
                 total,
             }
         }
+        // response['data'] = responseX.data
+        // response['data']['data'] = data
+        // response['data']['total'] = total
+        // console.log('getEntity', response)
+        // return
+        // console.log(this.$refs.badaso_table_1.loadData())
 
         const {
           data: { dataType },

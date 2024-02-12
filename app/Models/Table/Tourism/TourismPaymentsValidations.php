@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourismPaymentsValidations extends Model
@@ -20,16 +20,16 @@ class TourismPaymentsValidations extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'transport_payments_validations', 'id', 'validator_id');
+        return $this->belongsToMany(BadasoUsers::class, 'tourism_payments_validations', 'id', 'validator_id');
     }
 
-    public function transportPayments()
+    public function tourismPayments()
     {
-        return $this->belongsToMany(TransportPayments::class, 'transport_payments_validations', 'id', 'payment_id');
+        return $this->belongsToMany(TourismPayments::class, 'tourism_payments_validations', 'id', 'payment_id');
     }
 
-    public function transportPayment()
+    public function tourismPayment()
     {
-        return $this->belongsTo(TransportPayments::class,'payment_id','id');
+        return $this->belongsTo(TourismPayments::class,'payment_id','id');
     }
 }

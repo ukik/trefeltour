@@ -92,7 +92,7 @@ class TransportPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'is_valid',
                     'type' => 'switch',
-                    'display_name' => 'Validasi Admin',
+                    'display_name' => 'Validasi Pembayaran',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,

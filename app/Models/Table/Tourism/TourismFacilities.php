@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourismFacilities extends Model
@@ -13,35 +13,48 @@ class TourismFacilities extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function user()
+    protected $table = "tourism_facilities";
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(BadasoUsers::class,'user_id','id');
+    // }
+
+    // public function badasoUsers()
+    // {
+    //     return $this->belongsToMany(BadasoUsers::class, 'transport_drivers', 'id', 'user_id');
+    // }
+
+    public function tourismVenue()
     {
-        return $this->belongsTo(BadasoUsers::class,'user_id','id');
+        return $this->belongsTo(TourismVenues::class,'venue_id','id');
     }
 
-    public function badasoUsers()
+    public function tourismVenues()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'transport_drivers', 'id', 'user_id');
-    }
-
-    public function transportReturns()
-    {
-        return $this->hasMany(TransportReturns::class, 'driver_id', 'id');
-    }
-
-    public function transportReturn()
-    {
-        return $this->hasOne(TransportReturns::class, 'driver_id', 'id');
+        return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
     }
 
 
-    public function transportBookings()
-    {
-        return $this->hasMany(TransportBookings::class, 'driver_id', 'id');
-    }
+    // public function transportReturns()
+    // {
+    //     return $this->hasMany(TransportReturns::class, 'driver_id', 'id');
+    // }
 
-    public function transportBooking()
-    {
-        return $this->hasOne(TransportBookings::class, 'driver_id', 'id');
-    }
+    // public function transportReturn()
+    // {
+    //     return $this->hasOne(TransportReturns::class, 'driver_id', 'id');
+    // }
+
+
+    // public function transportBookings()
+    // {
+    //     return $this->hasMany(TransportBookings::class, 'driver_id', 'id');
+    // }
+
+    // public function transportBooking()
+    // {
+    //     return $this->hasOne(TransportBookings::class, 'driver_id', 'id');
+    // }
 
 }

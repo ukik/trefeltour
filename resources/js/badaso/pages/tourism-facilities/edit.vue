@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead($event)" />
+              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import DialogVenue from './DialogVenue.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadUser
+    DialogVenue
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -494,15 +494,12 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'year_exp' && key == 'yearExp') {
-                        el.value = this.record[key]
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
-
                 }
             }
         });
-
-
 
 
         // REDIRECT
@@ -533,7 +530,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'user_id') {
+            if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
             }
         });
@@ -545,7 +542,9 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+
+//dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)
       }
 

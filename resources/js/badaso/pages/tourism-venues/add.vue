@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <type-head-customer @onBubbleEvent="updateTypeHead($event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -422,12 +422,12 @@
 </template>
 
 <script>
-import TypeHeadCustomer from './TypeHeadCustomer.vue'
+import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer
+    DialogUser
   },
   data: () => ({
     isValid: true,

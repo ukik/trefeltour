@@ -14,10 +14,8 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
-              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id', $event)" />
-              <TransportMaintenance_TypeHeadDriver @onBubbleEvent="updateTypeHeadDriver('driver_id', $event)" />
-
+              <DialogVenue @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
             <vs-row>
@@ -31,7 +29,6 @@
               >
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-
                 <template v-if="dataRow.add == 1">
                   <badaso-text required
                     v-if="dataRow.type == 'text'"
@@ -43,21 +40,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
-
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
-                    v-if="dataRow.type == 'text_readonly'"
-                    :style="'pointer-events:none;'"
-                    :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName"
-                    v-model="dataRow.value"
-                    size="12"
-                    :alert="
-                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    "
-                  ></badaso-text>
-
-
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -199,7 +181,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -285,8 +267,10 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-checkbox>
+
+
                   <badaso-select
-                    v-if="dataRow.type == 'select'"
+                    v-if="dataRow.type == 'select' && dataRow.field !== 'type_price'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -296,6 +280,19 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
+
+                  <badaso-select
+                    v-if="dataRow.type == 'select' && dataRow.field == 'type_price' && tourismPrices.length > 0"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="tourismPrices"
+                  ></badaso-select>
+
 
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
@@ -441,16 +438,13 @@
 </template>
 
 <script>
-
-import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
-import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
-import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
-
+import DialogVenue from './DialogVenue.vue'
+import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadUser, TransportMaintenance_TypeHeadDriver, TransportMaintenance_TypeHeadVehicle
+    DialogVenue, DialogUser
   },
   data: () => ({
     isValid: true,
@@ -460,10 +454,11 @@ export default {
     isMaintenance: false,
     dataLength: 0,
     pathname: location.pathname,
-    total_amount: 0,
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    tourismPrices: [],
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -481,49 +476,9 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-
-            if(el.field == "get_price") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_discount") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_cashback") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_total_amount") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_driver_daily_price") {
-                el.type = "text_readonly"
-            }
-
-            // switch (vm.userRole) {
-            //     case 'customer':
-            //     case 'student':
-            //         if(el.field == "customer_id") {
-            //             el.value = vm.userId
-            //         }
-            //         if(el.field == "is_agreed") {
-            //             el.value = false
-            //             el.type = "hidden"//"switch_readonly"
-            //         }
-            //         if(el.field == "is_cancelled") {
-            //             el.value = false
-            //             el.type = "hidden"//"switch_readonly"
-            //         }
-            //         break;
-            //     case 'administrator':
-            //     case 'admin':
-            //         if(el.field == "is_agreed") {
-            //             el.value = false
-            //         }
-            //         if(el.field == "is_cancelled") {
-            //             el.value = false
-            //         }
-            //         break;
+            // if(el.field == "is_available") {
+            //     el.value = true
             // }
-
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
@@ -532,7 +487,7 @@ export default {
   },
   methods: {
     updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -543,31 +498,13 @@ export default {
             if(el.field == field) {
                 el.value = value ? value?.id : '';
             }
-
-            if(el.field == "get_price") {
-                el.value = value ? value?.daily_price : '';
-            }
-            if(el.field == "get_discount") {
-                el.value = value ? value?.discount_daily_price : '';
-            }
-            if(el.field == "get_cashback") {
-                el.value = value ? value?.cashback_daily_price : '';
-            }
-            if(el.field == "get_total_amount") {
-                const total =  (Number(value?.daily_price) - ((Number(value?.daily_price) * Number(value?.discount_daily_price)/100)) - Number(value?.cashback_daily_price))
-
-                el.value = value ? total : '';
-
-                // this.total_amount = total
-            }
-
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
-    updateTypeHeadDriver(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadVenue(field, value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -575,23 +512,27 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
-            }
-            if(el.field == "get_driver_daily_price") {
 
-                el.value = value ? value?.daily_price : '';
+                let _arr = []
+                value?.tourismPrices.forEach(arr => {
+                    const total = `${(Number(arr?.generalPrice) - ((Number(arr?.generalPrice) * Number(arr?.discountPrice)/100)) - Number(arr?.cashbackPrice))}`
+                    _arr.push({
+                        value: arr.id,
+                        label: `Tiket ${arr.typePrice}: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
+                        ...arr
+                    })
+                })
 
-                // this.total_amount = this.total_amount + value?.daily_price
+                this.tourismPrices = _arr
             }
-            // if(el.field == "get_total_amount") {
-            //     el.value = this.total_amount
-            // }
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
+
     submitForm() {
       this.errors = {};
       this.isValid = true;
@@ -602,7 +543,7 @@ export default {
       console.log('submitForm', this.dataType.dataRows)
 
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value;
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
 
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;

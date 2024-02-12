@@ -423,6 +423,22 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 19,
                 ),
+                19 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'user_id',
+                    'type' => 'number',
+                    'display_name' => 'UserId',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 0,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 20,
+                ),
             ));
 
             \DB::commit();

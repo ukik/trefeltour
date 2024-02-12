@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PackagesSelectedCulinarys extends Model
@@ -13,4 +13,5 @@ class PackagesSelectedCulinarys extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "event_package_selected_culinarys";
 }

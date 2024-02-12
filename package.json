@@ -16,6 +16,7 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
+        "@innologica/vue-stackable-modal": "^0.1.10",
         "@johmun/vue-tags-input": "^2.1.0",
         "@tinymce/tinymce-vue": "^3",
         "body-scroll-lock": "^4.0.0-beta.0",

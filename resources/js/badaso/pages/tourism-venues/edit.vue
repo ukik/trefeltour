@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <type-head-customer @onBubbleEvent="updateTypeHead($event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHeadCustomer from './TypeHeadCustomer.vue'
+import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer
+    DialogUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -542,7 +542,9 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+
+//dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)
       }
 

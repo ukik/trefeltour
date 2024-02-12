@@ -5,13 +5,15 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourismPayments extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = "tourism_payments";
 
     public function user()
     {
@@ -20,26 +22,26 @@ class TourismPayments extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'transport_payments', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'tourism_payments', 'id', 'customer_id');
     }
 
-    public function transportBookings()
+    public function tourismBookings()
     {
-        return $this->belongsToMany(TransportBookings::class, 'transport_payments', 'id', 'booking_id');
+        return $this->belongsToMany(TourismBookings::class, 'tourism_payments', 'id', 'booking_id');
     }
 
-    public function transportBooking()
+    public function tourismBooking()
     {
-        return $this->belongsTo(TransportBookings::class,'booking_id','id');
+        return $this->belongsTo(TourismBookings::class,'booking_id','id');
     }
 
-    public function transportPaymentsValidations()
+    public function tourismPaymentsValidations()
     {
-        return $this->hasMany(TransportPaymentsValidations::class, 'payment_id', 'id');
+        return $this->hasMany(TourismPaymentsValidations::class, 'payment_id', 'id');
     }
 
-    public function transportPaymentsValidation()
+    public function tourismPaymentsValidation()
     {
-        return $this->hasOne(TransportPaymentsValidations::class, 'payment_id', 'id');
+        return $this->hasOne(TourismPaymentsValidations::class, 'payment_id', 'id');
     }
 }

@@ -44,7 +44,7 @@ class TransportRentalsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'user_id',
                     'type' => 'relation',
-                    'display_name' => 'Admin Rental',
+                    'display_name' => 'Admin',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -139,7 +139,7 @@ class TransportRentalsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
-                    'type' => 'textarea',
+                    'type' => 'upload_image',
                     'display_name' => 'Gambar',
                     'required' => 1,
                     'browse' => 1,

@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadRental @onBubbleEvent="updateTypeHead($event)" />
+              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,13 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TransportMaintenance_TypeHeadRental from './TransportMaintenance_TypeHeadRental.vue'
+import DialogVenue from './DialogVenue.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadRental
+    DialogVenue
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -488,25 +487,54 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'is_available' && key == 'isAvailable') {
+                    if(el.field == 'is_toilet' && key == 'isToilet') {
                         el.value = isVal
                     }
-                    if(el.field == 'date_production' && key == 'dateProduction') {
-                        el.value = this.record[key] // new Date();
+                    if(el.field == 'is_bathroom' && key == 'isBathroom') {
+                        el.value = isVal
                     }
+                    if(el.field == 'is_mushola' && key == 'isMushola') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_rest_area' && key == 'isRestArea') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_bar' && key == 'isBar') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_culinary' && key == 'isCulinary') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_souvenir' && key == 'isSouvenir') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_park' && key == 'isPark') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_wifi' && key == 'isWifi') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_security' && key == 'isSecurity') {
+                        el.value = isVal
+                    }
+                    if(el.field == 'is_medic' && key == 'isMedic') {
+                        el.value = isVal
+                    }
+
                 }
             }
         });
 
+
         // REDIRECT
-        // if(this.record['travelBooking'] && !this.isAdmin) {
+        // if(this.record['travelTicket'] && !this.isAdmin) {
         //     this.$router.replace({
         //         name: 'CrudGeneratedRead',
         //         params: {
@@ -515,7 +543,6 @@ export default {
         //         },
         //     })
         // }
-
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
@@ -534,7 +561,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'rental_id') {
+            if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
             }
         });
@@ -546,7 +573,10 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+        //  dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+
+//dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)
       }
 

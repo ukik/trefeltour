@@ -274,3 +274,132 @@ tunai,bank transfer,e-wallet,qris,lainnya
         }
     ]
 }
+
+Wisata Budaya,Wisata Konvensi,Wisata Agro,Wisata Ziarah,Wisata Belanja,Wisata Alam,Wisata Cagar Alam,Wisata Maritim,Wisata Petualangan,Wisata Outbond,Wisata Perkemahan,Wisata Waterpark,Wisata Bisnis,Wisata Religius,Wisata Kuliner,Wisata Malam,Wisata Keluarga
+
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Wisata Budaya",
+            "value": "Wisata Budaya"
+        },
+        {
+            "label": "Wisata Konvensi",
+            "value": "Wisata Konvensi"
+        },
+        {
+            "label": "Wisata Agro",
+            "value": "Wisata Agro"
+        },
+        {
+            "label": "Wisata Ziarah",
+            "value": "Wisata Ziarah"
+        },
+        {
+            "label": "Wisata Belanja",
+            "value": "Wisata Belanja"
+        },
+        {
+            "label": "Wisata Alam",
+            "value": "Wisata Alam"
+        },
+        {
+            "label": "Wisata Cagar Alam",
+            "value": "Wisata Cagar Alam"
+        },
+        {
+            "label": "Wisata Maritim",
+            "value": "Wisata Maritim"
+        },
+        {
+            "label": "Wisata Petualangan ",
+            "value": "Wisata Petualangan "
+        },
+        {
+            "label": "Wisata Outbond",
+            "value": "Wisata Outbond"
+        },
+        {
+            "label": "Wisata Perkemahan",
+            "value": "Wisata Perkemahan"
+        },
+        {
+            "label": "Wisata Waterpark",
+            "value": "Wisata Waterpark"
+        },
+        {
+            "label": "Wisata Bisnis",
+            "value": "Wisata Bisnis"
+        },
+        {
+            "label": "Wisata Religius",
+            "value": "Wisata Religius"
+        },
+        {
+            "label": "Wisata Kuliner",
+            "value": "Wisata Kuliner"
+        },
+        {
+            "label": "Wisata Malam",
+            "value": "Wisata Malam"
+        },
+        {
+            "label": "Wisata Keluarga",
+            "value": "Wisata Keluarga"
+        }
+    ]
+}
+
+,,dewasa,,extreme
+
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Anak",
+            "value": "anak"
+        },
+        {
+            "label": "Umum",
+            "value": "umum"
+        },
+        {
+            "label": "Dewasa",
+            "value": "dewasa"
+        },
+        {
+            "label": "Profesional",
+            "value": "profesional"
+        },
+        {
+            "label": "Extreme",
+            "value": "extreme"
+        },
+        {
+            "label": "Privat",
+            "value": "privat"
+        }
+    ]
+}
+
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Anak",
+            "value": "anak"
+        },
+        {
+            "label": "Dewasa",
+            "value": "dewasa"
+        },
+        {
+            "label": "Umum",
+            "value": "umum"
+        }
+    ]
+}

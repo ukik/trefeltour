@@ -5,13 +5,15 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourismVenues extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = "tourism_venues";
 
     public function user()
     {
@@ -20,16 +22,37 @@ class TourismVenues extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'transport_rentals', 'id', 'user_id');
+        return $this->belongsToMany(BadasoUsers::class, 'tourism_venues', 'id', 'user_id');
     }
 
-    public function transportVehicles()
+    public function tourismPrices()
     {
-        return $this->hasMany(TransportVehicles::class, 'rental_id', 'id');
+        return $this->hasMany(TourismPrices::class, 'venue_id', 'id');
     }
 
-    public function transportVehicle()
+    public function tourismPrice()
     {
-        return $this->hasOne(TransportVehicles::class, 'rental_id', 'id');
+        return $this->hasOne(TourismPrices::class, 'venue_id', 'id');
     }
+
+    public function tourismFacilites()
+    {
+        return $this->hasMany(TourismFacilities::class, 'venue_id', 'id');
+    }
+
+    public function tourismFacility()
+    {
+        return $this->hasOne(TourismFacilities::class, 'venue_id', 'id');
+    }
+
+    public function tourismServices()
+    {
+        return $this->hasMany(TourismServices::class, 'venue_id', 'id');
+    }
+
+    public function tourismService()
+    {
+        return $this->hasOne(TourismServices::class, 'venue_id', 'id');
+    }
+
 }

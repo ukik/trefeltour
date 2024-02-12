@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <DialogBooking @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -41,8 +41,7 @@
                     "
                   ></badaso-text>
 
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
+                  <badaso-text required disabled
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -53,6 +52,7 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
 
                   <badaso-email
                     v-if="dataRow.type == 'email'"
@@ -396,6 +396,7 @@
                 </vs-button>
                 <!-- -------------------- -->
 
+
                 <vs-button
                   :to="{
                     name: 'DataPendingEditRead',
@@ -454,12 +455,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
+import DialogBooking from './DialogBooking.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadBooking
+    DialogBooking
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -500,15 +501,11 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
 
             if(el.field == "total_amount") {
-                el.type = "text_readonly"
-            }
-
-            if(el.field == "total_amount_driver") {
-                el.type = "text_readonly"
+                el.type = 'text_readonly'
             }
 
             for (const key in this.record) {
@@ -516,40 +513,29 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.type == 'date' && key == 'date') {
-                        el.value =  new Date(this.record[key]);
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
 
-                    // switch (vm.userRole) {
-                    //     case 'customer':
-                    //     case 'student':
-                    //         // if(el.field == "customer_id" && key == 'customerId') {
-                    //         //     el.value = vm.userId
-                    //         // }
-                    //         break;
-                    //     case 'administrator':
-                    //     case 'admin':
-                    //         // if(el.field == "customer_id" && key == 'customerId') {
-                    //         //     el.value = this.record[key]
-                    //         // }
-                    //         break;
-                    // }
+                    if(el.field == 'date' && key == 'date') {
+                        el.value = new Date(this.record[key])
+                    }
 
                 }
             }
         });
 
-        // REDIRECT
-        if(this.record['transportPaymentsValidation'] && !this.isAdmin) {
-            this.$router.replace({
-                name: 'CrudGeneratedRead',
-                params: {
-                    id: this.$route.params.id,
-                    slug: this.$route.params.slug,
-                },
-            })
-        }
 
+        // REDIRECT
+        // if(this.record['travelTicket'] && !this.isAdmin) {
+        //     this.$router.replace({
+        //         name: 'CrudGeneratedRead',
+        //         params: {
+        //             id: this.$route.params.id,
+        //             slug: this.$route.params.slug,
+        //         },
+        //     })
+        // }
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
@@ -558,9 +544,8 @@ export default {
 
   },
   methods: {
-    updateTypeHead(field, value) {
-
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -568,15 +553,13 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'booking_id') {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value ? value?.get_total_amount : '';
+                el.value = value?.getTotalAmount;
             }
-            if(el.field == 'total_amount_driver') {
-                el.value = value ? value?.get_total_amount_driver : '';
-            }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
@@ -586,7 +569,9 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+
+//dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)
       }
 

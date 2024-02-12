@@ -322,12 +322,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportBooking?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.id,
                                   slug: 'transport-bookings',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportBooking?.id &&
+                                data[index].transportVehicle?.transportBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -344,12 +344,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportPayment?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportPayment?.id,
                                   slug: 'transport-payments',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportPayment?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -366,12 +366,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id,
                                   slug: 'transport-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportPayment?.transportPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -388,12 +388,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportDriver?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportDriver?.id,
                                   slug: 'transport-drivers',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportDriver?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportDriver?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -410,12 +410,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportRental?.id,
+                                  id: data[index].id,
                                   slug: 'transport-rentals',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportRental?.id &&
+                                data[index].id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -432,12 +432,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.id,
+                                  id: data[index].transportVehicle?.transportMaintenance?.id,
                                   slug: 'transport-maintenances',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.id &&
+                                data[index].transportVehicle?.transportMaintenance?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -454,12 +454,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportReturn?.id,
+                                  id: data[index].transportVehicle?.transportBooking?.transportReturn?.id,
                                   slug: 'transport-returns',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.transportBooking?.transportReturn?.id &&
+                                data[index].transportVehicle?.transportBooking?.transportReturn?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -476,12 +476,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].transportMaintenance?.transportVehicle?.id,
+                                  id: data[index].transportVehicle?.id,
                                   slug: 'transport-vehicles',
                                 },
                               }"
                               v-if="
-                                data[index].transportMaintenance?.transportVehicle?.id &&
+                                data[index].transportVehicle?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',

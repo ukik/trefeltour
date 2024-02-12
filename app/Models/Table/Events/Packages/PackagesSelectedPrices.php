@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PackagesSelectedPrices extends Model
@@ -13,4 +13,5 @@ class PackagesSelectedPrices extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "event_package_selected_prices";
 }

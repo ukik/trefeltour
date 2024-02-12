@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead($event)" />
+              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -422,12 +422,12 @@
 </template>
 
 <script>
-import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import DialogVenue from './DialogVenue.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadUser
+    DialogVenue
   },
   data: () => ({
     isValid: true,
@@ -493,7 +493,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'user_id') {
+            if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
             }
         });

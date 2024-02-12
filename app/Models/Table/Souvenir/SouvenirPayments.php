@@ -5,12 +5,13 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TalentBookings extends Model
+class SouvenirPayments extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "souvenir_payments";
 }

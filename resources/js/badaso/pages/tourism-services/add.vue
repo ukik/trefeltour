@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadRental @onBubbleEvent="updateTypeHead($event)" />
+              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -180,7 +180,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -422,13 +422,12 @@
 </template>
 
 <script>
-// import TypeHeadCustomer from '../../components/TypeHeadCustomer.vue'
-import TransportMaintenance_TypeHeadRental from './TransportMaintenance_TypeHeadRental.vue'
+import DialogVenue from './DialogVenue.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadRental
+    DialogVenue
   },
   data: () => ({
     isValid: true,
@@ -443,32 +442,11 @@ export default {
     isAdmin: false,
   }),
     async mounted() { this.$openLoader();
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
         await this.getDataType();
         // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
@@ -479,20 +457,39 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-            if(el.field == "is_available") {
-                el.value = true
+            switch (el.field) {
+                case    'is_toilet':
+                case    'is_bathroom':
+                case    'is_mushola':
+                case    'is_rest_area':
+                case    'is_bar':
+                case    'is_culinary':
+                case    'is_souvenir':
+                case    'is_park':
+                case    'is_wifi':
+                case    'is_security':
+                case    'is_medic':
+                    el.value = true
+                    break;
             }
 
+            // if(el.field == "is_available") {
+            //     el.value = true
+            // }
+
             // switch (vm.userRole) {
-            //     case 'customer':
-            //     case 'student':
-            //         if(el.field == "customer_id") {
-            //             el.value = vm.userId
-            //         }
-            //         break;
+            //     // case 'customer':
+            //     // case 'student':
+            //     //     if(el.field == "is_reserved") {
+            //     //         el.value = false
+            //     //         el.type = "hidden"
+            //     //     }
+            //     //     break;
             //     case 'administrator':
             //     case 'admin':
-
+            //         if(el.field == "is_available") {
+            //             el.value = false
+            //         }
             //         break;
             // }
 
@@ -512,10 +509,9 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'rental_id') {
+            if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
             }
-
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
@@ -531,7 +527,7 @@ export default {
       console.log('submitForm', this.dataType.dataRows)
 
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value;
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
 
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;

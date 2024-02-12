@@ -28,6 +28,7 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 42,
                 'name' => 'transport_payments_validations',
                 'slug' => 'transport-payments-validations',
                 'display_name_singular' => 'Travel Pembayaran Validasi',
@@ -41,13 +42,13 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-01-31T04:11:21.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T04:11:21.000000Z',
-                'id' => 42,
+                'updated_at' => '2024-02-12T18:41:12.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_payments_validations');

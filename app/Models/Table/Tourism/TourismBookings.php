@@ -5,7 +5,7 @@
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Table\BadasoUsers;
+//use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourismBookings extends Model
@@ -13,57 +13,33 @@ class TourismBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "tourism_bookings";
+
     public function user()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+    // public function badasoUser()
+    // {
+    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    // }
+
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'transport_bookings', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'tourism_bookings', 'id', 'customer_id');
     }
 
-    public function transportDrivers()
+    public function tourismVenue()
     {
-        return $this->belongsToMany(TransportDrivers::class, 'transport_bookings', 'id', 'driver_id');
+        return $this->belongsTo(TourismVenues::class,'venue_id','id');
     }
 
-    public function transportDriver()
+    public function tourismVenues()
     {
-        return $this->belongsTo(TransportDrivers::class,'driver_id','id');
+        return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
     }
 
-
-    public function transportVehicles()
-    {
-        return $this->belongsToMany(TransportVehicles::class, 'transport_bookings', 'id', 'vehicle_id');
-    }
-
-    public function transportVehicle()
-    {
-        return $this->belongsTo(TransportVehicles::class,'vehicle_id','id');
-    }
-
-
-    public function transportReturns()
-    {
-        return $this->hasMany(TransportReturns::class, 'booking_id', 'id');
-    }
-
-    public function transportReturn()
-    {
-        return $this->hasOne(TransportReturns::class, 'booking_id', 'id');
-    }
-
-    public function transportPayments()
-    {
-        return $this->hasMany(TransportPayments::class, 'booking_id', 'id');
-    }
-
-    public function transportPayment()
-    {
-        return $this->hasOne(TransportPayments::class, 'booking_id', 'id');
-    }
 
     public function transportPaymentsValidation() {
 

@@ -545,7 +545,9 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+
+//dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)
       }
 

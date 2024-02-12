@@ -43,3 +43,102 @@ input.input-select.vs-select--input {
 a:hover {
     text-decoration: none;
 }
+
+.crud-generated__item--select-multiple p {
+    margin-bottom: 0px;
+}
+
+
+
+.modal {
+    z-index: 99999 !important;
+}
+
+.modal-dialog.modal-stack-0.modal-order-1.modal-fullscreen {
+    background: #00000042;
+}
+
+// .modal-dialog {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+// }
+
+$modal-xl: 900px;
+$modal-xxl: 1040px;
+$modal-xxxl: 1180px;
+$modal-90per: 90%;
+
+@media (min-width: 768px) {
+  .modal-xl {
+    max-width: $modal-xl;
+  }
+  .modal-xxl {
+    max-width: $modal-xxl;
+  }
+  .modal-xxxl{
+    max-width: $modal-xxxl;
+  }
+  .modal-90per {
+    max-width: $modal-90per;
+  }
+}
+
+.modal-fullscreen {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+  padding: 50px;
+
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .modal-content {
+    height: 100%;
+  }
+
+  &.aside .modal-content {
+    height: auto;
+  }
+
+  &.modal-dialog.aside.modal-stack1 .modal-content {
+    transform: scale(1) translate(0, 0) !important;
+  }
+}
+
+//modal without border
+.modal-dialog.modal-border-0 {
+  .modal-content {
+    border: none;
+  }
+}
+
+@media screen and (min-width: 800px){
+  .modal-dialog {
+    &.modal-xxl{
+      width: 98%;
+      max-width: 1040px;
+    }
+  }
+}
+
+
+@media screen and (min-width: 640px){
+  .modal-dialog {
+    &.modal-xxl{
+      width: 98%;
+      max-width: 1040px;
+    }
+  }
+}
+
+@media screen and (max-width: 420px){
+  .modal-dialog,
+  .modal-content{
+    overflow: auto;
+  }
+}

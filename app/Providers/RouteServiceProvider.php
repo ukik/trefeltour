@@ -53,6 +53,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(function ($router) {
                     require base_path('routes/api.php');
+                    require base_path('routes/api-typehead-culinary.php');
+                    require base_path('routes/api-typehead-event-customize.php');
+                    require base_path('routes/api-typehead-event-package.php');
+                    require base_path('routes/api-typehead-event-template.php');
+                    require base_path('routes/api-typehead-lodge.php');
+                    require base_path('routes/api-typehead-souvenir.php');
+                    require base_path('routes/api-typehead-talent.php');
+                    require base_path('routes/api-typehead-tourism.php');
                     require base_path('routes/api-typehead-transport.php');
                 });
 

@@ -235,7 +235,6 @@ export default {
     this.isAuth = await this.$authUtil.getAuth(this.$api)
 
     this.getDetailEntity();
-    console.log('TRAVEL TICKETS this.$route', this.$route)
   },
   computed: {
     maintenanceImg() {

@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "userId":"123"}, {"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "userId":"123"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -222,7 +222,8 @@
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"),
+  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="integer", property="userId"),
   *                     ),
   *                ),
   *             )

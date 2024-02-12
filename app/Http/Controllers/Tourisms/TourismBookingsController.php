@@ -13,11 +13,12 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportBookings;
+use TourismBookings;
 use TravelPayments;
 
-use App\Models\Table\BadasoUsers;
+use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
+use TourismVenues;
 use TransportDrivers;
 use TransportPayments;
 
@@ -55,18 +56,20 @@ class TourismBookingsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportBookings::with([
+            $data = \TourismBookings::with([
                 'badasoUsers',
-                'transportDrivers',
-                'transportVehicles',
-                'transportDriver',
-                'transportReturn',
-                'transportVehicle',
-                'transportVehicle.transportRental',
-                'transportVehicle.transportMaintenance',
-                'transportPayments',
-                'transportPayment',
-                'transportPayment.transportPaymentsValidation',
+                'tourismVenue',
+                'tourismVenues',
+                // 'transportDrivers',
+                // 'transportVehicles',
+                // 'transportDriver',
+                // 'transportReturn',
+                // 'transportVehicle',
+                // 'transportVehicle.transportRental',
+                // 'transportVehicle.transportMaintenance',
+                // 'transportPayments',
+                // 'transportPayment',
+                // 'transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -121,18 +124,10 @@ class TourismBookingsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportBookings::with([
+            $data = \TourismBookings::with([
                 'badasoUsers',
-                'transportDrivers',
-                'transportVehicles',
-                'transportDriver',
-                'transportReturn',
-                'transportVehicle',
-                'transportVehicle.transportRental',
-                'transportVehicle.transportMaintenance',
-                'transportPayments',
-                'transportPayment',
-                'transportPayment.transportPaymentsValidation',
+                'tourismVenue',
+                'tourismVenues',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -150,13 +145,13 @@ class TourismBookingsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTourism();
 
-        $value = request()['data']['id'];
-        $check = \TransportPayments::where('booking_id', $value)->first();
-        if($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        // $value = request()['data']['id'];
+        // $check = \TransportPayments::where('booking_id', $value)->first();
+        // if($check && !isAdminTransport()) {
+        //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        // }
 
         try {
 
@@ -164,30 +159,26 @@ class TourismBookingsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportBookings::where('id', $request->data['id'])->first();
+            $table_entity = \TourismBookings::where('id', $request->data['id'])->first();
 
-            $temp = \TransportVehicles::where('id', $request->data['vehicle_id'])->first();
+            $temp = \TourismPrices::where('id', $request->data['type_price'])->first();
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
+            $venue_id = TourismVenues::where('id', $request->data['venue_id'])->value('id');
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver->id ,
-                'vehicle_id' => $temp->id ,
-                'days_duration' => $req['days_duration'] ,
-                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
-                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
-                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
-                'destination' => $req['destination'] ,
-                'get_price' => $temp->daily_price ,
-                'get_discount' => $temp->discount_daily_price ,
-                'get_cashback' => $temp->cashback_daily_price ,
-                'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
-                'get_driver_daily_price' => $driver->daily_price ,
-                'get_total_amount_driver' => ($driver->daily_price * $req['days_duration']) ,
+                'venue_id' => $venue_id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+                'type_price' => $temp->id ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
@@ -195,9 +186,9 @@ class TourismBookingsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'customer_id' => 'required',
-                    'driver_id' => 'required',
-                    'vehicle_id' => 'required',
+                    // 'customer_id' => 'required',
+                    // 'driver_id' => 'required',
+                    // 'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -213,9 +204,9 @@ class TourismBookingsController extends Controller
 
             // $data['description'] = $req['description'];
 
-            \TransportBookings::where('id', $request->data['id'])->update($data);
+            \TourismBookings::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportBookings::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TourismBookings::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -242,7 +233,7 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTourism();
 
         try {
 
@@ -251,28 +242,24 @@ class TourismBookingsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportVehicles::where('id', $request->data['vehicle_id'])->first();
+            $temp = \TourismPrices::where('id', $request->data['type_price'])->first();
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
+            $venue_id = TourismVenues::where('id', $request->data['venue_id'])->value('id');
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver->id ,
-                'vehicle_id' => $temp->id ,
-                'days_duration' => $req['days_duration'] ,
-                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
-                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
-                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
-                'destination' => $req['destination'] ,
-                'get_price' => $temp->daily_price ,
-                'get_discount' => $temp->discount_daily_price ,
-                'get_cashback' => $temp->cashback_daily_price ,
-                'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
-                'get_driver_daily_price' => $driver->daily_price ,
-                'get_total_amount_driver' => ($driver->daily_price * $req['days_duration']) ,
+                'venue_id' => $venue_id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+                'type_price' => $temp->id ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -295,9 +282,7 @@ class TourismBookingsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
-
-            $stored_data = \TransportBookings::insert($data);
+            $stored_data = \TourismBookings::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -322,7 +307,7 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
         $check = TransportPayments::where('booking_id', $value)->first();
@@ -415,7 +400,7 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTourism();
 
         try {
             $request->validate([
@@ -453,7 +438,7 @@ class TourismBookingsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportPayment')->get();
+            $filters = TourismBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
                 if($value->transportPayment == null) {

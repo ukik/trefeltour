@@ -27,7 +27,7 @@
                   })
                 }}
               </h3>
-              <bootstrap-alert />
+              <!-- <bootstrap-alert /> -->
             </div>
             <vs-row>
               <vs-col
@@ -235,7 +235,6 @@ export default {
     this.isAuth = await this.$authUtil.getAuth(this.$api)
 
     this.getDetailEntity();
-    console.log('TRAVEL TICKETS this.$route', this.$route)
   },
   computed: {
     maintenanceImg() {
