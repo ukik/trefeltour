@@ -20,11 +20,6 @@ class TourismBookings extends Model
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
-    // public function badasoUser()
-    // {
-    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
-    // }
-
     public function badasoUsers()
     {
         return $this->belongsToMany(BadasoUsers::class, 'tourism_bookings', 'id', 'customer_id');
@@ -39,6 +34,17 @@ class TourismBookings extends Model
     {
         return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
     }
+
+    public function tourismPayments()
+    {
+        return $this->hasMany(TourismPayments::class, 'booking_id', 'id');
+    }
+
+    public function tourismPayment()
+    {
+        return $this->hasOne(TourismPayments::class, 'booking_id', 'id');
+    }
+
 
 
     public function transportPaymentsValidation() {

@@ -15,15 +15,6 @@ class TourismFacilities extends Model
 
     protected $table = "tourism_facilities";
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(BadasoUsers::class,'user_id','id');
-    // }
-
-    // public function badasoUsers()
-    // {
-    //     return $this->belongsToMany(BadasoUsers::class, 'transport_drivers', 'id', 'user_id');
-    // }
 
     public function tourismVenue()
     {
@@ -34,27 +25,5 @@ class TourismFacilities extends Model
     {
         return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
     }
-
-
-    // public function transportReturns()
-    // {
-    //     return $this->hasMany(TransportReturns::class, 'driver_id', 'id');
-    // }
-
-    // public function transportReturn()
-    // {
-    //     return $this->hasOne(TransportReturns::class, 'driver_id', 'id');
-    // }
-
-
-    // public function transportBookings()
-    // {
-    //     return $this->hasMany(TransportBookings::class, 'driver_id', 'id');
-    // }
-
-    // public function transportBooking()
-    // {
-    //     return $this->hasOne(TransportBookings::class, 'driver_id', 'id');
-    // }
 
 }

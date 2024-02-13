@@ -13,9 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
+use TourismBookings;
 use TourismVenues;
-use TransportVehicles;
-use TravelPayments;
 
 class TourismVenuesController extends Controller
 {
@@ -53,12 +52,15 @@ class TourismVenuesController extends Controller
 
             $data = \TourismVenues::with([
                 'badasoUsers',
-                // 'tourismPrice',
                 'tourismPrices',
                 'tourismFacility',
-                'tourismFacilites',
                 'tourismService',
+                'tourismBooking',
+                'tourismBooking.tourismPayment',
+                'tourismBooking.tourismPayment.tourismPaymentsValidation',
+                'tourismFacilities',
                 'tourismServices',
+                'tourismBookings',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -117,12 +119,15 @@ class TourismVenuesController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismVenues::with([
                 'badasoUsers',
-                // 'tourismPrice',
                 'tourismPrices',
                 'tourismFacility',
-                'tourismFacilites',
                 'tourismService',
+                'tourismBooking',
+                'tourismBooking.tourismPayment',
+                'tourismBooking.tourismPayment.tourismPaymentsValidation',
+                'tourismFacilities',
                 'tourismServices',
+                'tourismBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -139,7 +144,7 @@ class TourismVenuesController extends Controller
     {
         DB::beginTransaction();
 
-        // if(!isAdminTransport()) {
+        // if(!isAdminTourism()) {
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
@@ -160,29 +165,10 @@ class TourismVenuesController extends Controller
             $req['uuid'] = $table_entity->uuid ?: ShortUuid();
             $req['category'] = $req['category']; // json_encode($req['category']); //
 
-            // $req = request()['data'];
-            // $data = [
-            //     'user_id' => $table_entity->user_id,
-            //     'name' => $req['name'],
-            //     'email' => $req['email'],
-            //     'phone' => $req['phone'],
-            //     'location' => $req['location'],
-            //     'image' => $req['image'],
-            //     'address' => $req['address'],
-            //     'codepos' => $req['codepos'],
-            //     'city' => $req['city'],
-            //     'policy' => $req['policy'],
-            //     'country' => $req['country'],
-            //     'description' => $req['description'],
-            //     'is_available' => $req['is_available'],
-
-            //     'code_table' => ($slug) ,
-            //     'uuid' => $table_entity->uuid ?: ShortUuid(),
-            // ];
-
             $validator = Validator::make($req,
                 [
                     'user_id' => 'required',
+                    'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -242,31 +228,12 @@ class TourismVenuesController extends Controller
             $req['uuid'] = ShortUuid();
             $req['category'] = implode(',', $req['category']); // json_encode($req['category']); //
 
-            // $data = [
-            //     'user_id' => $req['user_id'],
-            //     'name' => $req['name'],
-            //     'email' => $req['email'],
-            //     'phone' => $req['phone'],
-            //     'location' => $req['location'],
-            //     'image' => $req['image'],
-            //     'address' => $req['address'],
-            //     'codepos' => $req['codepos'],
-            //     'city' => $req['city'],
-            //     'policy' => $req['policy'],
-            //     'country' => $req['country'],
-            //     'description' => $req['description'],
-            //     'is_available' => $req['is_available'] ? 'true' : 'false',
-
-            //     'code_table' => ($slug) ,
-            //     'uuid' => ShortUuid(),
-            // ];
-
             $validator = Validator::make($req,
                 [
-                    // '*' => 'required',
+                    'user_id' => 'required',
                     'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:tourism_venues'
+                    // 'user_id' => 'unique:tourism_venues'
                 ],
             );
             if ($validator->fails()) {
@@ -304,10 +271,8 @@ class TourismVenuesController extends Controller
         isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = TransportVehicles::where('rental_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TourismBookings::where('venue_id', $value)->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -432,10 +397,10 @@ class TourismVenuesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismVenues::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = TourismVenues::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismBooking')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->tourismBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

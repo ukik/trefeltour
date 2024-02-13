@@ -55,14 +55,13 @@ class TourismPaymentsController extends Controller
                 'badasoUsers',
                 'tourismBookings',
                 'tourismBooking',
-                // 'TourismPaymentsValidations',
-                // 'TourismPaymentsValidation',
-                // 'transportBooking',
-                // 'transportBooking.transportDriver',
-                // 'transportBooking.transportReturn',
-                // 'transportBooking.transportVehicle',
-                // 'transportBooking.transportVehicle.transportRental',
-                // 'transportBooking.transportVehicle.transportMaintenance',
+                'tourismPaymentsValidation',
+                'tourismPaymentsValidations',
+
+                'tourismBooking.tourismVenue',
+                'tourismBooking.tourismVenue.tourismPrices',
+                'tourismBooking.tourismVenue.tourismFacilities',
+                'tourismBooking.tourismVenue.tourismService',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -121,13 +120,13 @@ class TourismPaymentsController extends Controller
                 'badasoUsers',
                 'tourismBookings',
                 'tourismBooking',
-                // 'TourismPaymentsValidations',
-                // 'TourismPaymentsValidation',
-                // 'transportBooking.transportDriver',
-                // 'transportBooking.transportReturn',
-                // 'transportBooking.transportVehicle',
-                // 'transportBooking.transportVehicle.transportRental',
-                // 'transportBooking.transportVehicle.transportMaintenance',
+                'tourismPaymentsValidation',
+                'tourismPaymentsValidations',
+
+                'tourismBooking.tourismVenue',
+                'tourismBooking.tourismVenue.tourismPrices',
+                'tourismBooking.tourismVenue.tourismFacilities',
+                'tourismBooking.tourismVenue.tourismService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -146,10 +145,8 @@ class TourismPaymentsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data']['id'];
-        $check = TourismPaymentsValidations::where('id', $value)->first();
-        if ($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = TourismPaymentsValidations::where('payment_id', $value)->first();
+        if ($check && !isAdminTourism()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -297,11 +294,11 @@ class TourismPaymentsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTourism();
+
         $value = request()['data'][0]['value'];
         $check = TourismPaymentsValidations::where('payment_id', $value)->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -424,10 +421,10 @@ class TourismPaymentsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('TourismPaymentsValidation')->get();
+            $filters = TourismPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('tourismPaymentsValidation')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if ($value->TourismPaymentsValidation == null) {
+                if ($value->tourismPaymentsValidation == null) {
                     array_push($temp, $value['id']);
                 }
             }

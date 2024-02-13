@@ -18,9 +18,8 @@ use TravelPayments;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
+use TourismPayments;
 use TourismVenues;
-use TransportDrivers;
-use TransportPayments;
 
 class TourismBookingsController extends Controller
 {
@@ -58,18 +57,14 @@ class TourismBookingsController extends Controller
 
             $data = \TourismBookings::with([
                 'badasoUsers',
-                'tourismVenue',
                 'tourismVenues',
-                // 'transportDrivers',
-                // 'transportVehicles',
-                // 'transportDriver',
-                // 'transportReturn',
-                // 'transportVehicle',
-                // 'transportVehicle.transportRental',
-                // 'transportVehicle.transportMaintenance',
-                // 'transportPayments',
-                // 'transportPayment',
-                // 'transportPayment.transportPaymentsValidation',
+                'tourismVenue',
+                'tourismPayment',
+                'tourismPayments',
+
+                'tourismVenue.tourismPrices',
+                'tourismVenue.tourismFacilities',
+                'tourismVenue.tourismService',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -126,8 +121,14 @@ class TourismBookingsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismBookings::with([
                 'badasoUsers',
-                'tourismVenue',
                 'tourismVenues',
+                'tourismVenue',
+                'tourismPayment',
+                'tourismPayments',
+
+                'tourismVenue.tourismPrices',
+                'tourismVenue.tourismFacilities',
+                'tourismVenue.tourismService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -147,11 +148,9 @@ class TourismBookingsController extends Controller
 
         isOnlyAdminTourism();
 
-        // $value = request()['data']['id'];
-        // $check = \TransportPayments::where('booking_id', $value)->first();
-        // if($check && !isAdminTransport()) {
-        //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        // }
+        $value = request()['data']['id'];
+        $check = \TourismPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTourism()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -179,19 +178,20 @@ class TourismBookingsController extends Controller
 
                 'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
 
-                'description' => $req['description'] ,
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    // 'customer_id' => 'required',
-                    // 'driver_id' => 'required',
-                    // 'vehicle_id' => 'required',
+                    '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'venue_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
                     // ],
                 ],
             );
@@ -202,7 +202,7 @@ class TourismBookingsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
 
             \TourismBookings::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -260,7 +260,7 @@ class TourismBookingsController extends Controller
 
                 'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
 
-                'description' => $req['description'] ,
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
@@ -268,9 +268,6 @@ class TourismBookingsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    // 'customer_id' => 'required',
-                    // 'driver_id' => 'required',
-                    // 'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -281,6 +278,8 @@ class TourismBookingsController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
+
+            $data['description'] = $req['description'];
 
             $stored_data = \TourismBookings::insert($data);
 
@@ -310,10 +309,8 @@ class TourismBookingsController extends Controller
         isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = TransportPayments::where('booking_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TourismPayments::where('booking_id', $value)->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -438,10 +435,10 @@ class TourismBookingsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportPayment')->get();
+            $filters = TourismBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportPayment == null) {
+                if($value->tourismPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

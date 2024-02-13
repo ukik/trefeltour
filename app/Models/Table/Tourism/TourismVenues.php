@@ -35,7 +35,7 @@ class TourismVenues extends Model
         return $this->hasOne(TourismPrices::class, 'venue_id', 'id');
     }
 
-    public function tourismFacilites()
+    public function tourismFacilities()
     {
         return $this->hasMany(TourismFacilities::class, 'venue_id', 'id');
     }
@@ -53,6 +53,16 @@ class TourismVenues extends Model
     public function tourismService()
     {
         return $this->hasOne(TourismServices::class, 'venue_id', 'id');
+    }
+
+    public function tourismBookings()
+    {
+        return $this->hasMany(TourismBookings::class, 'venue_id', 'id');
+    }
+
+    public function tourismBooking()
+    {
+        return $this->hasOne(TourismBookings::class, 'venue_id', 'id');
     }
 
 }

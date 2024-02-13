@@ -46,13 +46,14 @@ class TourismBookingsCheckPayements extends Model
     }
 
 
-    public function tourismPaymentsValidations()
+    public function tourismPayments()
     {
-        return $this->hasMany(TourismPaymentsValidations::class, 'payment_id', 'id');
+        return $this->hasMany(TourismPayments::class, 'booking_id', 'id');
     }
 
-    public function tourismPaymentsValidation()
+    public function tourismPayment()
     {
-        return $this->hasOne(TourismPaymentsValidations::class, 'payment_id', 'id');
+        return $this->hasOne(TourismPayments::class, 'booking_id', 'id');
     }
+
 }

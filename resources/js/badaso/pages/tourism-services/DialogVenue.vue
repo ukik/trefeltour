@@ -88,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/tourism/tourism_venues?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/tourism/dialog_venue_tourism_services?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -100,7 +100,7 @@ export default {
                     this.selecteduser = item;
                     this.users = [item];
                 })
-        } 
+        }
     },
     methods: {
         onBubbleEvent(response) {
@@ -119,7 +119,7 @@ export default {
         lookupUser: debounce(function () {
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/tourism/tourism_venues?keyword=' + this.query, {
+                .get('/api/typehead/tourism/dialog_venue_tourism_services?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

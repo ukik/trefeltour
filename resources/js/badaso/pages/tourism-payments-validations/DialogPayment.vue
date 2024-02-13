@@ -13,7 +13,7 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `UUID (${item.uuid}) Destinasi (${item?.name})` }"
+            :serializer="item => { return `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})` }"
             @hit="selecteduser = $event" placeholder="Pilih Pembayaran" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
         <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-tourism'" @click="onHapus" class="btn btn-primary col-auto mr-4">
@@ -88,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/tourism/tourism_bookings?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/tourism/dialog_booking_tourism_payments_validations?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -96,7 +96,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `UUID (${item.uuid}) Destinasi (${item.name})`
+                    this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -106,7 +106,7 @@ export default {
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `UUID (${item.uuid}) Destinasi (${item.name})`
+            this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
@@ -120,7 +120,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/tourism/tourism_bookings?keyword=' + this.query, {
+                .get('/api/typehead/tourism/dialog_booking_tourism_payments_validations?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

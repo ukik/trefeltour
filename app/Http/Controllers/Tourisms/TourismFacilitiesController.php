@@ -13,9 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportMaintenances;
 use TourismFacilities;
-use TravelPayments;
 
 class TourismFacilitiesController extends Controller
 {
@@ -52,18 +50,17 @@ class TourismFacilitiesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TourismFacilities::with([
-                'tourismVenue',
                 'tourismVenues',
-                // 'badasoUsers',
-                // 'transportMaintenances',
-                // 'transportMaintenance',
-                // 'transportMaintenance.transportVehicle',
-                // 'transportMaintenance.transportVehicle.transportRental',
-                // 'transportMaintenance.transportVehicle.transportBooking',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportPayment' => function($q) { return $q->select('id','booking_id','customer_id'); },
-                // 'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation' => function($q) { return $q->select('id','payment_id'); },
+                'tourismVenue',
+
+                'tourismVenue.tourismPrices',
+                'tourismVenue.tourismServices',
+
+                'tourismVenue.tourismFacility',
+                'tourismVenue.tourismService',
+                'tourismVenue.tourismBooking',
+                'tourismVenue.tourismBooking.tourismPayment',
+                'tourismVenue.tourismBooking.tourismPayment.tourismPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -119,18 +116,17 @@ class TourismFacilitiesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismFacilities::with([
-                'tourismVenue',
                 'tourismVenues',
-                // 'badasoUsers',
-                // 'transportMaintenances',
-                // 'transportMaintenance',
-                // 'transportMaintenance.transportVehicle',
-                // 'transportMaintenance.transportVehicle.transportRental',
-                // 'transportMaintenance.transportVehicle.transportBooking',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportPayment',
-                // 'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                'tourismVenue',
+
+                'tourismVenue.tourismPrices',
+                'tourismVenue.tourismServices',
+
+                'tourismVenue.tourismFacility',
+                'tourismVenue.tourismService',
+                'tourismVenue.tourismBooking',
+                'tourismVenue.tourismBooking.tourismPayment',
+                'tourismVenue.tourismBooking.tourismPayment.tourismPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -233,8 +229,6 @@ class TourismFacilitiesController extends Controller
             $validator = Validator::make($req,
                 [
                     'venue_id' => 'required',
-                    // 'codepos' => 'max:6',
-                    // 'user_id' => 'unique:view_transport_workshops_check_user'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -276,8 +270,11 @@ class TourismFacilitiesController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTourism();
+
         $value = request()['data'][0]['value'];
-        $check = TransportMaintenances::where('workshop_id', $value)->where('is_maintenance','true')->first();
+        $venue_id = \TourismFacilities::where('id', $value)->value('venue_id');
+        $check = \TourismVenues::where('id', $venue_id)->first();
         if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
@@ -403,10 +400,10 @@ class TourismFacilitiesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismFacilities::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = TourismFacilities::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->tourismVenue == null) {
                     array_push($temp, $value['id']);
                 }
             }

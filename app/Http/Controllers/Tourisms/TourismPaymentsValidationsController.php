@@ -53,6 +53,12 @@ class TourismPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',
+
+                'tourismPayment.tourismBooking',
+                'tourismPayment.tourismBooking.tourismVenue',
+                'tourismPayment.tourismBooking.tourismVenue.tourismPrices',
+                'tourismPayment.tourismBooking.tourismVenue.tourismFacilities',
+                'tourismPayment.tourismBooking.tourismVenue.tourismService',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -106,6 +112,12 @@ class TourismPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',
+
+                'tourismPayment.tourismBooking',
+                'tourismPayment.tourismBooking.tourismVenue',
+                'tourismPayment.tourismBooking.tourismVenue.tourismPrices',
+                'tourismPayment.tourismBooking.tourismVenue.tourismFacilities',
+                'tourismPayment.tourismBooking.tourismVenue.tourismService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -126,11 +138,10 @@ class TourismPaymentsValidationsController extends Controller
         DB::beginTransaction();
 
         isOnlyAdminTourism();
-        // $value = request()['data']['id'];
-        // $check = TourismPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        // if ($check && !isAdminTourism()) {
-        //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        // }
+
+        $value = request()['data']['id'];
+        $check = TourismPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if ($check && !isAdminTourism()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -156,9 +167,9 @@ class TourismPaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_payments_validations')->ignore($req['id'])
-                    // ],
+                    'payment_id' => [
+                        'required', \Illuminate\Validation\Rule::unique('tourism_payments_validations')->ignore($table_entity->id)
+                    ],
                 ],
             );
             if ($validator->fails()) {
@@ -199,11 +210,11 @@ class TourismPaymentsValidationsController extends Controller
 
         isOnlyAdminTourism();
 
-        // // UNIQUE + SoftDelete
-        // // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        // $unique = TourismPaymentsValidations::where('payment_id', $request->data['payment_id'])
-        //     ->where('deleted_at', NULL)->first();
-        // if ($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
+        // UNIQUE + SoftDelete
+        // cukup CREATE aja karena di edit tidak bisa di edit relationship
+        $unique = TourismPaymentsValidations::where('payment_id', $request->data['payment_id'])
+            ->where('deleted_at', NULL)->first();
+        if ($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
 
         try {
 
@@ -229,7 +240,7 @@ class TourismPaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => 'unique:travel_payments_validations'
+                    'payment_id' => 'unique:tourism_payments_validations'
                 ],
             );
             if ($validator->fails()) {
@@ -265,11 +276,10 @@ class TourismPaymentsValidationsController extends Controller
         DB::beginTransaction();
 
         isOnlyAdminTourism();
+
         $value = request()['data'][0]['value'];
         $check = TourismPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([

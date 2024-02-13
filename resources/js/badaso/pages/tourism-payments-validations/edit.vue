@@ -519,15 +519,15 @@ export default {
 
 
         // REDIRECT
-        // if(this.record['travelTicket'] && !this.isAdmin) {
-        //     this.$router.replace({
-        //         name: 'CrudGeneratedRead',
-        //         params: {
-        //             id: this.$route.params.id,
-        //             slug: this.$route.params.slug,
-        //         },
-        //     })
-        // }
+        if(!this.isAdmin) {
+            this.$router.replace({
+                name: 'CrudGeneratedRead',
+                params: {
+                    id: this.$route.params.id,
+                    slug: this.$route.params.slug,
+                },
+            })
+        }
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 

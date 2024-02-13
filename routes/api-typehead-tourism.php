@@ -31,19 +31,16 @@ Route::group(['prefix' => '/typehead/tourism', 'middleware' => ['sanctum_1','BAD
     Route::get('/user-booking-edit', 'TourismTypeHeadController@getUserBookingEdit');
     Route::get('/user-payment-validation-edit', 'TourismTypeHeadController@getUserPaymentValidationEdit');
 
-    Route::get('/tourism_venues', 'TourismTypeHeadController@tourism_venues');
-    Route::get('/tourism_bookings', 'TourismTypeHeadController@tourism_bookings');
+    Route::get('/dialog_venue_tourism_venues', 'TourismTypeHeadController@dialog_venue_tourism_venues');
+    Route::get('/dialog_venue_tourism_services', 'TourismTypeHeadController@dialog_venue_tourism_services');
+    Route::get('/dialog_venue_tourism_prices', 'TourismTypeHeadController@dialog_venue_tourism_prices');
+    Route::get('/dialog_venue_tourism_facilities', 'TourismTypeHeadController@dialog_venue_tourism_facilities');
+    Route::get('/dialog_venue_tourism_bookings', 'TourismTypeHeadController@dialog_venue_tourism_bookings');
 
-    // tourism-bookings
-    // Route::get('/tourism-bookings', 'TourismTypeHeadController@tourism_bookings');
-    // Route::get('/tourism-drivers', 'TourismTypeHeadController@tourism_drivers');
-    // Route::get('/tourism-maintenances', 'TourismTypeHeadController@tourism_maintenances');
-    // Route::get('/tourism-payments', 'TourismTypeHeadController@tourism_payments');
-    // Route::get('/tourism-payments-validations', 'TourismTypeHeadController@tourism_payments_validations');
-    // Route::get('/tourism-rentals', 'TourismTypeHeadController@tourism_rentals');
-    // Route::get('/tourism-returns', 'TourismTypeHeadController@tourism_returns');
-    // Route::get('/tourism-vehicles', 'TourismTypeHeadController@tourism_vehicles');
-    // Route::get('/tourism-workshops', 'TourismTypeHeadController@tourism_workshops');
+    Route::get('/dialog_booking_tourism_bookings', 'TourismTypeHeadController@dialog_booking_tourism_bookings');
+    Route::get('/dialog_booking_tourism_payments_validations', 'TourismTypeHeadController@dialog_booking_tourism_payments_validations');
+
+    Route::get('/tourism_bookings', 'TourismTypeHeadController@tourism_bookings');
 
 });
 

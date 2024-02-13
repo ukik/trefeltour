@@ -100,21 +100,6 @@ export default {
                     this.selecteduser = item;
                     this.users = [item];
                 })
-        } else {
-            return
-            axios
-                .get(`/api/typehead/tourism/user`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                })
-                .then(response => {
-                    console.log('AXIOS TYPEHEAD USER', response)
-                    const item = response.data
-                    this.$refs.typeahead.inputValue = `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})`;
-                    this.selecteduser = response.data;
-                    this.users = [response.data];
-                })
         }
     },
     methods: {
