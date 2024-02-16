@@ -215,6 +215,22 @@ class TalentPricesCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 12,
                 ),
+                12 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'talent_id_copy',
+                    'type' => 'number',
+                    'display_name' => 'TalentIdCopy',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 13,
+                ),
             ));
 
             \DB::commit();

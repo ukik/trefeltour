@@ -28,6 +28,7 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 58,
                 'name' => 'talent_payments',
                 'slug' => 'talent-payments',
                 'display_name_singular' => 'Talent Pembayaran',
@@ -35,19 +36,19 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => 'App\\Http\\Controllers\\Talent\\TalentPaymentsController',
+                'controller' => 'App\\Http\\Controllers\\Talents\\TalentPaymentsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-02-16T03:31:33.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-16T03:31:33.000000Z',
-                'id' => 58,
+                'updated_at' => '2024-02-16T16:07:29.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_payments');

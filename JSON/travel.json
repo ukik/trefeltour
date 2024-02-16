@@ -403,3 +403,47 @@ Wisata Budaya,Wisata Konvensi,Wisata Agro,Wisata Ziarah,Wisata Belanja,Wisata Al
         }
     ]
 }
+guide,media,mc,dance,singer,band,comedian,musician,others
+
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Guide",
+            "value": "guide"
+        },
+        {
+            "label": "Media",
+            "value": "media"
+        },
+        {
+            "label": "MC",
+            "value": "mc"
+        },
+        {
+            "label": "Dance",
+            "value": "dance"
+        },
+        {
+            "label": "Singer",
+            "value": "singer"
+        },
+        {
+            "label": "Band",
+            "value": "band"
+        },
+        {
+            "label": "Comedian",
+            "value": "comedian"
+        },
+        {
+            "label": "Musician",
+            "value": "musician"
+        },
+        {
+            "label": "Others",
+            "value": "others"
+        }
+    ]
+}

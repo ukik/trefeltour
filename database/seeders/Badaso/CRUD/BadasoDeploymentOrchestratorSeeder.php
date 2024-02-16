@@ -154,5 +154,7 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TalentPricesCRUDDataRowAdded::class);
         $this->seed(TalentSkillsCRUDDataTypeAdded::class);
         $this->seed(TalentSkillsCRUDDataRowAdded::class);
+        $this->seed(TalentProfilesCRUDDataTypeAdded::class);
+        $this->seed(TalentProfilesCRUDDataRowAdded::class);
     }
 }

@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "talentId":"123", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "talentId":"123", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "talentId":"123", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "talentIdCopy":"123"}, {"id":"123", "uuid":"Abc", "talentId":"123", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "talentIdCopy":"123"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -215,7 +215,8 @@
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"),
+  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="integer", property="talentIdCopy"),
   *                     ),
   *                ),
   *             )
