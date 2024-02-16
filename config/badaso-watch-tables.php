@@ -91,6 +91,7 @@ return [
     'talent_bookings',
     'talent_payments',
     'talent_payments_validations',
+    'talent_prices',
     'talent_skills',
     'talents',
     'tourism_bookings',
