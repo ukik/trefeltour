@@ -306,11 +306,24 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                            <div v-else>
+                                <!-- {{ record }} -->
+                                <div v-if="
+                                    dataRow.field == 'user_id' ||
+                                    dataRow.field == 'profile_id' ||
+                                    dataRow.field == 'skill_id'
+                                    ">
+                                    <span v-html="record?.userColumn"></span>
+                                    <!-- (<i>{{ record?.badasoUser?.username }}</i>) {{ record?.badasoUser?.name }} -->
+                                </div>
+                                <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                </span>
+                            </div>
                         </template>
                       </vs-td>
                     </template>
@@ -504,6 +517,7 @@ export default {
                 data, total, lastPage, currentPage, perPage
             }
         } = await this.$api.badasoEntity.browse({
+            label: 'SharedTableModal', // digunakan pada Model Accessor buat modifikasi field
           slug: this.slug, // $route.params.slug,
           limit: this.limit,
           page: this.page,

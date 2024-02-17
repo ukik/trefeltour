@@ -410,6 +410,10 @@ guide,media,mc,dance,singer,band,comedian,musician,others
     "size": 12,
     "items": [
         {
+            "label": "Documentary",
+            "value": "documentary"
+        },
+        {
             "label": "Guide",
             "value": "guide"
         },

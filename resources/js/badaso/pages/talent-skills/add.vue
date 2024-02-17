@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
+              <DialogProfile @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -28,9 +28,10 @@
               >
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
+
                 <template v-if="dataRow.add == 1">
                   <badaso-text required
-                    v-if="dataRow.type == 'text'"
+                    v-if="dataRow.type == 'text' && dataRow.field !== 'others'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -39,6 +40,18 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+                  <badaso-text required
+                    v-if="dataRow.type == 'text' && dataRow.field == 'others' && others"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -422,12 +435,12 @@
 </template>
 
 <script>
-import DialogVenue from './DialogVenue.vue'
+import DialogProfile from './DialogProfile.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue
+    DialogProfile
   },
   data: () => ({
     isValid: true,
@@ -440,6 +453,8 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    others: false,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -457,24 +472,10 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-            switch (el.field) {
-                case    'is_toilet':
-                case    'is_bathroom':
-                case    'is_mushola':
-                case    'is_rest_area':
-                case    'is_bar':
-                case    'is_culinary':
-                case    'is_souvenir':
-                case    'is_park':
-                case    'is_wifi':
-                case    'is_security':
-                case    'is_medic':
-                    el.value = true
-                    break;
-            }
-
-            // if(el.field == "is_available") {
-            //     el.value = true
+            // if(el.field == "others") {
+            //     el.disabled = true
+            // } else {
+            //     el.disabled = false
             // }
 
             // switch (vm.userRole) {
@@ -499,6 +500,25 @@ export default {
 
         console.log('dataType', this.dataType.dataRows)
   },
+  watch: {
+    'dataType.dataRows': {
+        deep:true,
+        handler(temp) {
+            temp.forEach(el => {
+                let _cat = null
+                if(el.field == "category") {
+                    _cat = el.value
+
+                    if(_cat == 'others') {
+                        this.others = true
+                    } else {
+                        this.others = false
+                    }
+                }
+            });
+        }
+    }
+  },
   methods: {
     updateTypeHead(value) {
         console.log('updateTypeHead', value, this.dataType.dataRows)
@@ -509,7 +529,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'profile_id') {
                 el.value = value ? value?.id : '';
             }
         });

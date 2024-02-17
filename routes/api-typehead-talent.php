@@ -26,19 +26,29 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 |
 */
 
-Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
-    Route::get('/user', 'TransportTypeHeadController@getUser');
+Route::group(['prefix' => '/typehead/talent', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
+    Route::get('/user', 'TalentTypeHeadController@getUser');
+    Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
+    Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
 
-    // transport-bookings
-    Route::get('/transport-bookings', 'TransportTypeHeadController@transport_bookings');
-    Route::get('/transport-drivers', 'TransportTypeHeadController@transport_drivers');
-    Route::get('/transport-maintenances', 'TransportTypeHeadController@transport_maintenances');
-    Route::get('/transport-payments', 'TransportTypeHeadController@transport_payments');
-    Route::get('/transport-payments-validations', 'TransportTypeHeadController@transport_payments_validations');
-    Route::get('/transport-rentals', 'TransportTypeHeadController@transport_rentals');
-    Route::get('/transport-returns', 'TransportTypeHeadController@transport_returns');
-    Route::get('/transport-vehicles', 'TransportTypeHeadController@transport_vehicles');
-    Route::get('/transport-workshops', 'TransportTypeHeadController@transport_workshops');
+    Route::get('/dialog_profile_talent_profiles', 'TalentTypeHeadController@dialog_profile_talent_profiles');
+    Route::get('/dialog_profile_talent_skills', 'TalentTypeHeadController@dialog_profile_talent_skills');
+
+    Route::get('/dialog_venue_tourism_bookings', 'TourismTypeHeadController@dialog_venue_tourism_bookings');
+    Route::get('/dialog_booking_tourism_bookings', 'TourismTypeHeadController@dialog_booking_tourism_bookings');
+    Route::get('/dialog_booking_tourism_payments_validations', 'TourismTypeHeadController@dialog_booking_tourism_payments_validations');
+
+
+
+    // Route::get('/dialog_profile_talent_services', 'TalentTypeHeadController@dialog_profile_talent_services');
+    // Route::get('/dialog_profile_talent_prices', 'TalentTypeHeadController@dialog_profile_talent_prices');
+    // Route::get('/dialog_profile_talent_facilities', 'TalentTypeHeadController@dialog_profile_talent_facilities');
+    // Route::get('/dialog_profile_talent_bookings', 'TalentTypeHeadController@dialog_profile_talent_bookings');
+
+    // Route::get('/dialog_booking_talent_bookings', 'TalentTypeHeadController@dialog_booking_talent_bookings');
+    // Route::get('/dialog_booking_talent_payments_validations', 'TalentTypeHeadController@dialog_booking_talent_payments_validations');
+
+    // Route::get('/talent_bookings', 'TalentTypeHeadController@talent_bookings');
 
 });
 

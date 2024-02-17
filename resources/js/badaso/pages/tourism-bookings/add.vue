@@ -504,16 +504,17 @@ export default {
 
     },
     updateTypeHeadVenue(field, value) {
-        console.log('updateTypeHead', value, this.dataType.dataRows)
+        console.log('updateTypeHeadVenue', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         temp.forEach(el => {
-
             if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
+
+                console.log('temp.forEach venue_id', value)
 
                 let _arr = []
                 value?.tourismPrices.forEach(arr => {
@@ -530,6 +531,7 @@ export default {
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+        console.log('this.tourismPrices', this.tourismPrices)
 
     },
 

@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
+              <DialogProfile @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -30,8 +30,8 @@
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
 
-                  <badaso-text
-                    v-if="dataRow.type == 'text'"
+                  <badaso-text required
+                    v-if="dataRow.type == 'text' && dataRow.field !== 'others'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -40,6 +40,18 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+                  <badaso-text required
+                    v-if="dataRow.type == 'text' && dataRow.field == 'others' && others"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -441,12 +453,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import DialogVenue from './DialogVenue.vue'
+import DialogProfile from './DialogProfile.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue
+    DialogProfile
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -460,6 +472,8 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    others: false,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -494,40 +508,21 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'is_toilet' && key == 'isToilet') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_bathroom' && key == 'isBathroom') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_mushola' && key == 'isMushola') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_rest_area' && key == 'isRestArea') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_bar' && key == 'isBar') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_culinary' && key == 'isCulinary') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_souvenir' && key == 'isSouvenir') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_park' && key == 'isPark') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_wifi' && key == 'isWifi') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_security' && key == 'isSecurity') {
-                        el.value = isVal
-                    }
-                    if(el.field == 'is_medic' && key == 'isMedic') {
+                    if(el.field == 'is_available' && key == 'isAvailable') {
                         el.value = isVal
                     }
 
+                    if(el.field == 'year_exp' && key == 'yearExp') {
+                        el.value = new Date(this.record[key])
+                    }
+
+                    if(el.field == 'category' && key == 'category') {
+                        if(this.record[key] == 'others') {
+                            this.others = true
+                        } else {
+                            this.others = false
+                        }
+                    }
                 }
             }
         });
@@ -550,6 +545,25 @@ export default {
 
 
   },
+  watch: {
+    'dataType.dataRows': {
+        deep:true,
+        handler(temp) {
+            temp.forEach(el => {
+                let _cat = null
+                if(el.field == "category") {
+                    _cat = el.value
+
+                    if(_cat == 'others') {
+                        this.others = true
+                    } else {
+                        this.others = false
+                    }
+                }
+            });
+        }
+    },
+},
   methods: {
     updateTypeHead(value) {
 
@@ -561,7 +575,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'profile_id') {
                 el.value = value ? value?.id : '';
             }
         });

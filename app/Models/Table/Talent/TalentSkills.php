@@ -13,5 +13,36 @@ class TalentSkills extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public function __construct(array $attributes = [])
+    {
+        $this->appends = [
+            'user_label',
+            'user_column'
+        ];
+
+        parent::__construct($attributes);
+    }
+
+    public function getUserLabelAttribute($value) {
+        $user = $this?->talentProfile?->badasoUser;
+        return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    }
+
+    public function getUserColumnAttribute($value) {
+        $user = $this?->talentProfile?->badasoUser;
+        return "(<i> $user->username </i>) $user->name";
+    }
+
     protected $table = "talent_skills";
+
+    public function talentProfile()
+    {
+        return $this->belongsTo(TalentProfiles::class,'profile_id','id');
+    }
+
+    public function talentProfiles()
+    {
+        return $this->belongsToMany(TalentProfiles::class, 'talent_skills', 'id', 'profile_id');
+    }
+
 }

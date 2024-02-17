@@ -298,11 +298,22 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                            <div v-else>
+                                <!-- {{ record }} -->
+                                <span v-if="dataRow.field == 'profile_id'">
+                                    (<i>{{ record?.talentProfile?.badasoUser?.username }}</i>) {{ record?.talentProfile?.badasoUser?.name }}
+                                </span>
+                                <span v-if="dataRow.field == 'year_exp'">
+                                    {{ $formatDate(record?.yearExp) }}
+                                </span>
+                                <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                </span>
+                            </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">
@@ -458,7 +469,7 @@
                               Detail Pembayaran Validasi
                             </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -522,7 +533,7 @@
                               icon="visibility"
                             >
                               Detail Harga Tiket ({{ item2.uuid }})
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
 

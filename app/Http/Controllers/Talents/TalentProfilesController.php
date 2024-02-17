@@ -52,6 +52,7 @@ class TalentProfilesController extends Controller
 
             $data = \TalentProfiles::with([
                 'badasoUsers',
+                'badasoUser',
                 // 'tourismPrices',
                 // 'tourismFacility',
                 // 'tourismService',
@@ -119,6 +120,7 @@ class TalentProfilesController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentProfiles::with([
                 'badasoUsers',
+                'badasoUser',
                 // 'tourismPrices',
                 // 'tourismFacility',
                 // 'tourismService',
@@ -148,7 +150,7 @@ class TalentProfilesController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
 
@@ -163,7 +165,6 @@ class TalentProfilesController extends Controller
             $req['user_id'] = $table_entity->user_id;
             $req['code_table'] = ($slug);
             $req['uuid'] = $table_entity->uuid ?: ShortUuid();
-            // $req['category'] = $req['category']; // json_encode($req['category']); //
 
             $validator = Validator::make($req,
                 [
@@ -213,7 +214,7 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
 
@@ -226,7 +227,6 @@ class TalentProfilesController extends Controller
             $req = $req['data'];
             $req['code_table'] = ($slug);
             $req['uuid'] = ShortUuid();
-            // $req['category'] = implode(',', $req['category']); // json_encode($req['category']); //
 
             $validator = Validator::make($req,
                 [
@@ -268,7 +268,7 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
         $check = TourismBookings::where('venue_id', $value)->first();
@@ -359,7 +359,7 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
             $request->validate([

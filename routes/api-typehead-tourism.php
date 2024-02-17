@@ -35,8 +35,8 @@ Route::group(['prefix' => '/typehead/tourism', 'middleware' => ['sanctum_1','BAD
     Route::get('/dialog_venue_tourism_services', 'TourismTypeHeadController@dialog_venue_tourism_services');
     Route::get('/dialog_venue_tourism_prices', 'TourismTypeHeadController@dialog_venue_tourism_prices');
     Route::get('/dialog_venue_tourism_facilities', 'TourismTypeHeadController@dialog_venue_tourism_facilities');
-    Route::get('/dialog_venue_tourism_bookings', 'TourismTypeHeadController@dialog_venue_tourism_bookings');
 
+    Route::get('/dialog_venue_tourism_bookings', 'TourismTypeHeadController@dialog_venue_tourism_bookings');
     Route::get('/dialog_booking_tourism_bookings', 'TourismTypeHeadController@dialog_booking_tourism_bookings');
     Route::get('/dialog_booking_tourism_payments_validations', 'TourismTypeHeadController@dialog_booking_tourism_payments_validations');
 

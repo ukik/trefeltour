@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
+              <DialogSkill @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
               <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
@@ -438,13 +438,13 @@
 </template>
 
 <script>
-import DialogVenue from './DialogVenue.vue'
+import DialogSkill from './DialogSkill.vue'
 import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue, DialogUser
+    DialogSkill, DialogUser
   },
   data: () => ({
     isValid: true,

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
 // use App\Http\Controllers\Controller;
 use Exception;
-use Google\Service\MyBusinessLodging\Transportation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
@@ -14,8 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportDrivers;
-use TravelPayments;
+use TalentSkills;
 
 class TalentSkillsController extends Controller
 {
@@ -51,16 +49,10 @@ class TalentSkillsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportDrivers::with([
-                'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \TalentSkills::with([
+                'talentProfile',
+                'talentProfiles',
+                'talentProfile.badasoUser',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -115,23 +107,15 @@ class TalentSkillsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportDrivers::with([
-                'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \TalentSkills::with([
+                'talentProfile',
+                'talentProfiles',
+                'talentProfile.badasoUser',
             ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
-
-            // $data->customer_selected = DB::table('travel_reservations')->where('customer_id', request()->id)->limit(1)->get();
 
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
@@ -144,40 +128,34 @@ class TalentSkillsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         try {
 
             // get slug by route name and get data type
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportDrivers::where('id', $request->data['id'])->first();
+            $table_entity = \TalentSkills::where('id', $request->data['id'])->first();
 
-            $req = request()['data'];
-            $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
-                'daily_price' => $req['daily_price'] ,
-                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
-                'is_available' => $req['is_available'] ,
-                'is_reserved' => $req['is_reserved'] ,
-                'description' => $req['description'] ,
-                'code_table' => ($slug) ,
-                'uuid' => $table_entity->uuid ?: ShortUuid(),
-            ];
+            $profile_id = \TalentProfiles::where('id', $table_entity->profile_id)->value('id');
 
-            $validator = Validator::make($data,
+            $req = $request->except('data.talent_id','data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            $req = $req['data'];
+            $req['profile_id'] = $profile_id;
+            $req['code_table'] = ($slug);
+            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+
+            $validator = Validator::make($req,
                 [
-                    '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user,user_id,'.$req['id']
+                    'profile_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
-                [
-                    'code_stnk.unique' => 'User sudah terdaftar'
-                ]
             );
+
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
                 foreach ($errors as $key => $value) {
@@ -185,9 +163,9 @@ class TalentSkillsController extends Controller
                 }
             }
 
-            \TransportDrivers::where('id', $request->data['id'])->update($data);
+            \TalentSkills::where('id', $request->data['id'])->update($req);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportDrivers::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TalentSkills::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -214,6 +192,8 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         try {
 
             // get slug by route name and get data type in table
@@ -221,30 +201,24 @@ class TalentSkillsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $req = request()['data'];
-            $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
-                'daily_price' => $req['daily_price'] ,
-                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
-                'is_available' => $req['is_available'] ? 'true' : 'false' ,
-                'is_reserved' => $req['is_reserved'] ? 'true' : 'false' ,
-                'description' => $req['description'] ,
-                'code_table' => ($slug) ,
-                'uuid' => ShortUuid(),
-            ];
+            $profile_id = \TalentProfiles::where('id', $request['data']['profile_id'])->value('id');
 
-            $validator = Validator::make($data,
+            $req = $request->except('data.talent_id','data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            $req = $req['data'];
+            $req['profile_id'] = $profile_id;
+            $req['code_table'] = ($slug);
+            $req['uuid'] = ShortUuid();
+
+            $validator = Validator::make($req,
                 [
-                    '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user'
+                    'profile_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [
-                    'user_id.unique' => 'User sudah terdaftar'
+                    // 'user_id.unique' => 'User sudah terdaftar'
                 ]
             );
             if ($validator->fails()) {
@@ -254,7 +228,7 @@ class TalentSkillsController extends Controller
                 }
             }
 
-            $stored_data = \TransportDrivers::insert($data);
+            $stored_data = \TalentSkills::insert($req);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -279,9 +253,12 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         $value = request()['data'][0]['value'];
-        $check = TransportDrivers::where('id', $value)->where('is_reserved', 'true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data sedang digunakan");
+        $profile_id = \TalentSkills::where('id', $value)->value('profile_id');
+        $check = \TalentProfiles::where('id', $profile_id)->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -368,6 +345,8 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -404,10 +383,12 @@ class TalentSkillsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportDrivers::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_reserved','false')->get();
+            $filters = TalentSkills::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
             $temp = [];
             foreach ($filters as $value) {
-                array_push($temp, $value['id']);
+                if($value->tourismVenue == null) {
+                    array_push($temp, $value['id']);
+                }
             }
             $id_list = $temp;
             // -------------------------------------------- //

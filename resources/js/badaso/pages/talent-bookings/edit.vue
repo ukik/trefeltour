@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
+              <DialogSkill @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
               <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
@@ -453,7 +453,7 @@
 </template>
 
 <script>
-import DialogVenue from './DialogVenue.vue'
+import DialogSkill from './DialogSkill.vue'
 import DialogUser from './DialogUser.vue'
 
 // eslint-disable-next-line no-unused-vars
@@ -462,7 +462,7 @@ import * as _ from "lodash";
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue, DialogUser
+    DialogSkill, DialogUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({

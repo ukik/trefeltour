@@ -58,15 +58,15 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                 2 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'talent_id',
+                    'field' => 'profile_id',
                     'type' => 'number',
                     'display_name' => 'Talent',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 3,
@@ -76,7 +76,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'name',
                     'type' => 'text',
-                    'display_name' => 'Skill',
+                    'display_name' => 'Nama Skill',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -91,7 +91,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'category',
-                    'type' => 'select_multiple',
+                    'type' => 'select',
                     'display_name' => 'Kategori',
                     'required' => 0,
                     'browse' => 1,
@@ -102,6 +102,10 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'details' => '{
 "size": 12,
 "items": [
+{
+"label": "Documentary",
+"value": "documentary"
+},
 {
 "label": "Guide",
 "value": "guide"
@@ -135,7 +139,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
 "value": "musician"
 },
 {
-"label": "Others",
+"label": "Lainnya",
 "value": "others"
 }
 ]
@@ -148,7 +152,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'others',
                     'type' => 'text',
-                    'display_name' => 'Sebutkan',
+                    'display_name' => 'Kategori Lainnya',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -162,38 +166,6 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'additional_price',
-                    'type' => 'number',
-                    'display_name' => 'Additional Price',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 7,
-                ),
-                7 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'additional_discount_price',
-                    'type' => 'number',
-                    'display_name' => 'Additional Discount Price',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 8,
-                ),
-                8 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'description',
                     'type' => 'textarea',
                     'display_name' => 'Deskripsi',
@@ -205,9 +177,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 7,
                 ),
-                9 => 
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'policy',
@@ -221,9 +193,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 8,
                 ),
-                10 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'year_exp',
@@ -237,9 +209,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 9,
                 ),
-                11 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
@@ -253,9 +225,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 10,
                 ),
-                12 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -269,9 +241,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 11,
                 ),
-                13 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -285,9 +257,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 12,
                 ),
-                14 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -301,9 +273,9 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 13,
                 ),
-                15 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -317,7 +289,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 14,
                 ),
             ));
 

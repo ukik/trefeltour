@@ -28,7 +28,7 @@ class TalentSkillsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 62,
+                'id' => 64,
                 'name' => 'talent_skills',
                 'slug' => 'talent-skills',
                 'display_name_singular' => 'Talent Skill',
@@ -36,7 +36,7 @@ class TalentSkillsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => 'App\\Http\\Controllers\\Talents\\TalentPricesController',
+                'controller' => 'App\\Http\\Controllers\\Talents\\TalentSkillsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
@@ -47,8 +47,8 @@ class TalentSkillsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => 1,
-                'created_at' => '2024-02-16T06:09:06.000000Z',
-                'updated_at' => '2024-02-16T16:25:53.000000Z',
+                'created_at' => '2024-02-17T11:34:05.000000Z',
+                'updated_at' => '2024-02-17T15:52:34.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_skills');

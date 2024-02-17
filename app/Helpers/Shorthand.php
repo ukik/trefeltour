@@ -45,10 +45,8 @@ if (!function_exists('isSuperAdmin')) {
                 switch ($value->name) {
                     case 'administrator':
                         return true;
-                        break;
                     default:
                         return false;
-                        break;
                 }
             }
 
@@ -67,10 +65,8 @@ if (!function_exists('isAdmin')) {
                     case 'administrator':
                     case 'admin':
                         return true;
-                        break;
                     default:
                         return false;
-                        break;
                 }
             }
 
@@ -86,14 +82,10 @@ if (!function_exists('isAdminTransport')) {
 
             foreach (Auth::user()->roles as $key => $value) {
                 switch ($value->name) {
-                    // case 'administrator':
-                    // case 'admin':
                     case 'admin-transport':
                         return true;
-                        break;
                     default:
                         return false;
-                        break;
                 }
             }
 
@@ -102,21 +94,34 @@ if (!function_exists('isAdminTransport')) {
         }
     }
 }
+if (!function_exists('isAdminTalent')) {
+    function isAdminTalent(){
+        if(Auth::check()) {
 
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'admin-talent':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 if (!function_exists('isAdminTourism')) {
     function isAdminTourism(){
         if(Auth::check()) {
 
             foreach (Auth::user()->roles as $key => $value) {
                 switch ($value->name) {
-                    // case 'administrator':
-                    // case 'admin':
                     case 'admin-tourism':
                         return true;
-                        break;
                     default:
                         return false;
-                        break;
                 }
             }
 
@@ -128,6 +133,12 @@ if (!function_exists('isAdminTourism')) {
 if (!function_exists('isOnlyAdminTransport')) {
     function isOnlyAdminTransport(){
         if(!isAdminTransport()) return ApiResponse::failed('Maaf harus dari admin');
+    }
+}
+
+if (!function_exists('isOnlyAdminTalent')) {
+    function isOnlyAdminTalent(){
+        if(!isAdminTalent()) return ApiResponse::failed('Maaf harus dari admin');
     }
 }
 

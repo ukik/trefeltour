@@ -150,11 +150,19 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TalentPaymentsValidationsCRUDDataDeleted::class);
         $this->seed(TalentPaymentsValidationsCRUDDataTypeAdded::class);
         $this->seed(TalentPaymentsValidationsCRUDDataRowAdded::class);
-        $this->seed(TalentPricesCRUDDataTypeAdded::class);
-        $this->seed(TalentPricesCRUDDataRowAdded::class);
-        $this->seed(TalentSkillsCRUDDataTypeAdded::class);
-        $this->seed(TalentSkillsCRUDDataRowAdded::class);
+        
+        
+        
+        
         $this->seed(TalentProfilesCRUDDataTypeAdded::class);
         $this->seed(TalentProfilesCRUDDataRowAdded::class);
+        $this->seed(TalentSkillsCRUDDataDeleted::class);
+        $this->seed(TalentSkillsCRUDDataTypeAdded::class);
+        $this->seed(TalentSkillsCRUDDataRowAdded::class);
+        $this->seed(TalentPricesCRUDDataDeleted::class);
+        
+        
+        $this->seed(TalentPricesCRUDDataTypeAdded::class);
+        $this->seed(TalentPricesCRUDDataRowAdded::class);
     }
 }

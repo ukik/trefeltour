@@ -298,11 +298,19 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                            <div v-else>
+                                <!-- {{ record }} -->
+                                <span v-if="dataRow.field == 'user_id'">
+                                    (<i>{{ record?.badasoUser?.username }}</i>) {{ record?.badasoUser?.name }}
+                                </span>
+                                <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                </span>
+                            </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">

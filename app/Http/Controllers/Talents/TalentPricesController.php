@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TourismPrices;
+use TalentPrices;
 
 class TalentPricesController extends Controller
 {
@@ -49,19 +49,10 @@ class TalentPricesController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TourismPrices::with([
-                'tourismVenues',
-                'tourismVenue',
-
-                'tourismVenue.tourismFacilities',
-                'tourismVenue.tourismServices',
-
-                'tourismVenue.tourismPrice',
-                'tourismVenue.tourismFacility',
-                'tourismVenue.tourismService',
-                'tourismVenue.tourismBooking',
-                'tourismVenue.tourismBooking.tourismPayment',
-                'tourismVenue.tourismBooking.tourismPayment.tourismPaymentsValidation',
+            $data = \TalentPrices::with([
+                'talentSkill.talentProfile',
+                'talentSkill.talentProfiles',
+                'talentSkill.talentProfile.badasoUser',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -116,19 +107,10 @@ class TalentPricesController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TourismPrices::with([
-                'tourismVenues',
-                'tourismVenue',
-
-                'tourismVenue.tourismFacilities',
-                'tourismVenue.tourismServices',
-
-                'tourismVenue.tourismPrice',
-                'tourismVenue.tourismFacility',
-                'tourismVenue.tourismService',
-                'tourismVenue.tourismBooking',
-                'tourismVenue.tourismBooking.tourismPayment',
-                'tourismVenue.tourismBooking.tourismPayment.tourismPaymentsValidation',
+            $data = \TalentPrices::with([
+                'talentSkill.talentProfile',
+                'talentSkill.talentProfiles',
+                'talentSkill.talentProfile.badasoUser',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -146,7 +128,7 @@ class TalentPricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
 
@@ -154,19 +136,25 @@ class TalentPricesController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TourismPrices::where('id', $request->data['id'])->first();
+            $table_entity = \TalentPrices::where('id', $request->data['id'])->first();
 
-            $venue_id = \TourismVenues::where('id', $table_entity->venue_id)->value('id');
+            $req = request()['data'];
+            $data = [
+                'skill_id' => $table_entity->skill_id,
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+                'name' => $req['name'],
+                'general_price' => $req['general_price'],
+                'discount_price' => $req['discount_price'],
+                'cashback_price' => $req['cashback_price'],
+                'description' => $req['description'],
 
-            $validator = Validator::make($req,
+                'code_table' => ($slug),
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
-                    'venue_id' => 'required',
+                    'skill_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -181,9 +169,9 @@ class TalentPricesController extends Controller
                 }
             }
 
-            \TourismPrices::where('id', $request->data['id'])->update($req);
+            \TalentPrices::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TourismPrices::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TalentPrices::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -210,7 +198,7 @@ class TalentPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
 
@@ -219,18 +207,25 @@ class TalentPricesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $venue_id = \TourismVenues::where('id', $request['data']['venue_id'])->value('id');
+            $skill_id = \TalentSkills::where('id', $request['data']['skill_id'])->value('id');
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
-            // $req['type_price'] = implode(',', $req['type_price']); // json_encode($req['category']); //
+            $req = request()['data'];
+            $data = [
+                'skill_id' => $skill_id,
 
-            $validator = Validator::make($req,
+                'name' => $req['name'],
+                'general_price' => $req['general_price'],
+                'discount_price' => $req['discount_price'],
+                'cashback_price' => $req['cashback_price'],
+                'description' => $req['description'],
+
+                'code_table' => ($slug),
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
-                    'venue_id' => 'required',
+                    'skill_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -247,7 +242,7 @@ class TalentPricesController extends Controller
                 }
             }
 
-            $stored_data = \TourismPrices::insert($req);
+            $stored_data = \TalentPrices::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -272,10 +267,10 @@ class TalentPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $venue_id = \TourismPrices::where('id', $value)->value('venue_id');
+        $venue_id = \TalentPrices::where('id', $value)->value('venue_id');
         $check = \TourismVenues::where('id', $venue_id)->first();
         if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
@@ -364,7 +359,7 @@ class TalentPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -402,7 +397,7 @@ class TalentPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
+            $filters = TalentPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
             $temp = [];
             foreach ($filters as $value) {
                 if($value->tourismVenue == null) {

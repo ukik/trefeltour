@@ -2,7 +2,7 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <!-- {{ userRole !== 'admin-tourism' }} xxxxxxxxxxxxxx -->
+        <!-- {{ userRole !== 'admin-talent' }} xxxxxxxxxxxxxx -->
         <label class="badaso-text__label col-12 p-1">Pilih Customer</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
@@ -16,7 +16,7 @@
             :serializer="item => { return `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})` }"
             @hit="selecteduser = $event" placeholder="Pilih Customer" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-tourism'" @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-talent'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
 
@@ -88,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/tourism/user-booking-edit?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/talent/user-booking-edit?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -120,7 +120,7 @@ export default {
             // in practice this action should be debounced
             return
             axios
-                .get('/api/typehead/tourism/user-booking-edit?keyword=' + this.query, {
+                .get('/api/typehead/talent/user-booking-edit?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
