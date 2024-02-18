@@ -299,20 +299,11 @@
                             displayRelationData(record, dataRow)
                           }}</span>
                             <div v-else>
-                                <!-- {{ record }} -->
-                                <span v-if="dataRow.field == 'profile_id'">
-                                    (<i>{{ record?.talentProfile?.badasoUser?.username }}</i>) {{ record?.talentProfile?.badasoUser?.name }}
-                                </span>
-                                <span v-if="dataRow.field == 'year_exp'">
-                                    {{ $formatDate(record?.yearExp) }}
-                                </span>
-                                <span v-else>
-                                    {{
-                                        record[
-                                        $caseConvert.stringSnakeToCamel(dataRow.field)
-                                        ]
-                                    }}
-                                </span>
+                                {{
+                                    record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                    ]
+                                }}
                             </div>
                         </template>
                       </vs-td>

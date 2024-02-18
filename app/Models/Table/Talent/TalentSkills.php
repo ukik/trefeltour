@@ -13,27 +13,37 @@ class TalentSkills extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function __construct(array $attributes = [])
-    {
-        $this->appends = [
-            'user_label',
-            'user_column'
-        ];
+    // public function __construct(array $attributes = [])
+    // {
+    //     $this->appends = [
+    //         'user_label',
+    //         'user_column'
+    //     ];
 
-        parent::__construct($attributes);
-    }
+    //     parent::__construct($attributes);
+    // }
 
-    public function getUserLabelAttribute($value) {
-        $user = $this?->talentProfile?->badasoUser;
-        return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
-    }
+    // public function getUserLabelAttribute($value) {
+    //     $user = $this?->talentProfile?->badasoUser;
+    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    // }
 
-    public function getUserColumnAttribute($value) {
-        $user = $this?->talentProfile?->badasoUser;
-        return "(<i> $user->username </i>) $user->name";
-    }
+    // public function getUserColumnAttribute($value) {
+    //     $user = $this?->talentProfile?->badasoUser;
+    //     return "(<i> $user?->username </i>) $user?->name";
+    // }
 
     protected $table = "talent_skills";
+
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'profile_id','id');
+    }
+
+    public function badasoUsers()
+    {
+        return $this->belongsToMany(BadasoUsers::class, 'talent_skills', 'id', 'profile_id');
+    }
 
     public function talentProfile()
     {
@@ -43,6 +53,16 @@ class TalentSkills extends Model
     public function talentProfiles()
     {
         return $this->belongsToMany(TalentProfiles::class, 'talent_skills', 'id', 'profile_id');
+    }
+
+    public function talentPrice()
+    {
+        return $this->hasOne(TalentPrices::class, 'skill_id', 'id');
+    }
+
+    public function talentPrices()
+    {
+        return $this->hasMany(TalentPrices::class, 'skill_id', 'id');
     }
 
 }

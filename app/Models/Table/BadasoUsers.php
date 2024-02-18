@@ -26,4 +26,15 @@ class BadasoUsers extends Model
         // 'created_at',
         // 'updated_at',
     ];
+
+
+    public function userRole()
+    {
+        return $this->hasOne(BadasoUserRoles::class, 'user_id', 'id');
+    }
+
+    public function userRoles()
+    {
+        return $this->hasMany(BadasoUserRoles::class, 'user_id', 'id');
+    }
 }

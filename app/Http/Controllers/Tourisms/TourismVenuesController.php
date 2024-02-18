@@ -67,9 +67,9 @@ class TourismVenuesController extends Controller
                 $data = $data->onlyTrashed();
             }
 
-            if(request()['label'] == 'SharedTableModal') {
-                $data = $data->whereHas('tourismPrices');
-            }
+            // if(request()['label'] == 'SharedTableModal') {
+            //     $data = $data->whereHas('tourismPrices');
+            // }
 
             $data = $data->paginate(request()->perPage);
 

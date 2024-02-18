@@ -174,9 +174,9 @@
                         }}</span>
                             <div v-else>
                                 <!-- {{ record }} -->
-                                <span v-if="dataRow.field == 'user_id'">
+                                <div v-if="dataRow.field == 'user_id'">
                                     {{ record?.userLabel }}
-                                </span>
+                                </div>
                                 <span v-else>
                                     {{
                                         record[

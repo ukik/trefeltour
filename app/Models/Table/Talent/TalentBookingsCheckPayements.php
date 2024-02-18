@@ -13,6 +13,26 @@ class TalentBookingsCheckPayements extends Model
     use HasFactory;
     use SoftDeletes;
 
+    // public function __construct(array $attributes = [])
+    // {
+    //     $this->appends = [
+    //         'user_label',
+    //         'user_column',
+    //     ];
+
+    //     parent::__construct($attributes);
+    // }
+
+    // public function getUserLabelAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    // }
+
+    // public function getUserColumnAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "(<i> $user?->username </i>) $user?->name";
+    // }
+
     protected $table = "talent_bookings_check_payments";
 
     public function user()
@@ -22,38 +42,48 @@ class TalentBookingsCheckPayements extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'tourism_bookings_check_payments', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'talent_bookings_check_payments', 'id', 'customer_id');
     }
 
-    public function tourismBookings()
+    public function talentBookings()
     {
-        return $this->belongsToMany(TourismBookings::class, 'tourism_bookings_check_payments', 'id', 'booking_id');
+        return $this->belongsToMany(TalentBookings::class, 'talent_bookings_check_payments', 'id', 'booking_id');
     }
 
-    public function tourismBooking()
+    public function talentBooking()
     {
-        return $this->belongsTo(TourismBookings::class,'booking_id','id');
+        return $this->belongsTo(TalentBookings::class,'booking_id','id');
     }
 
-    public function tourismVenue()
+    public function talentPrice()
     {
-        return $this->belongsTo(TourismVenues::class,'venue_id','id');
+        return $this->belongsTo(TalentPrices::class,'price_id','id');
     }
 
-    public function tourismVenues()
+    public function talentPrices()
     {
-        return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
+        return $this->belongsToMany(TalentPrices::class, 'talent_bookings_check_payments', 'id', 'price_id');
+    }
+
+    public function talentSkill()
+    {
+        return $this->belongsTo(TalentSkills::class,'skill_id','id');
+    }
+
+    public function talentSkills()
+    {
+        return $this->belongsToMany(TalentSkills::class, 'talent_bookings_check_payments', 'id', 'skill_id');
     }
 
 
-    public function tourismPayments()
+    public function talentPayments()
     {
-        return $this->hasMany(TourismPayments::class, 'booking_id', 'id');
+        return $this->hasMany(TalentPayments::class, 'booking_id', 'id');
     }
 
-    public function tourismPayment()
+    public function talentPayment()
     {
-        return $this->hasOne(TourismPayments::class, 'booking_id', 'id');
+        return $this->hasOne(TalentPayments::class, 'booking_id', 'id');
     }
 
 }

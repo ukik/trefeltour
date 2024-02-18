@@ -19,6 +19,8 @@ use TravelPayments;
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
 use TalentPayments;
+use TalentProfiles;
+use TalentSkills;
 use TalentVenues;
 
 class TalentBookingsController extends Controller
@@ -57,7 +59,13 @@ class TalentBookingsController extends Controller
 
             $data = \TalentBookings::with([
                 'badasoUser',
-                'talentProfile'.
+                'talentPrice',
+                'talentSkill',
+
+                'badasoUsers',
+                'talentPrices',
+                'talentSkills',
+
                 'talentPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
@@ -115,7 +123,13 @@ class TalentBookingsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentBookings::with([
                 'badasoUser',
-                'talentProfile'.
+                'talentPrice',
+                'talentSkill',
+
+                'badasoUsers',
+                'talentPrices',
+                'talentSkills',
+
                 'talentPayments',
             ])->whereId($request->id)->first();
 
@@ -148,23 +162,26 @@ class TalentBookingsController extends Controller
 
             $table_entity = \TalentBookings::where('id', $request->data['id'])->first();
 
-            $temp = \TalentPrices::where('id', $request->data['type_price'])->first();
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $venue_id = TalentVenues::where('id', $request->data['venue_id'])->value('id');
-
             $req = request()['data'];
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
                 'customer_id' => $customer_id ,
-                'venue_id' => $venue_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
 
                 'get_price' => $temp->general_price ,
                 'get_discount' => $temp->discount_price ,
                 'get_cashback' => $temp->cashback_price ,
-                'type_price' => $temp->id ,
 
                 'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
 
                 // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
@@ -191,6 +208,8 @@ class TalentBookingsController extends Controller
             }
 
             $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+
 
             \TalentBookings::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -230,23 +249,26 @@ class TalentBookingsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentPrices::where('id', $request->data['type_price'])->first();
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $venue_id = TalentVenues::where('id', $request->data['venue_id'])->value('id');
-
             $req = request()['data'];
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
                 'customer_id' => $customer_id ,
-                'venue_id' => $venue_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
 
                 'get_price' => $temp->general_price ,
                 'get_discount' => $temp->discount_price ,
                 'get_cashback' => $temp->cashback_price ,
-                'type_price' => $temp->id ,
 
                 'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
 
                 // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
@@ -268,6 +290,7 @@ class TalentBookingsController extends Controller
             }
 
             $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
             $stored_data = \TalentBookings::insert($data);
 

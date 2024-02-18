@@ -282,7 +282,7 @@
                   ></badaso-select>
 
                   <badaso-select
-                    v-if="dataRow.type == 'select' && dataRow.field == 'type_price' && tourismPrices.length > 0"
+                    v-if="dataRow.type == 'select' && dataRow.field == 'type_price' && priceList.length > 0"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -290,7 +290,7 @@
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
-                    :items="tourismPrices"
+                    :items="priceList"
                   ></badaso-select>
 
 
@@ -458,7 +458,7 @@ export default {
     userRole: "",
     isAdmin: false,
 
-    tourismPrices: [],
+    priceList: [],
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -511,6 +511,10 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         temp.forEach(el => {
+            if(el.field == 'type_price') {
+                el.value = ''
+            }
+
             if(el.field == 'venue_id') {
                 el.value = value ? value?.id : '';
 
@@ -526,12 +530,19 @@ export default {
                     })
                 })
 
-                this.tourismPrices = _arr
+                if(value?.tourismPrices.length <= 0) {
+                    _arr.push({
+                        value: '',
+                        label: `Harga Kosong`,
+                    })
+                }
+
+                this.priceList = _arr
             }
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
-        console.log('this.tourismPrices', this.tourismPrices)
+        console.log('this.priceList', this.priceList)
 
     },
 

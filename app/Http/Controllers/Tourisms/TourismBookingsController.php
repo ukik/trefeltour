@@ -161,6 +161,7 @@ class TourismBookingsController extends Controller
             $table_entity = \TourismBookings::where('id', $request->data['id'])->first();
 
             $temp = \TourismPrices::where('id', $request->data['type_price'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
@@ -243,6 +244,7 @@ class TourismBookingsController extends Controller
             $data_type = $this->getDataType($slug);
 
             $temp = \TourismPrices::where('id', $request->data['type_price'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 

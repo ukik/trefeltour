@@ -14,8 +14,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportPayments;
-use TransportPaymentsValidations;
+use TalentPayments;
+use TalentPaymentsValidations;
 
 class TalentPaymentsController extends Controller
 {
@@ -51,17 +51,17 @@ class TalentPaymentsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportPayments::with([
+            $data = \TalentPayments::with([
                 'badasoUsers',
-                'transportBookings',
-                'transportPaymentsValidations',
-                'transportPaymentsValidation',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
+                'talentBookings',
+                'talentBooking',
+                'talentPaymentsValidation',
+                'talentPaymentsValidations',
+
+                // 'talentBooking.talentVenue',
+                // 'talentBooking.talentVenue.talentPrices',
+                // 'talentBooking.talentVenue.talentFacilities',
+                // 'talentBooking.talentVenue.talentService',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -116,17 +116,17 @@ class TalentPaymentsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportPayments::with([
+            $data = \TalentPayments::with([
                 'badasoUsers',
-                'transportBookings',
-                'transportPaymentsValidations',
-                'transportPaymentsValidation',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
+                'talentBookings',
+                'talentBooking',
+                'talentPaymentsValidation',
+                'talentPaymentsValidations',
+
+                // 'talentBooking.talentVenue',
+                // 'talentBooking.talentVenue.talentPrices',
+                // 'talentBooking.talentVenue.talentFacilities',
+                // 'talentBooking.talentVenue.talentService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -145,10 +145,8 @@ class TalentPaymentsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data']['id'];
-        $check = TransportPaymentsValidations::where('id', $value)->first();
-        if ($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = TalentPaymentsValidations::where('payment_id', $value)->first();
+        if ($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -156,20 +154,18 @@ class TalentPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
-            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+            $table_entity = \TalentPayments::where('id', $request->data['id'])->first();
+            $temp = \TalentBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
-                'booking_id' => $temp->id,
                 'customer_id' => $temp->customer_id,
+                'booking_id' => $temp->id,
 
                 'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
-
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
-                'date' => date("Y-m-d", strtotime($req['date'])),
+                'date' => $req['date'],
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
                 // 'description' => $req['description'],
@@ -181,7 +177,7 @@ class TalentPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking,booking_id,' . $req['id']
+                    'booking_id' => 'unique:talent_payments_unique,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
                 ],
@@ -195,9 +191,9 @@ class TalentPaymentsController extends Controller
 
             $data['description'] = $req['description'];
 
-            \TransportPayments::where('id', $request->data['id'])->update($data);
+            \TalentPayments::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportPayments::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TalentPayments::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -224,11 +220,11 @@ class TalentPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        // UNIQUE + SoftDelete
-        // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TransportPayments::where('booking_id', $request->data['booking_id'])
-            ->where('deleted_at', NULL)->first();
-        if ($unique) return ApiResponse::failed('Booking UUID sudah dipakai');
+        // // UNIQUE + SoftDelete
+        // // cukup CREATE aja karena di edit tidak bisa di edit relationship
+        // $unique = TalentPayments::where('booking_id', $request->data['booking_id'])
+        //     ->where('deleted_at', NULL)->first();
+        // if ($unique) return ApiResponse::failed('Booking UUID sudah dipakai');
 
         try {
 
@@ -237,7 +233,7 @@ class TalentPaymentsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+            $temp = \TalentBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
@@ -245,10 +241,9 @@ class TalentPaymentsController extends Controller
                 'booking_id' => $temp->id,
 
                 'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
-                'date' => date("Y-m-d", strtotime($req['date'])),
+                'date' => $req['date'],
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
                 // 'description' => $req['description'],
@@ -260,7 +255,7 @@ class TalentPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking'
+                    'booking_id' => 'unique:talent_payments_unique'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments'
                 ],
@@ -274,7 +269,7 @@ class TalentPaymentsController extends Controller
 
             $data['description'] = $req['description'];
 
-            $stored_data = \TransportPayments::insert($data);
+            $stored_data = \TalentPayments::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -299,11 +294,11 @@ class TalentPaymentsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         $value = request()['data'][0]['value'];
-        $check = TransportPaymentsValidations::where('payment_id', $value)->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TalentPaymentsValidations::where('payment_id', $value)->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -426,10 +421,10 @@ class TalentPaymentsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('transportPaymentsValidation')->get();
+            $filters = TalentPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('talentPaymentsValidation')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if ($value->transportPaymentsValidation == null) {
+                if ($value->talentPaymentsValidation == null) {
                     array_push($temp, $value['id']);
                 }
             }

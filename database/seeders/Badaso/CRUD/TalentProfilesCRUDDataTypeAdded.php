@@ -48,7 +48,7 @@ class TalentProfilesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-16T15:15:00.000000Z',
-                'updated_at' => '2024-02-16T16:25:23.000000Z',
+                'updated_at' => '2024-02-18T12:11:01.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_profiles');

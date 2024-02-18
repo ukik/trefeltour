@@ -43,8 +43,8 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'user_id',
-                    'type' => 'number',
-                    'display_name' => 'User',
+                    'type' => 'relation',
+                    'display_name' => 'Pilih Akun',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -52,7 +52,7 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
                     'order' => 2,
                 ),
                 2 => 

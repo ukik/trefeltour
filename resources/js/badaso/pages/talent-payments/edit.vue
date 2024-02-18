@@ -558,7 +558,7 @@ export default {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value?.getTotalAmount;
+                el.value = value?.getFinalAmount;
             }
 
         });

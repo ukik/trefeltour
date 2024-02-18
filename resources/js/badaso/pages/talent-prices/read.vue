@@ -177,6 +177,9 @@
                                   <span v-if="dataRow.field == 'skill_id'">
                                       {{ record?.talentSkill?.name }}
                                   </span>
+                                  <div v-else-if="dataRow.field == 'profile_id'">
+                                        <span v-html="record?.userColumn"></span>
+                                  </div>
                                   <span v-else>
                                       {{
                                           record[

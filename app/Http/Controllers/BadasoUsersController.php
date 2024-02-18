@@ -53,10 +53,26 @@ class BadasoUsersController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \BadasoUsers::with([
+                'userRole.role'
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()['label'] == 'validator') {
+                switch ($this->isRole) {
+                    case 'administrator':
+                    case 'admin':
+                        $data = $data->whereHas('userRole.role', function($q) {
+                            return $q->where('name','admin')->orWhere('name','administrator');
+                        });
+                        break;
+                    default:
+                        return ApiResponse::failed("Hanya Admin");
+                        break;
+                }
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

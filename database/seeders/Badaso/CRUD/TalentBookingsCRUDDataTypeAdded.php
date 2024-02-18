@@ -28,7 +28,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 57,
+                'id' => 68,
                 'name' => 'talent_bookings',
                 'slug' => 'talent-bookings',
                 'display_name_singular' => 'Talent Booking',
@@ -47,8 +47,8 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => 1,
-                'created_at' => '2024-02-16T03:08:10.000000Z',
-                'updated_at' => '2024-02-17T07:21:15.000000Z',
+                'created_at' => '2024-02-18T11:33:21.000000Z',
+                'updated_at' => '2024-02-18T12:04:58.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_bookings');

@@ -2,7 +2,7 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <!-- {{ userRole !== 'admin-tourism' }} xxxxxxxxxxxxxx -->
+        <!-- {{ userRole !== 'admin-talent' }} xxxxxxxxxxxxxx -->
         <label class="badaso-text__label col-12 p-1">Pilih Pembayaran</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
@@ -13,10 +13,10 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})` }"
+            :serializer="item => { return `UUID (${item.uuid})` }"
             @hit="selecteduser = $event" placeholder="Pilih Pembayaran" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-tourism'" @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-talent'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
 
@@ -41,9 +41,9 @@
 
             <shared-read-user :response="{
                 data: selecteduser
-            }" v-if="type=='detail'" slug="tourism-bookings"></shared-read-user>
+            }" v-if="type=='detail'" slug="talent-bookings"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="tourism-bookings" />
+            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-bookings" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -88,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/tourism/dialog_booking_tourism_payments_validations?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/talent/dialog_booking_talent_payments_validations?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -96,7 +96,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
+                    this.$refs.typeahead.inputValue = `UUID (${item.uuid})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -106,7 +106,7 @@ export default {
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
+            this.$refs.typeahead.inputValue = `UUID (${item.uuid})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
@@ -120,7 +120,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/tourism/dialog_booking_tourism_payments_validations?keyword=' + this.query, {
+                .get('/api/typehead/talent/dialog_booking_talent_payments_validations?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

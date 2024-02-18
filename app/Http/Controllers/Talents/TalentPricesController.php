@@ -50,6 +50,9 @@ class TalentPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TalentPrices::with([
+                'badasoUser',
+                'badasoUsers',
+                'talentSkills',
                 'talentSkill.talentProfile',
                 'talentSkill.talentProfiles',
                 'talentSkill.talentProfile.badasoUser',
@@ -108,6 +111,9 @@ class TalentPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentPrices::with([
+                'badasoUser',
+                'badasoUsers',
+                'talentSkills',
                 'talentSkill.talentProfile',
                 'talentSkill.talentProfiles',
                 'talentSkill.talentProfile.badasoUser',
@@ -138,9 +144,12 @@ class TalentPricesController extends Controller
 
             $table_entity = \TalentPrices::where('id', $request->data['id'])->first();
 
+            $temp = \TalentSkills::where('id', $request['data']['skill_id'])->first();
+
             $req = request()['data'];
             $data = [
-                'skill_id' => $table_entity->skill_id,
+                'profile_id' => $temp->profile_id,
+                'skill_id' => $temp->id,
 
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
@@ -207,11 +216,12 @@ class TalentPricesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $skill_id = \TalentSkills::where('id', $request['data']['skill_id'])->value('id');
+            $temp = \TalentSkills::where('id', $request['data']['skill_id'])->first();
 
             $req = request()['data'];
             $data = [
-                'skill_id' => $skill_id,
+                'profile_id' => $temp->profile_id,
+                'skill_id' => $temp->skill_id,
 
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],

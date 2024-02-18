@@ -316,6 +316,9 @@
                                     <span v-html="record?.userColumn"></span>
                                     <!-- (<i>{{ record?.badasoUser?.username }}</i>) {{ record?.badasoUser?.name }} -->
                                 </div>
+                                <span v-else-if="dataRow.field == 'year_exp'">
+                                    {{ $formatDate(record?.yearExp) }}
+                                </span>
                                 <span v-else>
                                     {{
                                         record[
@@ -394,6 +397,9 @@ export default {
   name: "CrudGeneratedBrowse",
   props: {
     slug: {
+        default:'',
+    },
+    label: {
         default:'',
     }
   },
@@ -517,7 +523,7 @@ export default {
                 data, total, lastPage, currentPage, perPage
             }
         } = await this.$api.badasoEntity.browse({
-            label: 'SharedTableModal', // digunakan pada Model Accessor buat modifikasi field
+            label: this.label, // digunakan pada Model Accessor buat modifikasi field
           slug: this.slug, // $route.params.slug,
           limit: this.limit,
           page: this.page,

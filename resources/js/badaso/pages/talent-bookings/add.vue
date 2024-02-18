@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogSkill @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
+              <DialogSkill @onBubbleEvent="updateTypeHeadSkill('skill_id', $event)" />
               <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
@@ -81,7 +81,7 @@
                     "
                   ></badaso-search>
                   <badaso-number
-                    v-if="dataRow.type == 'number'"
+                    v-if="dataRow.type == 'number' && dataRow.field !== 'get_final_amount' "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -90,6 +90,18 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-number>
+
+                  <!-- <badaso-number readonly
+                    v-if="dataRow.type == 'number' && dataRow.field == 'get_final_amount' && priceList.length > 0"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-number> -->
+
                   <badaso-url
                     v-if="dataRow.type == 'url'"
                     :label="dataRow.displayName"
@@ -270,7 +282,7 @@
 
 
                   <badaso-select
-                    v-if="dataRow.type == 'select' && dataRow.field !== 'type_price'"
+                    v-if="dataRow.type == 'select' && dataRow.field !== 'price_id'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -281,8 +293,8 @@
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
 
-                  <badaso-select
-                    v-if="dataRow.type == 'select' && dataRow.field == 'type_price' && tourismPrices.length > 0"
+                  <badaso-select @input="onChangePriceId"
+                    v-if="dataRow.type == 'select' && dataRow.field == 'price_id' && priceList.length > 0"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -290,7 +302,7 @@
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
-                    :items="tourismPrices"
+                    :items="priceList"
                   ></badaso-select>
 
 
@@ -458,7 +470,7 @@ export default {
     userRole: "",
     isAdmin: false,
 
-    tourismPrices: [],
+    priceList: [],
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -486,6 +498,11 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
+    // onChangePriceId(value) {
+    //     console.log('onChangePriceId', value)
+    //     if(isNaN(value)) return
+    //     this.priceList
+    // },
     updateTypeHead(field, value) {
         console.log('updateTypeHead', value, this.dataType.dataRows)
 
@@ -503,29 +520,39 @@ export default {
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
-    updateTypeHeadVenue(field, value) {
-        console.log('updateTypeHead', value, this.dataType.dataRows)
+    updateTypeHeadSkill(field, value) {
+        console.log('updateTypeHeadSkill', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         temp.forEach(el => {
+            if(el.field == 'price_id') {
+                el.value = ''
+            }
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'skill_id') {
                 el.value = value ? value?.id : '';
 
                 let _arr = []
-                value?.tourismPrices.forEach(arr => {
+                value?.talentPrices.forEach(arr => {
                     const total = `${(Number(arr?.generalPrice) - ((Number(arr?.generalPrice) * Number(arr?.discountPrice)/100)) - Number(arr?.cashbackPrice))}`
                     _arr.push({
                         value: arr.id,
-                        label: `Tiket ${arr.typePrice}: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
+                        label: `Skill: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
                         ...arr
                     })
                 })
 
-                this.tourismPrices = _arr
+                if(value?.talentPrices.length <= 0) {
+                    _arr.push({
+                        value: '',
+                        label: `Harga Kosong`,
+                    })
+                }
+
+                this.priceList = _arr
             }
         });
 

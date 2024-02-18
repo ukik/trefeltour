@@ -50,13 +50,20 @@ class TalentSkillsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TalentSkills::with([
+                'badasoUser',
+                'badasoUsers',
                 'talentProfile',
                 'talentProfiles',
                 'talentProfile.badasoUser',
+                'talentPrice',
+                'talentPrices',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+            // if(request()['label'] == 'SharedTableModal') {
+            //     $data = $data->where('is_available','true');
+            // }
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -108,9 +115,13 @@ class TalentSkillsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentSkills::with([
+                'badasoUser',
+                'badasoUsers',
                 'talentProfile',
                 'talentProfiles',
                 'talentProfile.badasoUser',
+                'talentPrice',
+                'talentPrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle

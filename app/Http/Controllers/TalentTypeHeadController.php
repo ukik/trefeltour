@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use TalentBookings;
-use TalentPayments;
+
 use TalentPaymentsValidations;
 use TalentProfiles;
 use Uasoft\Badaso\Helpers\ApiResponse;
@@ -55,72 +55,42 @@ class TalentTypeHeadController extends Controller
         $skill_id = \TalentPrices::where('id',request()->id)->value('skill_id');
         $data = \TalentSkills::where('id',$skill_id)->with([
             'talentProfile',
-            'talentProfile',
+            'talentProfiles',
             'talentProfile.badasoUser',
+            'talentPrice',
+            'talentPrices',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
+    function dialog_booking_talent_bookings() {
 
-
-
-
-
-
-
-    function dialog_venue_tourism_bookings() {
-        $venue_id = \TourismBookings::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
+        $data = \TalentBookingsCheckPayements::where('payment_id',request()->id)->with([
             'badasoUsers',
-            // 'tourismPrice',
-            'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
+            'talentBookings',
+            'talentBooking',
+            'talentPrice',
+            'talentPrices',
+            'talentSkill',
+            'talentSkills',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_booking_tourism_bookings() {
+    function dialog_booking_talent_payments_validations() {
 
-        $data = \TourismBookingsCheckPayements::where('payment_id',request()->id)->with([
+        $payment_id = \TalentPaymentsValidations::where('id',request()->id)->value('payment_id');
+        $data = \TalentBookingsCheckPayements::where('payment_id',$payment_id)->with([
             'badasoUsers',
-            'tourismBookings',
-            'tourismBooking',
-            'tourismVenue',
-            'tourismVenues',
+            'talentBookings',
+            'talentBooking',
+            'talentPrice',
+            'talentPrices',
+            'talentSkill',
+            'talentSkills',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_booking_tourism_payments_validations() {
-
-        $payment_id = \TourismPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = \TourismBookingsCheckPayements::where('payment_id',$payment_id)->with([
-            'badasoUsers',
-            'tourismBookings',
-            'tourismBooking',
-            'tourismVenue',
-            'tourismVenues',
-        ])->first();
-        return ApiResponse::onlyEntity($data);
-    }
-
-
-
-    function tourism_bookings() {
-
-        if(request()->id && !request()['keyword'] && !request()['label']) {
-            $data = \TourismBookingsCheckPayements::where('id',request()->id)->with([
-                'badasoUsers',
-                'tourismBookings',
-                'tourismBooking',
-                'tourismVenue',
-                'tourismVenues',
-            ])->first();
-            return ApiResponse::onlyEntity($data);
-        }
-    }
 
 }

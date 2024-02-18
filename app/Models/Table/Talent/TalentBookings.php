@@ -13,32 +13,54 @@ class TalentBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function __construct(array $attributes = [])
-    {
-        $this->appends = [
-            'user_label',
-            'user_column'
-        ];
+    // public function __construct(array $attributes = [])
+    // {
+    //     $this->appends = [
+    //         'user_label',
+    //         'user_column',
+    //     ];
 
-        parent::__construct($attributes);
-    }
+    //     parent::__construct($attributes);
+    // }
 
-    public function getUserLabelAttribute($value) {
-        $user = $this?->user;
-        return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
-    }
+    // public function getUserLabelAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    // }
 
-    public function getUserColumnAttribute($value) {
-        $user = $this?->user;
-        return "(<i> $user->username </i>) $user->name";
-    }
+    // public function getUserColumnAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "(<i> $user?->username </i>) $user?->name";
+    // }
+
+    // public function getCustomerLabelAttribute($value) {
+    //     $user = $this?->customer;
+    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    // }
+
+    // public function getCustomerColumnAttribute($value) {
+    //     $user = $this?->customer;
+    //     return "(<i> $user?->username </i>) $user?->name";
+    // }
 
     protected $table = "talent_bookings";
 
-    public function user()
-    {
-        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
-    }
+    // public function customer()
+    // {
+    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    // }
+
+    // public function talentCustomer()
+    // {
+    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    // }
+
+    // public function talentCustomers()
+    // {
+    //     return $this->belongsToMany(BadasoUsers::class, 'talent_bookings', 'id', 'customer_id');
+    // }
+
+
 
     public function badasoUser()
     {
@@ -50,15 +72,28 @@ class TalentBookings extends Model
         return $this->belongsToMany(BadasoUsers::class, 'talent_bookings', 'id', 'customer_id');
     }
 
-    public function talentProfile()
+    public function talentSkill()
     {
-        return $this->belongsTo(TalentProfiles::class,'profile_id','id');
+        return $this->belongsTo(TalentSkills::class,'skill_id','id');
     }
 
-    public function talentProfiles()
+    public function talentSkills()
     {
-        return $this->belongsToMany(TalentProfiles::class, 'talent_bookings', 'id', 'profile_id');
+        return $this->belongsToMany(TalentSkills::class, 'talent_bookings', 'id', 'skill_id');
     }
+
+
+
+    public function talentPrice()
+    {
+        return $this->belongsTo(TalentPrices::class,'price_id','id');
+    }
+
+    public function talentPrices()
+    {
+        return $this->belongsToMany(TalentPrices::class, 'talent_bookings', 'id', 'price_id');
+    }
+
 
     public function talentPayments()
     {

@@ -43,8 +43,8 @@ class TalentPaymentsValidationsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'validator_id',
-                    'type' => 'number',
-                    'display_name' => 'Admin Validator',
+                    'type' => 'relation',
+                    'display_name' => 'Pilih Validator',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -52,15 +52,15 @@ class TalentPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
                     'order' => 2,
                 ),
                 2 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'payment_id',
-                    'type' => 'number',
-                    'display_name' => 'Pembayaran',
+                    'type' => 'relation',
+                    'display_name' => 'Pilih Pembayaran',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -68,7 +68,7 @@ class TalentPaymentsValidationsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_payments","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","uuid"]}',
                     'order' => 3,
                 ),
                 3 => 

@@ -13,25 +13,25 @@ class TalentProfiles extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function __construct(array $attributes = [])
-    {
-        $this->appends = [
-            'user_label',
-            'user_column'
-        ];
+    // public function __construct(array $attributes = [])
+    // {
+    //     $this->appends = [
+    //         'user_label',
+    //         'user_column'
+    //     ];
 
-        parent::__construct($attributes);
-    }
+    //     parent::__construct($attributes);
+    // }
 
-    public function getUserLabelAttribute($value) {
-        $user = $this?->badasoUser;
-        return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
-    }
+    // public function getUserLabelAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
+    // }
 
-    public function getUserColumnAttribute($value) {
-        $user = $this?->badasoUser;
-        return "(<i> $user->username </i>) $user->name";
-    }
+    // public function getUserColumnAttribute($value) {
+    //     $user = $this?->badasoUser;
+    //     return "(<i> $user?->username </i>) $user?->name";
+    // }
 
     protected $table = "talent_profiles";
 

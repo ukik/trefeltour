@@ -28,6 +28,7 @@ class TalentPricesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 66,
                 'name' => 'talent_prices',
                 'slug' => 'talent-prices',
                 'display_name_singular' => 'Talent Harga',
@@ -41,13 +42,13 @@ class TalentPricesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-02-17T15:09:13.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-17T15:09:13.000000Z',
-                'id' => 66,
+                'updated_at' => '2024-02-18T12:12:37.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_prices');

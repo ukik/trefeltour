@@ -177,7 +177,7 @@
                                 <span v-if="dataRow.field == 'profile_id'">
                                     {{ record?.userLabel }}
                                 </span>
-                                <span v-if="dataRow.field == 'year_exp'">
+                                <span v-else-if="dataRow.field == 'year_exp'">
                                     {{ $formatDate(record?.yearExp) }}
                                 </span>
                                 <span v-else>

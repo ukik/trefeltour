@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogSkill @onBubbleEvent="updateTypeHeadVenue('venue_id', $event)" />
+              <DialogSkill @onBubbleEvent="updateTypeHeadSkill('skill_id', $event)" />
               <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
@@ -269,7 +269,7 @@
                   ></badaso-checkbox>
 
                   <badaso-select
-                    v-if="dataRow.type == 'select' && dataRow.field !== 'type_price'"
+                    v-if="dataRow.type == 'select'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -281,7 +281,8 @@
                   ></badaso-select>
 
                   <badaso-select
-                    v-if="dataRow.type == 'select' && dataRow.field == 'type_price' && tourismPrices.length > 0"
+                    v-if="dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to' && dataRow.field == 'price_id' && priceList.length > 0"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -289,7 +290,7 @@
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
-                    :items="tourismPrices"
+                    :items="priceList"
                   ></badaso-select>
 
                   <badaso-select-multiple
@@ -327,7 +328,7 @@
                   <badaso-select
                     v-if="
                       dataRow.type == 'relation' &&
-                      dataRow.relation.relationType == 'belongs_to'
+                      dataRow.relation.relationType == 'belongs_to' && dataRow.field !== 'price_id'
                     "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -477,7 +478,7 @@ export default {
     userRole: "",
     isAdmin: false,
 
-    tourismPrices: [],
+    priceList: [],
 
   }),
     async mounted() { this.$openLoader();
@@ -523,7 +524,7 @@ export default {
 
 
         // REDIRECT
-        if(this.record['tourismPayment'] && !this.isAdmin) {
+        if(this.record['talentPayment'] && !this.isAdmin) {
             this.$router.replace({
                 name: 'CrudGeneratedRead',
                 params: {
@@ -557,21 +558,22 @@ export default {
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
-    updateTypeHeadVenue(field, value) {
-        console.log('updateTypeHeadVenue', value, this.dataType.dataRows)
+    updateTypeHeadSkill(field, value) {
+        console.log('updateTypeHeadSkill', value, this.dataType.dataRows)
 
 
         let _arr = []
-        value?.tourismPrices.forEach(arr => {
+        value?.talentPrices.forEach(arr => {
             const total = `${(Number(arr?.generalPrice) - ((Number(arr?.generalPrice) * Number(arr?.discountPrice)/100)) - Number(arr?.cashbackPrice))}`
             _arr.push({
                 value: arr.id,
-                label: `Tiket ${arr.typePrice}: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
+                label: `Skill: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
                 ...arr
             })
         })
 
-        this.tourismPrices = _arr
+        this.priceList = _arr
+        console.log('this.priceList', this.priceList)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -579,7 +581,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'skill_id') {
 
                 el.value = value ? value?.id : '';
 
