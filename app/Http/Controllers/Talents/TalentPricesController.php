@@ -53,9 +53,9 @@ class TalentPricesController extends Controller
                 'badasoUser',
                 'badasoUsers',
                 'talentSkills',
-                'talentSkill.talentProfile',
-                'talentSkill.talentProfiles',
-                'talentSkill.talentProfile.badasoUser',
+                'talentSkill',
+                'talentProfile',
+                'talentProfiles',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -114,9 +114,9 @@ class TalentPricesController extends Controller
                 'badasoUser',
                 'badasoUsers',
                 'talentSkills',
-                'talentSkill.talentProfile',
-                'talentSkill.talentProfiles',
-                'talentSkill.talentProfile.badasoUser',
+                'talentSkill',
+                'talentProfile',
+                'talentProfiles',
             ])->whereId($request->id)->first();
 
             // add event notification handle

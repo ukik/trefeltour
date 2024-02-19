@@ -510,6 +510,28 @@
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: item2.id,
+                                  slug: 'tourism-facilities',
+                                },
+                              }"
+                              v-if="
+                                item2.id &&
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="visibility"
+                            >
+                              Detail Wahana: {{ item2.name }}
+                            </badaso-dropdown-item>
+
+                            <badaso-dropdown-item v-for="(item2, index2) in data[index].tourismVenue.tourismPrices" :key="1+index2"
+                              :to="{
+                                name: 'CrudGeneratedRead',
+                                params: {
+                                  id: item2.id,
                                   slug: 'tourism-prices',
                                 },
                               }"
@@ -524,7 +546,7 @@
                               "
                               icon="visibility"
                             >
-                              Detail Wahana ({{ item2.name }})
+                              Detail Harga Tiket: {{ item2.typePrice }}
                             </badaso-dropdown-item>
 
                             <!-- --------------------- -->

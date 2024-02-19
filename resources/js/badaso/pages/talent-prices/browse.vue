@@ -460,16 +460,16 @@
                                 Detail Pembayaran Validasi
                               </badaso-dropdown-item> -->
 
-                              <!-- <badaso-dropdown-item
+                              <badaso-dropdown-item
                                 :to="{
                                   name: 'CrudGeneratedRead',
                                   params: {
-                                    id: data[index].tourismVenue?.id,
-                                    slug: 'tourism-venues',
+                                    id: data[index].talentProfile?.id,
+                                    slug: 'talent-profiles',
                                   },
                                 }"
                                 v-if="
-                                  data[index].tourismVenue?.id &&
+                                  data[index].talentProfile?.id &&
                                   isCanEdit &&
                                   $helper.isAllowedToModifyGeneratedCRUD(
                                     'edit',
@@ -479,15 +479,15 @@
                                 "
                                 icon="visibility"
                               >
-                                Detail Destinasi
+                                Detail Profile
                               </badaso-dropdown-item>
 
-                              <badaso-dropdown-item v-for="(item1, index1) in data[index].tourismVenue.tourismFacilities" :key="1+index1"
+                              <badaso-dropdown-item v-for="(item1, index1) in data[index].talentSkills" :key="1+index1"
                                 :to="{
                                   name: 'CrudGeneratedRead',
                                   params: {
                                     id: item1.id,
-                                    slug: 'tourism-facilities',
+                                    slug: 'talent-skills',
                                   },
                                 }"
                                 v-if="
@@ -501,30 +501,9 @@
                                 "
                                 icon="visibility"
                               >
-                                Detail Wahana ({{ item1.name }})
+                                Detail Skill: {{ item1.name }}
                               </badaso-dropdown-item>
 
-                              <badaso-dropdown-item v-for="(item2, index2) in data[index].tourismVenue.tourismPrices" :key="2+index2"
-                                :to="{
-                                  name: 'CrudGeneratedRead',
-                                  params: {
-                                    id: item2.id,
-                                    slug: 'tourism-prices',
-                                  },
-                                }"
-                                v-if="
-                                  item2.id &&
-                                  isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  ) &&
-                                  !isShowDataRecycle
-                                "
-                                icon="visibility"
-                              >
-                                Detail Harga Tiket ({{ item2.uuid }})
-                              </badaso-dropdown-item> -->
 
                               <!-- --------------------- -->
 

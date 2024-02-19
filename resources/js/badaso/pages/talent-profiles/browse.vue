@@ -398,12 +398,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].tourismBooking?.id,
-                                  slug: 'tourism-bookings',
+                                  id: data[index].talentBooking?.id,
+                                  slug: 'talent-bookings',
                                 },
                               }"
                               v-if="
-                                data[index].tourismBooking?.id &&
+                                data[index].talentBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -420,12 +420,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].tourismBooking?.tourismPayment?.id,
-                                  slug: 'tourism-payments',
+                                  id: data[index].talentBooking?.talentPayment?.id,
+                                  slug: 'talent-payments',
                                 },
                               }"
                               v-if="
-                                data[index].tourismBooking?.tourismPayment?.id &&
+                                data[index].talentBooking?.talentPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -442,12 +442,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].tourismBooking?.tourismPayment?.tourismPaymentsValidation?.id,
-                                  slug: 'tourism-payments-validations',
+                                  id: data[index].talentBooking?.talentPayment?.talentPaymentsValidation?.id,
+                                  slug: 'talent-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].tourismBooking?.tourismPayment?.tourismPaymentsValidation?.id &&
+                                data[index].talentBooking?.talentPayment?.talentPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -460,16 +460,16 @@
                               Detail Pembayaran Validasi
                             </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].tourismService?.id,
-                                  slug: 'tourism-venues',
+                                  id: data[index].talentSkill?.id,
+                                  slug: 'talent-skills',
                                 },
                               }"
                               v-if="
-                                data[index].tourismService?.id &&
+                                data[index].talentService?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -480,14 +480,14 @@
                               icon="visibility"
                             >
                               Detail Layanan
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item v-for="(item1, index1) in data[index].tourismFacilities" :key="1+index1"
+                            <badaso-dropdown-item v-for="(item1, index1) in data[index]?.talentSkills" :key="1+index1"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: item1.id,
-                                  slug: 'tourism-facilities',
+                                  slug: 'talent-skills',
                                 },
                               }"
                               v-if="
@@ -501,15 +501,15 @@
                               "
                               icon="visibility"
                             >
-                              Detail Wahana ({{ item1.name }})
+                              Detail Wahana: {{ item1.name }}
                             </badaso-dropdown-item>
 
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].tourismPrices" :key="2+index2"
+                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPrices" :key="2+index2"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: item2.id,
-                                  slug: 'tourism-prices',
+                                  slug: 'talent-prices',
                                 },
                               }"
                               v-if="
@@ -523,7 +523,7 @@
                               "
                               icon="visibility"
                             >
-                              Detail Harga Tiket ({{ item2.uuid }})
+                              Detail Harga: {{ item2.uuid }}
                             </badaso-dropdown-item>
 
                             <!-- --------------------- -->

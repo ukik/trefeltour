@@ -54,7 +54,6 @@ class TalentSkillsController extends Controller
                 'badasoUsers',
                 'talentProfile',
                 'talentProfiles',
-                'talentProfile.badasoUser',
                 'talentPrice',
                 'talentPrices',
             ])->orderBy('id','desc');
@@ -119,7 +118,6 @@ class TalentSkillsController extends Controller
                 'badasoUsers',
                 'talentProfile',
                 'talentProfiles',
-                'talentProfile.badasoUser',
                 'talentPrice',
                 'talentPrices',
             ])->whereId($request->id)->first();

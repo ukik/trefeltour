@@ -53,15 +53,12 @@ class TalentProfilesController extends Controller
             $data = \TalentProfiles::with([
                 'badasoUsers',
                 'badasoUser',
-                // 'tourismPrices',
-                // 'tourismFacility',
-                // 'tourismService',
-                // 'tourismBooking',
-                // 'tourismBooking.tourismPayment',
-                // 'tourismBooking.tourismPayment.tourismPaymentsValidation',
-                // 'tourismFacilities',
-                // 'tourismServices',
-                // 'tourismBookings',
+                'talentPrices',
+                'talentPrice',
+                'talentSkills',
+                'talentSkill',
+                // 'talentBookings',
+                // 'talentBooking',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -121,15 +118,12 @@ class TalentProfilesController extends Controller
             $data = \TalentProfiles::with([
                 'badasoUsers',
                 'badasoUser',
-                // 'tourismPrices',
-                // 'tourismFacility',
-                // 'tourismService',
-                // 'tourismBooking',
-                // 'tourismBooking.tourismPayment',
-                // 'tourismBooking.tourismPayment.tourismPaymentsValidation',
-                // 'tourismFacilities',
-                // 'tourismServices',
-                // 'tourismBookings',
+                'talentPrices',
+                'talentPrice',
+                'talentSkills',
+                'talentSkill',
+                // 'talentBookings',
+                // 'talentBooking',
             ])->whereId($request->id)->first();
 
             // add event notification handle

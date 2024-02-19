@@ -45,23 +45,6 @@ class TalentBookings extends Model
 
     protected $table = "talent_bookings";
 
-    // public function customer()
-    // {
-    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
-    // }
-
-    // public function talentCustomer()
-    // {
-    //     return $this->belongsTo(BadasoUsers::class,'customer_id','id');
-    // }
-
-    // public function talentCustomers()
-    // {
-    //     return $this->belongsToMany(BadasoUsers::class, 'talent_bookings', 'id', 'customer_id');
-    // }
-
-
-
     public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
@@ -81,8 +64,6 @@ class TalentBookings extends Model
     {
         return $this->belongsToMany(TalentSkills::class, 'talent_bookings', 'id', 'skill_id');
     }
-
-
 
     public function talentPrice()
     {

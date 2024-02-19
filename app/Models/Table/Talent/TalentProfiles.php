@@ -50,45 +50,34 @@ class TalentProfiles extends Model
         return $this->belongsToMany(BadasoUsers::class, 'talent_profiles', 'id', 'user_id');
     }
 
-    // public function tourismPrices()
-    // {
-    //     return $this->hasMany(TourismPrices::class, 'venue_id', 'id');
-    // }
+    public function talentPrices()
+    {
+        return $this->hasMany(TalentPrices::class, 'profile_id', 'id');
+    }
 
-    // public function tourismPrice()
-    // {
-    //     return $this->hasOne(TourismPrices::class, 'venue_id', 'id');
-    // }
+    public function talentPrice()
+    {
+        return $this->hasOne(TalentPrices::class, 'profile_id', 'id');
+    }
 
-    // public function tourismFacilities()
-    // {
-    //     return $this->hasMany(TourismFacilities::class, 'venue_id', 'id');
-    // }
+    public function talentSkills()
+    {
+        return $this->hasMany(TalentSkills::class, 'profile_id', 'id');
+    }
 
-    // public function tourismFacility()
-    // {
-    //     return $this->hasOne(TourismFacilities::class, 'venue_id', 'id');
-    // }
+    public function talentSkill()
+    {
+        return $this->hasOne(TalentSkills::class, 'profile_id', 'id');
+    }
 
-    // public function tourismServices()
-    // {
-    //     return $this->hasMany(TourismServices::class, 'venue_id', 'id');
-    // }
+    public function talentBookings()
+    {
+        return $this->hasMany(TalentSkills::class, 'profile_id', 'id');
+    }
 
-    // public function tourismService()
-    // {
-    //     return $this->hasOne(TourismServices::class, 'venue_id', 'id');
-    // }
-
-    // public function tourismBookings()
-    // {
-    //     return $this->hasMany(TourismBookings::class, 'venue_id', 'id');
-    // }
-
-    // public function tourismBooking()
-    // {
-    //     return $this->hasOne(TourismBookings::class, 'venue_id', 'id');
-    // }
-
+    public function talentBooking()
+    {
+        return $this->hasOne(TalentSkills::class, 'profile_id', 'id');
+    }
 
 }

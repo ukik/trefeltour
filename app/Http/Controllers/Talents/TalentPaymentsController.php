@@ -58,10 +58,11 @@ class TalentPaymentsController extends Controller
                 'talentPaymentsValidation',
                 'talentPaymentsValidations',
 
-                // 'talentBooking.talentVenue',
-                // 'talentBooking.talentVenue.talentPrices',
-                // 'talentBooking.talentVenue.talentFacilities',
-                // 'talentBooking.talentVenue.talentService',
+                'talentBooking.talentPrices',
+                'talentBooking.talentPrice',
+                'talentBooking.talentSkills',
+                'talentBooking.talentSkill',
+                'talentBooking.talentSkill.talentProfile',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -123,10 +124,11 @@ class TalentPaymentsController extends Controller
                 'talentPaymentsValidation',
                 'talentPaymentsValidations',
 
-                // 'talentBooking.talentVenue',
-                // 'talentBooking.talentVenue.talentPrices',
-                // 'talentBooking.talentVenue.talentFacilities',
-                // 'talentBooking.talentVenue.talentService',
+                'talentBooking.talentPrices',
+                'talentBooking.talentPrice',
+                'talentBooking.talentSkills',
+                'talentBooking.talentSkill',
+                'talentBooking.talentSkill.talentProfile',
             ])->whereId($request->id)->first();
 
             // add event notification handle

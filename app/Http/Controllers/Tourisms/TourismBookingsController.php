@@ -60,6 +60,7 @@ class TourismBookingsController extends Controller
                 'tourismVenues',
                 'tourismVenue',
                 'tourismPayment',
+                'tourismPayment.tourismPaymentsValidation',
                 'tourismPayments',
 
                 'tourismVenue.tourismPrices',
@@ -124,6 +125,7 @@ class TourismBookingsController extends Controller
                 'tourismVenues',
                 'tourismVenue',
                 'tourismPayment',
+                'tourismPayment.tourismPaymentsValidation',
                 'tourismPayments',
 
                 'tourismVenue.tourismPrices',
