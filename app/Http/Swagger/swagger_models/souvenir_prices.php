@@ -201,9 +201,10 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"addCart":"Abc", "id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"addCart":"Abc", "id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
+  *                         @OA\Property(type="string", property="addCart"), 
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="storeId"), 

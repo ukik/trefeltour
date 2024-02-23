@@ -14,8 +14,10 @@ class SouvenirCarts extends Model
     use SoftDeletes;
 
     // id
+    // customer_id
     // store_id
     // product_id
+    // price_id
     // name
     // get_price
     // get_discount
@@ -31,6 +33,21 @@ class SouvenirCarts extends Model
 
     protected $table = "souvenir_carts";
 
+    public $fillable = [
+        'customer_id',
+        'store_id',
+        'product_id',
+        'price_id',
+        'name',
+        'get_price',
+        'get_discount',
+        'get_cashback',
+        'get_total_amount',
+        'quantity',
+        'get_final_amount',
+        'description',
+        'code_table',
+    ];
 
     public function souvenirStore()
     {

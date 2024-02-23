@@ -14,6 +14,7 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use SouvenirPrices;
+use SouvenirProducts;
 
 class SouvenirPricesController extends Controller
 {
@@ -50,14 +51,15 @@ class SouvenirPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \SouvenirPrices::with([
+                'souvenirStores',
                 'souvenirStore.badasoUsers',
                 'souvenirStore.badasoUser',
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirBooking',
-                'souvenirStore.souvenirBookings',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                'souvenirProduct',
+                'souvenirProducts',
+                // 'souvenirStore.souvenirBooking',
+                // 'souvenirStore.souvenirBookings',
+                // 'souvenirStore.souvenirPrice',
+                // 'souvenirStore.souvenirPrices',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -113,14 +115,15 @@ class SouvenirPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirPrices::with([
+                'souvenirStores',
                 'souvenirStore.badasoUsers',
                 'souvenirStore.badasoUser',
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirBooking',
-                'souvenirStore.souvenirBookings',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                'souvenirProduct',
+                'souvenirProducts',
+                // 'souvenirStore.souvenirBooking',
+                // 'souvenirStore.souvenirBookings',
+                // 'souvenirStore.souvenirPrice',
+                // 'souvenirStore.souvenirPrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -166,7 +169,8 @@ class SouvenirPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'skill_id' => 'required',
+                    'store_id' => 'required',
+                    'product_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -220,9 +224,11 @@ class SouvenirPricesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
+            $store_id = SouvenirProducts::where('id', $req['product_id'])->value('store_id');
+
             $data = [
 
-                'store_id' => $req['store_id'],
+                'store_id' => $store_id,
                 'product_id' => $req['product_id'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
@@ -237,7 +243,8 @@ class SouvenirPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'skill_id' => 'required',
+                    'store_id' => 'required',
+                    'product_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

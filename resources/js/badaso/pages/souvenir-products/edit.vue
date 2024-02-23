@@ -512,9 +512,6 @@ export default {
                         el.value = isVal
                     }
 
-                    if(el.field == 'year_exp' && key == 'yearExp') {
-                        el.value = new Date(this.record[key])
-                    }
 
                     if(el.field == 'category' && key == 'category') {
                         if(this.record[key] == 'others') {
@@ -575,7 +572,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'profile_id') {
+            if(el.field == 'store_id') {
                 el.value = value ? value?.id : '';
             }
         });

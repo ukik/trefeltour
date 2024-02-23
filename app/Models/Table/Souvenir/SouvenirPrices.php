@@ -36,7 +36,7 @@ class SouvenirPrices extends Model
 
     public function souvenirStores()
     {
-        return $this->belongsToMany(SouvenirStores::class, 'souvenir_products', 'id', 'store_id');
+        return $this->belongsToMany(SouvenirStores::class, 'souvenir_prices', 'id', 'store_id');
     }
 
     public function souvenirProduct()
@@ -46,7 +46,7 @@ class SouvenirPrices extends Model
 
     public function souvenirProducts()
     {
-        return $this->belongsToMany(SouvenirProducts::class, 'souvenir_products', 'id', 'product_id');
+        return $this->belongsToMany(SouvenirProducts::class, 'souvenir_prices', 'id', 'product_id');
     }
 
 

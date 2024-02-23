@@ -13,7 +13,7 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})` }"
+            :serializer="item => { return `Toko Souvenir UUID (${item.uuid})` }"
             @hit="selecteduser = $event" placeholder="Pilih Toko Souvenir" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
         <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-souvenir'" @click="onHapus" class="btn btn-primary col-auto mr-4">
@@ -88,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/souvenir/dialog_profile_souvenir_stores?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/souvenir/dialog_product_souvenir_stores?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -96,7 +96,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})` //`Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+                    this.$refs.typeahead.inputValue = `Toko Souvenir UUID (${item.uuid})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -106,7 +106,7 @@ export default {
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+            this.$refs.typeahead.inputValue = `Toko Souvenir UUID (${item.uuid})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
@@ -120,7 +120,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/souvenir/dialog_profile_souvenir_stores?keyword=' + this.query, {
+                .get('/api/typehead/souvenir/dialog_product_souvenir_stores?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
