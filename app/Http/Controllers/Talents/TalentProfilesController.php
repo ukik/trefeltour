@@ -13,8 +13,10 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
+use TalentPrices;
 use TourismBookings;
 use TalentProfiles;
+use TalentSkills;
 
 class TalentProfilesController extends Controller
 {
@@ -265,8 +267,8 @@ class TalentProfilesController extends Controller
         isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TourismBookings::where('venue_id', $value)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentProfiles::where('id', $value)->with(['talentSkill','talentPrice'])->first();
+        if($check->talentSkill || $check->talentPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -391,10 +393,10 @@ class TalentProfilesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismBooking')->get();
+            $filters = TalentProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with(['talentSkill','talentPrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->tourismBooking == null) {
+                if($value->talentSkill == null && $value->talentPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

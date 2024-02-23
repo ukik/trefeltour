@@ -13,9 +13,15 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportBookings;
-use TransportVehicles;
+use SouvenirCarts;
 use TravelPayments;
+
+use \BadasoUsers;
+use Google\Service\Eventarc\Transport;
+use TalentPayments;
+use TalentProfiles;
+use TalentSkills;
+use TalentVenues;
 
 class SouvenirCartsController extends Controller
 {
@@ -51,15 +57,16 @@ class SouvenirCartsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportVehicles::with([
-                'transportRentals',
-                'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \SouvenirCarts::with([
+                'souvenirStore.souvenirBooking.badasoUsers',
+                'souvenirStore.souvenirBooking.badasoUser',
+                'souvenirStore.souvenirBookings',
+
+                'souvenirStore.souvenirProduct',
+                'souvenirStore.souvenirProducts',
+                'souvenirStore.souvenirPrice',
+                'souvenirStore.souvenirPrices',
+                'souvenirStores',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -114,15 +121,16 @@ class SouvenirCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportVehicles::with([
-                'transportRentals',
-                'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \SouvenirCarts::with([
+                'souvenirStore.souvenirBooking.badasoUsers',
+                'souvenirStore.souvenirBooking.badasoUser',
+                'souvenirStore.souvenirBookings',
+
+                'souvenirStore.souvenirProduct',
+                'souvenirStore.souvenirProducts',
+                'souvenirStore.souvenirPrice',
+                'souvenirStore.souvenirPrices',
+                'souvenirStores',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -137,10 +145,14 @@ class SouvenirCartsController extends Controller
 
     public function edit(Request $request)
     {
-
+        // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
+
+        $value = request()['data']['id'];
+        $check = \TalentPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -148,26 +160,30 @@ class SouvenirCartsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportVehicles::where('id', $request->data['id'])->first();
-            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+            $table_entity = \SouvenirCarts::where('id', $request->data['id'])->first();
+
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
-            $data = [
-                'rental_id' => $table_entity->rental_id,
-                'user_id' => $temp->user_id,
-                'model' => $req['model'],
-                'brand' => $req['brand'],
-                'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['discount_daily_price'],
-                'cashback_daily_price' => $req['cashback_daily_price'],
-                'category' => $req['category'],
-                'fuel_type' => $req['fuel_type'],
-                'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
-                'color' => $req['color'],
-                'code_stnk' => $req['code_stnk'],
-                'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
 
+            $data = [
+                'customer_id' => $customer_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
@@ -175,17 +191,14 @@ class SouvenirCartsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'discount_daily_price' => 'max:3',
-                    // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id']
-                    'code_stnk' => 'unique:view_transport_vehicles_check_stnk,code_stnk,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'venue_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
                     // ],
                 ],
-                [
-                    'code_stnk.unique' => 'STNK sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -194,11 +207,13 @@ class SouvenirCartsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-            \TransportVehicles::where('id', $request->data['id'])->update($data);
+
+            \SouvenirCarts::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportVehicles::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \SouvenirCarts::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -225,7 +240,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
 
@@ -234,25 +249,28 @@ class SouvenirCartsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
-            $data = [
-                'user_id' => $temp->user_id,
-                'rental_id' => $req['rental_id'],
-                'model' => $req['model'],
-                'brand' => $req['brand'],
-                'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['discount_daily_price'],
-                'cashback_daily_price' => $req['cashback_daily_price'],
-                'category' => $req['category'],
-                'fuel_type' => $req['fuel_type'],
-                'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
-                'color' => $req['color'],
-                'code_stnk' => $req['code_stnk'],
-                'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
 
+            $data = [
+                'customer_id' => $customer_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
@@ -260,15 +278,9 @@ class SouvenirCartsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'discount_daily_price' => 'max:3',
-                    // 'rental_id' => 'required',
-                    // 'code_stnk' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'code_stnk' => 'unique:view_transport_vehicles_check_stnk'
+                    // 'ticket_id' => 'unique:travel_bookings'
                 ],
-                [
-                    'code_stnk.unique' => 'STNK sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -277,9 +289,10 @@ class SouvenirCartsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-            $stored_data = \TransportVehicles::insert($data);
+            $stored_data = \SouvenirCarts::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -304,11 +317,12 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         $value = request()['data'][0]['value'];
-        $check = TransportBookings::where('vehicle_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = SouvenirCarts::where('id', $value)->with(['talentPayment'])->first();
+        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -395,6 +409,8 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -431,10 +447,10 @@ class SouvenirCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportVehicles::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportBooking')->get();
+            $filters = SouvenirCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportBooking == null) {
+                if($value->talentPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

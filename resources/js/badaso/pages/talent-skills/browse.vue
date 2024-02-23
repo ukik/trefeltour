@@ -298,6 +298,9 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
+                            <div v-if="dataRow.field == 'year_exp'">
+                                {{ $formatDate(record.yearExp) }}
+                            </div>
                             <div v-else>
                                 {{
                                     record[
@@ -394,78 +397,13 @@
 
                             <!-- ADDITIONAL -->
 
-                            <!-- <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].tourismBooking?.id,
-                                  slug: 'tourism-bookings',
-                                },
-                              }"
-                              v-if="
-                                data[index].tourismBooking?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Booking
-                            </badaso-dropdown-item>
-
-                            <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].tourismBooking?.tourismPayment?.id,
-                                  slug: 'tourism-payments',
-                                },
-                              }"
-                              v-if="
-                                data[index].tourismBooking?.tourismPayment?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Pembayaran
-                            </badaso-dropdown-item>
-
-                            <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].tourismBooking?.tourismPayment?.tourismPaymentsValidation?.id,
-                                  slug: 'tourism-payments-validations',
-                                },
-                              }"
-                              v-if="
-                                data[index].tourismBooking?.tourismPayment?.tourismPaymentsValidation?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Pembayaran Validasi
-                            </badaso-dropdown-item> -->
 
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: data[index].talentProfile?.id,
-                                  slug: 'tourism-venues',
+                                  slug: 'talent-profiles',
                                 },
                               }"
                               v-if="

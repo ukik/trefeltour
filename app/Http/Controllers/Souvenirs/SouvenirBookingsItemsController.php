@@ -13,9 +13,15 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportMaintenances;
-use TransportWorkshops;
+use SouvenirBookingsItems;
 use TravelPayments;
+
+use \BadasoUsers;
+use Google\Service\Eventarc\Transport;
+use TalentPayments;
+use TalentProfiles;
+use TalentSkills;
+use TalentVenues;
 
 class SouvenirBookingsItemsController extends Controller
 {
@@ -51,17 +57,22 @@ class SouvenirBookingsItemsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportWorkshops::with([
-                'badasoUsers',
-                'transportMaintenances',
-                'transportMaintenance',
-                'transportMaintenance.transportVehicle',
-                'transportMaintenance.transportVehicle.transportRental',
-                'transportMaintenance.transportVehicle.transportBooking',
-                'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment' => function($q) { return $q->select('id','booking_id','customer_id'); },
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation' => function($q) { return $q->select('id','payment_id'); },
+            $data = \SouvenirBookingsItems::with([
+                'souvenirBooking.badasoUsers',
+                'souvenirBooking.badasoUser',
+                'souvenirBookings',
+
+                'souvenirBooking.souvenirStore.souvenirProduct',
+                'souvenirBooking.souvenirStore.souvenirProducts',
+                'souvenirBooking.souvenirStore.souvenirPrice',
+                'souvenirBooking.souvenirStore.souvenirPrices',
+                'souvenirBooking.souvenirStores',
+
+                'souvenirBooking.souvenirBookingItem',
+                'souvenirBooking.souvenirBookingItems',
+                'souvenirBooking.souvenirPayment',
+                'souvenirBooking.souvenirPayment.talentPaymentsValidation',
+                'souvenirBooking.souvenirPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -116,17 +127,22 @@ class SouvenirBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportWorkshops::with([
-                'badasoUsers',
-                'transportMaintenances',
-                'transportMaintenance',
-                'transportMaintenance.transportVehicle',
-                'transportMaintenance.transportVehicle.transportRental',
-                'transportMaintenance.transportVehicle.transportBooking',
-                'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \SouvenirBookingsItems::with([
+                'souvenirBooking.badasoUsers',
+                'souvenirBooking.badasoUser',
+                'souvenirBookings',
+
+                'souvenirBooking.souvenirStore.souvenirProduct',
+                'souvenirBooking.souvenirStore.souvenirProducts',
+                'souvenirBooking.souvenirStore.souvenirPrice',
+                'souvenirBooking.souvenirStore.souvenirPrices',
+                'souvenirBooking.souvenirStores',
+
+                'souvenirBooking.souvenirBookingItem',
+                'souvenirBooking.souvenirBookingItems',
+                'souvenirBooking.souvenirPayment',
+                'souvenirBooking.souvenirPayment.talentPaymentsValidation',
+                'souvenirBooking.souvenirPayments',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -144,7 +160,11 @@ class SouvenirBookingsItemsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
+
+        $value = request()['data']['id'];
+        $check = \TalentPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -152,45 +172,45 @@ class SouvenirBookingsItemsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportWorkshops::where('id', $request->data['id'])->first();
+            $table_entity = \SouvenirBookingsItems::where('id', $request->data['id'])->first();
+
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
+            // if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
-                'user_id' => $req['user_id'] ,
-                'name' => $req['name'] ,
-                'email' => $req['email'] ,
-                'phone' => $req['phone'] ,
-                'location' => $req['location'] ,
-                'image' => $req['image'] ,
-                'address' => $req['address'] ,
-                'codepos' => $req['codepos'] ,
-                'city' => $req['city'] ,
-                'country' => $req['country'] ,
-                'policy' => $req['policy'] ,
-                'category' => $req['category'] ,
-                'year_exp' => $req['year_exp'] ,
-                'day_open' => $req['day_open'] ,
-                'day_close' => $req['day_close'] ,
-                'time_open' => date("h:m:i", strtotime($req['time_open'])) ,
-                'time_close' => date("h:m:i", strtotime($req['time_close'])) ,
+                'customer_id' => $customer_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
-                    'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user,user_id,'.$req['id']
-
+                    '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'venue_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
                     // ],
                 ],
-                [
-                    'user_id.unique' => 'User sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -199,9 +219,13 @@ class SouvenirBookingsItemsController extends Controller
                 }
             }
 
-            \TransportWorkshops::where('id', $request->data['id'])->update($data);
+            $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+
+
+            \SouvenirBookingsItems::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportWorkshops::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \SouvenirBookingsItems::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -228,7 +252,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
 
@@ -237,43 +261,38 @@ class SouvenirBookingsItemsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
+            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
+
             $req = request()['data'];
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
-                'user_id' => $req['user_id'] ,
-                'name' => $req['name'] ,
-                'email' => $req['email'] ,
-                'phone' => $req['phone'] ,
-                'location' => $req['location'] ,
-                'image' => $req['image'] ,
-                'address' => $req['address'] ,
-                'codepos' => $req['codepos'] ,
-                'city' => $req['city'] ,
-                'country' => $req['country'] ,
-                'policy' => $req['policy'] ,
-                'category' => $req['category'] ,
-                'year_exp' => $req['year_exp'] ,
-                'day_open' => $req['day_open'] ,
-                'day_close' => $req['day_close'] ,
-                'time_open' => date("h:m:i", strtotime($req['time_open'])) ,
-                'time_close' => date("h:m:i", strtotime($req['time_close'])) ,
+                'customer_id' => $customer_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
-                    'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user'
-
+                    '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
-                    // ],
+                    // 'ticket_id' => 'unique:travel_bookings'
                 ],
-                [
-                    'user_id.unique' => 'User sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -282,7 +301,10 @@ class SouvenirBookingsItemsController extends Controller
                 }
             }
 
-            $stored_data = \TransportWorkshops::insert($data);
+            $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+
+            $stored_data = \SouvenirBookingsItems::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -307,9 +329,12 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminTalent();
+
         $value = request()['data'][0]['value'];
-        $check = TransportMaintenances::where('workshop_id', $value)->where('is_maintenance','true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirBookingsItems::where('id', $value)->with(['talentPayment'])->first();
+        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -396,7 +421,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -434,10 +459,10 @@ class SouvenirBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportWorkshops::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = SouvenirBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->talentPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

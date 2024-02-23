@@ -176,7 +176,6 @@ class TalentBookingsController extends Controller
 
             $data = [
                 'customer_id' => $customer_id ,
-                'profile_id' => $temp->profile_id ,
                 'skill_id' => $temp->skill_id ,
                 'price_id' => $temp->id ,
 
@@ -263,7 +262,6 @@ class TalentBookingsController extends Controller
 
             $data = [
                 'customer_id' => $customer_id ,
-                'profile_id' => $temp->profile_id ,
                 'skill_id' => $temp->skill_id ,
                 'price_id' => $temp->id ,
 
@@ -324,8 +322,9 @@ class TalentBookingsController extends Controller
         isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TalentPayments::where('booking_id', $value)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentBookings::where('id', $value)->with(['talentPayment'])->first();
+        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -450,10 +449,10 @@ class TalentBookingsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismPayment')->get();
+            $filters = TalentBookings::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->tourismPayment == null) {
+                if($value->talentPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

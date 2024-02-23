@@ -70,14 +70,14 @@ class TalentProfiles extends Model
         return $this->hasOne(TalentSkills::class, 'profile_id', 'id');
     }
 
-    public function talentBookings()
-    {
-        return $this->hasMany(TalentSkills::class, 'profile_id', 'id');
-    }
+    // public function talentBookings()
+    // {
+    //     return $this->hasMany(TalentSkills::class, 'profile_id', 'id');
+    // }
 
-    public function talentBooking()
-    {
-        return $this->hasOne(TalentSkills::class, 'profile_id', 'id');
-    }
+    // public function talentBooking()
+    // {
+    //     return $this->hasOne(TalentSkills::class, 'profile_id', 'id');
+    // }
 
 }

@@ -280,9 +280,8 @@ class TalentPricesController extends Controller
         isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $venue_id = \TalentPrices::where('id', $value)->value('venue_id');
-        $check = \TourismVenues::where('id', $venue_id)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentPrices::where('id', $value)->with(['talentBooking'])->first();
+        if($check->talentBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -407,10 +406,10 @@ class TalentPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
+            $filters = TalentPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentBooking')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->tourismVenue == null) {
+                if($value->talentBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

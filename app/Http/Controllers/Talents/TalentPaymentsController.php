@@ -299,8 +299,8 @@ class TalentPaymentsController extends Controller
         isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TalentPaymentsValidations::where('payment_id', $value)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentPayments::where('id', $value)->with(['talentPaymentsValidation'])->first();
+        if($check->talentPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([

@@ -26,7 +26,7 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 |
 */
 
-Route::group(['prefix' => '/typehead/talent', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
+Route::group(['prefix' => '/typehead/talent', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers\TypeHeads'], function ($request) {
     Route::get('/user', 'TalentTypeHeadController@getUser');
     Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
     Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');

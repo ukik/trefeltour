@@ -26,19 +26,22 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 |
 */
 
-Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
-    Route::get('/user', 'TransportTypeHeadController@getUser');
+Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers\TypeHeads'], function ($request) {
+    Route::get('/user', 'SouvenirTypeHeadController@getUser');
+    Route::get('/dialog_profile_souvenir_stores', 'SouvenirTypeHeadController@dialog_profile_souvenir_stores');
 
-    // transport-bookings
-    Route::get('/transport-bookings', 'TransportTypeHeadController@transport_bookings');
-    Route::get('/transport-drivers', 'TransportTypeHeadController@transport_drivers');
-    Route::get('/transport-maintenances', 'TransportTypeHeadController@transport_maintenances');
-    Route::get('/transport-payments', 'TransportTypeHeadController@transport_payments');
-    Route::get('/transport-payments-validations', 'TransportTypeHeadController@transport_payments_validations');
-    Route::get('/transport-rentals', 'TransportTypeHeadController@transport_rentals');
-    Route::get('/transport-returns', 'TransportTypeHeadController@transport_returns');
-    Route::get('/transport-vehicles', 'TransportTypeHeadController@transport_vehicles');
-    Route::get('/transport-workshops', 'TransportTypeHeadController@transport_workshops');
+
+
+
+
+    Route::get('/user', 'TalentTypeHeadController@getUser');
+    Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
+    Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
+
+    Route::get('/dialog_profile_talent_skills', 'TalentTypeHeadController@dialog_profile_talent_skills');
+
+    Route::get('/dialog_booking_talent_bookings', 'TalentTypeHeadController@dialog_booking_talent_bookings');
+    Route::get('/dialog_booking_talent_payments_validations', 'TalentTypeHeadController@dialog_booking_talent_payments_validations');
 
 });
 

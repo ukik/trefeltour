@@ -451,3 +451,23 @@ guide,media,mc,dance,singer,band,comedian,musician,others
         }
     ]
 }
+
+
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Kuliner",
+            "value": "food"
+        },
+        {
+            "label": "Kerajinan",
+            "value": "craft"
+        },
+        {
+            "label": "Lainnya",
+            "value": "others"
+        }
+    ]
+}

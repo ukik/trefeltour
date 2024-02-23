@@ -86,6 +86,7 @@ return [
     'souvenir_carts',
     'souvenir_payments',
     'souvenir_payments_validations',
+    'souvenir_prices',
     'souvenir_products',
     'souvenir_stores',
     'talent_bookings',

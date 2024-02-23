@@ -169,5 +169,21 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         
         $this->seed(TalentBookingsCRUDDataTypeAdded::class);
         $this->seed(TalentBookingsCRUDDataRowAdded::class);
+        $this->seed(SouvenirStoresCRUDDataTypeAdded::class);
+        $this->seed(SouvenirStoresCRUDDataRowAdded::class);
+        $this->seed(SouvenirProductsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirProductsCRUDDataRowAdded::class);
+        $this->seed(SouvenirPricesCRUDDataTypeAdded::class);
+        $this->seed(SouvenirPricesCRUDDataRowAdded::class);
+        $this->seed(SouvenirCartsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirCartsCRUDDataRowAdded::class);
+        $this->seed(SouvenirBookingsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirBookingsCRUDDataRowAdded::class);
+        $this->seed(SouvenirBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirBookingItemsCRUDDataRowAdded::class);
+        $this->seed(SouvenirPaymentsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirPaymentsCRUDDataRowAdded::class);
+        $this->seed(SouvenirPaymentsValidationsCRUDDataTypeAdded::class);
+        $this->seed(SouvenirPaymentsValidationsCRUDDataRowAdded::class);
     }
 }

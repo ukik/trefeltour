@@ -13,9 +13,10 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportRentals;
-use TransportVehicles;
-use TravelPayments;
+use TalentPrices;
+use TourismBookings;
+use SouvenirStores;
+use TalentSkills;
 
 class SouvenirStoresController extends Controller
 {
@@ -51,20 +52,21 @@ class SouvenirStoresController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportRentals::with([
+            $data = \SouvenirStores::with([
                 'badasoUsers',
-                'transportVehicles',
-                'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                'badasoUser',
+                'souvenirProduct',
+                'souvenirProducts',
+                'souvenirBooking',
+                'souvenirBookings',
+                'souvenirPrice',
+                'souvenirPrices',
             ])->orderBy('id','desc');
+
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -115,16 +117,15 @@ class SouvenirStoresController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportRentals::with([
+            $data = \SouvenirStores::with([
                 'badasoUsers',
-                'transportVehicles',
-                'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                'badasoUser',
+                'souvenirProduct',
+                'souvenirProducts',
+                'souvenirBooking',
+                'souvenirBookings',
+                'souvenirPrice',
+                'souvenirPrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -141,11 +142,11 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        // if(!isAdminTransport()) {
+        // if(!isAdminTourism()) {
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
 
@@ -153,10 +154,11 @@ class SouvenirStoresController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportRentals::where('id', $request->data['id'])->first();
+            $table_entity = \SouvenirStores::where('id', $request->data['id'])->first();
 
             $req = request()['data'];
             $data = [
+
                 'user_id' => $table_entity->user_id,
                 'name' => $req['name'],
                 'email' => $req['email'],
@@ -166,8 +168,8 @@ class SouvenirStoresController extends Controller
                 'address' => $req['address'],
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
-                'policy' => $req['policy'],
                 'country' => $req['country'],
+                'policy' => $req['description'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
 
@@ -178,6 +180,7 @@ class SouvenirStoresController extends Controller
             $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
+                    // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -193,9 +196,9 @@ class SouvenirStoresController extends Controller
 
             // $data['description'] = $req['description'];
 
-            \TransportRentals::where('id', $request->data['id'])->update($data);
+            \SouvenirStores::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportRentals::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \SouvenirStores::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -222,7 +225,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
 
@@ -233,6 +236,7 @@ class SouvenirStoresController extends Controller
 
             $req = request()['data'];
             $data = [
+
                 'user_id' => $req['user_id'],
                 'name' => $req['name'],
                 'email' => $req['email'],
@@ -242,10 +246,10 @@ class SouvenirStoresController extends Controller
                 'address' => $req['address'],
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
-                'policy' => $req['policy'],
                 'country' => $req['country'],
+                'policy' => $req['description'],
                 'description' => $req['description'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'is_available' => $req['is_available'],
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -253,10 +257,10 @@ class SouvenirStoresController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'codepos' => 'max:6',
+                    'user_id' => 'required',
+                    // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
+                    // 'user_id' => 'unique:tourism_venues'
                 ],
             );
             if ($validator->fails()) {
@@ -266,7 +270,7 @@ class SouvenirStoresController extends Controller
                 }
             }
 
-            $stored_data = \TransportRentals::insert($data);
+            $stored_data = \SouvenirStores::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -291,13 +295,11 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TransportVehicles::where('rental_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = SouvenirStores::where('id', $value)->with(['talentSkill','talentPrice'])->first();
+        if($check->talentSkill || $check->talentPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -384,7 +386,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -422,10 +424,10 @@ class SouvenirStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportRentals::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = SouvenirStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['talentSkill','talentPrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->talentSkill == null && $value->talentPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

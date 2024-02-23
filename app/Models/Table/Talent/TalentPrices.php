@@ -65,4 +65,13 @@ class TalentPrices extends Model
         return $this->belongsToMany(TalentProfiles::class, 'talent_prices', 'id', 'profile_id');
     }
 
+    public function talentBooking()
+    {
+        return $this->hasOne(TalentBookings::class, 'skill_id', 'id');
+    }
+
+    public function talentBookings()
+    {
+        return $this->hasMany(TalentBookings::class, 'skill_id', 'id');
+    }
 }
