@@ -125,6 +125,42 @@ class SouvenirTypeHeadController extends Controller
         // return request();
     }
 
+    function update_to_cart(Request $request) {
+        // return request();
+        if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
+
+        SouvenirCarts::where('id', request()->id)->update([
+                'quantity' => request()->quantity,
+        ]);
+
+        $data = \SouvenirCarts::with([
+            // 'souvenirStore.souvenirBooking.badasoUsers',
+            // 'souvenirStore.souvenirBooking.badasoUser',
+            // 'souvenirStore.souvenirBookings',
+            'badasoUsers',
+            'badasoUser',
+
+            'souvenirProduct',
+            'souvenirProducts',
+            'souvenirPrice',
+            'souvenirPrices',
+            'souvenirStores',
+        ])->orderBy('id','desc');
+        if(request()['showSoftDelete'] == 'true') {
+            $data = $data->onlyTrashed();
+        }
+        $data = $data->paginate(request()->perPage);
+
+        // $encode = json_encode($paginate);
+        // $decode = json_decode($encode);
+        // $data['data'] = $decode->data;
+        // $data['total'] = $decode->total;
+
+        return ApiResponse::onlyEntity($data);
+    }
+
+
+
 
 
     function dialog_booking_talent_bookings() {

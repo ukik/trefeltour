@@ -58,14 +58,16 @@ class SouvenirCartsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \SouvenirCarts::with([
-                'souvenirStore.souvenirBooking.badasoUsers',
-                'souvenirStore.souvenirBooking.badasoUser',
-                'souvenirStore.souvenirBookings',
+                // 'souvenirStore.souvenirBooking.badasoUsers',
+                // 'souvenirStore.souvenirBooking.badasoUser',
+                // 'souvenirStore.souvenirBookings',
+                'badasoUsers',
+                'badasoUser',
 
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                'souvenirProduct',
+                'souvenirProducts',
+                'souvenirPrice',
+                'souvenirPrices',
                 'souvenirStores',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
@@ -122,14 +124,16 @@ class SouvenirCartsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirCarts::with([
-                'souvenirStore.souvenirBooking.badasoUsers',
-                'souvenirStore.souvenirBooking.badasoUser',
-                'souvenirStore.souvenirBookings',
+                // 'souvenirStore.souvenirBooking.badasoUsers',
+                // 'souvenirStore.souvenirBooking.badasoUser',
+                // 'souvenirStore.souvenirBookings',
+                'badasoUsers',
+                'badasoUser',
 
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                'souvenirProduct',
+                'souvenirProducts',
+                'souvenirPrice',
+                'souvenirPrices',
                 'souvenirStores',
             ])->whereId($request->id)->first();
 

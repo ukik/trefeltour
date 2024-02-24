@@ -30,6 +30,7 @@ Route::group(['prefix' => '/typehead/souvenir', 'middleware' => ['sanctum_1','BA
     Route::get('/user', 'SouvenirTypeHeadController@getUser');
     Route::get('/add_to_cart_user', 'SouvenirTypeHeadController@getUser');
 
+    Route::post('/update_to_cart', 'SouvenirTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'SouvenirTypeHeadController@add_to_cart');
     Route::get('/dialog_product_souvenir_stores', 'SouvenirTypeHeadController@dialog_product_souvenir_stores');
     Route::get('/dialog_prices_souvenir_products', 'SouvenirTypeHeadController@dialog_prices_souvenir_products');
