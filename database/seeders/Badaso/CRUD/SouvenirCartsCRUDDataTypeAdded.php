@@ -46,9 +46,9 @@ class SouvenirCartsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
+                'is_soft_delete' => false,
                 'created_at' => '2024-02-22T13:25:11.000000Z',
-                'updated_at' => '2024-02-24T09:48:57.000000Z',
+                'updated_at' => '2024-02-24T15:10:55.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_carts');

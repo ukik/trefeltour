@@ -3,7 +3,7 @@
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
-          <download-excel
+          <!-- <download-excel
             :data="records"
             :fields="fieldsForExcel"
             :worksheet="dataType.displayNameSingular"
@@ -33,7 +33,7 @@
             "
           >
             {{ $t("action.add") }}
-          </badaso-dropdown-item>
+          </badaso-dropdown-item> -->
           <badaso-dropdown-item
             icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
@@ -102,13 +102,18 @@
         <vs-col vs-lg="12">
           <vs-card>
             <div slot="header">
-              <h3>{{ dataType.displayNameSingular }}</h3>
+                <div  class="row px-3">
+                    <h3 class="col align-self-center">{{ dataType.displayNameSingular }}</h3>
+
+                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingNow">Booking Now</vs-button>
+                </div>
             </div>
             <div>
               <badaso-table ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
                 @onChangePage="onChangePage"
                 @onChangeMaxItems="onChangeMaxItems"
+                @selected="onSelected"
                 v-model="selected"
                 pagination
                 :max-items="descriptionItems[0]"
@@ -261,7 +266,7 @@
                               )
                             }}
                           </p>
-                          <div
+                          <!-- <div
                             v-else-if="
                               dataRow.type == 'select_multiple' ||
                               dataRow.type == 'checkbox'
@@ -280,7 +285,7 @@
                                 bindSelection(dataRow.details.items, selected)
                               }}
                             </p>
-                          </div>
+                          </div> -->
                           <div v-else-if="dataRow.type == 'color_picker'">
                             <div
                               class="crud-generated__item--color-picker"
@@ -300,6 +305,7 @@
                             displayRelationData(record, dataRow)
                           }}</span>
                             <div :class="[ dataRow.field == 'quantity' ? 'row' : '']" v-else>
+                                <vs-button v-if="dataRow.field == 'booking'" type="relief" @click="show = true; selectedData = record;">Booking Ini</vs-button>
                                 <span v-if="dataRow.field == 'name'">
                                     {{ record.souvenirPrice?.name }}
                                 </span>
@@ -563,308 +569,6 @@
                   </vs-tr>
                 </template>
               </badaso-table>
-              <div v-else>
-                <badaso-server-side-table  ref="badaso_table_2"
-                  v-model="selected" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
-                  :data="records"
-                  stripe
-                  :pagination-data="data"
-                  :description-items="descriptionItems"
-                  :description-title="
-                    $t('crudGenerated.footer.descriptionTitle')
-                  "
-                  :description-connector="
-                    $t('crudGenerated.footer.descriptionConnector')
-                  "
-                  @search="handleSearch"
-                  @changePage="handleChangePage"
-                  @changeLimit="handleChangeLimit"
-                  @select="handleSelect"
-                  @sort="handleSort"
-                >
-                  <template slot="thead">
-                    <badaso-th
-                      v-for="(dataRow, index) in dataType.dataRows"
-                      :key="`header-${index}`"
-                      :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
-                    >
-                      <template v-if="dataRow.browse == 1">
-                        {{ dataRow.displayName }}
-                      </template>
-                    </badaso-th>
-                    <vs-th> Action </vs-th>
-                  </template>
-
-                  <template slot="tbody">
-                    <vs-tr
-                      :data="record"
-                      :key="index"
-                      v-for="(record, index) in records"
-                      :state="
-                        idsOfflineDeleteRecord.includes(record.id.toString())
-                          ? 'danger'
-                          : 'default'
-                      "
-                    >
-                      <template
-                        v-if="
-                          !idsOfflineDeleteRecord.includes(
-                            record.id.toString()
-                          ) || !isOnline
-                        "
-                      >
-                        <vs-td
-                          v-for="(dataRow, indexColumn) in dataType.dataRows"
-                          :key="`${index}-${indexColumn}`"
-                          :data="
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          "
-                        >
-                          <template v-if="dataRow.browse == 1">
-                            <img
-                              v-if="dataRow.type == 'upload_image'"
-                              :src="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              "
-                              width="20%"
-                              alt=""
-                            />
-                            <div
-                              v-else-if="
-                                dataRow.type == 'upload_image_multiple'
-                              "
-                              class="crud-generated__item--upload-image-multiple"
-                            >
-                              <img
-                                v-for="(image, indexImage) in stringToArray(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                )"
-                                :key="indexImage"
-                                :src="`${image}`"
-                                width="20%"
-                                alt=""
-                                class="crud-generated__item--image"
-                              />
-                            </div>
-                            <span
-                              v-else-if="dataRow.type == 'editor'"
-                              v-html="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              "
-                            ></span>
-                            <a
-                              v-else-if="dataRow.type == 'url'"
-                              :href="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              "
-                              target="_blank"
-                              >{{
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }}</a
-                            >
-                            <a
-                              v-else-if="dataRow.type == 'upload_file'"
-                              :href="`${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }`"
-                              target="_blank"
-                              >{{
-                                getDownloadUrl(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                )
-                              }}</a
-                            >
-                            <div
-                              v-else-if="dataRow.type == 'upload_file_multiple'"
-                              class="crud-generated__item--upload-file-multiple"
-                            >
-                              <p
-                                v-for="(file, indexFile) in arrayToString(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                )"
-                                :key="indexFile"
-                              >
-                                <a :href="`${file}`" target="_blank">{{
-                                  getDownloadUrl(file)
-                                }}</a>
-                              </p>
-                            </div>
-                            <p
-                              v-else-if="
-                                dataRow.type == 'radio' ||
-                                dataRow.type == 'select'
-                              "
-                            >
-                              {{
-                                bindSelection(
-                                  dataRow.details.items,
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                )
-                              }}
-                            </p>
-                            <div
-                              v-else-if="
-                                dataRow.type == 'select_multiple' ||
-                                dataRow.type == 'checkbox'
-                              "
-                              class="crud-generated__item--select-multiple"
-                            >
-                              <p
-                                v-for="(
-                                  selected, indexSelected
-                                ) in stringToArray(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                )"
-                                :key="indexSelected"
-                              >
-                                {{
-                                  bindSelection(dataRow.details.items, selected)
-                                }}
-                              </p>
-                            </div>
-                            <div v-else-if="dataRow.type == 'color_picker'">
-                              <div
-                                class="crud-generated__item--color-picker"
-                                :style="`background-color: ${
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
-                                }`"
-                              ></div>
-                              {{
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }}
-                            </div>
-                            <span v-else-if="dataRow.type == 'relation'">{{
-                              displayRelationData(record, dataRow)
-                            }}</span>
-                            <span v-else>{{
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            }}</span>
-                          </template>
-                        </vs-td>
-                        <vs-td class="crud-generated__button">
-                          <badaso-dropdown vs-trigger-click>
-                            <vs-button
-                              size="large"
-                              type="flat"
-                              icon="more_vert"
-                            ></vs-button>
-                            <vs-dropdown-menu>
-                              <badaso-dropdown-item
-                                :to="{
-                                  name: 'CrudGeneratedRead',
-                                  params: {
-                                    id: record.id,
-                                    slug: $route.params.slug,
-                                  },
-                                }"
-                                v-if="
-                                  isCanRead &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'read',
-                                    dataType
-                                  )
-                                "
-                                icon="visibility"
-                              >
-                                Detail
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                :to="{
-                                  name: 'CrudGeneratedEdit',
-                                  params: {
-                                    id: record.id,
-                                    slug: $route.params.slug,
-                                  },
-                                }"
-                                v-if="
-                                  isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  )
-                                "
-                                icon="edit"
-                              >
-                                Edit
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                icon="delete"
-                                @click="confirmDelete(record.id)"
-                                v-if="
-                                  !idsOfflineDeleteRecord.includes(
-                                    record.id.toString()
-                                  ) &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'delete',
-                                    dataType
-                                  )
-                                "
-                              >
-                                Delete
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                @click="confirmDeleteDataPending(record.id)"
-                                icon="delete_outline"
-                                v-if="
-                                  idsOfflineDeleteRecord.includes(
-                                    record.id.toString()
-                                  )
-                                "
-                              >
-                                {{
-                                  $t(
-                                    "offlineFeature.crudGenerator.deleteDataPending"
-                                  )
-                                }}
-                              </badaso-dropdown-item>
-                            </vs-dropdown-menu>
-                          </badaso-dropdown>
-                        </vs-td>
-                      </template>
-                    </vs-tr>
-                  </template>
-                </badaso-server-side-table>
-              </div>
             </div>
           </vs-card>
         </vs-col>
@@ -958,6 +662,8 @@ export default {
     showMaintenancePage: false,
     isShowDataRecycle: false,
 
+    selectedBooking:[],
+
     lastPage: 0,
     currentPage: 1,
     perPage: 5
@@ -968,6 +674,9 @@ export default {
         handler (to, from) {
           this.getEntity();
         }
+    },
+    selected(val) {
+        this.selectedBooking = val
     },
     // page: function(to, from) {
     //   this.handleChangePage(to);
@@ -984,8 +693,43 @@ export default {
     }
     // this.getEntity();
     this.loadIdsOfflineDelete();
+
+    // Swal.fire("SweetAlert2 is working!");
   },
   methods: {
+    onSelected(value) {
+        // console.log('onSelected', value)
+    },
+    onBookingNow() {
+        console.log('selectedBooking', this.selectedBooking)
+        const ids = this.selected.map((item) => item.id);
+        let duplicate = null;
+            console.log('el.customerId', ids, this.selected.length)
+
+        this.selected.forEach(el => {
+            if(!duplicate) duplicate = el.customerId
+            if(duplicate == el.customerId) duplicate = el.customerId
+            if(duplicate !== el.customerId) {
+
+                this.$vs.notify({
+                    title: this.$t("alert.danger"),
+                    text: "1 Invoice untuk 1 Customer",
+                    color: "danger",
+                });
+
+                // this.$vs.dialog({
+                //     type: "confirm",
+                //     color: "danger",
+                //     title: this.$t("action.delete.title"),
+                //     text: this.$t("action.delete.text"),
+                //     accept: this.deleteRecords,
+                //     acceptText: this.$t("action.delete.accept"),
+                //     cancelText: this.$t("action.delete.cancel"),
+                //     cancel: () => {},
+                // });
+            }
+        })
+    },
     onUpdateQuantity: _.debounce(async function(value) {
         // alert(value)
 
