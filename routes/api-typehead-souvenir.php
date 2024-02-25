@@ -29,6 +29,7 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 Route::group(['prefix' => '/typehead/souvenir', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers\TypeHeads'], function ($request) {
     Route::get('/user', 'SouvenirTypeHeadController@getUser');
     Route::get('/add_to_cart_user', 'SouvenirTypeHeadController@getUser');
+    Route::post('/get_prices_booking', 'SouvenirTypeHeadController@get_prices_booking');
 
     Route::post('/update_to_cart', 'SouvenirTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'SouvenirTypeHeadController@add_to_cart');

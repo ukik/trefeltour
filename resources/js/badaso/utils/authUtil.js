@@ -25,10 +25,10 @@ export default {
         let isAdminTransport = null
         for (let role of response_user?.data?.user?.roles) {
             switch (role.name) {
-                case 'customer':
-                case 'student':
-                    isAdmin = false;
-                    break;
+                // case 'customer':
+                // case 'student':
+                //     isAdmin = false;
+                //     break;
                 case 'administrator':
                 case 'admin':
                     isAdmin = true;
@@ -39,6 +39,10 @@ export default {
                     isAdmin = true;
                     isAdminTransport = true;
                     break;
+                default:
+                    isAdmin = false
+                    isAdminTransport = false;
+                    break
             }
             userRole = role.name
         }

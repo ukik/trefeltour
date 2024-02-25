@@ -27,6 +27,14 @@ class User extends Authenticatable implements JWTSubject
         parent::__construct($attributes);
     }
 
+    // protected $appends = ['my_role'];
+
+    // public function getMyRoleAttribute() {
+    //     foreach ($this->roles as $key => $value) {
+    //         return $value;
+    //     }
+    // }
+
     /**
      * The attributes that are mass assignable.
      *

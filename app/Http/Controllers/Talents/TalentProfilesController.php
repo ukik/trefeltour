@@ -229,7 +229,7 @@ class TalentProfilesController extends Controller
                     'user_id' => 'required',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'user_id' => 'unique:tourism_venues'
+                    'user_id' => 'unique:talent_profiles_unique'
                 ],
             );
             if ($validator->fails()) {

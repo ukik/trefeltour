@@ -1017,8 +1017,16 @@ export default {
     this.loadIdsOfflineDelete();
   },
   methods: {
-
     async onAddToCart() {
+        if(this.selectedData?.stock <= 0) {
+            this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: "Stok habis",
+                color: "danger",
+            });
+            return
+        }
+
         if(!this.selectedCustomer) {
             this.$vs.notify({
                 title: this.$t("alert.danger"),
@@ -1040,6 +1048,7 @@ export default {
             }
         })
         .then((response) => {
+            this.show = false
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: "Berhasil ditambahkan ke keranjang",

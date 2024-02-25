@@ -1,5 +1,121 @@
 <template>
   <div>
+
+    <stack-modal class="d-flex justify-content-center"
+                :show="show"
+                title=""
+                @close="show=false"
+                :modal-class="{ [modalClass]: true }"
+                :saveButton="{ visible: false }"
+                :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
+            >
+            <slot name="modal-header">
+                <div class="modal-header px-0">
+                    <h3 class="modal-title">
+                        Booking
+                    </h3>
+                    <vs-button @click="show=false">
+                        <i class="vs-icon notranslate icon-scale material-icons null">close</i>
+                    </vs-button>
+                </div>
+            </slot>
+            <div v-if="tipe == 'single'" class="py-4">
+                <div class="row">
+                    <span class="col">Customer</span>
+                    <span class="col-auto">{{ selectedData?.badasoUser?.name }} ({{ selectedData?.badasoUser?.username }})</span>
+                </div>
+                <div class="row">
+                    <span class="col">UUID</span>
+                    <span class="col-auto">{{ selectedData?.souvenirProduct?.uuid }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Jenis Produk</span>
+                    <span class="col-auto">{{ selectedData?.souvenirProduct?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Stok</span>
+                    <span class="col-auto">{{ selectedData?.souvenirPrice?.stock }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Quantity</span>
+                    <span class="col-auto">{{ selectedData?.quantity }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Harga</span>
+                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData?.souvenirPrice)) }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Total Tagihan</span>
+                    <span class="col-auto">
+                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.souvenirPrice) * selectedData?.quantity)) }}
+                    </span>
+                </div>
+            </div>
+            <div v-if="tipe == 'multi'" class="py-4" :class="[ selectedMulti.length >= 2 ? 'pr-2' : '' ]" style="
+                    min-height: 250px;
+                    max-height: 470px;
+                    overflow-y: overlay;
+                    overflow-x: hidden;
+                ">
+                <div class="row">
+                    <span class="col">Customer</span>
+                    <span class="col-auto">{{ selectedMulti.map((item) => item?.badasoUser?.name)[0] }} ({{ selectedMulti.map((item) => item?.badasoUser?.username)[0] }})</span>
+                </div>
+                <template v-for="(item, index) in selectedMulti" >
+                    <div>
+                        <hr>
+                        <div class="row">
+                            <span class="col">UUID </span>
+                            <span class="col-auto">{{ item?.souvenirPrice?.uuid }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Jenis Produk</span>
+                            <span class="col-auto">{{ item?.souvenirProduct?.name }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Stok</span>
+                            <span class="col-auto">{{ item?.souvenirPrice?.stock }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Quantity</span>
+                            <span class="col-auto">{{ item?.quantity }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Harga</span>
+                            <span class="col-auto">{{ $rupiah(getTotalAmount(item?.souvenirPrice)) }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Total Harga</span>
+                            <span class="col-auto">
+                                {{ $rupiah(Math.round(getTotalAmount(item?.souvenirPrice) * item?.quantity)) }}
+                            </span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <hr class="m-0">
+            <!-- <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="souvenir-products" /> -->
+            <div slot="modal-footer">
+                <div v-if="tipe=='multi'" class="px-3">
+                    <div class="row">
+                        <span class="col">Total Tagihan</span>
+                        <span class="col-auto">{{ $rupiah(totalTagihan) }}</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <input  type="textarea" placeholder="Tambah catatan..." class="col mx-0 mb-3 vs-inputx vs-input--input normal" v-model="description">
+                </div>
+                <div class="modal-header pt-0 d-flex justify-content-center">
+                    <vs-button @click="onInvoice">
+                        <i class="vs-icon notranslate icon-scale material-icons null">shopping_basket</i>
+                        <span class="pl-1">Buat Invoice</span>
+                    </vs-button>
+                </div>
+            </div>
+        </stack-modal>
+
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -105,15 +221,19 @@
                 <div  class="row px-3">
                     <h3 class="col align-self-center">{{ dataType.displayNameSingular }}</h3>
 
-                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingNow">Booking Now</vs-button>
+                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">Booking Terpilih</vs-button>
                 </div>
             </div>
             <div>
-              <badaso-table ref="badaso_table_1"
+                <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-danger my-3" role="alert">
+                    Pilih souvenir untuk booking (1 Invoice untuk 1 Customer)
+                </div>
+
+              <badaso-table-cart ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
                 @onChangePage="onChangePage"
                 @onChangeMaxItems="onChangeMaxItems"
-                @selected="onSelected"
+                @search="onSearch"
                 v-model="selected"
                 pagination
                 :max-items="descriptionItems[0]"
@@ -168,7 +288,7 @@
                             $caseConvert.stringSnakeToCamel(dataRow.field)
                           ]
                         "
-                        :style="dataRow.field == 'quantity' ? 'min-width: 200px;' : ''"
+                        :style="dataRow.field == 'quantity' ? 'min-width: 170px;' : ''"
                       >
                         <template v-if="dataRow.browse == 1">
                           <img
@@ -305,7 +425,7 @@
                             displayRelationData(record, dataRow)
                           }}</span>
                             <div :class="[ dataRow.field == 'quantity' ? 'row' : '']" v-else>
-                                <vs-button v-if="dataRow.field == 'booking'" type="relief" @click="show = true; selectedData = record;">Booking Ini</vs-button>
+                                <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button>
                                 <span v-if="dataRow.field == 'name'">
                                     {{ record.souvenirPrice?.name }}
                                 </span>
@@ -568,7 +688,7 @@
                     </template>
                   </vs-tr>
                 </template>
-              </badaso-table>
+              </badaso-table-cart>
             </div>
           </vs-card>
         </vs-col>
@@ -624,7 +744,7 @@
 
 <script>
 import Counter from "./Counter.vue"
-
+import StackModal from '@innologica/vue-stackable-modal'
 import axios from "axios"
 
 import * as _ from "lodash";
@@ -633,7 +753,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel, Counter },
+  components: { downloadExcel, Counter, StackModal },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},
@@ -661,8 +781,15 @@ export default {
     isMaintenance: false,
     showMaintenancePage: false,
     isShowDataRecycle: false,
+    search: "",
 
-    selectedBooking:[],
+    modalClass: 'none col align-self-center',
+    selectedData: null,
+    show: false,
+    tipe: 'single', // 'single' || 'multi'
+    selectedMulti: [],
+    totalTagihan: 0,
+    description: '',
 
     lastPage: 0,
     currentPage: 1,
@@ -676,8 +803,15 @@ export default {
         }
     },
     selected(val) {
-        this.selectedBooking = val
-    },
+        this.selectedMulti = val
+        console.log('totalTagihan', val)
+
+        let total = 0
+        val.forEach(element => {
+            total += Number(this.getTotalAmount(element?.souvenirPrice) * element.quantity)
+        });
+        this.totalTagihan = total
+    }
     // page: function(to, from) {
     //   this.handleChangePage(to);
     // },
@@ -697,38 +831,144 @@ export default {
     // Swal.fire("SweetAlert2 is working!");
   },
   methods: {
-    onSelected(value) {
-        // console.log('onSelected', value)
+    onSearch(val) {
+        this.search = val
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
     },
-    onBookingNow() {
-        console.log('selectedBooking', this.selectedBooking)
-        const ids = this.selected.map((item) => item.id);
-        let duplicate = null;
-            console.log('el.customerId', ids, this.selected.length)
+    async onPopupBooking() {
+        this.show = true
 
-        this.selected.forEach(el => {
-            if(!duplicate) duplicate = el.customerId
-            if(duplicate == el.customerId) duplicate = el.customerId
-            if(duplicate !== el.customerId) {
+        var bodyFormData = new FormData();
 
-                this.$vs.notify({
-                    title: this.$t("alert.danger"),
-                    text: "1 Invoice untuk 1 Customer",
-                    color: "danger",
-                });
+        if(this.tipe == 'multi') {
+            const ids = this.selectedMulti.map((map) => map.id)
+            bodyFormData.append('payload', JSON.stringify(ids));
+        } else if (this.tipe == 'single') {
+            bodyFormData.append('payload', JSON.stringify([this.selectedData?.id]));
+        }
 
-                // this.$vs.dialog({
-                //     type: "confirm",
-                //     color: "danger",
-                //     title: this.$t("action.delete.title"),
-                //     text: this.$t("action.delete.text"),
-                //     accept: this.deleteRecords,
-                //     acceptText: this.$t("action.delete.accept"),
-                //     cancelText: this.$t("action.delete.cancel"),
-                //     cancel: () => {},
-                // });
+        this.$openLoader();
+        await axios.post('/api/typehead/souvenir/get_prices_booking', bodyFormData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
+        .then((response) => {
+            console.log('onPopupBooking', response)
+            if(this.tipe == 'multi') {
+                this.selectedMulti = response.data?.data
+            } else if (this.tipe == 'single') {
+                this.selectedData = response.data?.data[0]
+            }
+        })
+        .catch((error) => {
+        })
+        this.$closeLoader();
+
+    },
+    async onInvoice() {
+
+        // const ids = this.selectedMulti.map(item => {
+        //     id: item.id
+        // })
+        // this.records.forEach((element, index) => {
+        //     ids.forEach(it => {
+        //         if(it.id == element.id) this.records.splice(index, 1)
+        //     });
+        // });
+        // console.log('onInvoice', this.records, ids)
+        // return
+
+        var bodyFormData = new FormData();
+
+        if(this.tipe == 'multi') {
+            // this.selectedMulti.forEach(el => {
+            //     bodyFormData.append('payload[]', JSON.parse(el));
+            // })
+            bodyFormData.append('payload', JSON.stringify(this.selectedMulti));
+        } else if (this.tipe == 'single') {
+            bodyFormData.append('payload', JSON.stringify([this.selectedData]));
+        }
+        bodyFormData.append('description', this.description);
+
+
+        this.$openLoader();
+        await axios.post('/trevolia-api/v1/entities/souvenir-carts/add', bodyFormData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then((response) => {
+
+            this.show = false
+            this.selectedMulti = []
+            this.totalTagihan = 0
+            this.selectedData = null
+            this.selected = []
+            this.description = ''
+
+            this.getEntity();
+
+            this.$vs.notify({
+                title: this.$t("alert.success"),
+                text: "Berhasil booking souvenir",
+                color: "success",
+            });
+        })
+        .catch((error) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: "Gagal booking souvenir",
+            color: "danger",
+          });
+        })
+        this.$closeLoader();
+    },
+    onBookingTerpilih() {
+        // const ids = this.selected.map((item) => item.id);
+
+        const isAdmin = this.$store.getters['badaso/getUser']?.isAdmin
+        // console.log('el.customerId', ids, this.selected.length, isAdmin)
+
+        if(isAdmin) {
+
+            let duplicate = null;
+
+            let block = false
+
+            this.selectedMulti.forEach(el => {
+                if(!duplicate) duplicate = el.customerId
+                if(duplicate == el.customerId) duplicate = el.customerId
+                if(duplicate !== el.customerId) {
+
+                    this.$vs.notify({
+                        title: this.$t("alert.danger"),
+                        text: "1 Invoice untuk 1 Customer",
+                        color: "danger",
+                    });
+
+                    block = true
+                    // this.$vs.dialog({
+                    //     type: "confirm",
+                    //     color: "danger",
+                    //     title: this.$t("action.delete.title"),
+                    //     text: this.$t("action.delete.text"),
+                    //     accept: this.deleteRecords,
+                    //     acceptText: this.$t("action.delete.accept"),
+                    //     cancelText: this.$t("action.delete.cancel"),
+                    //     cancel: () => {},
+                    // });
+                }
+            })
+
+            if(block) return
+        }
+
+        this.tipe = 'multi'
+
+        this.onPopupBooking()
     },
     onUpdateQuantity: _.debounce(async function(value) {
         // alert(value)
@@ -863,6 +1103,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
 
+          search: this.search,
           perPage: this.perPage,
           page: this.currentPage
         });

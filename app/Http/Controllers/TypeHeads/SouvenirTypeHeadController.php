@@ -44,6 +44,26 @@ class SouvenirTypeHeadController extends Controller
         return BadasoUsers::where('id', $validator_id)->first();
     }
 
+    function get_prices_booking(Request $request) {
+        // return request();
+        $payload = json_decode(request()->payload, true);
+        $data = \SouvenirCarts::with([
+            // 'souvenirStore.souvenirBooking.badasoUsers',
+            // 'souvenirStore.souvenirBooking.badasoUser',
+            // 'souvenirStore.souvenirBookings',
+            'badasoUsers',
+            'badasoUser',
+
+            'souvenirProduct',
+            'souvenirProducts',
+            'souvenirPrice',
+            'souvenirPrices',
+            'souvenirStore',
+            'souvenirStores',
+        ])->whereIn('id', $payload)->get();
+        return ApiResponse::onlyEntity($data);
+    }
+
     function dialog_product_souvenir_stores() {
         $data = \SouvenirProducts::where('id',request()->id)
             ->with('souvenirStore.badasoUsers')

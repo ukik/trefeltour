@@ -17,7 +17,11 @@ use SouvenirCarts;
 use TravelPayments;
 
 use \BadasoUsers;
+use Faker\Core\Number;
 use Google\Service\Eventarc\Transport;
+use SouvenirBookings;
+use SouvenirBookingsItems;
+use SouvenirPrices;
 use TalentPayments;
 use TalentProfiles;
 use TalentSkills;
@@ -68,11 +72,38 @@ class SouvenirCartsController extends Controller
                 'souvenirProducts',
                 'souvenirPrice',
                 'souvenirPrices',
+                'souvenirStore',
                 'souvenirStores',
             ])->orderBy('id','desc');
+
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+                $productId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+                $priceId = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('general_price','like','%'.$search.'%')
+                        ->orWhere('discount_price','like','%'.$search.'%')
+                        ->orWhere('cashback_price','like','%'.$search.'%');
+                };
+                $customerId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+
+                $data = $data
+                    ->orWhere('store_id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customerId)
+                    ->orWhereHas('souvenirPrice', $priceId)
+                    ->orWhereHas('souvenirProduct', $productId);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -134,6 +165,7 @@ class SouvenirCartsController extends Controller
                 'souvenirProducts',
                 'souvenirPrice',
                 'souvenirPrices',
+                'souvenirStore',
                 'souvenirStores',
             ])->whereId($request->id)->first();
 
@@ -246,6 +278,15 @@ class SouvenirCartsController extends Controller
 
         isOnlyAdminTalent();
 
+        function getTotalAmount($value) {
+            //console.log('getTotalAmount', value)
+            return (
+                $value?->general_price -
+                ($value?->general_price * (($value?->discount_price)/100)) -
+                ($value?->cashback_price)
+            );
+        }
+
         try {
 
             // get slug by route name and get data type in table
@@ -253,35 +294,47 @@ class SouvenirCartsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
-            if(!$temp) return ApiResponse::failed("Harga Kosong");
+            $payload = json_decode(request()->payload, true);
+            $description = request()->description;
 
-            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
+            // customer_id
+            // store_id
+            // uuid
+            // description
+            // get_final_amount
+            // code_table
 
-            $req = request()['data'];
-            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+            $ids = [];
+            foreach ($payload as $key => $value) {
+                $ids[] = $value['id'];
+            }
 
+            $prices = \SouvenirCarts::with([
+                'souvenirPrice',
+            ])->whereIn('id', $ids)->get();
+
+            $total = 0;
+
+            foreach ($prices as $key => $value) {
+                $total = getTotalAmount($value->souvenirPrice) * $value->quantity;
+            }
+
+            $uuid = ShortUuid();
             $data = [
-                'customer_id' => $customer_id ,
-                'profile_id' => $temp->profile_id ,
-                'skill_id' => $temp->skill_id ,
-                'price_id' => $temp->id ,
+                'customer_id' => $payload[0]['customerId'] ,
+                'store_id' => $payload[0]['storeId'] ,
 
-                'get_price' => $temp->general_price ,
-                'get_discount' => $temp->discount_price ,
-                'get_cashback' => $temp->cashback_price ,
+                'get_final_amount' => $total ,
 
-                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
-                'days_duration' => $req['days_duration'] ,
-
-                // 'description' => $req['description'] ,
-                'code_table' => ($slug) ,
-                'uuid' => ShortUuid(),
+                'description' => $description ,
+                'code_table' => ('souvenir-bookings') ,
+                'uuid' => $uuid,
             ];
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
+                    'customer_id' => 'required',
+                    'store_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -293,14 +346,45 @@ class SouvenirCartsController extends Controller
                 }
             }
 
-            $data['description'] = $req['description'];
-            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+            SouvenirBookings::insert($data);
+            $booking = SouvenirBookings::where('uuid', $uuid)->first();
 
-            $stored_data = \SouvenirCarts::insert($data);
+
+            // INSERT BOOKING ITEMS
+            $bookingItems = [];
+            foreach ($prices as $key => $value) {
+                $items = [
+                    // INSERT TO BOOKING ITEMS
+                    'store_id' => $value->store_id,
+                    'booking_id' => $booking->id,
+                    'product_id' => $value->product_id,
+                    'name' => $value->souvenirPrice->name,
+                    'get_price' => $value->souvenirPrice->general_price,
+                    'get_discount' => $value->souvenirPrice->discount_price,
+                    'get_cashback' => $value->souvenirPrice->cashback_price,
+                    'get_total_amount' => getTotalAmount($value->souvenirPrice),
+                    'quantity' => $value->quantity,
+                    'get_final_amount' => getTotalAmount($value->souvenirPrice) * $value->quantity,
+                    'description' => $value->souvenirPrice->description,
+                    'code_table' => 'souvenir-booking-items',
+                    'uuid' => ShortUuid(),
+                ];
+
+                array_push($bookingItems, $items);
+            }
+
+            $booking_items = SouvenirBookingsItems::insert($bookingItems);
+
+            // HAPUS CARTS
+            $prices = \SouvenirCarts::with([
+                'souvenirPrice',
+            ])->whereIn('id', $ids)->delete();
+
+
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $stored_data])
+                ->withProperties(['attributes' => [$booking, $booking_items]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -309,7 +393,7 @@ class SouvenirCartsController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity($stored_data);
+            return ApiResponse::onlyEntity([$booking, $booking_items]);
         } catch (Exception $e) {
             DB::rollBack();
 
