@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Souvenirs;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
 // use App\Http\Controllers\Controller;
@@ -53,20 +54,60 @@ class SouvenirPaymentsController extends Controller
 
             $data = \SouvenirPayments::with([
                 'badasoUsers',
-                'talentBookings',
-                'talentBooking',
-                'talentPaymentsValidation',
-                'talentPaymentsValidations',
-
-                'talentBooking.talentPrices',
-                'talentBooking.talentPrice',
-                'talentBooking.talentSkills',
-                'talentBooking.talentSkill',
-                'talentBooking.talentSkill.talentProfile',
+                'souvenirBookings',
+                'souvenirBooking',
+                'souvenirPaymentsValidation',
+                'souvenirPaymentsValidations',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+                // $productId = function($q) use ($search) {
+                //     return $q->where('name','like','%'.$search.'%');
+                // };
+                $booking = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                        // ->orWhere('name','like','%'.$search.'%')
+                        // ->orWhere('general_price','like','%'.$search.'%')
+                        // ->orWhere('discount_price','like','%'.$search.'%')
+                        // ->orWhere('cashback_price','like','%'.$search.'%');
+                };
+                $customerId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+
+                $columns = Schema::getColumnListing('souvenir_payments');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "booking_id":
+                        case "customer_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                            break;
+                    }
+                }
+
+                $data = $data
+                    ->orWhereHas('badasoUser', $customerId)
+                    ->orWhereHas('souvenirBooking', $booking);
+                    // ->orWhereHas('souvenirProduct', $productId);
+            }
+
+            if(request()->component == 'SharedTableModalPaymentValidation') {
+                $data->where('is_selected', 'false');
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -119,16 +160,10 @@ class SouvenirPaymentsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirPayments::with([
                 'badasoUsers',
-                'talentBookings',
-                'talentBooking',
-                'talentPaymentsValidation',
-                'talentPaymentsValidations',
-
-                'talentBooking.talentPrices',
-                'talentBooking.talentPrice',
-                'talentBooking.talentSkills',
-                'talentBooking.talentSkill',
-                'talentBooking.talentSkill.talentProfile',
+                'souvenirBookings',
+                'souvenirBooking',
+                'souvenirPaymentsValidation',
+                'souvenirPaymentsValidations',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -148,7 +183,7 @@ class SouvenirPaymentsController extends Controller
 
         $value = request()['data']['id'];
         $check = SouvenirPaymentsValidations::where('payment_id', $value)->first();
-        if ($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        if ($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -156,15 +191,16 @@ class SouvenirPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \SouvenirPayments::where('id', $request->data['id'])->first();
-            $temp = \TalentBookings::where('id', $request->data['booking_id'])->first();
+            $table_entity = \SouvenirPayments::where('id', $request->data['id'])->with('souvenirBooking')->first();
+            $temp = $table_entity->souvenirBooking;
+            // $temp = \SouvenirBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],
@@ -179,7 +215,7 @@ class SouvenirPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:talent_payments_unique,booking_id,' . $req['id']
+                    'booking_id' => 'unique:souvenir_payments_unique,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
                 ],
@@ -235,14 +271,14 @@ class SouvenirPaymentsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentBookings::where('id', $request->data['booking_id'])->first();
+            $temp = \SouvenirBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],
@@ -257,7 +293,7 @@ class SouvenirPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:talent_payments_unique'
+                    'booking_id' => 'unique:souvenir_payments_unique'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments'
                 ],
@@ -296,11 +332,11 @@ class SouvenirPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirPayments::where('id', $value)->with(['talentPaymentsValidation'])->first();
-        if($check->talentPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirPayments::where('id', $value)->with(['souvenirPaymentsValidation'])->first();
+        if($check->souvenirPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -423,10 +459,10 @@ class SouvenirPaymentsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('talentPaymentsValidation')->get();
+            $filters = SouvenirPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('souvenirPaymentsValidation')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if ($value->talentPaymentsValidation == null) {
+                if ($value->souvenirPaymentsValidation == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -143,7 +143,7 @@ class SouvenirProductsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
 
@@ -216,7 +216,7 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
 
@@ -284,11 +284,11 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirProducts::where('id', $value)->with(['talentBooking'])->first();
-        if($check->talentBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirProducts::where('id', $value)->with(['souvenirBooking'])->first();
+        if($check->souvenirBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -375,7 +375,7 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -413,10 +413,10 @@ class SouvenirProductsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirProducts::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentBooking')->get();
+            $filters = SouvenirProducts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirBooking')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentBooking == null) {
+                if($value->souvenirBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

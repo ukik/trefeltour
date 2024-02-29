@@ -14,14 +14,9 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use SouvenirBookingsItems;
-use TravelPayments;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
-use TalentPayments;
-use TalentProfiles;
-use TalentSkills;
-use TalentVenues;
 
 class SouvenirBookingsItemsController extends Controller
 {
@@ -58,25 +53,30 @@ class SouvenirBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \SouvenirBookingsItems::with([
-                'souvenirBooking.badasoUsers',
-                'souvenirBooking.badasoUser',
+                'souvenirBooking',
                 'souvenirBookings',
 
-                'souvenirBooking.souvenirStore.souvenirProduct',
-                'souvenirBooking.souvenirStore.souvenirProducts',
-                'souvenirBooking.souvenirStore.souvenirPrice',
-                'souvenirBooking.souvenirStore.souvenirPrices',
-                'souvenirBooking.souvenirStores',
+                'souvenirProduct',
+                'souvenirProducts',
 
-                'souvenirBooking.souvenirBookingItem',
-                'souvenirBooking.souvenirBookingItems',
+                'souvenirStore.souvenirProduct',
+                'souvenirStore.souvenirProducts',
+                'souvenirStore.souvenirPrice',
+                'souvenirStore.souvenirPrices',
+                'souvenirStores',
+
                 'souvenirBooking.souvenirPayment',
-                'souvenirBooking.souvenirPayment.talentPaymentsValidation',
+                'souvenirBooking.souvenirPayment.souvenirPaymentsValidation',
                 'souvenirBooking.souvenirPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()['bookingId']) {
+                $data = $data->where('booking_id', request()['bookingId']);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -128,20 +128,20 @@ class SouvenirBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirBookingsItems::with([
-                'souvenirBooking.badasoUsers',
-                'souvenirBooking.badasoUser',
+                'souvenirBooking',
                 'souvenirBookings',
 
-                'souvenirBooking.souvenirStore.souvenirProduct',
-                'souvenirBooking.souvenirStore.souvenirProducts',
-                'souvenirBooking.souvenirStore.souvenirPrice',
-                'souvenirBooking.souvenirStore.souvenirPrices',
-                'souvenirBooking.souvenirStores',
+                'souvenirProduct',
+                'souvenirProducts',
 
-                'souvenirBooking.souvenirBookingItem',
-                'souvenirBooking.souvenirBookingItems',
+                'souvenirStore.souvenirProduct',
+                'souvenirStore.souvenirProducts',
+                'souvenirStore.souvenirPrice',
+                'souvenirStore.souvenirPrices',
+                'souvenirStores',
+
                 'souvenirBooking.souvenirPayment',
-                'souvenirBooking.souvenirPayment.talentPaymentsValidation',
+                'souvenirBooking.souvenirPayment.souvenirPaymentsValidation',
                 'souvenirBooking.souvenirPayments',
             ])->whereId($request->id)->first();
 
@@ -160,11 +160,11 @@ class SouvenirBookingsItemsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data']['id'];
-        $check = \TalentPayments::where('booking_id', $value)->first();
-        if($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = \SouvenirPayments::where('booking_id', $value)->first();
+        if($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -174,7 +174,7 @@ class SouvenirBookingsItemsController extends Controller
 
             $table_entity = \SouvenirBookingsItems::where('id', $request->data['id'])->first();
 
-            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -252,7 +252,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
 
@@ -261,7 +261,7 @@ class SouvenirBookingsItemsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -329,11 +329,11 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirBookingsItems::where('id', $value)->with(['talentPayment'])->first();
-        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirBookingsItems::where('id', $value)->with(['souvenirPayment'])->first();
+        if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -421,7 +421,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -459,10 +459,10 @@ class SouvenirBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
+            $filters = SouvenirBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentPayment == null) {
+                if($value->souvenirPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

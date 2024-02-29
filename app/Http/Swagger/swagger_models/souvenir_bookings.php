@@ -201,9 +201,10 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
+  *                         @OA\Property(type="string", property="bookingItem"), 
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="storeId"), 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <shared-browser-modal ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -125,6 +126,7 @@
                 multiple
               >
                 <template slot="thead">
+                    <vs-th></vs-th>
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     :key="index"
@@ -148,6 +150,17 @@
                         : 'default'
                     "
                   >
+                      <vs-td>
+                          <vs-button @click="$refs.SharedBrowserModal.onCall({
+                            show: true,
+                            type: 'detail',
+                            selectedData: record,
+                            title: 'Detail Talent Pembayaran',
+                            slug: 'talent-payments' })">
+                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                          </vs-button>
+                        </vs-td>
+
                     <template
                       v-if="
                         !idsOfflineDeleteRecord.includes(

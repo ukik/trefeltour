@@ -13,6 +13,26 @@ class TravelPayments extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'id',
+        'uuid',
+        'booking_id',
+        'reservation_id',
+        'ticket_id',
+        'customer_id',
+        'total_amount',
+        'code_transaction',
+        'method',
+        'date',
+        'status',
+        'receipt',
+        'code_table',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'is_selected',
+    ];
+
     public function user()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');

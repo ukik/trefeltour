@@ -31,7 +31,7 @@
             <slot name="modal-header">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        {{  type == 'detail' ? 'Detail' : 'Pilih' }}
+                        {{  type == 'detail' ? 'Detail' : 'Pilih' }} Talent Profile
                     </h3>
                     <vs-button @click="show=false">
                         <i class="vs-icon notranslate icon-scale material-icons null">close</i>

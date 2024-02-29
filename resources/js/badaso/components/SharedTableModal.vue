@@ -4,6 +4,33 @@
     overflow-y: scroll;
     padding: 15px 15px 0px 15px;
 ">
+
+    <stack-modal v-if="slug"
+            :show="show"
+            title=""
+            @close="show=false"
+            :modal-class="{ [modalClass]: true }"
+            :saveButton="{ visible: false }"
+            :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
+        >
+        <slot name="modal-header">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    Detail
+                </h3>
+                <vs-button @click="show=false">
+                    <i class="vs-icon notranslate icon-scale material-icons null">close</i>
+                </vs-button>
+            </div>
+        </slot>
+
+        <shared-read-user :response="{
+            data: selectedData
+        }" :slug="slug"></shared-read-user>
+
+        <div slot="modal-footer"></div>
+    </stack-modal>
+
     <template v-if="!showMaintenancePage">
       <!-- <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -109,7 +136,7 @@
               <h3>{{ dataType.displayNameSingular }}</h3>
             </div> -->
             <div>
-              <badaso-table ref="badaso_table_1"
+              <shared-badaso-table ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
                 @onChangePage="onChangePage"
                 @onChangeMaxItems="onChangeMaxItems"
@@ -139,6 +166,7 @@
                       {{ dataRow.displayName }}
                     </template>
                   </vs-th>
+                  <vs-th v-if="slug"> </vs-th>
                 </template>
 
                 <template slot-scope="{ data }">
@@ -329,10 +357,17 @@
                             </div>
                         </template>
                       </vs-td>
+
+                      <vs-td v-if="slug" class="crud-generated__button">
+                        <vs-button @click="show=true; selectedData=record;">
+                            <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                        </vs-button>
+                      </vs-td>
+
                     </template>
                   </vs-tr>
                 </template>
-              </badaso-table>
+              </shared-badaso-table>
             </div>
           </vs-card>
         </vs-col>
@@ -387,21 +422,24 @@
 </template>
 
 <script>
+import StackModal from '@innologica/vue-stackable-modal'
+
+import ShadedBadasoTable from "./ShadedBadasoTable.vue"
 import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel },
+  components: { downloadExcel, "shared-badaso-table": ShadedBadasoTable, StackModal },
   name: "CrudGeneratedBrowse",
   props: {
     slug: {
-        default:'',
+        default: null,
     },
     label: {
         default:'',
-    }
+    },
   },
   data: () => ({
     errors: {},
@@ -430,9 +468,13 @@ export default {
     showMaintenancePage: false,
     isShowDataRecycle: false,
 
+    show: false,
+    modalClass: 'modal-fullscreen',
+    selectedData: null,
+
     lastPage: 0,
     currentPage: 1,
-    perPage: 5
+    perPage: 25
   }),
   watch: {
     $route: {

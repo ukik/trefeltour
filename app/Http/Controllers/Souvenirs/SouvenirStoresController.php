@@ -13,10 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TalentPrices;
-use TourismBookings;
+
 use SouvenirStores;
-use TalentSkills;
 
 class SouvenirStoresController extends Controller
 {
@@ -146,7 +144,7 @@ class SouvenirStoresController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
 
@@ -225,7 +223,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
 
@@ -260,7 +258,7 @@ class SouvenirStoresController extends Controller
                     'user_id' => 'required',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'user_id' => 'unique:tourism_venues'
+                    'user_id' => 'unique:souvenir_stores_unique'
                 ],
             );
             if ($validator->fails()) {
@@ -295,11 +293,11 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirStores::where('id', $value)->with(['talentSkill','talentPrice'])->first();
-        if($check->talentSkill || $check->talentPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirStores::where('id', $value)->with(['souvenirSkill','souvenirPrice'])->first();
+        if($check->souvenirSkill || $check->souvenirPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -386,7 +384,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -424,10 +422,10 @@ class SouvenirStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['talentSkill','talentPrice'])->get();
+            $filters = SouvenirStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['souvenirSkill','souvenirPrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentSkill == null && $value->talentPrice == null) {
+                if($value->souvenirSkill == null && $value->souvenirPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

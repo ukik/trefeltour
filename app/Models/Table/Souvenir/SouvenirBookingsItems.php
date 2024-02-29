@@ -45,6 +45,16 @@ class SouvenirBookingsItems extends Model
         return $this->belongsToMany(SouvenirBookings::class, 'souvenir_booking_items', 'id', 'booking_id');
     }
 
+    public function souvenirStore()
+    {
+        return $this->belongsTo(SouvenirStores::class,'store_id','id');
+    }
+
+    public function souvenirStores()
+    {
+        return $this->belongsToMany(SouvenirStores::class, 'souvenir_booking_items', 'id', 'store_id');
+    }
+
 
     public function souvenirProduct()
     {
@@ -53,7 +63,7 @@ class SouvenirBookingsItems extends Model
 
     public function souvenirProducts()
     {
-        return $this->belongsToMany(SouvenirProducts::class, 'souvenir_products', 'id', 'product_id');
+        return $this->belongsToMany(SouvenirProducts::class, 'souvenir_booking_items', 'id', 'product_id');
     }
 
 }

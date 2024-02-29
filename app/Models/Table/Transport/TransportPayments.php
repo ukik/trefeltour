@@ -13,6 +13,26 @@ class TransportPayments extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'id',
+        'booking_id',
+        'customer_id',
+        'uuid',
+        'total_amount',
+        'total_amount_driver',
+        'code_transaction',
+        'method',
+        'date',
+        'status',
+        'receipt',
+        'description',
+        'code_table',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'is_selected',
+    ];
+
     public function user()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');

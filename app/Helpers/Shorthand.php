@@ -130,6 +130,26 @@ if (!function_exists('isAdminTourism')) {
         }
     }
 }
+if (!function_exists('isAdminSouvenir')) {
+    function isAdminSouvenir(){
+        if(Auth::check()) {
+
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'admin-souvenir':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
+
+
 if (!function_exists('isOnlyAdminTransport')) {
     function isOnlyAdminTransport(){
         if(!isAdminTransport()) return ApiResponse::failed('Maaf harus dari admin');
@@ -139,6 +159,12 @@ if (!function_exists('isOnlyAdminTransport')) {
 if (!function_exists('isOnlyAdminTalent')) {
     function isOnlyAdminTalent(){
         if(!isAdminTalent()) return ApiResponse::failed('Maaf harus dari admin');
+    }
+}
+
+if (!function_exists('isOnlyAdminSouvenir')) {
+    function isOnlyAdminSouvenir(){
+        if(!isAdminSouvenir()) return ApiResponse::failed('Maaf harus dari admin');
     }
 }
 

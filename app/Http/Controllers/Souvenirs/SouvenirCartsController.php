@@ -14,7 +14,6 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use SouvenirCarts;
-use TravelPayments;
 
 use \BadasoUsers;
 use Faker\Core\Number;
@@ -22,10 +21,7 @@ use Google\Service\Eventarc\Transport;
 use SouvenirBookings;
 use SouvenirBookingsItems;
 use SouvenirPrices;
-use TalentPayments;
-use TalentProfiles;
-use TalentSkills;
-use TalentVenues;
+
 
 class SouvenirCartsController extends Controller
 {
@@ -184,11 +180,11 @@ class SouvenirCartsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data']['id'];
-        $check = \TalentPayments::where('booking_id', $value)->first();
-        if($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = \SouvenirPayments::where('booking_id', $value)->first();
+        if($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -198,7 +194,7 @@ class SouvenirCartsController extends Controller
 
             $table_entity = \SouvenirCarts::where('id', $request->data['id'])->first();
 
-            $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
+            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -276,7 +272,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -405,11 +401,11 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirCarts::where('id', $value)->with(['talentPayment'])->first();
-        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirCarts::where('id', $value)->with(['souvenirPayment'])->first();
+        if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -497,7 +493,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -535,10 +531,10 @@ class SouvenirCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
+            $filters = SouvenirCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentPayment == null) {
+                if($value->souvenirPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 //use App\Models\Table\BadasoUsers;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TalentBookingsCheckPayements extends Model
+class TalentBookingsCheckPayments extends Model
 {
     use HasFactory;
     use SoftDeletes;

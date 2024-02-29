@@ -154,16 +154,8 @@
                     }}</span>
                         <div v-else>
                             <!-- {{ record }} -->
-                            <div v-if="
-                                dataRow.field == 'user_id' ||
-                                dataRow.field == 'profile_id'
-                                ">
-                                <span v-html="record?.userLabel"></span>
-                                <!-- {{ `Nama (${record?.badasoUser.name}) - Username (${record?.badasoUser.username}) - Email (${record?.badasoUser.email}) - Telpon (${record?.badasoUser.phone})` }} -->
-                                <!-- (<i>{{ record?.badasoUser?.username }}</i>) {{ record?.badasoUser?.name }} -->
-                            </div>
-                            <span v-else-if="dataRow.field == 'skill_id' && $route.params.slug == 'talent-payments'">
-                                {{ record?.talentSkill?.name }}
+                            <span v-if="dataRow.field == 'get_final_amount'">
+                                {{ $rupiah(record?.getFinalAmount) }}
                             </span>
                             <span v-else-if="dataRow.field == 'year_exp'">
                                 {{ $formatDate(record?.yearExp) }}

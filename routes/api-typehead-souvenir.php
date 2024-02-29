@@ -35,18 +35,18 @@ Route::group(['prefix' => '/typehead/souvenir', 'middleware' => ['sanctum_1','BA
     Route::post('/add_to_cart', 'SouvenirTypeHeadController@add_to_cart');
     Route::get('/dialog_product_souvenir_stores', 'SouvenirTypeHeadController@dialog_product_souvenir_stores');
     Route::get('/dialog_prices_souvenir_products', 'SouvenirTypeHeadController@dialog_prices_souvenir_products');
+    Route::get('/dialog_booking_souvenir_bookings', 'SouvenirTypeHeadController@dialog_booking_souvenir_bookings');
+
+    Route::get('/dialog_booking_souvenir_payments_validations', 'SouvenirTypeHeadController@dialog_booking_souvenir_payments_validations');
 
 
 
 
+    // Route::get('/user', 'TalentTypeHeadController@getUser');
+    // Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
+    // Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
 
-    Route::get('/user', 'TalentTypeHeadController@getUser');
-    Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
-    Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
 
-
-    Route::get('/dialog_booking_talent_bookings', 'TalentTypeHeadController@dialog_booking_talent_bookings');
-    Route::get('/dialog_booking_talent_payments_validations', 'TalentTypeHeadController@dialog_booking_talent_payments_validations');
 
 });
 

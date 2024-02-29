@@ -7,7 +7,10 @@ use \BadasoUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use SouvenirBookings;
+use SouvenirBookingsCheckPayments;
 use SouvenirCarts;
+use SouvenirPaymentsValidations;
 use SouvenirPrices;
 use TalentBookings;
 
@@ -180,34 +183,28 @@ class SouvenirTypeHeadController extends Controller
     }
 
 
+    function dialog_booking_souvenir_bookings() {
 
-
-
-    function dialog_booking_talent_bookings() {
-
-        $data = \TalentBookingsCheckPayements::where('payment_id',request()->id)->with([
+        $data = SouvenirBookingsCheckPayments::where('payment_id',request()->id)->with([
             'badasoUsers',
-            'talentBookings',
-            'talentBooking',
-            'talentPrice',
-            'talentPrices',
-            'talentSkill',
-            'talentSkills',
+            'souvenirBookings',
+            'souvenirBooking',
+            'souvenirStore',
+            'souvenirStores',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_booking_talent_payments_validations() {
 
-        $payment_id = \TalentPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = \TalentBookingsCheckPayements::where('payment_id',$payment_id)->with([
+    function dialog_booking_souvenir_payments_validations() {
+
+        $payment_id = SouvenirPaymentsValidations::where('id',request()->id)->value('payment_id');
+        $data = SouvenirBookingsCheckPayments::where('payment_id',$payment_id)->with([
             'badasoUsers',
-            'talentBookings',
-            'talentBooking',
-            'talentPrice',
-            'talentPrices',
-            'talentSkill',
-            'talentSkills',
+            'souvenirBookings',
+            'souvenirBooking',
+            'souvenirStore',
+            'souvenirStores',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }

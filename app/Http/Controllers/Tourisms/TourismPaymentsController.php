@@ -66,6 +66,11 @@ class TourismPaymentsController extends Controller
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->component == 'SharedTableModalPaymentValidation') {
+                $data->where('is_selected', 'false');
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

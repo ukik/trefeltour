@@ -34,7 +34,7 @@ class SouvenirBookings extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'souvenir_stores', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'souvenir_bookings', 'id', 'customer_id');
     }
 
 
@@ -45,9 +45,8 @@ class SouvenirBookings extends Model
 
     public function souvenirStores()
     {
-        return $this->belongsToMany(SouvenirStores::class, 'souvenir_products', 'id', 'store_id');
+        return $this->belongsToMany(SouvenirStores::class, 'souvenir_bookings', 'id', 'store_id');
     }
-
 
     public function souvenirBookingItem()
     {

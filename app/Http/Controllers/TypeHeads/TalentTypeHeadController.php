@@ -65,7 +65,7 @@ class TalentTypeHeadController extends Controller
 
     function dialog_booking_talent_bookings() {
 
-        $data = \TalentBookingsCheckPayements::where('payment_id',request()->id)->with([
+        $data = \TalentBookingsCheckPayments::where('payment_id',request()->id)->with([
             'badasoUsers',
             'talentBookings',
             'talentBooking',
@@ -80,7 +80,7 @@ class TalentTypeHeadController extends Controller
     function dialog_booking_talent_payments_validations() {
 
         $payment_id = \TalentPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = \TalentBookingsCheckPayements::where('payment_id',$payment_id)->with([
+        $data = \TalentBookingsCheckPayments::where('payment_id',$payment_id)->with([
             'badasoUsers',
             'talentBookings',
             'talentBooking',

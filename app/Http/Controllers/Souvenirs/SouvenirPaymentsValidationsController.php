@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TalentPaymentsValidations;
+use SouvenirPaymentsValidations;
 
 class SouvenirPaymentsValidationsController extends Controller
 {
@@ -49,18 +49,12 @@ class SouvenirPaymentsValidationsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TalentPaymentsValidations::with([
+            $data = \SouvenirPaymentsValidations::with([
                 'badasoUsers',
-                'talentPayments',
-                'talentPayment',
-
-                'talentPayment.talentBooking',
-
-                'talentPayment.talentBooking.talentPrices',
-                'talentPayment.talentBooking.talentPrice',
-                'talentPayment.talentBooking.talentSkills',
-                'talentPayment.talentBooking.talentSkill',
-                'talentPayment.talentBooking.talentSkill.talentProfile',
+                'souvenirPayments',
+                'souvenirPayment',
+                'souvenirPayment.souvenirBooking',
+                'souvenirPayment.souvenirBookings',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -110,18 +104,12 @@ class SouvenirPaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TalentPaymentsValidations::with([
+            $data = \SouvenirPaymentsValidations::with([
                 'badasoUsers',
-                'talentPayments',
-                'talentPayment',
-
-                'talentPayment.talentBooking',
-
-                'talentPayment.talentBooking.talentPrices',
-                'talentPayment.talentBooking.talentPrice',
-                'talentPayment.talentBooking.talentSkills',
-                'talentPayment.talentBooking.talentSkill',
-                'talentPayment.talentBooking.talentSkill.talentProfile',
+                'souvenirPayments',
+                'souvenirPayment',
+                'souvenirPayment.souvenirBooking',
+                'souvenirPayment.souvenirBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -141,11 +129,11 @@ class SouvenirPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data']['id'];
-        $check = TalentPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        if ($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = SouvenirPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if ($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -153,8 +141,8 @@ class SouvenirPaymentsValidationsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TalentPaymentsValidations::where('id', $request->data['id'])->first();
-            $temp = \TalentPayments::where('id', $request->data['payment_id'])->first();
+            $table_entity = \SouvenirPaymentsValidations::where('id', $request->data['id'])->first();
+            $temp = \SouvenirPayments::where('id', $request->data['payment_id'])->first();
 
             $req = request()['data'];
             $data = [
@@ -172,7 +160,7 @@ class SouvenirPaymentsValidationsController extends Controller
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     'payment_id' => [
-                        'required', \Illuminate\Validation\Rule::unique('talent_payments_validations')->ignore($table_entity->id)
+                        'required', \Illuminate\Validation\Rule::unique('souvenir_payments_validations')->ignore($table_entity->id)
                     ],
                 ],
             );
@@ -183,9 +171,9 @@ class SouvenirPaymentsValidationsController extends Controller
                 }
             }
 
-            \TalentPaymentsValidations::where('id', $request->data['id'])->update($data);
+            \SouvenirPaymentsValidations::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TalentPaymentsValidations::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \SouvenirPaymentsValidations::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -212,11 +200,11 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TalentPaymentsValidations::where('payment_id', $request->data['payment_id'])
+        $unique = SouvenirPaymentsValidations::where('payment_id', $request->data['payment_id'])
             ->where('deleted_at', NULL)->first();
         if ($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
 
@@ -227,7 +215,7 @@ class SouvenirPaymentsValidationsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentPayments::where('id', $request->data['payment_id'])->first();
+            $temp = \SouvenirPayments::where('id', $request->data['payment_id'])->first();
 
             $req = request()['data'];
             $data = [
@@ -244,7 +232,7 @@ class SouvenirPaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'payment_id' => 'unique:talent_payments_validations'
+                    'payment_id' => 'unique:souvenir_payments_validations'
                 ],
             );
             if ($validator->fails()) {
@@ -254,7 +242,9 @@ class SouvenirPaymentsValidationsController extends Controller
                 }
             }
 
-            $stored_data = \TalentPaymentsValidations::insert($data);
+            $stored_data = \SouvenirPaymentsValidations::insert($data);
+
+            $temp->update(['is_selected' => 'true']);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -279,10 +269,10 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = TalentPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        $check = SouvenirPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
         if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
@@ -370,7 +360,7 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -407,7 +397,7 @@ class SouvenirPaymentsValidationsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentPaymentsValidations::whereIn('id', explode(",", request()['data'][0]['value']))->where('is_valid', 'false')->get();
+            $filters = SouvenirPaymentsValidations::whereIn('id', explode(",", request()['data'][0]['value']))->where('is_valid', 'false')->get();
             $temp = [];
             foreach ($filters as $value) {
                 array_push($temp, $value['id']);

@@ -15,6 +15,25 @@ class TourismPayments extends Model
 
     protected $table = "tourism_payments";
 
+    protected $fillable = [
+        'id',
+        'booking_id',
+        'customer_id',
+        'uuid',
+        'total_amount',
+        'code_transaction',
+        'method',
+        'date',
+        'status',
+        'receipt',
+        'description',
+        'code_table',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'is_selected',
+    ];
+
     public function user()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');

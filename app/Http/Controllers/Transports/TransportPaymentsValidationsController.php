@@ -253,6 +253,8 @@ class TransportPaymentsValidationsController extends Controller
 
             $stored_data = \TransportPaymentsValidations::insert($data);
 
+            $temp->update(['is_selected' => 'true']);
+
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])

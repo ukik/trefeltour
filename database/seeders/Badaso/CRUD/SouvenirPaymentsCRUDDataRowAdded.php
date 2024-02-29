@@ -110,11 +110,11 @@ class SouvenirPaymentsCRUDDataRowAdded extends Seeder
                     'type' => 'text',
                     'display_name' => 'Code Transaction',
                     'required' => 0,
-                    'browse' => 0,
+                    'browse' => 1,
                     'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 6,
@@ -179,7 +179,7 @@ class SouvenirPaymentsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'status',
-                    'type' => 'switch',
+                    'type' => 'select',
                     'display_name' => 'Status',
                     'required' => 1,
                     'browse' => 1,
@@ -187,7 +187,19 @@ class SouvenirPaymentsCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Pending",
+"value": "pending"
+},
+{
+"label": "Sukses",
+"value": "success"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 9,
                 ),

@@ -31,6 +31,24 @@ class SouvenirPayments extends Model
 
     protected $table = "souvenir_payments";
 
+    protected $fillable = [
+        'id',
+        'booking_id',
+        'customer_id',
+        'uuid',
+        'total_amount',
+        'code_transaction',
+        'method',
+        'date',
+        'status',
+        'receipt',
+        'description',
+        'code_table',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'is_selected',
+    ];
 
     public function badasoUser()
     {
@@ -52,12 +70,12 @@ class SouvenirPayments extends Model
         return $this->belongsToMany(SouvenirBookings::class, 'souvenir_payments', 'id', 'booking_id');
     }
 
-    public function talentPaymentsValidation()
+    public function souvenirPaymentsValidation()
     {
         return $this->hasOne(SouvenirPaymentsValidations::class, 'payment_id', 'id');
     }
 
-    public function talentPaymentsValidations()
+    public function souvenirPaymentsValidations()
     {
         return $this->hasMany(SouvenirPaymentsValidations::class, 'payment_id', 'id');
     }

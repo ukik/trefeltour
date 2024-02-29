@@ -190,7 +190,7 @@
                   ></badaso-switch>
 
                     <!-- ADDITIONAL -->
-                  <!-- <badaso-switch
+                  <badaso-switch
                     v-if="dataRow.type == 'switch_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -200,7 +200,7 @@
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
-                  ></badaso-switch> -->
+                  ></badaso-switch>
 
                   <badaso-slider
                     v-if="dataRow.type == 'slider'"
@@ -497,6 +497,10 @@ export default {
 
                     if(el.field == 'is_valid' && key == 'isValid') {
                         el.value = isVal
+
+                        if(isVal) {
+                            el.type = 'switch_readonly'
+                        }
                     }
                     if(el.type == 'datetime' && key == 'validateTime') {
                         el.value = this.record[key] // new Date();

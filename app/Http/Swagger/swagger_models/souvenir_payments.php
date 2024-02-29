@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                ),
   *             )
   *         )

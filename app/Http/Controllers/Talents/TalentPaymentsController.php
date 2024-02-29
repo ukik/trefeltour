@@ -67,6 +67,12 @@ class TalentPaymentsController extends Controller
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->component == 'SharedTableModalPaymentValidation') {
+                $data->where('is_selected', 'false');
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -164,7 +170,7 @@ class TalentPaymentsController extends Controller
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],
@@ -242,7 +248,7 @@ class TalentPaymentsController extends Controller
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],

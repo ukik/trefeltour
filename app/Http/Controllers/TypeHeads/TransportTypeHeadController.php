@@ -217,18 +217,18 @@ class TransportTypeHeadController extends Controller
         $keyword = request()->keyword;
 
         if(request()->id && !request()['keyword'] && !request()['label']) {
-            $check = \ViewTransportBookingsCheckPayements::where('id',request()->id)->with('user')->first();
+            $check = \ViewTransportBookingsCheckPayments::where('id',request()->id)->with('user')->first();
             return $check;
         }
 
         if(request()['label'] == 'transport-returns') {
-            $check = \ViewTransportBookingsCheckPayements::where('id',request()->id)->with('user')->first();
+            $check = \ViewTransportBookingsCheckPayments::where('id',request()->id)->with('user')->first();
             return \TransportDrivers::where('id',$check?->driver_id)->with('user')->first();
         }
 
         $columns = Schema::getColumnListing('view_transport_bookings_check_payments');
 
-        $query = \ViewTransportBookingsCheckPayements::with([
+        $query = \ViewTransportBookingsCheckPayments::with([
             'user' => function($q) use ($keyword) {
                 return $q;
             }])

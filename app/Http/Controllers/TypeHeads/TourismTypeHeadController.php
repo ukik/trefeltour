@@ -127,7 +127,7 @@ class TourismTypeHeadController extends Controller
 
     function dialog_booking_tourism_bookings() {
 
-        $data = \TourismBookingsCheckPayements::where('payment_id',request()->id)->with([
+        $data = \TourismBookingsCheckPayments::where('payment_id',request()->id)->with([
             'badasoUsers',
             'tourismBookings',
             'tourismBooking',
@@ -140,7 +140,7 @@ class TourismTypeHeadController extends Controller
     function dialog_booking_tourism_payments_validations() {
 
         $payment_id = \TourismPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = \TourismBookingsCheckPayements::where('payment_id',$payment_id)->with([
+        $data = \TourismBookingsCheckPayments::where('payment_id',$payment_id)->with([
             'badasoUsers',
             'tourismBookings',
             'tourismBooking',
@@ -155,7 +155,7 @@ class TourismTypeHeadController extends Controller
     function tourism_bookings() {
 
         if(request()->id && !request()['keyword'] && !request()['label']) {
-            $data = \TourismBookingsCheckPayements::where('id',request()->id)->with([
+            $data = \TourismBookingsCheckPayments::where('id',request()->id)->with([
                 'badasoUsers',
                 'tourismBookings',
                 'tourismBooking',

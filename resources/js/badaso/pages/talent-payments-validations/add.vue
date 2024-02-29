@@ -475,7 +475,7 @@ export default {
 
         temp.forEach(el => {
             if(el.field == "is_valid") {
-                el.value = true
+                el.value = false
             }
 
             // switch (vm.userRole) {
