@@ -14,4 +14,14 @@ class LodgeStaffs extends Model
     use SoftDeletes;
 
     protected $table = "lodge_staffs";
+
+    public function lodgeProfile()
+    {
+        return $this->belongsTo(LodgeProfiles::class,'profile_id','id');
+    }
+
+    public function lodgeProfiles()
+    {
+        return $this->belongsToMany(LodgeProfiles::class, 'lodge_staffs', 'id', 'profile_id');
+    }
 }

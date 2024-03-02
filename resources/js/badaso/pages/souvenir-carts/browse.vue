@@ -225,7 +225,7 @@
                 </div>
             </div>
             <div>
-                <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-danger my-3" role="alert">
+                <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
                     Pilih souvenir untuk booking (1 Invoice untuk 1 Customer)
                 </div>
 

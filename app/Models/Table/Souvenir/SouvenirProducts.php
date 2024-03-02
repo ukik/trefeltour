@@ -40,4 +40,14 @@ class SouvenirProducts extends Model
         return $this->belongsToMany(SouvenirStores::class, 'souvenir_products', 'id', 'store_id');
     }
 
+    public function souvenirPrice()
+    {
+        return $this->hasOne(SouvenirPrices::class, 'product_id', 'id');
+    }
+
+    public function souvenirPrices()
+    {
+        return $this->hasMany(SouvenirPrices::class, 'product_id', 'id');
+    }
+
 }

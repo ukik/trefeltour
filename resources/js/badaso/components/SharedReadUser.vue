@@ -2,7 +2,7 @@
   <div style="
     max-height: 80vh;
     overflow-y: scroll;
-    padding: 15px 15px 0px 15px;
+    padding: 15px 15px 0px 15px; background: #e5feff;
 ">
     <vs-col vs-lg="12">
         <vs-card>

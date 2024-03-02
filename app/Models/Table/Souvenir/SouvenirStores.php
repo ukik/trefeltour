@@ -58,15 +58,15 @@ class SouvenirStores extends Model
     }
 
 
-    public function souvenirPrice()
-    {
-        return $this->hasOne(SouvenirPrices::class, 'store_id', 'id');
-    }
+    // public function souvenirPrice()
+    // {
+    //     return $this->hasOne(SouvenirPrices::class, 'store_id', 'id');
+    // }
 
-    public function souvenirPrices()
-    {
-        return $this->hasMany(SouvenirPrices::class, 'store_id', 'id');
-    }
+    // public function souvenirPrices()
+    // {
+    //     return $this->hasMany(SouvenirPrices::class, 'store_id', 'id');
+    // }
 
 
     public function souvenirProduct()
