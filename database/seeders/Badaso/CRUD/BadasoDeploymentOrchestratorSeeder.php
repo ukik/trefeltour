@@ -185,5 +185,26 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(SouvenirPaymentsCRUDDataRowAdded::class);
         $this->seed(SouvenirPaymentsValidationsCRUDDataTypeAdded::class);
         $this->seed(SouvenirPaymentsValidationsCRUDDataRowAdded::class);
+        $this->seed(LodgeProfilesCRUDDataTypeAdded::class);
+        $this->seed(LodgeProfilesCRUDDataRowAdded::class);
+        
+        
+        $this->seed(LodgeStaffsCRUDDataTypeAdded::class);
+        $this->seed(LodgeStaffsCRUDDataRowAdded::class);
+        $this->seed(LodgeFacilityCRUDDataTypeAdded::class);
+        $this->seed(LodgeFacilityCRUDDataRowAdded::class);
+        $this->seed(LodgeBookingsCRUDDataTypeAdded::class);
+        $this->seed(LodgeBookingsCRUDDataRowAdded::class);
+        $this->seed(LodgeBookingBillsCRUDDataTypeAdded::class);
+        $this->seed(LodgeBookingBillsCRUDDataRowAdded::class);
+        $this->seed(LodgeBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(LodgeBookingItemsCRUDDataRowAdded::class);
+        $this->seed(LodgePaymentsCRUDDataTypeAdded::class);
+        $this->seed(LodgePaymentsCRUDDataRowAdded::class);
+        $this->seed(LodgePaymentsValidationsCRUDDataTypeAdded::class);
+        $this->seed(LodgePaymentsValidationsCRUDDataRowAdded::class);
+        $this->seed(LodgeRoomsCRUDDataDeleted::class);
+        $this->seed(LodgeRoomsCRUDDataTypeAdded::class);
+        $this->seed(LodgeRoomsCRUDDataRowAdded::class);
     }
 }

@@ -53,12 +53,14 @@ class LodgeProfilesController extends Controller
             $data = \LodgeProfiles::with([
                 'badasoUsers',
                 'badasoUser',
-                'souvenirProduct',
-                'souvenirProducts',
-                'souvenirBooking',
-                'souvenirBookings',
-                'souvenirPrice',
-                'souvenirPrices',
+                // 'lodgeBooking',
+                // 'lodgeBookings,
+                'lodgeType',
+                'lodgeTypes',
+                'lodgeRoom',
+                'lodgeRooms',
+                'lodgeStaff',
+                'lodgeStaffs',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -118,12 +120,14 @@ class LodgeProfilesController extends Controller
             $data = \LodgeProfiles::with([
                 'badasoUsers',
                 'badasoUser',
-                'souvenirProduct',
-                'souvenirProducts',
-                'souvenirBooking',
-                'souvenirBookings',
-                'souvenirPrice',
-                'souvenirPrices',
+                // 'lodgeBooking',
+                // 'lodgeBookings,
+                'lodgeType',
+                'lodgeTypes',
+                'lodgeRoom',
+                'lodgeRooms',
+                'lodgeStaff',
+                'lodgeStaffs',
             ])->whereId($request->id)->first();
 
             // add event notification handle

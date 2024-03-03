@@ -110,7 +110,7 @@ tunai,bank transfer,e-wallet,qris,lainnya
         {
             "label": "success",
             "value": "success"
-        },
+        }
     ]
 }
 {
@@ -468,6 +468,396 @@ guide,media,mc,dance,singer,band,comedian,musician,others
         {
             "label": "Lainnya",
             "value": "others"
+        }
+    ]
+}
+
+
+Melati,Bintang 1,Bintang 2,Bintang 3,Bintang 4,Bintang 5,Lainnya
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Melati",
+            "value": "Melati"
+        },
+        {
+            "label": "Bintang 1",
+            "value": "Bintang 1"
+        },
+        {
+            "label": "Bintang 2",
+            "value": "Bintang 2"
+        },
+        {
+            "label": "Bintang 3",
+            "value": "Bintang 3"
+        },
+        {
+            "label": "Bintang 4",
+            "value": "Bintang 4"
+        },
+        {
+            "label": "Bintang 5",
+            "value": "Bintang 5"
+        },
+        {
+            "label": "Bintang 1",
+            "value": "Bintang 1"
+        },
+        {
+            "label": "Lainnya",
+            "value": "Lainnya"
+        }
+    ]
+}
+
+Hotel,Hostel,Boutique Hotel,Resort,Cottage,Motel,Losmen,Inn,Villa,Homestay
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Hotel",
+            "value": "Hotel"
+        },
+        {
+            "label": "Hostel",
+            "value": "Hostel"
+        },
+        {
+            "label": "Boutique Hotel",
+            "value": "Boutique Hotel"
+        },
+        {
+            "label": "Resort",
+            "value": "Resort"
+        },
+        {
+            "label": "Cottage",
+            "value": "Cottage"
+        },
+        {
+            "label": "Motel",
+            "value": "Motel"
+        },
+        {
+            "label": "Losmen",
+            "value": "Losmen"
+        },
+        {
+            "label": "Inn",
+            "value": "Inn"
+        },
+        {
+            "label": "Villa",
+            "value": "Villa"
+        },
+        {
+            "label": "Homestay",
+            "value": "Homestay"
+        }
+    ]
+}
+
+Fitness
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Fitness",
+            "value": "Fitness"
+        }
+    ]
+}
+
+24 Hours Receptionist,Laundry,Luggage Storage,Tour
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "24 Hours Receptionist",
+            "value": "24 Hours Receptionist"
+        },
+        {
+            "label": "Laundry",
+            "value": "Laundry"
+        },
+        {
+            "label": "Luggage Storage",
+            "value": "Luggage Storage"
+        },
+        {
+            "label": "Tour",
+            "value": "Tour"
+        }
+    ]
+}
+
+is_parking,is_snack_lobby,is_coffee_shop,is_elevator,is_24_room_service,is_restaurant,is_room_service,is_safety_deposit_box,is_wifi_public
+Parking,Snack Lobby,Coffee Shop,Elevator,24 Room Service,Restaurant,Room Service,Safety Deposit Box,Wifi Public
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Parking",
+            "value": "Parking"
+        },
+        {
+            "label": "Snack Lobby",
+            "value": "Snack Lobby"
+        },
+        {
+            "label": "Coffee Shop",
+            "value": "Coffee Shop"
+        },
+        {
+            "label": "Elevator",
+            "value": "Elevator"
+        },
+        {
+            "label": "24 Room Service",
+            "value": "24 Room Service"
+        },
+        {
+            "label": "Restaurant",
+            "value": "Restaurant"
+        },
+        {
+            "label": "Room Service",
+            "value": "Room Service"
+        },
+        {
+            "label": "Safety Deposit Box",
+            "value": "Safety Deposit Box"
+        },
+        {
+            "label": "Wifi Public",
+            "value": "Wifi Public"
+        }
+    ]
+}
+
+is_babysitting, is_pet_area
+Babysitting, Pet Area
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Babysitting",
+            "value": "Babysitting"
+        },
+        {
+            "label": "Pet Area",
+            "value": "Pet Area"
+        },
+    ]
+}
+
+is_tv, is_hairdryer, is_room_safe, is_minibar, is_shower, is_bathtube
+TV,Hairdryer,Room Safe,Minibar,Shower,Bathtube
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Tv",
+            "value": "Tv"
+        },
+        {
+            "label": "Hairdryer",
+            "value": "Hairdryer"
+        },
+        {
+            "label": "Room Safe",
+            "value": "Room Safe"
+        },
+        {
+            "label": "Minibar",
+            "value": "Minibar"
+        },
+        {
+            "label": "Shower",
+            "value": "Shower"
+        },
+        {
+            "label": "Bathtube",
+            "value": "Bathtube"
+        }
+    ]
+}
+
+is_ac,is_ballroom,is_banquet,is_connecting_room,is_family_room,is_nonsmoking_room,is_swimming_pool,is_smoking_area
+AC,Ballroom,Banquet,Connecting Room,Family Room,Nonsmoking Room,Swimming Pool,Smoking Area
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "AC",
+            "value": "AC"
+        },
+        {
+            "label": "Ballroom",
+            "value": "Ballroom"
+        },
+        {
+            "label": "Banquet",
+            "value": "Banquet"
+        },
+        {
+            "label": "Connecting Room",
+            "value": "Connecting Room"
+        },
+        {
+            "label": "Family Room",
+            "value": "Family Room"
+        },
+        {
+            "label": "Nonsmoking Room",
+            "value": "Nonsmoking Room"
+        },
+        {
+            "label": "Swimming Pool",
+            "value": "Swimming Pool"
+        },
+        {
+            "label": "Smoking Area",
+            "value": "Smoking Area"
+        }
+    ]
+}
+
+is_free_wifi
+Free Wifi
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Free Wifi",
+            "value": "Free Wifi"
+        }
+    ]
+}
+
+is_meeting
+Meeting
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Meeting",
+            "value": "Meeting"
+        }
+    ]
+}
+
+is_wifi,is_children,is_swimming_pool,is_smoking,is_bathtube,is_free_drink,is_telephone,is_shower
+Wifi,Children,Swimming Pool,Smoking,Bathtube,Free Drink,Telephone,Shower
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Wifi",
+            "value": "Wifi"
+        },
+        {
+            "label": "Children",
+            "value": "Children"
+        },
+        {
+            "label": "Swimming Pool",
+            "value": "Swimming Pool"
+        },
+        {
+            "label": "Smoking",
+            "value": "Smoking"
+        },
+        {
+            "label": "Bathtube",
+            "value": "Bathtube"
+        },
+        {
+            "label": "Free Drink",
+            "value": "Free Drink"
+        },
+        {
+            "label": "Telephone",
+            "value": "Telephone"
+        },
+        {
+            "label": "Shower",
+            "value": "Shower"
+        }
+    ]
+}
+
+,,,,,,,,,,,,,,
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Standard Room",
+            "value": "Standard Room"
+        },
+        {
+            "label": "Superior Room",
+            "value": "Superior Room"
+        },
+        {
+            "label": "Deluxe Room",
+            "value": "Deluxe Room"
+        },
+        {
+            "label": "Junior Suite Room",
+            "value": "Junior Suite Room"
+        },
+        {
+            "label": "Suite Room",
+            "value": "Suite Room"
+        },
+        {
+            "label": "Presidential Suite",
+            "value": "Presidential Suite"
+        },
+        {
+            "label": "Single Room",
+            "value": "Single Room"
+        },
+        {
+            "label": "Twin Room",
+            "value": "Twin Room"
+        },
+        {
+            "label": "Double Room",
+            "value": "Double Room"
+        },
+        {
+            "label": "Family Room/Triple Room",
+            "value": "Family Room/Triple Room"
+        },
+        {
+            "label": "Connecting Room",
+            "value": "Connecting Room"
+        },
+        {
+            "label": "Murphy Room",
+            "value": "Murphy Room"
+        },
+        {
+            "label": "Accessible Room/Disabled Room",
+            "value": "Accessible Room/Disabled Room"
+        },
+        {
+            "label": "Smoking/Non Smoking Room",
+            "value": "Smoking/Non Smoking Room"
+        },
+        {
+            "label": "Cabana Room",
+            "value": "Cabana Room"
         }
     ]
 }

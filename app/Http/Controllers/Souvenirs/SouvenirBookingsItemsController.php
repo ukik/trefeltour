@@ -61,8 +61,8 @@ class SouvenirBookingsItemsController extends Controller
 
                 'souvenirStore.souvenirProduct',
                 'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                // 'souvenirStore.souvenirPrice',
+                // 'souvenirStore.souvenirPrices',
                 'souvenirStores',
 
                 'souvenirBooking.souvenirPayment',
@@ -136,8 +136,8 @@ class SouvenirBookingsItemsController extends Controller
 
                 'souvenirStore.souvenirProduct',
                 'souvenirStore.souvenirProducts',
-                'souvenirStore.souvenirPrice',
-                'souvenirStore.souvenirPrices',
+                // 'souvenirStore.souvenirPrice',
+                // 'souvenirStore.souvenirPrices',
                 'souvenirStores',
 
                 'souvenirBooking.souvenirPayment',
