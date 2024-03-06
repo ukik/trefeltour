@@ -10,40 +10,38 @@ use Illuminate\Support\Facades\Auth;
 use SouvenirBookings;
 use SouvenirBookingsCheckPayments;
 use SouvenirCarts;
-use SouvenirPaymentsValidations;
 use SouvenirPrices;
-use TalentBookings;
 
-use TalentPaymentsValidations;
-use TalentProfiles;
+use SouvenirPaymentsValidations;
+use SouvenirStores;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
 class SouvenirTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminTalent()) {
+        if(isAdminSouvenir()) {
             return Auth::user();
         }
 
-        $temp = TalentProfiles::where('id', request()->id)->value('user_id');
+        $temp = SouvenirStores::where('id', request()->id)->value('user_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
     function getUserBookingEdit() {
-        if(isAdminTalent()) {
+        if(isAdminSouvenir()) {
             return Auth::user();
         }
 
-        $temp = TalentBookings::where('id', request()->id)->value('customer_id');
+        $temp = SouvenirBookings::where('id', request()->id)->value('customer_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
     function getUserPaymentValidationEdit() {
-        if(isAdminTalent()) {
+        if(isAdminSouvenir()) {
             return Auth::user();
         }
 
-        $validator_id = TalentPaymentsValidations::where('id', request()->id)->value('validator_id');
+        $validator_id = SouvenirPaymentsValidations::where('id', request()->id)->value('validator_id');
         return BadasoUsers::where('id', $validator_id)->first();
     }
 
@@ -91,8 +89,8 @@ class SouvenirTypeHeadController extends Controller
         $data = $data->souvenirProduct;
         return ApiResponse::onlyEntity($data);
 
-        // $skill_id = \TalentPrices::where('id',request()->id)->value('skill_id');
-        // $data = \TalentSkills::where('id',$skill_id)->with([
+        // $skill_id = \SouvenirPrices::where('id',request()->id)->value('skill_id');
+        // $data = \SouvenirSkills::where('id',$skill_id)->with([
         //     'talentProfile',
         //     'talentProfiles',
         //     'talentProfile.badasoUser',

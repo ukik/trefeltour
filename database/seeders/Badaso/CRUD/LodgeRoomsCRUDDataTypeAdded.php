@@ -28,6 +28,7 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 86,
                 'name' => 'lodge_rooms',
                 'slug' => 'lodge-rooms',
                 'display_name_singular' => 'Lodge Rooms',
@@ -35,19 +36,19 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => NULL,
+                'controller' => 'App\\Http\\Controllers\\Lodges\\LodgeRoomsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => false,
-                'updated_at' => '2024-03-03T14:40:58.000000Z',
+                'is_soft_delete' => true,
                 'created_at' => '2024-03-03T14:40:58.000000Z',
-                'id' => 86,
+                'updated_at' => '2024-03-04T02:08:34.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_rooms');

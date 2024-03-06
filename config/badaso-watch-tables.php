@@ -73,7 +73,6 @@ return [
     'lodge_profiles',
     'lodge_rooms',
     'lodge_staffs',
-    'lodge_types',
     'payments',
     'rentals',
     'souvenir_booking_items',

@@ -230,7 +230,7 @@ class TourismVenuesController extends Controller
             $req = $req['data'];
             $req['code_table'] = ($slug);
             $req['uuid'] = ShortUuid();
-            $req['category'] = implode(',', $req['category']); // json_encode($req['category']); //
+            $req['category'] = implode(',', $req['category'] ?: []); // json_encode($req['category']); //
 
             $validator = Validator::make($req,
                 [

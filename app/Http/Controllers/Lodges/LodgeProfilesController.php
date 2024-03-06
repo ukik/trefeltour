@@ -55,8 +55,6 @@ class LodgeProfilesController extends Controller
                 'badasoUser',
                 // 'lodgeBooking',
                 // 'lodgeBookings,
-                'lodgeType',
-                'lodgeTypes',
                 'lodgeRoom',
                 'lodgeRooms',
                 'lodgeStaff',
@@ -122,8 +120,6 @@ class LodgeProfilesController extends Controller
                 'badasoUser',
                 // 'lodgeBooking',
                 // 'lodgeBookings,
-                'lodgeType',
-                'lodgeTypes',
                 'lodgeRoom',
                 'lodgeRooms',
                 'lodgeStaff',
@@ -162,6 +158,7 @@ class LodgeProfilesController extends Controller
             $data = [
 
                 'user_id' => $table_entity->user_id,
+                'uuid' => $req['uuid'],
                 'name' => $req['name'],
                 'email' => $req['email'],
                 'phone' => $req['phone'],
@@ -171,8 +168,17 @@ class LodgeProfilesController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'country' => $req['country'],
-                'policy' => $req['description'],
+                'policy' => $req['policy'],
                 'description' => $req['description'],
+                'rating' => $req['rating'],
+                'types' => implode(',', $req['types'] ?: []),
+                'services' => implode(',', $req['services'] ?: []),
+                'checkin_time' => $req['checkin_time'],
+                'checkout_time' => $req['checkout_time'],
+                'additional_policy' => $req['additional_policy'],
+                'shuttle_to_airport_price' => $req['shuttle_to_airport_price'],
+                'additional_breakfast_price' => $req['additional_breakfast_price'],
+                'late_checkout_price' => $req['late_checkout_price'],
                 'is_available' => $req['is_available'],
 
                 'code_table' => ($slug) ,
@@ -238,8 +244,8 @@ class LodgeProfilesController extends Controller
 
             $req = request()['data'];
             $data = [
-
                 'user_id' => $req['user_id'],
+                'uuid' => $req['uuid'],
                 'name' => $req['name'],
                 'email' => $req['email'],
                 'phone' => $req['phone'],
@@ -249,8 +255,17 @@ class LodgeProfilesController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'country' => $req['country'],
-                'policy' => $req['description'],
+                'policy' => $req['policy'],
                 'description' => $req['description'],
+                'rating' => $req['rating'],
+                'types' => implode(',', $req['types'] ?: []),
+                'services' => implode(',', $req['services'] ?: []),
+                'checkin_time' => $req['checkin_time'],
+                'checkout_time' => $req['checkout_time'],
+                'additional_policy' => $req['additional_policy'],
+                'shuttle_to_airport_price' => $req['shuttle_to_airport_price'],
+                'additional_breakfast_price' => $req['additional_breakfast_price'],
+                'late_checkout_price' => $req['late_checkout_price'],
                 'is_available' => $req['is_available'],
 
                 'code_table' => ($slug) ,
@@ -262,7 +277,7 @@ class LodgeProfilesController extends Controller
                     'user_id' => 'required',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:souvenir_stores_unique'
+                    'user_id' => 'unique:lodge_profiles_unique'
                 ],
             );
             if ($validator->fails()) {

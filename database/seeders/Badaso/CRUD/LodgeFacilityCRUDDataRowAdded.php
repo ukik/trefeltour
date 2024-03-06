@@ -83,7 +83,15 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Fitness",
+"value": "Fitness"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 4,
                 ),
@@ -99,7 +107,27 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "24 Hours Receptionist",
+"value": "24 Hours Receptionist"
+},
+{
+"label": "Laundry",
+"value": "Laundry"
+},
+{
+"label": "Luggage Storage",
+"value": "Luggage Storage"
+},
+{
+"label": "Tour",
+"value": "Tour"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 5,
                 ),
@@ -115,7 +143,47 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Parking",
+"value": "Parking"
+},
+{
+"label": "Snack Lobby",
+"value": "Snack Lobby"
+},
+{
+"label": "Coffee Shop",
+"value": "Coffee Shop"
+},
+{
+"label": "Elevator",
+"value": "Elevator"
+},
+{
+"label": "24 Room Service",
+"value": "24 Room Service"
+},
+{
+"label": "Restaurant",
+"value": "Restaurant"
+},
+{
+"label": "Room Service",
+"value": "Room Service"
+},
+{
+"label": "Safety Deposit Box",
+"value": "Safety Deposit Box"
+},
+{
+"label": "Wifi Public",
+"value": "Wifi Public"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 6,
                 ),
@@ -131,7 +199,19 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Babysitting",
+"value": "Babysitting"
+},
+{
+"label": "Pet Area",
+"value": "Pet Area"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 7,
                 ),
@@ -147,7 +227,35 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Tv",
+"value": "Tv"
+},
+{
+"label": "Hairdryer",
+"value": "Hairdryer"
+},
+{
+"label": "Room Safe",
+"value": "Room Safe"
+},
+{
+"label": "Minibar",
+"value": "Minibar"
+},
+{
+"label": "Shower",
+"value": "Shower"
+},
+{
+"label": "Bathtube",
+"value": "Bathtube"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 8,
                 ),
@@ -163,7 +271,43 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "AC",
+"value": "AC"
+},
+{
+"label": "Ballroom",
+"value": "Ballroom"
+},
+{
+"label": "Banquet",
+"value": "Banquet"
+},
+{
+"label": "Connecting Room",
+"value": "Connecting Room"
+},
+{
+"label": "Family Room",
+"value": "Family Room"
+},
+{
+"label": "Nonsmoking Room",
+"value": "Nonsmoking Room"
+},
+{
+"label": "Swimming Pool",
+"value": "Swimming Pool"
+},
+{
+"label": "Smoking Area",
+"value": "Smoking Area"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 9,
                 ),
@@ -179,7 +323,15 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Free Wifi",
+"value": "Free Wifi"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 10,
                 ),
@@ -195,7 +347,15 @@ class LodgeFacilityCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Meeting",
+"value": "Meeting"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 11,
                 ),

@@ -487,7 +487,7 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = row.value;
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : (row.value == undefined ? '' : row.value);
       }
 
       // validate values in data rows must not equals 0

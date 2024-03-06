@@ -206,5 +206,9 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(LodgeRoomsCRUDDataDeleted::class);
         $this->seed(LodgeRoomsCRUDDataTypeAdded::class);
         $this->seed(LodgeRoomsCRUDDataRowAdded::class);
+        $this->seed(LodgePricesCRUDDataTypeAdded::class);
+        $this->seed(LodgePricesCRUDDataRowAdded::class);
+        $this->seed(LodgeCartsCRUDDataTypeAdded::class);
+        $this->seed(LodgeCartsCRUDDataRowAdded::class);
     }
 }

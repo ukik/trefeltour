@@ -527,7 +527,7 @@ export default {
       console.log('submitForm', this.dataType.dataRows)
 
       for (const row of this.dataType.dataRows) {
-         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : row.value;
+         dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : (row.value == undefined ? '' : row.value);
 
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;

@@ -17,12 +17,12 @@ class LodgePrices extends Model
 
     public function lodgeProfile()
     {
-        return $this->belongsTo(lodgeProfiles::class,'profile_id','id');
+        return $this->belongsTo(LodgeProfiles::class,'profile_id','id');
     }
 
     public function lodgeProfiles()
     {
-        return $this->belongsToMany(lodgeProfiles::class, 'lodge_prices', 'id', 'profile_id');
+        return $this->belongsToMany(LodgeProfiles::class, 'lodge_prices', 'id', 'profile_id');
     }
 
     public function lodgeRoom()

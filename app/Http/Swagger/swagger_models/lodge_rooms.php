@@ -201,12 +201,12 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "profileId":"123", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "profileId":"123", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "profileId":"", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
-  *                         @OA\Property(type="integer", property="profileId"), 
+  *                         @OA\Property(type="string", property="profileId"), 
   *                         @OA\Property(type="string", property="image"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="number"), 

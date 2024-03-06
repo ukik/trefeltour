@@ -14,7 +14,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportDrivers;
+use LodgeFacility;
 use TravelPayments;
 
 class LodgeFacilityController extends Controller
@@ -51,16 +51,9 @@ class LodgeFacilityController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportDrivers::with([
-                'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \LodgeFacility::with([
+                'lodgeProfile',
+                'lodgeProfiles',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -115,16 +108,9 @@ class LodgeFacilityController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportDrivers::with([
-                'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \LodgeFacility::with([
+                'lodgeProfile',
+                'lodgeProfiles',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -150,32 +136,34 @@ class LodgeFacilityController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportDrivers::where('id', $request->data['id'])->first();
+            $table_entity = \LodgeFacility::where('id', $request->data['id'])->first();
 
             $req = request()['data'];
             $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
-                'daily_price' => $req['daily_price'] ,
-                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
-                'is_available' => $req['is_available'] ,
-                'is_reserved' => $req['is_reserved'] ,
-                'description' => $req['description'] ,
+                'profile_id' => $table_entity->profile_id ,
+                'facility_sport' => implode(',', $req['facility_sport'] ?: []) ,
+                'facility_service' => implode(',', $req['facility_service'] ?: []) ,
+                'facility_public' => implode(',', $req['facility_public'] ?: []) ,
+                'facility_kid_pet' => implode(',', $req['facility_kid_pet'] ?: []) ,
+                'facility_in_room' => implode(',', $req['facility_in_room'] ?: []) ,
+                'facility_general' => implode(',', $req['facility_general'] ?: []) ,
+                'facility_connectivity' => implode(',', $req['facility_connectivity'] ?: []) ,
+                'facility_business' => implode(',', $req['facility_business'] ?: []) ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user,user_id,'.$req['id']
+                    // '*' => 'required',
+                    // 'user_id' => 'unique:view_transport_drivers_check_user,user_id,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [
-                    'code_stnk.unique' => 'User sudah terdaftar'
+                    // 'code_stnk.unique' => 'User sudah terdaftar'
                 ]
             );
             if ($validator->fails()) {
@@ -185,9 +173,9 @@ class LodgeFacilityController extends Controller
                 }
             }
 
-            \TransportDrivers::where('id', $request->data['id'])->update($data);
+            \LodgeFacility::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportDrivers::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \LodgeFacility::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -223,28 +211,31 @@ class LodgeFacilityController extends Controller
 
             $req = request()['data'];
             $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
-                'daily_price' => $req['daily_price'] ,
-                'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
-                'is_available' => $req['is_available'] ? 'true' : 'false' ,
-                'is_reserved' => $req['is_reserved'] ? 'true' : 'false' ,
-                'description' => $req['description'] ,
+                'profile_id' => $req['profile_id'] ,
+                'facility_sport' => implode(',', $req['facility_sport'] ?: []) ,
+                'facility_service' => implode(',', $req['facility_service'] ?: []) ,
+                'facility_public' => implode(',', $req['facility_public'] ?: []) ,
+                'facility_kid_pet' => implode(',', $req['facility_kid_pet'] ?: []) ,
+                'facility_in_room' => implode(',', $req['facility_in_room'] ?: []) ,
+                'facility_general' => implode(',', $req['facility_general'] ?: []) ,
+                'facility_connectivity' => implode(',', $req['facility_connectivity'] ?: []) ,
+                'facility_business' => implode(',', $req['facility_business'] ?: []) ,
+
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user'
+                    // '*' => 'required',
+                    'profile_id' => 'unique:lodge_facility_unique'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [
-                    'user_id.unique' => 'User sudah terdaftar'
+                    'profile_id.unique' => 'User sudah terdaftar'
                 ]
             );
             if ($validator->fails()) {
@@ -254,7 +245,7 @@ class LodgeFacilityController extends Controller
                 }
             }
 
-            $stored_data = \TransportDrivers::insert($data);
+            $stored_data = \LodgeFacility::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -280,7 +271,7 @@ class LodgeFacilityController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TransportDrivers::where('id', $value)->where('is_reserved', 'true')->first();
+        $check = LodgeFacility::where('id', $value)->where('is_reserved', 'true')->first();
         if($check) return ApiResponse::failed("Tidak bisa dihapus, data sedang digunakan");
 
         try {
@@ -404,7 +395,7 @@ class LodgeFacilityController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportDrivers::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_reserved','false')->get();
+            $filters = LodgeFacility::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_reserved','false')->get();
             $temp = [];
             foreach ($filters as $value) {
                 array_push($temp, $value['id']);

@@ -36,7 +36,7 @@
                         v-else-if="dataRow.type == 'upload_image_multiple'"
                         class="crud-generated__item--upload-image-multiple"
                     >
-                        <img
+                        <!-- <img
                         v-for="(image, indexImage) in stringToArray(
                             record[
                             $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -47,7 +47,37 @@
                         width="100%"
                         alt=""
                         class="crud-generated__item--image"
-                        />
+                        /> -->
+                        <!-- <img
+                            v-for="(image, indexImage) in JSON.parse(
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )"
+                            :key="indexImage"
+                            :src="image"
+                            width="100%"
+                            alt=""
+                            class="crud-generated__item--image"
+                          /> -->
+
+
+                        <vs-row>
+                            <vs-col
+                                vs-lg="4"
+                                vs-sm="12"
+                                v-for="(val, index) in JSON.parse(
+                                record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                ]
+                                )"
+                                :key="index"
+                            >
+                                <div class="badaso-upload-image-multiple__preview">
+                                <img :src="val" class="badaso-upload-image-multiple__preview-image" />
+                                </div>
+                            </vs-col>
+                        </vs-row>
                     </div>
                     <span
                         v-else-if="dataRow.type == 'editor'"

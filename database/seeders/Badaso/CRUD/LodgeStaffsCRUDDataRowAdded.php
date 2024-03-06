@@ -107,7 +107,7 @@ class LodgeStaffsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'hire_date',
-                    'type' => 'text',
+                    'type' => 'date',
                     'display_name' => 'Hire Date',
                     'required' => 0,
                     'browse' => 1,

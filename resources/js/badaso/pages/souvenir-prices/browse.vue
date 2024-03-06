@@ -19,7 +19,7 @@
                 </div>
             </slot>
             <div class="py-4">
-                <div class="row">
+                <!-- <div class="row">
                     <span class="col">Toko</span>
                     <span class="col-auto">{{ selectedData?.souvenirStore?.name }}</span>
                 </div>
@@ -30,6 +30,37 @@
                 <div class="row">
                     <span class="col">Stok</span>
                     <span class="col-auto">{{ selectedData?.stock }}</span>
+                </div> -->
+
+                <div class="row">
+                    <span class="col">UUID </span>
+                    <span class="col-auto">{{ selectedData?.uuid }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Toko </span>
+                    <span class="col-auto">{{ selectedData?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Jenis Produk</span>
+                    <span class="col-auto">{{ selectedData?.souvenirProduct?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Stok</span>
+                    <span class="col-auto">{{ selectedData?.stock }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Quantity</span>
+                    <span class="col-auto">{{ selectedQuantity }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Harga</span>
+                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData)) }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Total Harga</span>
+                    <span class="col-auto">
+                        {{ $rupiah(Math.round(getTotalAmount(selectedData) * selectedQuantity)) }}
+                    </span>
                 </div>
             </div>
             <hr class="m-0">
@@ -40,7 +71,7 @@
                     <div class="modal-title">
                         <Counter :stock="selectedData?.stock" @onBubbleEvent="selectedQuantity = $event" />
                     </div>
-                    <vs-button @click="onAddToCart">
+                    <vs-button :disabled="!selectedCustomer" @click="onAddToCart">
                         <i class="vs-icon notranslate icon-scale material-icons null">shopping_cart</i>
                         <span class="pl-1">Tambah</span>
                     </vs-button>
@@ -1006,6 +1037,10 @@ export default {
     selectedData: null,
     selectedQuantity: 1,
     selectedCustomer: null,
+    tipe: 'single', // 'single' || 'multi'
+    selectedMulti: [],
+    totalTagihan: 0,
+    description: '',
 
     lastPage: 0,
     currentPage: 1,
@@ -1083,7 +1118,11 @@ export default {
         this.$closeLoader();
         // this.show = false
     },
-
+    getTotalAmount(value) {
+        console.log('getTotalAmount', value)
+        const total =  (Number(value?.generalPrice) - ((Number(value?.generalPrice) * Number(value?.discountPrice)/100)) - Number(value?.cashbackPrice))
+        return total;
+    },
     onChangePage(val) {
         this.currentPage = val;
         this.getEntity();

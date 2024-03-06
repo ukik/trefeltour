@@ -16,17 +16,6 @@ class LodgeRooms extends Model
     protected $table = "lodge_rooms";
 
 
-    public function lodgeRoomType()
-    {
-        return $this->belongsTo(LodgeRoomTypes::class,'room_type_id','id');
-    }
-
-    public function lodgeRoomTypes()
-    {
-        return $this->belongsToMany(LodgeRoomTypes::class, 'lodge_rooms', 'id', 'room_type_id');
-    }
-
-
     public function lodgeProfile()
     {
         return $this->belongsTo(LodgeProfiles::class,'profile_id','id');

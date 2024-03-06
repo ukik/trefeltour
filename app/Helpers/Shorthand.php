@@ -148,6 +148,24 @@ if (!function_exists('isAdminSouvenir')) {
         }
     }
 }
+if (!function_exists('isAdminLodge')) {
+    function isAdminLodge(){
+        if(Auth::check()) {
+
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'admin-lodge':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 
 
 if (!function_exists('isOnlyAdminTransport')) {
@@ -171,6 +189,12 @@ if (!function_exists('isOnlyAdminSouvenir')) {
 if (!function_exists('isOnlyAdminTourism')) {
     function isOnlyAdminTourism(){
         if(!isAdminTourism()) return ApiResponse::failed('Maaf harus dari admin');
+    }
+}
+
+if (!function_exists('isOnlyAdminLodge')) {
+    function isOnlyAdminLodge(){
+        if(!isAdminLodge()) return ApiResponse::failed('Maaf harus dari admin');
     }
 }
 

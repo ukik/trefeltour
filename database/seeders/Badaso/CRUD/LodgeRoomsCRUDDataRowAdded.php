@@ -59,7 +59,7 @@ class LodgeRoomsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'profile_id',
-                    'type' => 'number',
+                    'type' => 'relation',
                     'display_name' => 'Profile Id',
                     'required' => 0,
                     'browse' => 1,
@@ -68,14 +68,14 @@ class LodgeRoomsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"lodge_profiles","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","uuid","name"]}',
                     'order' => 3,
                 ),
                 3 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
-                    'type' => 'textarea',
+                    'type' => 'upload_image_multiple',
                     'display_name' => 'Image',
                     'required' => 0,
                     'browse' => 1,

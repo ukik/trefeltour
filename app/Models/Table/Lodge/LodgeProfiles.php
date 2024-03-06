@@ -66,16 +66,6 @@ class LodgeProfiles extends Model
         return $this->hasMany(LodgeBookings::class, 'profile_id', 'id');
     }
 
-    public function lodgeType()
-    {
-        return $this->hasOne(LodgeTypes::class, 'profile_id', 'id');
-    }
-
-    public function lodgeTypes()
-    {
-        return $this->hasMany(LodgeTypes::class, 'profile_id', 'id');
-    }
-
     public function lodgeRoom()
     {
         return $this->hasOne(LodgeRooms::class, 'profile_id', 'id');

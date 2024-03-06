@@ -795,7 +795,7 @@ Wifi,Children,Swimming Pool,Smoking,Bathtube,Free Drink,Telephone,Shower
 }
 
 ,,,,,,,,,,,,,,
-
+Standard Room,Superior Room,Deluxe Room,Junior Suite Room,Suite Room,Presidential Suite,Single Room,Twin Room,Double Room,Family Room/Triple Room,Connecting Room,Murphy Room,Accessible Room/Disabled Room,Smoking/Non Smoking Room,Cabana Room
 {
     "size": 12,
     "items": [
@@ -861,3 +861,26 @@ Wifi,Children,Swimming Pool,Smoking,Bathtube,Free Drink,Telephone,Shower
         }
     ]
 }
+
+
+is_clean_accomodation,is_breakfast,is_pet
+Clean Accomodation,Breakfast,Pet Friendly
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "Clean Accomodation",
+            "value": "Clean Accomodation"
+        },
+        {
+            "label": "Breakfast",
+            "value": "Breakfast"
+        },
+        {
+            "label": "Pet Friendly",
+            "value": "Pet Friendly"
+        }
+    ]
+}
+
+Hotel,Hostel,Boutique Hotel,Resort,Cottage,Motel,Losmen,Inn,Villa,Homestay

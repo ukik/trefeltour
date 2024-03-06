@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "lateCheckoutPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "lateCheckoutPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "lateCheckoutPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "lateCheckoutPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -219,12 +219,14 @@
   *                         @OA\Property(type="string", property="policy"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="string", property="rating"), 
+  *                         @OA\Property(type="string", property="types"), 
+  *                         @OA\Property(type="string", property="services"), 
   *                         @OA\Property(type="string", property="checkinTime"), 
   *                         @OA\Property(type="string", property="checkoutTime"), 
   *                         @OA\Property(type="string", property="additionalPolicy"), 
+  *                         @OA\Property(type="integer", property="lateCheckoutPrice"), 
   *                         @OA\Property(type="integer", property="shuttleToAirportPrice"), 
   *                         @OA\Property(type="integer", property="additionalBreakfastPrice"), 
-  *                         @OA\Property(type="integer", property="lateCheckoutPrice"), 
   *                         @OA\Property(type="string", property="isCleanAccomodation"), 
   *                         @OA\Property(type="string", property="isBreakfast"), 
   *                         @OA\Property(type="string", property="isPet"), 

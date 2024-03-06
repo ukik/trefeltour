@@ -1,6 +1,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 // @import 'node_modules/bootstrap-vue/src/index.scss';
 
+button.vs-select--item.activex.con-icon span {
+    padding-left: 10px;
+}
+
 button.vs-select--item span {
     text-transform: capitalize;
 }
