@@ -206,11 +206,11 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'type' => 'date',
                     'display_name' => 'Date Checkin',
                     'required' => 0,
-                    'browse' => 1,
+                    'browse' => 0,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 12,
@@ -222,11 +222,11 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'type' => 'date',
                     'display_name' => 'Date Checkout',
                     'required' => 0,
-                    'browse' => 1,
+                    'browse' => 0,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 13,
@@ -234,9 +234,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'quantity',
-                    'type' => 'number',
-                    'display_name' => 'Quantity',
+                    'field' => 'ui_date_range',
+                    'type' => 'text',
+                    'display_name' => 'Tanggal',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -250,6 +250,22 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'quantity',
+                    'type' => 'number',
+                    'display_name' => 'Durasi',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 15,
+                ),
+                15 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'get_final_amount',
                     'type' => 'text',
                     'display_name' => 'Get Final Amount',
@@ -261,9 +277,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'stock',
@@ -277,9 +293,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -293,9 +309,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
-                17 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -309,9 +325,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 18,
+                    'order' => 19,
                 ),
-                18 => 
+                19 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -325,9 +341,9 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 19,
+                    'order' => 20,
                 ),
-                19 => 
+                20 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -341,7 +357,7 @@ class LodgeCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 20,
+                    'order' => 21,
                 ),
             ));
 

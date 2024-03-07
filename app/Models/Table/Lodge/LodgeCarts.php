@@ -31,18 +31,20 @@ class LodgeCarts extends Model
     // updated_at
     // deleted_at
 
-    protected $table = "souvenir_carts";
+    protected $table = "lodge_carts";
 
     public $fillable = [
         'customer_id',
-        'store_id',
-        'product_id',
+        'profile_id',
+        'room_id',
         'price_id',
         'name',
         'get_price',
         'get_discount',
         'get_cashback',
         'get_total_amount',
+        'date_checkin',
+        'date_checkout',
         'quantity',
         'get_final_amount',
         'description',
@@ -56,36 +58,36 @@ class LodgeCarts extends Model
 
     public function badasoUsers()
     {
-        return $this->belongsToMany(BadasoUsers::class, 'souvenir_carts', 'id', 'customer_id');
+        return $this->belongsToMany(BadasoUsers::class, 'lodge_carts', 'id', 'customer_id');
     }
 
-    public function souvenirStore()
+    public function lodgeProfile()
     {
-        return $this->belongsTo(SouvenirStores::class,'store_id','id');
+        return $this->belongsTo(LodgeProfiles::class,'profile_id','id');
     }
 
-    public function souvenirStores()
+    public function lodgeProfiles()
     {
-        return $this->belongsToMany(SouvenirStores::class, 'souvenir_carts', 'id', 'store_id');
+        return $this->belongsToMany(LodgeProfiles::class, 'lodge_carts', 'id', 'profile_id');
     }
 
-    public function souvenirProduct()
+    public function lodgeRoom()
     {
-        return $this->belongsTo(SouvenirProducts::class,'product_id','id');
+        return $this->belongsTo(LodgeRooms::class,'room_id','id');
     }
 
-    public function souvenirProducts()
+    public function lodgeRooms()
     {
-        return $this->belongsToMany(SouvenirProducts::class, 'souvenir_carts', 'id', 'product_id');
+        return $this->belongsToMany(LodgeRooms::class, 'lodge_carts', 'id', 'room_id');
     }
 
-    public function souvenirPrice()
+    public function lodgePrice()
     {
-        return $this->belongsTo(SouvenirPrices::class,'price_id','id');
+        return $this->belongsTo(LodgePrices::class,'price_id','id');
     }
 
-    public function souvenirPrices()
+    public function lodgePrices()
     {
-        return $this->belongsToMany(SouvenirPrices::class, 'souvenir_carts', 'id', 'price_id');
+        return $this->belongsToMany(LodgePrices::class, 'lodge_carts', 'id', 'price_id');
     }
 }

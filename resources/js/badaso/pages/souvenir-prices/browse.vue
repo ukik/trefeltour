@@ -19,26 +19,17 @@
                 </div>
             </slot>
             <div class="py-4">
-                <!-- <div class="row">
-                    <span class="col">Toko</span>
-                    <span class="col-auto">{{ selectedData?.souvenirStore?.name }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Produk</span>
-                    <span class="col-auto">{{ selectedData?.souvenirProduct?.name }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Stok</span>
-                    <span class="col-auto">{{ selectedData?.stock }}</span>
-                </div> -->
-
                 <div class="row">
                     <span class="col">UUID </span>
                     <span class="col-auto">{{ selectedData?.uuid }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Toko </span>
+                    <span class="col">Nama Harga </span>
                     <span class="col-auto">{{ selectedData?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Toko </span>
+                    <span class="col-auto">{{ selectedData?.souvenirStore?.name }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Jenis Produk</span>
@@ -64,7 +55,7 @@
                 </div>
             </div>
             <hr class="m-0">
-            <!-- <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="souvenir-products" /> -->
+
             <div slot="modal-footer">
                 <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" />
                 <div class="modal-header pt-0">
@@ -237,12 +228,12 @@
                             type: 'detail',
                             selectedData: record,
                             title: 'Detail Harga',
-                            slug: 'souvenir-prices' })">
+                            slug: $route.params?.slug })">
                               <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                           </vs-button>
                         </vs-td>
                         <vs-td>
-                            <vs-button type="relief" @click="show = true; selectedData = record;">Pilih</vs-button>
+                            <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = null; selectedData = record;">Pilih</vs-button>
                         </vs-td>
 
                     <template
@@ -1037,9 +1028,6 @@ export default {
     selectedData: null,
     selectedQuantity: 1,
     selectedCustomer: null,
-    tipe: 'single', // 'single' || 'multi'
-    selectedMulti: [],
-    totalTagihan: 0,
     description: '',
 
     lastPage: 0,

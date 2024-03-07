@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use SouvenirCarts;
+use LodgeCarts;
 
 use \BadasoUsers;
 use Faker\Core\Number;
@@ -57,19 +57,16 @@ class LodgeCartsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \SouvenirCarts::with([
-                // 'souvenirStore.souvenirBooking.badasoUsers',
-                // 'souvenirStore.souvenirBooking.badasoUser',
-                // 'souvenirStore.souvenirBookings',
+            $data = \LodgeCarts::with([
                 'badasoUsers',
                 'badasoUser',
 
-                'souvenirProduct',
-                'souvenirProducts',
-                'souvenirPrice',
-                'souvenirPrices',
-                'souvenirStore',
-                'souvenirStores',
+                'lodgeProfile',
+                'lodgeProfiles',
+                'lodgeRoom',
+                'lodgeRooms',
+                'lodgePrice',
+                'lodgePrices',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -150,19 +147,16 @@ class LodgeCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \SouvenirCarts::with([
-                // 'souvenirStore.souvenirBooking.badasoUsers',
-                // 'souvenirStore.souvenirBooking.badasoUser',
-                // 'souvenirStore.souvenirBookings',
+            $data = \LodgeCarts::with([
                 'badasoUsers',
                 'badasoUser',
 
-                'souvenirProduct',
-                'souvenirProducts',
-                'souvenirPrice',
-                'souvenirPrices',
-                'souvenirStore',
-                'souvenirStores',
+                'lodgeProfile',
+                'lodgeProfiles',
+                'lodgeRoom',
+                'lodgeRooms',
+                'lodgePrice',
+                'lodgePrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -192,7 +186,7 @@ class LodgeCartsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \SouvenirCarts::where('id', $request->data['id'])->first();
+            $table_entity = \LodgeCarts::where('id', $request->data['id'])->first();
 
             $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
@@ -243,9 +237,9 @@ class LodgeCartsController extends Controller
             $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
 
-            \SouvenirCarts::where('id', $request->data['id'])->update($data);
+            \LodgeCarts::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \SouvenirCarts::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \LodgeCarts::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -305,7 +299,7 @@ class LodgeCartsController extends Controller
                 $ids[] = $value['id'];
             }
 
-            $prices = \SouvenirCarts::with([
+            $prices = \LodgeCarts::with([
                 'souvenirPrice',
             ])->whereIn('id', $ids)->get();
 
@@ -372,7 +366,7 @@ class LodgeCartsController extends Controller
             $booking_items = SouvenirBookingsItems::insert($bookingItems);
 
             // HAPUS CARTS
-            $prices = \SouvenirCarts::with([
+            $prices = \LodgeCarts::with([
                 'souvenirPrice',
             ])->whereIn('id', $ids)->delete();
 
@@ -404,7 +398,7 @@ class LodgeCartsController extends Controller
         isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirCarts::where('id', $value)->with(['souvenirPayment'])->first();
+        $check = LodgeCarts::where('id', $value)->with(['souvenirPayment'])->first();
         if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
@@ -531,7 +525,7 @@ class LodgeCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
+            $filters = LodgeCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
                 if($value->souvenirPayment == null) {

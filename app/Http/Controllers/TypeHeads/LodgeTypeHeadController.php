@@ -54,13 +54,12 @@ class LodgeTypeHeadController extends Controller
             // 'souvenirStore.souvenirBookings',
             'badasoUsers',
             'badasoUser',
-
-            'souvenirProduct',
-            'souvenirProducts',
-            'souvenirPrice',
-            'souvenirPrices',
-            'souvenirStore',
-            'souvenirStores',
+            'lodgeRoom',
+            'lodgeRooms',
+            'lodgePrice',
+            'lodgePrices',
+            'lodgeProfile',
+            'lodgeProfiles',
         ])->whereIn('id', $payload)->get();
         return ApiResponse::onlyEntity($data);
     }
@@ -101,18 +100,20 @@ class LodgeTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
-        // store_id
-        // product_id
-        // price_id
+        // id
+        // uuid
+        // profile_id
+        // room_id
         // name
-        // get_price
-        // get_discount
-        // get_cashback
-        // get_total_amount
-        // quantity
-        // get_final_amount
+        // general_price
+        // discount_price
+        // cashback_price
+        // stock
         // description
         // code_table
+        // created_at
+        // updated_at
+        // deleted_at
 
         if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
@@ -127,17 +128,19 @@ class LodgeTypeHeadController extends Controller
 
         LodgeCarts::updateOrCreate([
                 'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
+                'profile_id' => $data->profile_id,
+                'room_id' => $data->room_id,
                 'price_id' => $data->id,
             ],
             [
                 'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
+                'profile_id' => $data->profile_id,
+                'room_id' => $data->room_id,
                 'price_id' => $data->id,
-                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
-                'code_table' => "souvenir-carts",
+                'quantity' => $quantity, // karena lama waktu nginap, jadi di replace  //!$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"),
+                'date_checkin' => request()->date_checkin,
+                'date_checkout' => request()->date_checkout,
+                'code_table' => "lodge-carts",
                 'uuid' => $carts?->uuid ?: ShortUuid(),
             ]
         );
@@ -146,11 +149,14 @@ class LodgeTypeHeadController extends Controller
     }
 
     function update_to_cart(Request $request) {
+
         // return request();
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
 
         LodgeCarts::where('id', request()->id)->update([
                 'quantity' => request()->quantity,
+                'date_checkin' => request()->dateCheckIn,
+                'date_checkout' => request()->dateCheckOut,
         ]);
 
         $data = \LodgeCarts::with([
@@ -159,12 +165,12 @@ class LodgeTypeHeadController extends Controller
             // 'souvenirStore.souvenirBookings',
             'badasoUsers',
             'badasoUser',
-
-            'souvenirProduct',
-            'souvenirProducts',
-            'souvenirPrice',
-            'souvenirPrices',
-            'souvenirStores',
+            'lodgeRoom',
+            'lodgeRooms',
+            'lodgePrice',
+            'lodgePrices',
+            'lodgeProfile',
+            'lodgeProfiles',
         ])->orderBy('id','desc');
         if(request()['showSoftDelete'] == 'true') {
             $data = $data->onlyTrashed();

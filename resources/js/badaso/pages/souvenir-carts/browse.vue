@@ -226,7 +226,7 @@
             </div>
             <div>
                 <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
-                    Pilih souvenir untuk booking (1 Invoice untuk 1 Customer)
+                    Pilih untuk booking (1 Invoice untuk 1 Customer)
                 </div>
 
               <badaso-table-cart ref="badaso_table_1"
@@ -913,14 +913,14 @@ export default {
 
             this.$vs.notify({
                 title: this.$t("alert.success"),
-                text: "Berhasil booking souvenir",
+                text: "Berhasil booking",
                 color: "success",
             });
         })
         .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: "Gagal booking souvenir",
+            text: "Gagal booking",
             color: "danger",
           });
         })
