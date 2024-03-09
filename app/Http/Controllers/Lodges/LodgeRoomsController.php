@@ -152,6 +152,7 @@ class LodgeRoomsController extends Controller
                 'capacity' => $req['capacity'] ,
                 'category' => $req['category'] ,
                 'facility' => implode(',', $req['facility'] ?: []) ,
+                'quota' => $req['quota'] ,
                 'is_available' => $req['is_available'] ,
 
                 'code_table' => ($slug) ,
@@ -224,6 +225,7 @@ class LodgeRoomsController extends Controller
                 'capacity' => $req['capacity'] ,
                 'category' => $req['category'] ,
                 'facility' => implode(',', $req['facility'] ?: []) ,
+                'quota' => $req['quota'] ,
                 'is_available' => $req['is_available'] ,
 
                 'code_table' => ($slug) ,

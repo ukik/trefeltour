@@ -1,5 +1,6 @@
 <template>
     <div>
+
           <stack-modal class="d-flex justify-content-center"
                   :show="show"
                   title=""
@@ -36,8 +37,8 @@
                       <span class="col-auto">{{ selectedData?.lodgeRoom?.name }}</span>
                   </div>
                   <div class="row">
-                      <span class="col">Kosong</span>
-                      <span class="col-auto">{{ selectedData?.lodgeRoom?.isUsed ? 'TIDAK' : 'YA' }}</span>
+                      <span class="col">Kuota</span>
+                      <span class="col-auto">{{ selectedData?.lodgeRoom?.quota }} kamar</span>
                   </div>
                   <div class="row">
                       <span class="col">Durasi</span>
@@ -58,8 +59,13 @@
 
               <div slot="modal-footer">
                   <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" />
-
                   <vs-row>
+                    <vs-col>
+                        <div class="full-width text-center pb-2">Pilih Tanggal Check-In</div>
+                        <CalenderBooked @onBubbleEvent="onUpdateEvent" />
+                    </vs-col>
+                  </vs-row>
+                  <!-- <vs-row>
                     <vs-col w="2">
                         <badaso-date
                         label="Check In"
@@ -78,9 +84,9 @@
                         alert="wajib diisi"
                     ></badaso-date>
                     </vs-col>
-                  </vs-row>
+                  </vs-row> -->
 
-                  <div class="modal-header pt-0">
+                  <div class="modal-header">
                       <!-- <div class="modal-title">
                           <Counter :stock="selectedData?.stock" @onBubbleEvent="selectedQuantity = $event" />
                       </div> -->
@@ -255,7 +261,13 @@
                             </vs-button>
                           </vs-td>
                           <vs-td>
-                              <vs-button type="relief" @click="show = true; selectedQuantity = 0; selectedCheckIn = null; selectedCheckOut = null; selectedData = record;">Pilih</vs-button>
+                              <vs-button type="relief" @click="
+                                show = true;
+                                selectedQuantity = 0;
+                                // selectedCheckIn = null;
+                                // selectedCheckOut = null;
+                                selectedData = record;
+                                ">Pilih</vs-button>
                           </vs-td>
 
                       <template
@@ -1007,6 +1019,7 @@
   import StackModal from '@innologica/vue-stackable-modal'
   import Counter from "./Counter.vue"
   import DialogUser from "./DialogUser.vue"
+  import CalenderBooked from "./CalenderBooked.vue"
 
   import axios from "axios";
 
@@ -1016,7 +1029,7 @@
   import "jspdf-autotable";
   import moment from "moment";
   export default {
-    components: { downloadExcel, StackModal, Counter, DialogUser },
+    components: { downloadExcel, StackModal, Counter, DialogUser, CalenderBooked },
     name: "CrudGeneratedBrowse",
     data: () => ({
       errors: {},
@@ -1051,7 +1064,8 @@
       selectedQuantity: 0,
       selectedCustomer: null,
       selectedCheckIn: null,
-      selectedCheckOut: null,
+    //   selectedCheckIn: null,
+    //   selectedCheckOut: null,
       description: '',
 
       lastPage: 0,
@@ -1065,16 +1079,17 @@
             this.getEntity();
           }
       },
-      selectedCheckIn(val) {
-        const calc = this.$calcDays(this.selectedCheckIn, this.selectedCheckOut)
-        if(isNaN(calc)) return this.selectedQuantity = 0
-        this.selectedQuantity = calc
-      },
-      selectedCheckOut(val) {
-        const calc = this.$calcDays(this.selectedCheckIn, this.selectedCheckOut)
-        if(isNaN(calc)) return this.selectedQuantity = 0
-        this.selectedQuantity = calc
-      },
+    //   selectedCheckIn(val) {
+    //     const calc = this.$calcDays(this.selectedCheckIn, this.selectedCheckOut)
+    //     if(isNaN(calc)) return this.selectedQuantity = 0
+    //     this.selectedQuantity = calc
+    //   },
+    //   selectedCheckOut(val) {
+    //     const calc = this.$calcDays(this.selectedCheckIn, this.selectedCheckOut)
+    //     if(isNaN(calc)) return this.selectedQuantity = 0
+    //     this.selectedQuantity = calc
+    //   },
+
       // page: function(to, from) {
       //   this.handleChangePage(to);
       // },
@@ -1092,7 +1107,12 @@
       this.loadIdsOfflineDelete();
     },
     methods: {
-      async onAddToCart() {
+        async onUpdateEvent(val) {
+            console.log('onUpdateEvent CalenderBooked', val)
+            this.selectedCheckIn = val
+            this.selectedQuantity = val?.length
+        },
+        async onAddToCart() {
           if(this.selectedData?.lodgeRoom?.isUsed === 'true') {
               this.$vs.notify({
                   title: this.$t("alert.danger"),
@@ -1125,8 +1145,8 @@
           bodyFormData.append('price_id', this.selectedData?.id);
           bodyFormData.append('customer_id', this.selectedCustomer);
           bodyFormData.append('quantity', this.selectedQuantity);
-          bodyFormData.append('date_checkin', this.selectedCheckIn);
-          bodyFormData.append('date_checkout', this.selectedCheckOut);
+          bodyFormData.append('date_checkin', JSON.stringify(this.selectedCheckIn));
+        //   bodyFormData.append('date_checkout', this.selectedCheckOut);
 
           this.$openLoader();
           await axios.post('/api/typehead/lodge/add_to_cart', bodyFormData, {

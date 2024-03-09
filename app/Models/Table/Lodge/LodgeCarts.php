@@ -44,7 +44,7 @@ class LodgeCarts extends Model
         'get_cashback',
         'get_total_amount',
         'date_checkin',
-        'date_checkout',
+        // 'date_checkout',
         'quantity',
         'get_final_amount',
         'description',

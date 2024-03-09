@@ -1,6 +1,5 @@
 <template>
   <div>
-    <RangePickerCalender />
     <CalenderBooked />
     <stack-modal class="d-flex justify-content-center"
                 :show="show"
@@ -73,7 +72,7 @@
                   </div>
                   <div class="row">
                       <span class="col">Kosong</span>
-                      <span class="col-auto">{{ selectedData?.lodgeRoom?.isUsed ? 'TIDAK' : 'YA' }}</span>
+                      <span class="col-auto">{{ selectedData?.lodgeRoom?.quota }}</span>
                   </div>
                   <div class="row">
                       <span class="col">Durasi</span>
@@ -796,7 +795,6 @@
 import Counter from "./Counter.vue"
 import CounterDate from "./counter-date.vue"
 import CalenderBooked from "./CalenderBooked.vue"
-import RangePickerCalender from "./range-picker-calendar.vue"
 
 import StackModal from '@innologica/vue-stackable-modal'
 import axios from "axios"
@@ -807,7 +805,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel, Counter, StackModal, CounterDate, CalenderBooked, RangePickerCalender },
+  components: { downloadExcel, Counter, StackModal, CounterDate, CalenderBooked },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},

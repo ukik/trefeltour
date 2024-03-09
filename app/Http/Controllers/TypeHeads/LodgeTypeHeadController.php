@@ -156,7 +156,6 @@ class LodgeTypeHeadController extends Controller
         LodgeCarts::where('id', request()->id)->update([
                 'quantity' => request()->quantity,
                 'date_checkin' => request()->dateCheckIn,
-                'date_checkout' => request()->dateCheckOut,
         ]);
 
         $data = \LodgeCarts::with([

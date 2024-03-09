@@ -98,7 +98,7 @@ export default {
                 },
                 {
                     start: null,
-                    end: today.setDate(today.getDate() + 5)
+                    end: new Date(2024, 3, 8),
                 },
             ]
         };

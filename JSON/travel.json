@@ -884,3 +884,28 @@ Clean Accomodation,Breakfast,Pet Friendly
 }
 
 Hotel,Hostel,Boutique Hotel,Resort,Cottage,Motel,Losmen,Inn,Villa,Homestay
+
+
+
+general,custom,weekend,weekday
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "General",
+            "value": "general"
+        },
+        {
+            "label": "Custom",
+            "value": "custom"
+        },
+        {
+            "label": "Weekend",
+            "value": "weekend"
+        },
+        {
+            "label": "Weekday",
+            "value": "weekday"
+        }
+    ]
+}

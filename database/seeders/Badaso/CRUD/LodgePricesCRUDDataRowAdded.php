@@ -247,6 +247,90 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                     'relation' => NULL,
                     'order' => 14,
                 ),
+                14 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'is_available',
+                    'type' => 'select',
+                    'display_name' => 'IsAvailable',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 15,
+                ),
+                15 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'calender_disabled',
+                    'type' => 'textarea',
+                    'display_name' => 'CalenderDisabled',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 16,
+                ),
+                16 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'calender_available',
+                    'type' => 'textarea',
+                    'display_name' => 'CalenderAvailable',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 17,
+                ),
+                17 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'calender_category',
+                    'type' => 'select',
+                    'display_name' => 'CalenderCategory',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "General",
+"value": "general"
+},
+{
+"label": "Custom",
+"value": "custom"
+},
+{
+"label": "Weekend",
+"value": "weekend"
+},
+{
+"label": "Weekday",
+"value": "weekday"
+}
+]
+}',
+                    'relation' => NULL,
+                    'order' => 18,
+                ),
             ));
 
             \DB::commit();
