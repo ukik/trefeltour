@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use SouvenirBookingsItems;
+use LodgeBookingsItems;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
@@ -52,22 +52,22 @@ class LodgeBookingsItemsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \SouvenirBookingsItems::with([
-                'souvenirBooking',
-                'souvenirBookings',
+            $data = \LodgeBookingsItems::with([
+                'lodgeBooking',
+                'lodgeBookings',
 
-                'souvenirProduct',
-                'souvenirProducts',
+                'lodgeRoom',
+                'lodgeRooms',
 
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                // 'souvenirStore.souvenirPrice',
-                // 'souvenirStore.souvenirPrices',
-                'souvenirStores',
+                'lodgeProfile.lodgeRoom',
+                'lodgeProfile.lodgeRooms',
+                // 'lodgeProfile.lodgePrice',
+                // 'lodgeProfile.lodgePrices',
+                'lodgeProfiles',
 
-                'souvenirBooking.souvenirPayment',
-                'souvenirBooking.souvenirPayment.souvenirPaymentsValidation',
-                'souvenirBooking.souvenirPayments',
+                'lodgeBooking.lodgePayment',
+                'lodgeBooking.lodgePayment.lodgePaymentsValidation',
+                'lodgeBooking.lodgePayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -77,6 +77,7 @@ class LodgeBookingsItemsController extends Controller
                 $data = $data->where('booking_id', request()['bookingId']);
             }
 
+            // return SqlWithBinding($data->toSql(), $data->getBindings());
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -127,22 +128,22 @@ class LodgeBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \SouvenirBookingsItems::with([
-                'souvenirBooking',
-                'souvenirBookings',
+            $data = \LodgeBookingsItems::with([
+                'lodgeBooking',
+                'lodgeBookings',
 
-                'souvenirProduct',
-                'souvenirProducts',
+                'lodgeRoom',
+                'lodgeRooms',
 
-                'souvenirStore.souvenirProduct',
-                'souvenirStore.souvenirProducts',
-                // 'souvenirStore.souvenirPrice',
-                // 'souvenirStore.souvenirPrices',
-                'souvenirStores',
+                'lodgeProfile.lodgeRoom',
+                'lodgeProfile.lodgeRooms',
+                // 'lodgeProfile.lodgePrice',
+                // 'lodgeProfile.lodgePrices',
+                'lodgeProfiles',
 
-                'souvenirBooking.souvenirPayment',
-                'souvenirBooking.souvenirPayment.souvenirPaymentsValidation',
-                'souvenirBooking.souvenirPayments',
+                'lodgeBooking.lodgePayment',
+                'lodgeBooking.lodgePayment.lodgePaymentsValidation',
+                'lodgeBooking.lodgePayments',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -160,11 +161,11 @@ class LodgeBookingsItemsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         $value = request()['data']['id'];
-        $check = \SouvenirPayments::where('booking_id', $value)->first();
-        if($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = \LodgePayments::where('booking_id', $value)->first();
+        if($check && !isAdminLodge()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -172,9 +173,9 @@ class LodgeBookingsItemsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \SouvenirBookingsItems::where('id', $request->data['id'])->first();
+            $table_entity = \LodgeBookingsItems::where('id', $request->data['id'])->first();
 
-            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
+            $temp = \LodgePrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -223,9 +224,9 @@ class LodgeBookingsItemsController extends Controller
             $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
 
-            \SouvenirBookingsItems::where('id', $request->data['id'])->update($data);
+            \LodgeBookingsItems::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \SouvenirBookingsItems::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \LodgeBookingsItems::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -252,7 +253,7 @@ class LodgeBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
 
@@ -261,7 +262,7 @@ class LodgeBookingsItemsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
+            $temp = \LodgePrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -304,7 +305,7 @@ class LodgeBookingsItemsController extends Controller
             $data['description'] = $req['description'];
             $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-            $stored_data = \SouvenirBookingsItems::insert($data);
+            $stored_data = \LodgeBookingsItems::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -329,11 +330,11 @@ class LodgeBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirBookingsItems::where('id', $value)->with(['souvenirPayment'])->first();
-        if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = LodgeBookingsItems::where('id', $value)->with(['lodgePayment'])->first();
+        if($check->lodgePayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -421,7 +422,7 @@ class LodgeBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -459,10 +460,10 @@ class LodgeBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
+            $filters = LodgeBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgePayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->souvenirPayment == null) {
+                if($value->lodgePayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

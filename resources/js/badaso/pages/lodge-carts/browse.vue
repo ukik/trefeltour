@@ -1,10 +1,10 @@
 <template>
   <div>
-    <CalenderBooked />
+    <!-- <CalenderBooked /> -->
     <stack-modal class="d-flex justify-content-center"
                 :show="show"
                 title=""
-                @close="show=false"
+                @close="show=false; selectedMulti = []; selected = []; getEntity();"
                 :modal-class="{ [modalClass]: true }"
                 :saveButton="{ visible: false }"
                 :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
@@ -20,36 +20,6 @@
                 </div>
             </slot>
             <div v-if="tipe == 'single'" class="py-4">
-                <!-- <div class="row">
-                    <span class="col">Customer</span>
-                    <span class="col-auto">{{ selectedData?.badasoUser?.name }} ({{ selectedData?.badasoUser?.username }})</span>
-                </div>
-                <div class="row">
-                    <span class="col">UUID</span>
-                    <span class="col-auto">{{ selectedData?.souvenirProduct?.uuid }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Jenis Produk</span>
-                    <span class="col-auto">{{ selectedData?.souvenirProduct?.name }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Stok</span>
-                    <span class="col-auto">{{ selectedData?.souvenirPrice?.stock }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Quantity</span>
-                    <span class="col-auto">{{ selectedData?.quantity }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Harga</span>
-                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData?.souvenirPrice)) }}</span>
-                </div>
-                <div class="row">
-                    <span class="col">Total Tagihan</span>
-                    <span class="col-auto">
-                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.souvenirPrice) * selectedData?.quantity)) }}
-                    </span>
-                </div> -->
                 <div class="row">
                     <span class="col">Customer</span>
                     <span class="col-auto">{{ selectedData?.badasoUser?.name }} ({{ selectedData?.badasoUser?.username }})</span>
@@ -71,8 +41,8 @@
                       <span class="col-auto">{{ selectedData?.lodgeRoom?.name }}</span>
                   </div>
                   <div class="row">
-                      <span class="col">Kosong</span>
-                      <span class="col-auto">{{ selectedData?.lodgeRoom?.quota }}</span>
+                      <span class="col">Stok</span>
+                      <span class="col-auto">{{ selectedData?.lodgeRoom?.quota }} kamar</span>
                   </div>
                   <div class="row">
                       <span class="col">Durasi</span>
@@ -88,6 +58,23 @@
                           {{ $rupiah(Math.round(getTotalAmount(selectedData?.lodgePrice) * selectedData?.quantity)) }}
                       </span>
                   </div>
+                  <div class="row">
+                        <div class="col">
+                            <span class="full-width text-center">Tanggal Check-In</span>
+                            <CalenderBooked @onBubbleEvent="records = $event"
+                                :selectedData="selectedData"
+                                :id="selectedData?.id"
+                                :limit="limit"
+                                :page="page"
+                                :filter="filter"
+                                :orderField="orderField"
+                                :orderDirection="orderDirection"
+                                :isShowDataRecycle="isShowDataRecycle"
+                                :perPage="perPage"
+                                :currentPage="currentPage"
+                                :date_checkin="selectedData?.dateCheckin" class="mt-2" />
+                        </div>
+                    </div>
             </div>
             <div v-if="tipe == 'multi'" class="py-4" :class="[ selectedMulti.length >= 2 ? 'pr-2' : '' ]" style="
                     min-height: 250px;
@@ -95,28 +82,40 @@
                     overflow-y: overlay;
                     overflow-x: hidden;
                 ">
-                <div class="row">
+                <!-- <div class="row">
                     <span class="col">Customer</span>
                     <span class="col-auto">{{ selectedMulti.map((item) => item?.badasoUser?.name)[0] }} ({{ selectedMulti.map((item) => item?.badasoUser?.username)[0] }})</span>
-                </div>
+                </div> -->
                 <template v-for="(item, index) in selectedMulti" >
                     <div>
                         <hr>
+                        <div class="row">
+                            <span class="col">Customer</span>
+                            <span class="col-auto">{{ item?.badasoUser?.name }} ({{ item?.badasoUser?.username }})</span>
+                        </div>
                         <div class="row">
                             <span class="col">UUID </span>
                             <span class="col-auto">{{ item?.lodgePrice?.uuid }}</span>
                         </div>
                         <div class="row">
-                            <span class="col">Jenis Produk</span>
+                            <span class="col">Nama Harga </span>
+                            <span class="col-auto">{{ item?.lodgePrice?.name }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Tempat </span>
+                            <span class="col-auto">{{ item?.lodgeProfile?.name }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Kamar</span>
                             <span class="col-auto">{{ item?.lodgeRoom?.name }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Stok</span>
-                            <span class="col-auto">{{ item?.lodgePrice?.stock }}</span>
+                            <span class="col-auto">{{ item?.lodgeRoom?.quota }} kamar</span>
                         </div>
                         <div class="row">
-                            <span class="col">Quantity</span>
-                            <span class="col-auto">{{ item?.quantity }}</span>
+                            <span class="col">Durasi</span>
+                            <span class="col-auto">{{ item?.quantity }} hari</span>
                         </div>
                         <div class="row">
                             <span class="col">Harga</span>
@@ -128,6 +127,23 @@
                                 {{ $rupiah(Math.round(getTotalAmount(item?.lodgePrice) * item?.quantity)) }}
                             </span>
                         </div>
+                        <div class="row">
+                        <div class="col">
+                            <span class="full-width text-center">Tanggal Check-In</span>
+                            <CalenderBooked @onBubbleEvent="records = $event"
+                                :selectedData="item"
+                                :id="item?.id"
+                                :limit="limit"
+                                :page="page"
+                                :filter="filter"
+                                :orderField="orderField"
+                                :orderDirection="orderDirection"
+                                :isShowDataRecycle="isShowDataRecycle"
+                                :perPage="perPage"
+                                :currentPage="currentPage"
+                                :date_checkin="item?.dateCheckin" class="mt-2" />
+                        </div>
+                    </div>
                     </div>
                 </template>
             </div>
@@ -152,8 +168,9 @@
                     </vs-button>
                 </div>
             </div>
-        </stack-modal>
+    </stack-modal>
 
+    <shared-browser-modal ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -259,13 +276,16 @@
                 <div  class="row px-3">
                     <h3 class="col align-self-center">{{ dataType.displayNameSingular }}</h3>
 
-                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">Booking Terpilih</vs-button>
+                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">
+                        <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                        Checkout Terpilih
+                    </vs-button>
                 </div>
             </div>
             <div>
-                <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
+                <!-- <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
                     Pilih untuk booking (1 Invoice untuk 1 Customer)
-                </div>
+                </div> -->
 
               <badaso-table-cart ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
@@ -288,10 +308,12 @@
                 multiple
               >
                 <template slot="thead">
+                    <vs-th></vs-th>
+                    <vs-th></vs-th>
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows" v-if="
-                        dataRow?.field != 'quantity' &&
-                        dataRow?.field != 'date_checkin' &&
+                        // dataRow?.field != 'quantity' &&
+                        dataRow?.field != 'ui_date_range' &&
                         dataRow?.field != 'date_checkout'
                         "
                     :key="index"
@@ -322,11 +344,28 @@
                         ) || !isOnline
                       "
                     >
+                        <vs-td>
+                            <vs-button @click="$refs.SharedBrowserModal.onCall({
+                              show: true,
+                              type: 'detail',
+                              selectedData: record,
+                              title: 'Detail Order',
+                              slug: $route.params?.slug })">
+                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                            </vs-button>
+                        </vs-td>
+                        <vs-td>
+                          <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">
+                              <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                              <!-- Booking Ini -->
+                              <!-- <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button> -->
+                          </vs-button>
+                        </vs-td>
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
                         v-if="
-                        dataRow?.field != 'quantity' &&
-                        dataRow?.field != 'date_checkin' &&
+                        // dataRow?.field != 'quantity' &&
+                        dataRow?.field != 'ui_date_range' &&
                         dataRow?.field != 'date_checkout'
                         "
                         :key="indexColumn"
@@ -472,7 +511,7 @@
                             displayRelationData(record, dataRow)
                           }}</span>
                             <div :class="[ dataRow.field == 'ui_date_range' ? 'row' : '']" v-else>
-                                <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button>
+                                <!-- <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button> -->
                                 <span v-if="dataRow.field == 'name'">
                                     {{ record.lodgePrice?.name }}
                                 </span>
@@ -494,9 +533,14 @@
                                 <span v-else-if="dataRow.field == 'quantity'">
                                     {{ record.quantity }} hari
                                 </span>
+                                <ol class="ml-2" style="width:100px;" v-else-if="dataRow.field == 'date_checkin'">
+                                   <li v-for="item in JSON.parse(record.dateCheckin)?.map(e => e.id)">
+                                        <span>{{ item }}</span>
+                                    </li>
+                                </ol>
+
                                 <div class="ml-2 full-width" v-else-if="dataRow.field == 'ui_date_range'">
                                     <CounterDate :record="record" :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" />
-
                                     <!-- <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.lodgePrice?.stock" /> -->
                                 </div>
                                 <span v-else>
@@ -795,6 +839,7 @@
 import Counter from "./Counter.vue"
 import CounterDate from "./counter-date.vue"
 import CalenderBooked from "./CalenderBooked.vue"
+import CalenderBookedPicker from "./CalenderBookedPicker.vue"
 
 import StackModal from '@innologica/vue-stackable-modal'
 import axios from "axios"
@@ -805,7 +850,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel, Counter, StackModal, CounterDate, CalenderBooked },
+  components: { downloadExcel, Counter, StackModal, CounterDate, CalenderBooked, CalenderBookedPicker },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},
@@ -890,7 +935,6 @@ export default {
         this.getEntity();
     },
     async onPopupBooking() {
-        this.show = true
 
         var bodyFormData = new FormData();
 
@@ -917,6 +961,9 @@ export default {
         })
         .catch((error) => {
         })
+
+        this.show = true
+
         this.$closeLoader();
 
     },
@@ -979,6 +1026,11 @@ export default {
         this.$closeLoader();
     },
     onBookingTerpilih() {
+        this.tipe = 'multi'
+
+        this.onPopupBooking()
+        return
+
         // const ids = this.selected.map((item) => item.id);
 
         const isAdmin = this.$store.getters['badaso/getUser']?.isAdmin

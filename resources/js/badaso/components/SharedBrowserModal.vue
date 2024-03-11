@@ -31,7 +31,7 @@ export default {
         return {
 
             show: false,
-            modalClass: 'modal-fullscreen d-flex align-items-start',
+            modalClass: 'modal-xl d-flex align-items-start',
             type: '', // select || detail
             selectedData: null,
             title: '',

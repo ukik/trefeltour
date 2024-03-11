@@ -150,7 +150,7 @@ class LodgeTypeHeadController extends Controller
 
     function update_to_cart(Request $request) {
 
-        // return request();
+        // return (request()->dateCheckIn);
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
 
         LodgeCarts::where('id', request()->id)->update([

@@ -1,6 +1,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 // @import 'node_modules/bootstrap-vue/src/index.scss';
 
+.modal.fade.show {
+    background: rgb(0 0 0 / 40%);
+}
+
 button.vs-select--item.activex.con-icon span {
     padding-left: 10px;
 }

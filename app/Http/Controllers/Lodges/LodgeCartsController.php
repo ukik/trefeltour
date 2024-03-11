@@ -18,9 +18,9 @@ use LodgeCarts;
 use \BadasoUsers;
 use Faker\Core\Number;
 use Google\Service\Eventarc\Transport;
-use SouvenirBookings;
-use SouvenirBookingsItems;
-use SouvenirPrices;
+use LodgeBookings;
+use LodgeBookingsItems;
+use lodgePrices;
 
 
 class LodgeCartsController extends Controller
@@ -91,10 +91,10 @@ class LodgeCartsController extends Controller
                 };
 
                 $data = $data
-                    ->orWhere('store_id','like','%'.$search.'%')
+                    ->orWhere('room_id','like','%'.$search.'%')
                     ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('souvenirPrice', $priceId)
-                    ->orWhereHas('souvenirProduct', $productId);
+                    ->orWhereHas('lodgePrice', $priceId)
+                    ->orWhereHas('lodgeRoom', $productId);
             }
 
             $data = $data->paginate(request()->perPage);
@@ -174,11 +174,11 @@ class LodgeCartsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         $value = request()['data']['id'];
-        $check = \SouvenirPayments::where('booking_id', $value)->first();
-        if($check && !isAdminSouvenir()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = \LodgePayments::where('booking_id', $value)->first();
+        if($check && !isAdminLodge()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -188,7 +188,7 @@ class LodgeCartsController extends Controller
 
             $table_entity = \LodgeCarts::where('id', $request->data['id'])->first();
 
-            $temp = \SouvenirPrices::where('id', $request->data['price_id'])->first();
+            $temp = \lodgePrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -266,7 +266,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -284,93 +284,161 @@ class LodgeCartsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $payload = json_decode(request()->payload, true);
+            $from_client = json_decode(request()->payload, true);
             $description = request()->description;
 
-            // customer_id
-            // store_id
-            // uuid
-            // description
-            // get_final_amount
-            // code_table
-
             $ids = [];
-            foreach ($payload as $key => $value) {
+            $customers = [];
+            foreach ($from_client as $key => $value) {
                 $ids[] = $value['id'];
+                $customers[] = $value['customerId'];
             }
 
-            $prices = \LodgeCarts::with([
-                'souvenirPrice',
+            // ambil ulang data dari LodgeCarts
+            $from_server_cart = \LodgeCarts::with([
+                'lodgePrice',
             ])->whereIn('id', $ids)->get();
 
-            $total = 0;
+            if(!$from_server_cart) return ApiResponse::failed("Data tidak ditemukan");
 
-            foreach ($prices as $key => $value) {
-                $total = getTotalAmount($value->souvenirPrice) * $value->quantity;
-            }
+            $forms = [];
+            foreach ($from_server_cart as $server) {
+                foreach ($from_client as $client) {
+                    if($server['customer_id'] == $client['customerId']) {
 
-            $uuid = ShortUuid();
-            $data = [
-                'customer_id' => $payload[0]['customerId'] ,
-                'store_id' => $payload[0]['storeId'] ,
+                        array_push($forms, [
+                            'customer_id' => $server['customer_id'],
+                            'profile_id' => $server['profile_id'],
+                            'id' => $server['id'],
+                            'total' => getTotalAmount($server->lodgePrice) * $server->quantity,
+                        ]);
 
-                'get_final_amount' => $total ,
+                        // array_push($total_sums, [
+                        //     'customer_id' => $pay['customerId'],
+                        //     'customer_id_sql' => $value['customer_id'],
+                        //     'id' => $value['id'],
+                        //     'total' => getTotalAmount($value->lodgePrice) * $value->quantity,
+                        // ]);
 
-                'description' => $description ,
-                'code_table' => ('souvenir-bookings') ,
-                'uuid' => $uuid,
-            ];
-
-            $validator = Validator::make($data,
-                [
-                    'customer_id' => 'required',
-                    'store_id' => 'required',
-                    // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
-                ],
-            );
-            if ($validator->fails()) {
-                $errors = json_decode($validator->errors(), True);
-                foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
+                        break;
+                    }
                 }
             }
 
-            SouvenirBookings::insert($data);
-            $booking = SouvenirBookings::where('uuid', $uuid)->first();
 
+            // UNIQUE MODE
+            // CONTOH
+            /*
+                $json='[
+                    {"ID":"126871","total":"200.00","currency":"USD","name":"John"},
+                    {"ID":"126872","total":"2000.00","currency":"Euro","name":"John"},
+                    {"ID":"126872","total":"1000.00","currency":"Euro","name":"John"},
+                    {"ID":"126872","total":"500.00","currency":"USD","name":"John"},
+                    {"ID":"126872","total":"1000.00","currency":"Euro","name":"John"}
+                ]';
 
-            // INSERT BOOKING ITEMS
-            $bookingItems = [];
-            foreach ($prices as $key => $value) {
-                $items = [
-                    // INSERT TO BOOKING ITEMS
-                    'store_id' => $value->store_id,
-                    'booking_id' => $booking->id,
-                    'product_id' => $value->product_id,
-                    'name' => $value->souvenirPrice->name,
-                    'get_price' => $value->souvenirPrice->general_price,
-                    'get_discount' => $value->souvenirPrice->discount_price,
-                    'get_cashback' => $value->souvenirPrice->cashback_price,
-                    'get_total_amount' => getTotalAmount($value->souvenirPrice),
-                    'quantity' => $value->quantity,
-                    'get_final_amount' => getTotalAmount($value->souvenirPrice) * $value->quantity,
-                    'description' => $value->souvenirPrice->description,
-                    'code_table' => 'souvenir-booking-items',
-                    'uuid' => ShortUuid(),
-                ];
+                $array=json_decode($json,true);  // convert to array
+                foreach($array as $row){
+                    if(!isset($result[$row['ID'].$row['currency']])){
+                        $result[$row['ID'].$row['currency']]=$row;  // on first occurrence, store the full row
+                    }else{
+                        $result[$row['ID'].$row['currency']]['total']+=$row['total'];  // after first occurrence, add current total to stored total
+                    }
+                }
+                $result=json_encode(array_values($result));  // reindex the array and convert to json
+                echo $result;  // display
+            */
 
-                array_push($bookingItems, $items);
+            // 1 DIMENSI
+            $array=json_decode(json_encode($forms),true);  // convert to array
+            $result = null;
+            foreach($array as $row){
+                if(!isset($result[$row['customer_id']])){
+                    $result[$row['customer_id']]=$row;  // on first occurrence, store the full row
+                }else{
+                    $result[$row['customer_id']]['total']+=$row['total'];  // after first occurrence, add current total to stored total
+                }
             }
 
-            $booking_items = SouvenirBookingsItems::insert($bookingItems);
+            // return [ $result ];
+
+            $forms = [];
+            $uuids = [];
+            foreach ($result as $res) {
+                # code...
+
+                $uuid = ShortUuid();
+                $data = [
+                    'customer_id' => $res['customer_id'] ,
+                    'profile_id' => $res['profile_id'] ,
+
+                    'get_final_amount' => $res['total'] ,
+
+                    'description' => $description ,
+                    'code_table' => ('lodge-bookings') ,
+                    'uuid' => $uuid,
+                ];
+
+                $validator = Validator::make($data,
+                    [
+                        'customer_id' => 'required',
+                        'profile_id' => 'required',
+                        // susah karena pake softDelete, pakai cara manual saja
+                        // 'ticket_id' => 'unique:travel_bookings'
+                    ],
+                );
+                if ($validator->fails()) {
+                    $errors = json_decode($validator->errors(), True);
+                    foreach ($errors as $key => $value) {
+                        return ApiResponse::failed(implode('',$value));
+                    }
+                }
+
+                $forms[] = $data;
+                array_push($uuids, $uuid);
+
+            }
+
+            LodgeBookings::insert($forms);
+
+            $bookings = LodgeBookings::whereIn('uuid', $uuids)->get();
+
+            // INSERT BOOKING ITEMS
+            $cartItems = [];
+            foreach ($from_server_cart as $value) {
+                foreach ($bookings as $booking) {
+                    if($value['customer_id'] == $booking['customer_id']) {
+
+                        # code...
+                        $items = [
+                            // INSERT TO BOOKING ITEMS
+                            'booking_id' => $booking->id,
+                            'profile_id' => $value->profile_id,
+                            'customer_id' => $value->customer_id,
+                            'room_id' => $value->room_id,
+                            'name' => $value->lodgePrice->name,
+                            'get_price' => $value->lodgePrice->general_price,
+                            'get_discount' => $value->lodgePrice->discount_price,
+                            'get_cashback' => $value->lodgePrice->cashback_price,
+                            'get_total_amount' => getTotalAmount($value->lodgePrice),
+                            'quantity' => $value->quantity,
+                            'get_final_amount' => getTotalAmount($value->lodgePrice) * $value->quantity,
+                            'description' => $value->lodgePrice->description,
+                            'code_table' => 'lodge-booking-items',
+                            'uuid' => ShortUuid(),
+                        ];
+
+                        array_push($cartItems, $items);
+                    }
+                }
+            }
+
+            $booking_items = LodgeBookingsItems::insert($cartItems);
 
             // HAPUS CARTS
-            $prices = \LodgeCarts::with([
-                'souvenirPrice',
+            \LodgeCarts::with([
+                'lodgePrice',
             ])->whereIn('id', $ids)->delete();
-
-
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -395,7 +463,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
         $check = LodgeCarts::where('id', $value)->with(['souvenirPayment'])->first();
@@ -487,7 +555,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
             $request->validate([

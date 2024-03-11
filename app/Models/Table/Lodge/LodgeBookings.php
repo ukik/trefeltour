@@ -28,14 +28,24 @@ class LodgeBookings extends Model
     }
 
 
-    public function lodgeStore()
+    public function lodgeProfile()
     {
         return $this->belongsTo(LodgeProfiles::class,'profile_id','id');
     }
 
-    public function lodgeStores()
+    public function lodgeProfiles()
     {
         return $this->belongsToMany(LodgeProfiles::class, 'lodge_bookings', 'id', 'profile_id');
+    }
+
+    public function lodgeBookingItem()
+    {
+        return $this->hasOne(LodgeBookingsItems::class, 'booking_id', 'id');
+    }
+
+    public function lodgeBookingItems()
+    {
+        return $this->hasMany(LodgeBookingsItems::class, 'booking_id', 'id');
     }
 
     public function lodgeBookingBill()

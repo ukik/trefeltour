@@ -156,17 +156,17 @@
                 :multiple="false"
               >
                 <template slot="thead">
+                    <vs-th v-if="slug"> </vs-th>
                     <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
-                  <vs-th
-                    v-for="(dataRow, index) in dataType.dataRows"
-                    :key="index"
-                    :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
-                  >
-                    <template v-if="dataRow.browse == 1">
-                      {{ dataRow.displayName }}
-                    </template>
-                  </vs-th>
-                  <vs-th v-if="slug"> </vs-th>
+                    <vs-th
+                        v-for="(dataRow, index) in dataType.dataRows"
+                        :key="index"
+                        :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
+                    >
+                        <template v-if="dataRow.browse == 1">
+                        {{ dataRow.displayName }}
+                        </template>
+                    </vs-th>
                 </template>
 
                 <template slot-scope="{ data }">
@@ -187,9 +187,16 @@
                         ) || !isOnline
                       "
                     >
-                    <vs-td class="crud-generated__button">
-                        <vs-button type="relief" @click="$emit('onBubbleEvent', data[index])">Pilih</vs-button>
-                      </vs-td>
+
+                        <vs-td v-if="slug" class="crud-generated__button">
+                            <vs-button @click="show=true; selectedData=record;">
+                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                            </vs-button>
+                        </vs-td>
+
+                        <vs-td class="crud-generated__button">
+                            <vs-button type="relief" @click="$emit('onBubbleEvent', data[index])">Pilih</vs-button>
+                        </vs-td>
 
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
@@ -358,12 +365,6 @@
                         </template>
                       </vs-td>
 
-                      <vs-td v-if="slug" class="crud-generated__button">
-                        <vs-button @click="show=true; selectedData=record;">
-                            <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                        </vs-button>
-                      </vs-td>
-
                     </template>
                   </vs-tr>
                 </template>
@@ -469,7 +470,7 @@ export default {
     isShowDataRecycle: false,
 
     show: false,
-    modalClass: 'modal-fullscreen',
+    modalClass: 'modal-xl',
     selectedData: null,
 
     lastPage: 0,

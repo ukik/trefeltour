@@ -81,6 +81,9 @@ export default {
     watch: {
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
+        },
+        type(val) {
+            this.modalClass = val == 'detail' ? 'modal-xl' : 'modal-fullscreen'
         }
     },
     async mounted() { this.$openLoader();
