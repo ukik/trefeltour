@@ -1,6 +1,6 @@
 <template>
     <div>
-        <stack-modal
+        <!-- <stack-modal
                 :show="show"
                 title=""
                 @close="show=false"
@@ -11,7 +11,7 @@
             <slot name="modal-header">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        {{  type == 'detail' ? 'Detail Booking' : 'Booking Item' }}
+                        {{  type == 'detail' ? 'Detail Booking Item' : 'Booking Item' }}
                     </h3>
                     <vs-button @click="show=false">
                         <i class="vs-icon notranslate icon-scale material-icons null">close</i>
@@ -19,13 +19,12 @@
                 </div>
             </slot>
 
-            <!-- <shared-read-user :response="{
+            <shared-read-user :response="{
                 data: selectedData
-            }" v-if="type=='detail'" slug="lodge-bookings"></shared-read-user> -->
+            }" v-if="type=='detail'" slug="souvenir-booking-items"></shared-read-user>
 
-            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="lodge-booking-items" />
             <div slot="modal-footer"></div>
-        </stack-modal>
+        </stack-modal> -->
 
         <shared-browser-modal ref="SharedBrowserModal" />
       <template v-if="!showMaintenancePage">
@@ -150,11 +149,10 @@
                     $t('crudGenerated.footer.descriptionConnector')
                   "
                   :description-body="$t('crudGenerated.footer.descriptionBody')"
-                  multiple
+                  :multiple="false"
                 >
                   <template slot="thead">
-                    <vs-th style="width: 10px;"></vs-th>
-                    <vs-th style="width: 10px;"></vs-th>
+                    <vs-th></vs-th>
                     <vs-th
                       v-for="(dataRow, index) in dataType.dataRows"
                       :key="index"
@@ -164,7 +162,7 @@
                         {{ dataRow.displayName }}
                       </template>
                     </vs-th>
-                    <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
+                    <!-- <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th> -->
                   </template>
 
                   <template slot-scope="{ data }">
@@ -178,23 +176,20 @@
                           : 'default'
                       "
                     >
+                        <!-- <vs-td>
+                          <vs-button @click=" type='detail'; selectedData = record; show=true;">
+                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                          </vs-button>
+                        </vs-td> -->
                         <vs-td>
                             <vs-button @click="$refs.SharedBrowserModal.onCall({
                               show: true,
                               type: 'detail',
                               selectedData: record,
-                              title: 'Detail Order',
+                              title: 'Detail Booking Item',
                               slug: $route.params?.slug })">
                                 <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                             </vs-button>
-                        </vs-td>
-                        <vs-td>
-                          <!-- <vs-button @click=" type='detail'; selectedData = record; show=true;">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button> -->
-                          <vs-button color="success" @click=" type='select'; selectedData = record; show=true;">
-                              <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
                         </vs-td>
 
                       <template
@@ -363,236 +358,7 @@
                             </div>
                           </template>
                         </vs-td>
-                        <vs-td class="crud-generated__button">
-                          <badaso-dropdown vs-trigger-click>
-                            <vs-button
-                              size="large"
-                              type="flat"
-                              icon="more_vert"
-                            ></vs-button>
-                            <vs-dropdown-menu>
 
-
-
-                              <badaso-dropdown-item
-                                :to="{
-                                  name: 'CrudGeneratedRead',
-                                  params: {
-                                    id: data[index].id,
-                                    slug: $route.params.slug,
-                                  },
-                                }"
-                                v-if="
-                                  isCanRead &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'read',
-                                    dataType.name
-                                  ) &&
-                                  !isShowDataRecycle
-                                "
-                                icon="visibility"
-                              >
-                                Detail
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                :to="{
-                                  name: 'CrudGeneratedEdit',
-                                  params: {
-                                    id: data[index].id,
-                                    slug: $route.params.slug,
-                                  },
-                                }"
-                                v-if="
-                                  isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  ) &&
-                                  !isShowDataRecycle
-                                "
-                                icon="edit"
-                              >
-                                Edit
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                icon="delete"
-                                @click="confirmDelete(data[index].id)"
-                                v-if="
-                                  !idsOfflineDeleteRecord.includes(
-                                    record.id.toString()
-                                  ) &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'delete',
-                                    dataType
-                                  )
-                                "
-                              >
-                                Delete
-                              </badaso-dropdown-item>
-                              <badaso-dropdown-item
-                                @click="confirmDeleteDataPending(data[index].id)"
-                                icon="delete_outline"
-                                v-if="
-                                  idsOfflineDeleteRecord.includes(
-                                    record.id.toString()
-                                  ) && !isShowDataRecycle
-                                "
-                              >
-                                {{
-                                  $t(
-                                    "offlineFeature.crudGenerator.deleteDataPending"
-                                  )
-                                }}
-                              </badaso-dropdown-item>
-
-                              <hr class="m-0 my-1">
-
-
-                              <!-- ADDITIONAL -->
-
-                              <!-- <badaso-dropdown-item
-                                :to="{
-                                  name: 'CrudGeneratedRead',
-                                  params: {
-                                    id: data[index].talentBooking?.id,
-                                    slug: 'talent-bookings',
-                                  },
-                                }"
-                                v-if="
-                                  data[index].talentBooking?.id &&
-                                  isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  ) &&
-                                  !isShowDataRecycle
-                                "
-                                icon="visibility"
-                              >
-                                Detail Booking
-                              </badaso-dropdown-item> -->
-
-
-                            <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].talentPayment?.id,
-                                  slug: 'talent-payments',
-                                },
-                              }"
-                              v-if="
-                                data[index].talentPayment?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Pembayaran
-                            </badaso-dropdown-item>
-
-                            <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].talentPayment?.talentPaymentsValidation?.id,
-                                  slug: 'talent-payments-validations',
-                                },
-                              }"
-                              v-if="
-                                data[index].talentPayment?.talentPaymentsValidation?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Pembayaran Validasi
-                            </badaso-dropdown-item>
-
-
-
-                            <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].talentSkill?.talentProfile?.id,
-                                  slug: 'talent-profiles',
-                                },
-                              }"
-                              v-if="
-                                data[index].talentSkill?.talentProfile?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Profile
-                            </badaso-dropdown-item>
-
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentSkills" :key="1+index2"
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: item2.id,
-                                  slug: 'talent-skills',
-                                },
-                              }"
-                              v-if="
-                                item2.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Skill: {{ item2.name }}
-                            </badaso-dropdown-item>
-
-
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPrices" :key="2+index2"
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: item2.id,
-                                  slug: 'talent-prices',
-                                },
-                              }"
-                              v-if="
-                                item2.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Harga: {{ item2.name }}
-                            </badaso-dropdown-item>
-
-
-                              <!-- --------------------- -->
-
-
-                            </vs-dropdown-menu>
-                          </badaso-dropdown>
-                        </vs-td>
                       </template>
                     </vs-tr>
                   </template>
@@ -689,7 +455,7 @@
       isShowDataRecycle: false,
 
         show: false,
-        modalClass: 'modal-fullscreen d-flexX align-items-center',
+        modalClass: 'modal-fullscreen d-flex align-items-center',
         type: '', // select || detail
         selectedData: null,
 

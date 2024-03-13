@@ -466,8 +466,8 @@ class LodgeCartsController extends Controller
         isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
-        $check = LodgeCarts::where('id', $value)->with(['souvenirPayment'])->first();
-        if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = LodgeCarts::where('id', $value)->with(['lodgePayment'])->first();
+        if($check->lodgePayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -593,10 +593,10 @@ class LodgeCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = LodgeCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
+            $filters = LodgeCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgePayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->souvenirPayment == null) {
+                if($value->lodgePayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -28,6 +28,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 84,
                 'name' => 'lodge_payments',
                 'slug' => 'lodge-payments',
                 'display_name_singular' => 'Lodge Payments',
@@ -41,13 +42,13 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-03T13:53:40.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:53:40.000000Z',
-                'id' => 84,
+                'updated_at' => '2024-03-12T15:35:50.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments');

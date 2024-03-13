@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportPaymentsValidations;
+use LodgePaymentsValidations;
 
 class LodgePaymentsValidationsController extends Controller
 {
@@ -49,16 +49,12 @@ class LodgePaymentsValidationsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportPaymentsValidations::with([
+            $data = \LodgePaymentsValidations::with([
                 'badasoUsers',
-                'transportPayments',
-                'transportPayment',
-                'transportPayment.transportBooking',
-                'transportPayment.transportBooking.transportDriver',
-                'transportPayment.transportBooking.transportReturn',
-                'transportPayment.transportBooking.transportVehicle',
-                'transportPayment.transportBooking.transportVehicle.transportRental',
-                'transportPayment.transportBooking.transportVehicle.transportMaintenance',
+                'lodgePayments',
+                'lodgePayment',
+                'lodgePayment.lodgeBooking',
+                'lodgePayment.lodgeBookings',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -108,16 +104,12 @@ class LodgePaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportPaymentsValidations::with([
+            $data = \LodgePaymentsValidations::with([
                 'badasoUsers',
-                'transportPayments',
-                'transportPayment',
-                'transportPayment.transportBooking',
-                'transportPayment.transportBooking.transportDriver',
-                'transportPayment.transportBooking.transportReturn',
-                'transportPayment.transportBooking.transportVehicle',
-                'transportPayment.transportBooking.transportVehicle.transportRental',
-                'transportPayment.transportBooking.transportVehicle.transportMaintenance',
+                'lodgePayments',
+                'lodgePayment',
+                'lodgePayment.lodgeBooking',
+                'lodgePayment.lodgeBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -137,12 +129,11 @@ class LodgePaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminLodge();
+
         $value = request()['data']['id'];
-        $check = TransportPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        if ($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = LodgePaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if ($check && !isAdminLodge()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -150,8 +141,8 @@ class LodgePaymentsValidationsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportPaymentsValidations::where('id', $request->data['id'])->first();
-            $temp = \TransportPayments::where('id', $request->data['payment_id'])->first();
+            $table_entity = \LodgePaymentsValidations::where('id', $request->data['id'])->first();
+            $temp = \LodgePayments::where('id', $request->data['payment_id'])->first();
 
             $req = request()['data'];
             $data = [
@@ -168,9 +159,9 @@ class LodgePaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_payments_validations')->ignore($req['id'])
-                    // ],
+                    'payment_id' => [
+                        'required', \Illuminate\Validation\Rule::unique('lodge_payments_validations')->ignore($table_entity->id)
+                    ],
                 ],
             );
             if ($validator->fails()) {
@@ -180,9 +171,9 @@ class LodgePaymentsValidationsController extends Controller
                 }
             }
 
-            \TransportPaymentsValidations::where('id', $request->data['id'])->update($data);
+            \LodgePaymentsValidations::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportPaymentsValidations::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \LodgePaymentsValidations::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -209,11 +200,11 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminLodge();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TransportPaymentsValidations::where('payment_id', $request->data['payment_id'])
+        $unique = LodgePaymentsValidations::where('payment_id', $request->data['payment_id'])
             ->where('deleted_at', NULL)->first();
         if ($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
 
@@ -224,7 +215,7 @@ class LodgePaymentsValidationsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportPayments::where('id', $request->data['payment_id'])->first();
+            $temp = \LodgePayments::where('id', $request->data['payment_id'])->first();
 
             $req = request()['data'];
             $data = [
@@ -241,7 +232,7 @@ class LodgePaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => 'unique:travel_payments_validations'
+                    'payment_id' => 'unique:lodge_payments_validations'
                 ],
             );
             if ($validator->fails()) {
@@ -251,7 +242,9 @@ class LodgePaymentsValidationsController extends Controller
                 }
             }
 
-            $stored_data = \TransportPaymentsValidations::insert($data);
+            $stored_data = \LodgePaymentsValidations::insert($data);
+
+            $temp->update(['is_selected' => 'true']);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -276,12 +269,11 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminLodge();
+
         $value = request()['data'][0]['value'];
-        $check = TransportPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = LodgePaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -368,7 +360,7 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -405,7 +397,7 @@ class LodgePaymentsValidationsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportPaymentsValidations::whereIn('id', explode(",", request()['data'][0]['value']))->where('is_valid', 'false')->get();
+            $filters = LodgePaymentsValidations::whereIn('id', explode(",", request()['data'][0]['value']))->where('is_valid', 'false')->get();
             $temp = [];
             foreach ($filters as $value) {
                 array_push($temp, $value['id']);

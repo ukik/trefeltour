@@ -52,11 +52,11 @@ class LodgeBookingsCheckPayments extends Model
 
     public function lodgeProfile()
     {
-        return $this->belongsTo(LodgeProfiles::class,'store_id','id');
+        return $this->belongsTo(LodgeProfiles::class,'profile_id','id');
     }
 
     public function lodgeProfiles()
     {
-        return $this->belongsToMany(LodgeProfiles::class, 'lodge_bookings_check_payments', 'id', 'store_id');
+        return $this->belongsToMany(LodgeProfiles::class, 'lodge_bookings_check_payments', 'id', 'profile_id');
     }
 }

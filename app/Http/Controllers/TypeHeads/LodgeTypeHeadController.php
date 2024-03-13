@@ -49,9 +49,9 @@ class LodgeTypeHeadController extends Controller
         // return request();
         $payload = json_decode(request()->payload, true);
         $data = \LodgeCarts::with([
-            // 'souvenirStore.souvenirBooking.badasoUsers',
-            // 'souvenirStore.souvenirBooking.badasoUser',
-            // 'souvenirStore.souvenirBookings',
+            // 'lodgeProfile.lodgeBooking.badasoUsers',
+            // 'lodgeProfile.lodgeBooking.badasoUser',
+            // 'lodgeProfile.lodgeBookings',
             'badasoUsers',
             'badasoUser',
             'lodgeRoom',
@@ -159,9 +159,9 @@ class LodgeTypeHeadController extends Controller
         ]);
 
         $data = \LodgeCarts::with([
-            // 'souvenirStore.souvenirBooking.badasoUsers',
-            // 'souvenirStore.souvenirBooking.badasoUser',
-            // 'souvenirStore.souvenirBookings',
+            // 'lodgeProfile.lodgeBooking.badasoUsers',
+            // 'lodgeProfile.lodgeBooking.badasoUser',
+            // 'lodgeProfile.lodgeBookings',
             'badasoUsers',
             'badasoUser',
             'lodgeRoom',
@@ -185,28 +185,28 @@ class LodgeTypeHeadController extends Controller
     }
 
 
-    function dialog_booking_souvenir_bookings() {
+    function dialog_booking_lodge_bookings() {
 
         $data = LodgeBookingsCheckPayments::where('payment_id',request()->id)->with([
             'badasoUsers',
-            'souvenirBookings',
-            'souvenirBooking',
-            'souvenirStore',
-            'souvenirStores',
+            'lodgeBookings',
+            'lodgeBooking',
+            'lodgeProfile',
+            'lodgeProfiles',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
 
-    function dialog_booking_souvenir_payments_validations() {
+    function dialog_booking_lodge_payments_validations() {
 
         $payment_id = LodgePaymentsValidations::where('id',request()->id)->value('payment_id');
         $data = LodgeBookingsCheckPayments::where('payment_id',$payment_id)->with([
             'badasoUsers',
-            'souvenirBookings',
-            'souvenirBooking',
-            'souvenirStore',
-            'souvenirStores',
+            'lodgeBookings',
+            'lodgeBooking',
+            'lodgeProfile',
+            'lodgeProfiles',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }

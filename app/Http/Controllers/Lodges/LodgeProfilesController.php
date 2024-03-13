@@ -144,7 +144,7 @@ class LodgeProfilesController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
 
@@ -233,7 +233,7 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
 
@@ -312,11 +312,11 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
-        $check = LodgeProfiles::where('id', $value)->with(['souvenirSkill','souvenirPrice'])->first();
-        if($check->souvenirSkill || $check->souvenirPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = LodgeProfiles::where('id', $value)->with(['lodgeRoom','lodgePrice'])->first();
+        if($check->lodgeRoom || $check->lodgePrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -403,7 +403,7 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -441,10 +441,10 @@ class LodgeProfilesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = LodgeProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with(['souvenirSkill','souvenirPrice'])->get();
+            $filters = LodgeProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with(['lodgeRoom','lodgePrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->souvenirSkill == null && $value->souvenirPrice == null) {
+                if($value->lodgeRoom == null && $value->lodgePrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

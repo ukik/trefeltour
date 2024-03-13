@@ -28,6 +28,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 85,
                 'name' => 'lodge_payments_validations',
                 'slug' => 'lodge-payments-validations',
                 'display_name_singular' => 'Lodge Payments Validations',
@@ -35,19 +36,19 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => NULL,
+                'controller' => 'App\\Http\\Controllers\\Lodges\\LodgePaymentsValidationsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => false,
-                'updated_at' => '2024-03-03T13:56:01.000000Z',
+                'is_soft_delete' => true,
                 'created_at' => '2024-03-03T13:56:01.000000Z',
-                'id' => 85,
+                'updated_at' => '2024-03-12T16:31:03.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments_validations');
