@@ -13,9 +13,15 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportBookings;
-use TransportVehicles;
-use TravelPayments;
+use CulinaryCarts;
+
+use \BadasoUsers;
+use Faker\Core\Number;
+use Google\Service\Eventarc\Transport;
+use CulinaryBookings;
+use CulinaryBookingsItems;
+use CulinaryPrices;
+
 
 class CulinaryCartsController extends Controller
 {
@@ -51,19 +57,49 @@ class CulinaryCartsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportVehicles::with([
-                'transportRentals',
-                'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \CulinaryCarts::with([
+                // 'culinaryStore.culinaryBooking.badasoUsers',
+                // 'culinaryStore.culinaryBooking.badasoUser',
+                // 'culinaryStore.culinaryBookings',
+                'badasoUsers',
+                'badasoUser',
+
+                'culinaryProduct',
+                'culinaryProducts',
+                'culinaryPrice',
+                'culinaryPrices',
+                'culinaryStore',
+                'culinaryStores',
             ])->orderBy('id','desc');
+
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+                $productId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+                $priceId = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('general_price','like','%'.$search.'%')
+                        ->orWhere('discount_price','like','%'.$search.'%')
+                        ->orWhere('cashback_price','like','%'.$search.'%');
+                };
+                $customerId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+
+                $data = $data
+                    ->orWhere('store_id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customerId)
+                    ->orWhereHas('culinaryPrice', $priceId)
+                    ->orWhereHas('culinaryProduct', $productId);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -114,15 +150,19 @@ class CulinaryCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportVehicles::with([
-                'transportRentals',
-                'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \CulinaryCarts::with([
+                // 'culinaryStore.culinaryBooking.badasoUsers',
+                // 'culinaryStore.culinaryBooking.badasoUser',
+                // 'culinaryStore.culinaryBookings',
+                'badasoUsers',
+                'badasoUser',
+
+                'culinaryProduct',
+                'culinaryProducts',
+                'culinaryPrice',
+                'culinaryPrices',
+                'culinaryStore',
+                'culinaryStores',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -137,10 +177,14 @@ class CulinaryCartsController extends Controller
 
     public function edit(Request $request)
     {
-
+        // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
+
+        $value = request()['data']['id'];
+        $check = \CulinaryPayments::where('booking_id', $value)->first();
+        if($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -148,26 +192,30 @@ class CulinaryCartsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportVehicles::where('id', $request->data['id'])->first();
-            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+            $table_entity = \CulinaryCarts::where('id', $request->data['id'])->first();
+
+            $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
-            $data = [
-                'rental_id' => $table_entity->rental_id,
-                'user_id' => $temp->user_id,
-                'model' => $req['model'],
-                'brand' => $req['brand'],
-                'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['discount_daily_price'],
-                'cashback_daily_price' => $req['cashback_daily_price'],
-                'category' => $req['category'],
-                'fuel_type' => $req['fuel_type'],
-                'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
-                'color' => $req['color'],
-                'code_stnk' => $req['code_stnk'],
-                'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
 
+            $data = [
+                'customer_id' => $customer_id ,
+                'profile_id' => $temp->profile_id ,
+                'skill_id' => $temp->skill_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                'days_duration' => $req['days_duration'] ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
@@ -175,17 +223,14 @@ class CulinaryCartsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'discount_daily_price' => 'max:3',
-                    // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id']
-                    'code_stnk' => 'unique:view_transport_vehicles_check_stnk,code_stnk,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'venue_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
                     // ],
                 ],
-                [
-                    'code_stnk.unique' => 'STNK sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -194,11 +239,13 @@ class CulinaryCartsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-            \TransportVehicles::where('id', $request->data['id'])->update($data);
+
+            \CulinaryCarts::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportVehicles::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \CulinaryCarts::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -225,7 +272,16 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
+
+        function getTotalAmount($value) {
+            //console.log('getTotalAmount', value)
+            return (
+                $value?->general_price -
+                ($value?->general_price * (($value?->discount_price)/100)) -
+                ($value?->cashback_price)
+            );
+        }
 
         try {
 
@@ -234,41 +290,50 @@ class CulinaryCartsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+            $payload = json_decode(request()->payload, true);
+            $description = request()->description;
 
-            $req = request()['data'];
+            // customer_id
+            // store_id
+            // uuid
+            // description
+            // get_final_amount
+            // code_table
+
+            $ids = [];
+            foreach ($payload as $key => $value) {
+                $ids[] = $value['id'];
+            }
+
+            $prices = \CulinaryCarts::with([
+                'culinaryPrice',
+            ])->whereIn('id', $ids)->get();
+
+            $total = 0;
+
+            foreach ($prices as $key => $value) {
+                $total = getTotalAmount($value->culinaryPrice) * $value->quantity;
+            }
+
+            $uuid = ShortUuid();
             $data = [
-                'user_id' => $temp->user_id,
-                'rental_id' => $req['rental_id'],
-                'model' => $req['model'],
-                'brand' => $req['brand'],
-                'daily_price' => $req['daily_price'],
-                'discount_daily_price' => $req['discount_daily_price'],
-                'cashback_daily_price' => $req['cashback_daily_price'],
-                'category' => $req['category'],
-                'fuel_type' => $req['fuel_type'],
-                'date_production' => date("Y-m-d", strtotime($req['date_production'])) ,
-                'color' => $req['color'],
-                'code_stnk' => $req['code_stnk'],
-                'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'customer_id' => $payload[0]['customerId'] ,
+                'store_id' => $payload[0]['storeId'] ,
 
-                'code_table' => ($slug) ,
-                'uuid' => ShortUuid(),
+                'get_final_amount' => $total ,
+
+                'description' => $description ,
+                'code_table' => ('culinary-bookings') ,
+                'uuid' => $uuid,
             ];
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'discount_daily_price' => 'max:3',
-                    // 'rental_id' => 'required',
-                    // 'code_stnk' => 'required',
+                    'customer_id' => 'required',
+                    'store_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'code_stnk' => 'unique:view_transport_vehicles_check_stnk'
+                    // 'ticket_id' => 'unique:travel_bookings'
                 ],
-                [
-                    'code_stnk.unique' => 'STNK sudah terdaftar'
-                ]
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
@@ -277,13 +342,45 @@ class CulinaryCartsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            CulinaryBookings::insert($data);
+            $booking = CulinaryBookings::where('uuid', $uuid)->first();
 
-            $stored_data = \TransportVehicles::insert($data);
+
+            // INSERT BOOKING ITEMS
+            $bookingItems = [];
+            foreach ($prices as $key => $value) {
+                $items = [
+                    // INSERT TO BOOKING ITEMS
+                    'store_id' => $value->store_id,
+                    'booking_id' => $booking->id,
+                    'product_id' => $value->product_id,
+                    'name' => $value->culinaryPrice->name,
+                    'get_price' => $value->culinaryPrice->general_price,
+                    'get_discount' => $value->culinaryPrice->discount_price,
+                    'get_cashback' => $value->culinaryPrice->cashback_price,
+                    'get_total_amount' => getTotalAmount($value->culinaryPrice),
+                    'quantity' => $value->quantity,
+                    'get_final_amount' => getTotalAmount($value->culinaryPrice) * $value->quantity,
+                    'description' => $value->culinaryPrice->description,
+                    'code_table' => 'culinary-booking-items',
+                    'uuid' => ShortUuid(),
+                ];
+
+                array_push($bookingItems, $items);
+            }
+
+            $booking_items = CulinaryBookingsItems::insert($bookingItems);
+
+            // HAPUS CARTS
+            $prices = \CulinaryCarts::with([
+                'culinaryPrice',
+            ])->whereIn('id', $ids)->delete();
+
+
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $stored_data])
+                ->withProperties(['attributes' => [$booking, $booking_items]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -292,7 +389,7 @@ class CulinaryCartsController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity($stored_data);
+            return ApiResponse::onlyEntity([$booking, $booking_items]);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -304,11 +401,12 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminCulinary();
+
         $value = request()['data'][0]['value'];
-        $check = TransportBookings::where('vehicle_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = CulinaryCarts::where('id', $value)->with(['culinaryPayment'])->first();
+        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -395,6 +493,8 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminCulinary();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -431,10 +531,10 @@ class CulinaryCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportVehicles::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportBooking')->get();
+            $filters = CulinaryCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportBooking == null) {
+                if($value->culinaryPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

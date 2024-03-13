@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Culinarys;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
 // use App\Http\Controllers\Controller;
@@ -14,8 +15,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportPayments;
-use TransportPaymentsValidations;
+use CulinaryPayments;
+use CulinaryPaymentsValidations;
 
 class CulinaryPaymentsController extends Controller
 {
@@ -51,21 +52,62 @@ class CulinaryPaymentsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportPayments::with([
+            $data = \CulinaryPayments::with([
                 'badasoUsers',
-                'transportBookings',
-                'transportPaymentsValidations',
-                'transportPaymentsValidation',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
+                'culinaryBookings',
+                'culinaryBooking',
+                'culinaryPaymentsValidation',
+                'culinaryPaymentsValidations',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+                // $productId = function($q) use ($search) {
+                //     return $q->where('name','like','%'.$search.'%');
+                // };
+                $booking = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                        // ->orWhere('name','like','%'.$search.'%')
+                        // ->orWhere('general_price','like','%'.$search.'%')
+                        // ->orWhere('discount_price','like','%'.$search.'%')
+                        // ->orWhere('cashback_price','like','%'.$search.'%');
+                };
+                $customerId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+
+                $columns = Schema::getColumnListing('culinary_payments');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "booking_id":
+                        case "customer_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                            break;
+                    }
+                }
+
+                $data = $data
+                    ->orWhereHas('badasoUser', $customerId)
+                    ->orWhereHas('culinaryBooking', $booking);
+                    // ->orWhereHas('culinaryProduct', $productId);
+            }
+
+            if(request()->component == 'SharedTableModalPaymentValidation') {
+                $data->where('is_selected', 'false');
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -116,17 +158,12 @@ class CulinaryPaymentsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportPayments::with([
+            $data = \CulinaryPayments::with([
                 'badasoUsers',
-                'transportBookings',
-                'transportPaymentsValidations',
-                'transportPaymentsValidation',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
+                'culinaryBookings',
+                'culinaryBooking',
+                'culinaryPaymentsValidation',
+                'culinaryPaymentsValidations',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -145,10 +182,8 @@ class CulinaryPaymentsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data']['id'];
-        $check = TransportPaymentsValidations::where('id', $value)->first();
-        if ($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = CulinaryPaymentsValidations::where('payment_id', $value)->first();
+        if ($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -156,20 +191,19 @@ class CulinaryPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
-            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+            $table_entity = \CulinaryPayments::where('id', $request->data['id'])->with('culinaryBooking')->first();
+            $temp = $table_entity->culinaryBooking;
+            // $temp = \CulinaryBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
-                'booking_id' => $temp->id,
                 'customer_id' => $temp->customer_id,
+                'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
-
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
-                'date' => date("Y-m-d", strtotime($req['date'])),
+                'date' => $req['date'],
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
                 // 'description' => $req['description'],
@@ -181,7 +215,7 @@ class CulinaryPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking,booking_id,' . $req['id']
+                    'booking_id' => 'unique:culinary_payments_unique,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
                 ],
@@ -195,9 +229,9 @@ class CulinaryPaymentsController extends Controller
 
             $data['description'] = $req['description'];
 
-            \TransportPayments::where('id', $request->data['id'])->update($data);
+            \CulinaryPayments::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportPayments::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \CulinaryPayments::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -224,11 +258,11 @@ class CulinaryPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        // UNIQUE + SoftDelete
-        // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TransportPayments::where('booking_id', $request->data['booking_id'])
-            ->where('deleted_at', NULL)->first();
-        if ($unique) return ApiResponse::failed('Booking UUID sudah dipakai');
+        // // UNIQUE + SoftDelete
+        // // cukup CREATE aja karena di edit tidak bisa di edit relationship
+        // $unique = CulinaryPayments::where('booking_id', $request->data['booking_id'])
+        //     ->where('deleted_at', NULL)->first();
+        // if ($unique) return ApiResponse::failed('Booking UUID sudah dipakai');
 
         try {
 
@@ -237,18 +271,17 @@ class CulinaryPaymentsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+            $temp = \CulinaryBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
-                'date' => date("Y-m-d", strtotime($req['date'])),
+                'date' => $req['date'],
                 'status' => $req['status'],
                 'receipt' => $req['receipt'],
                 // 'description' => $req['description'],
@@ -260,7 +293,7 @@ class CulinaryPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking'
+                    'booking_id' => 'unique:culinary_payments_unique'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments'
                 ],
@@ -274,7 +307,7 @@ class CulinaryPaymentsController extends Controller
 
             $data['description'] = $req['description'];
 
-            $stored_data = \TransportPayments::insert($data);
+            $stored_data = \CulinaryPayments::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -299,11 +332,11 @@ class CulinaryPaymentsController extends Controller
     {
         DB::beginTransaction();
 
+        isOnlyAdminCulinary();
+
         $value = request()['data'][0]['value'];
-        $check = TransportPaymentsValidations::where('payment_id', $value)->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = CulinaryPayments::where('id', $value)->with(['culinaryPaymentsValidation'])->first();
+        if($check->culinaryPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -426,10 +459,10 @@ class CulinaryPaymentsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('transportPaymentsValidation')->get();
+            $filters = CulinaryPayments::whereIn('id', explode(",", request()['data'][0]['value']))->with('culinaryPaymentsValidation')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if ($value->transportPaymentsValidation == null) {
+                if ($value->culinaryPaymentsValidation == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -48,7 +48,7 @@ class SouvenirStoresCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:14:59.000000Z',
-                'updated_at' => '2024-02-23T05:46:29.000000Z',
+                'updated_at' => '2024-03-13T13:15:58.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_stores');

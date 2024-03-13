@@ -13,9 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportRentals;
-use TransportVehicles;
-use TravelPayments;
+
+use CulinaryStores;
 
 class CulinaryStoresController extends Controller
 {
@@ -51,20 +50,21 @@ class CulinaryStoresController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportRentals::with([
+            $data = \CulinaryStores::with([
                 'badasoUsers',
-                'transportVehicles',
-                'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                'badasoUser',
+                'culinaryProduct',
+                'culinaryProducts',
+                'culinaryBooking',
+                'culinaryBookings',
+                'culinaryPrice',
+                'culinaryPrices',
             ])->orderBy('id','desc');
+
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -115,16 +115,15 @@ class CulinaryStoresController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportRentals::with([
+            $data = \CulinaryStores::with([
                 'badasoUsers',
-                'transportVehicles',
-                'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                'badasoUser',
+                'culinaryProduct',
+                'culinaryProducts',
+                'culinaryBooking',
+                'culinaryBookings',
+                'culinaryPrice',
+                'culinaryPrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -141,11 +140,11 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        // if(!isAdminTransport()) {
+        // if(!isAdminTourism()) {
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
 
         try {
 
@@ -153,10 +152,11 @@ class CulinaryStoresController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TransportRentals::where('id', $request->data['id'])->first();
+            $table_entity = \CulinaryStores::where('id', $request->data['id'])->first();
 
             $req = request()['data'];
             $data = [
+
                 'user_id' => $table_entity->user_id,
                 'name' => $req['name'],
                 'email' => $req['email'],
@@ -166,8 +166,8 @@ class CulinaryStoresController extends Controller
                 'address' => $req['address'],
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
-                'policy' => $req['policy'],
                 'country' => $req['country'],
+                'policy' => $req['description'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
 
@@ -178,6 +178,7 @@ class CulinaryStoresController extends Controller
             $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
+                    // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -193,9 +194,9 @@ class CulinaryStoresController extends Controller
 
             // $data['description'] = $req['description'];
 
-            \TransportRentals::where('id', $request->data['id'])->update($data);
+            \CulinaryStores::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportRentals::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \CulinaryStores::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -222,7 +223,7 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
 
         try {
 
@@ -233,6 +234,7 @@ class CulinaryStoresController extends Controller
 
             $req = request()['data'];
             $data = [
+
                 'user_id' => $req['user_id'],
                 'name' => $req['name'],
                 'email' => $req['email'],
@@ -242,10 +244,10 @@ class CulinaryStoresController extends Controller
                 'address' => $req['address'],
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
-                'policy' => $req['policy'],
                 'country' => $req['country'],
+                'policy' => $req['description'],
                 'description' => $req['description'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'is_available' => $req['is_available'],
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
@@ -253,10 +255,10 @@ class CulinaryStoresController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    '*' => 'required',
-                    'codepos' => 'max:6',
+                    'user_id' => 'required',
+                    // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
+                    'user_id' => 'unique:culinary_stores_unique'
                 ],
             );
             if ($validator->fails()) {
@@ -266,7 +268,7 @@ class CulinaryStoresController extends Controller
                 }
             }
 
-            $stored_data = \TransportRentals::insert($data);
+            $stored_data = \CulinaryStores::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -291,13 +293,11 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
-        $check = TransportVehicles::where('rental_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = CulinaryStores::where('id', $value)->with(['culinarySkill','culinaryPrice'])->first();
+        if($check->culinarySkill || $check->culinaryPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -384,7 +384,7 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -422,10 +422,10 @@ class CulinaryStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportRentals::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = CulinaryStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['culinarySkill','culinaryPrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->culinarySkill == null && $value->culinaryPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

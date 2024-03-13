@@ -13,9 +13,10 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TransportMaintenances;
-use TransportWorkshops;
-use TravelPayments;
+use CulinaryBookingsItems;
+
+use \BadasoUsers;
+use Google\Service\Eventarc\Transport;
 
 class CulinaryBookingsItemsController extends Controller
 {
@@ -51,21 +52,31 @@ class CulinaryBookingsItemsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \TransportWorkshops::with([
-                'badasoUsers',
-                'transportMaintenances',
-                'transportMaintenance',
-                'transportMaintenance.transportVehicle',
-                'transportMaintenance.transportVehicle.transportRental',
-                'transportMaintenance.transportVehicle.transportBooking',
-                'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment' => function($q) { return $q->select('id','booking_id','customer_id'); },
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation' => function($q) { return $q->select('id','payment_id'); },
+            $data = \CulinaryBookingsItems::with([
+                'culinaryBooking',
+                'culinaryBookings',
+
+                'culinaryProduct',
+                'culinaryProducts',
+
+                'culinaryStore.culinaryProduct',
+                'culinaryStore.culinaryProducts',
+                // 'culinaryStore.culinaryPrice',
+                // 'culinaryStore.culinaryPrices',
+                'culinaryStores',
+
+                'culinaryBooking.culinaryPayment',
+                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
+                'culinaryBooking.culinaryPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()['bookingId']) {
+                $data = $data->where('booking_id', request()['bookingId']);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -116,17 +127,22 @@ class CulinaryBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportWorkshops::with([
-                'badasoUsers',
-                'transportMaintenances',
-                'transportMaintenance',
-                'transportMaintenance.transportVehicle',
-                'transportMaintenance.transportVehicle.transportRental',
-                'transportMaintenance.transportVehicle.transportBooking',
-                'transportMaintenance.transportVehicle.transportBooking.transportDriver',
-                'transportMaintenance.transportVehicle.transportBooking.transportReturn',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment',
-                'transportMaintenance.transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+            $data = \CulinaryBookingsItems::with([
+                'culinaryBooking',
+                'culinaryBookings',
+
+                'culinaryProduct',
+                'culinaryProducts',
+
+                'culinaryStore.culinaryProduct',
+                'culinaryStore.culinaryProducts',
+                // 'culinaryStore.culinaryPrice',
+                // 'culinaryStore.culinaryPrices',
+                'culinaryStores',
+
+                'culinaryBooking.culinaryPayment',
+                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
+                'culinaryBooking.culinaryPayments',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -139,177 +155,186 @@ class CulinaryBookingsItemsController extends Controller
         }
     }
 
-    public function edit(Request $request)
-    {
-        // return $slug = $this->getSlug($request);
-        DB::beginTransaction();
+    // public function edit(Request $request)
+    // {
+    //     // return $slug = $this->getSlug($request);
+    //     DB::beginTransaction();
 
-        isOnlyAdminTransport();
+    //     isOnlyAdminCulinary();
 
-        try {
+    //     $value = request()['data']['id'];
+    //     $check = \CulinaryPayments::where('booking_id', $value)->first();
+    //     if($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
-            // get slug by route name and get data type
-            $slug = $this->getSlug($request);
-            $data_type = $this->getDataType($slug);
+    //     try {
 
-            $table_entity = \TransportWorkshops::where('id', $request->data['id'])->first();
+    //         // get slug by route name and get data type
+    //         $slug = $this->getSlug($request);
+    //         $data_type = $this->getDataType($slug);
 
-            $req = request()['data'];
-            $data = [
-                'user_id' => $req['user_id'] ,
-                'name' => $req['name'] ,
-                'email' => $req['email'] ,
-                'phone' => $req['phone'] ,
-                'location' => $req['location'] ,
-                'image' => $req['image'] ,
-                'address' => $req['address'] ,
-                'codepos' => $req['codepos'] ,
-                'city' => $req['city'] ,
-                'country' => $req['country'] ,
-                'policy' => $req['policy'] ,
-                'category' => $req['category'] ,
-                'year_exp' => $req['year_exp'] ,
-                'day_open' => $req['day_open'] ,
-                'day_close' => $req['day_close'] ,
-                'time_open' => date("h:m:i", strtotime($req['time_open'])) ,
-                'time_close' => date("h:m:i", strtotime($req['time_close'])) ,
-                'code_table' => ($slug) ,
-                'uuid' => $table_entity->uuid ?: ShortUuid(),
-            ];
+    //         $table_entity = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
 
-            $validator = Validator::make($data,
-                [
-                    'user_id' => 'required',
-                    'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user,user_id,'.$req['id']
+    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         if(!$temp) return ApiResponse::failed("Harga Kosong");
 
-                    // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
-                    // ],
-                ],
-                [
-                    'user_id.unique' => 'User sudah terdaftar'
-                ]
-            );
-            if ($validator->fails()) {
-                $errors = json_decode($validator->errors(), True);
-                foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
-                }
-            }
+    //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            \TransportWorkshops::where('id', $request->data['id'])->update($data);
-            $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \TransportWorkshops::where('id', $request->data['id'])->first();
+    //         $req = request()['data'];
+    //         // if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
 
-            DB::commit();
-            activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties([
-                    'old' => $updated['old_data'],
-                    'attributes' => $updated['updated_data'],
-                ])
-                ->log($data_type->display_name_singular.' has been updated');
+    //         $data = [
+    //             'customer_id' => $customer_id ,
+    //             'profile_id' => $temp->profile_id ,
+    //             'skill_id' => $temp->skill_id ,
+    //             'price_id' => $temp->id ,
 
-            // add event notification handle
-            $table_name = $data_type->name;
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
+    //             'get_price' => $temp->general_price ,
+    //             'get_discount' => $temp->discount_price ,
+    //             'get_cashback' => $temp->cashback_price ,
 
-            return ApiResponse::onlyEntity($updated['updated_data']);
-        } catch (Exception $e) {
-            DB::rollBack();
+    //             'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+    //             'days_duration' => $req['days_duration'] ,
 
-            return ApiResponse::failed($e);
-        }
-    }
+    //             // 'description' => $req['description'] ,
+    //             'code_table' => ($slug) ,
+    //             'uuid' => $table_entity->uuid ?: ShortUuid(),
+    //         ];
 
-    public function add(Request $request)
-    {
-        DB::beginTransaction();
+    //         $validator = Validator::make($data,
+    //             [
+    //                 '*' => 'required',
+    //                 // susah karena pake softDelete, pakai cara manual saja
+    //                 // 'venue_id' => [
+    //                 //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+    //                 // ],
+    //                 // 'customer_id' => [
+    //                 //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+    //                 // ],
+    //             ],
+    //         );
+    //         if ($validator->fails()) {
+    //             $errors = json_decode($validator->errors(), True);
+    //             foreach ($errors as $key => $value) {
+    //                 return ApiResponse::failed(implode('',$value));
+    //             }
+    //         }
 
-        isOnlyAdminTransport();
+    //         $data['description'] = $req['description'];
+    //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-        try {
 
-            // get slug by route name and get data type in table
-            $slug = $this->getSlug($request);
+    //         \CulinaryBookingsItems::where('id', $request->data['id'])->update($data);
+    //         $updated['old_data'] = $table_entity;
+    //         $updated['updated_data'] = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
 
-            $data_type = $this->getDataType($slug);
+    //         DB::commit();
+    //         activity($data_type->display_name_singular)
+    //             ->causedBy(auth()->user() ?? null)
+    //             ->withProperties([
+    //                 'old' => $updated['old_data'],
+    //                 'attributes' => $updated['updated_data'],
+    //             ])
+    //             ->log($data_type->display_name_singular.' has been updated');
 
-            $req = request()['data'];
-            $data = [
-                'user_id' => $req['user_id'] ,
-                'name' => $req['name'] ,
-                'email' => $req['email'] ,
-                'phone' => $req['phone'] ,
-                'location' => $req['location'] ,
-                'image' => $req['image'] ,
-                'address' => $req['address'] ,
-                'codepos' => $req['codepos'] ,
-                'city' => $req['city'] ,
-                'country' => $req['country'] ,
-                'policy' => $req['policy'] ,
-                'category' => $req['category'] ,
-                'year_exp' => $req['year_exp'] ,
-                'day_open' => $req['day_open'] ,
-                'day_close' => $req['day_close'] ,
-                'time_open' => date("h:m:i", strtotime($req['time_open'])) ,
-                'time_close' => date("h:m:i", strtotime($req['time_close'])) ,
-                'code_table' => ($slug) ,
-                'uuid' => ShortUuid(),
-            ];
+    //         // add event notification handle
+    //         $table_name = $data_type->name;
+    //         FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
 
-            $validator = Validator::make($data,
-                [
-                    'user_id' => 'required',
-                    'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user'
+    //         return ApiResponse::onlyEntity($updated['updated_data']);
+    //     } catch (Exception $e) {
+    //         DB::rollBack();
 
-                    // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
-                    // ],
-                ],
-                [
-                    'user_id.unique' => 'User sudah terdaftar'
-                ]
-            );
-            if ($validator->fails()) {
-                $errors = json_decode($validator->errors(), True);
-                foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
-                }
-            }
+    //         return ApiResponse::failed($e);
+    //     }
+    // }
 
-            $stored_data = \TransportWorkshops::insert($data);
+    // public function add(Request $request)
+    // {
+    //     DB::beginTransaction();
 
-            activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $stored_data])
-                ->log($data_type->display_name_singular.' has been created');
+    //     isOnlyAdminCulinary();
 
-            DB::commit();
+    //     try {
 
-            // add event notification handle
-            $table_name = $data_type->name;
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+    //         // get slug by route name and get data type in table
+    //         $slug = $this->getSlug($request);
 
-            return ApiResponse::onlyEntity($stored_data);
-        } catch (Exception $e) {
-            DB::rollBack();
+    //         $data_type = $this->getDataType($slug);
 
-            return ApiResponse::failed($e);
-        }
-    }
+    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+    //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
+
+    //         $req = request()['data'];
+    //         if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
+    //         $data = [
+    //             'customer_id' => $customer_id ,
+    //             'profile_id' => $temp->profile_id ,
+    //             'skill_id' => $temp->skill_id ,
+    //             'price_id' => $temp->id ,
+
+    //             'get_price' => $temp->general_price ,
+    //             'get_discount' => $temp->discount_price ,
+    //             'get_cashback' => $temp->cashback_price ,
+
+    //             'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+    //             'days_duration' => $req['days_duration'] ,
+
+    //             // 'description' => $req['description'] ,
+    //             'code_table' => ($slug) ,
+    //             'uuid' => ShortUuid(),
+    //         ];
+
+    //         $validator = Validator::make($data,
+    //             [
+    //                 '*' => 'required',
+    //                 // susah karena pake softDelete, pakai cara manual saja
+    //                 // 'ticket_id' => 'unique:travel_bookings'
+    //             ],
+    //         );
+    //         if ($validator->fails()) {
+    //             $errors = json_decode($validator->errors(), True);
+    //             foreach ($errors as $key => $value) {
+    //                 return ApiResponse::failed(implode('',$value));
+    //             }
+    //         }
+
+    //         $data['description'] = $req['description'];
+    //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+
+    //         $stored_data = \CulinaryBookingsItems::insert($data);
+
+    //         activity($data_type->display_name_singular)
+    //             ->causedBy(auth()->user() ?? null)
+    //             ->withProperties(['attributes' => $stored_data])
+    //             ->log($data_type->display_name_singular.' has been created');
+
+    //         DB::commit();
+
+    //         // add event notification handle
+    //         $table_name = $data_type->name;
+    //         FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
+    //         return ApiResponse::onlyEntity($stored_data);
+    //     } catch (Exception $e) {
+    //         DB::rollBack();
+
+    //         return ApiResponse::failed($e);
+    //     }
+    // }
 
     public function delete(Request $request)
     {
         DB::beginTransaction();
 
+        isOnlyAdminCulinary();
+
         $value = request()['data'][0]['value'];
-        $check = TransportMaintenances::where('workshop_id', $value)->where('is_maintenance','true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = CulinaryBookingsItems::where('id', $value)->with(['culinaryPayment'])->first();
+        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -396,7 +421,7 @@ class CulinaryBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -434,10 +459,10 @@ class CulinaryBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportWorkshops::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = CulinaryBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->culinaryPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }
