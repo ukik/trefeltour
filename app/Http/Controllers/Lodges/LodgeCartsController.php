@@ -169,6 +169,7 @@ class LodgeCartsController extends Controller
         }
     }
 
+    /*
     public function edit(Request $request)
     {
         // return $slug = $this->getSlug($request);
@@ -261,6 +262,7 @@ class LodgeCartsController extends Controller
             return ApiResponse::failed($e);
         }
     }
+    */
 
     public function add(Request $request)
     {

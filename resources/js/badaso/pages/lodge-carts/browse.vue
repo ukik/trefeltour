@@ -4,7 +4,7 @@
     <stack-modal class="d-flex justify-content-center"
                 :show="show"
                 title=""
-                @close="show=false; selectedMulti = []; selected = []; getEntity();"
+                @close="getEntity(); show=false; selectedMulti = []; selected = []; selectedData = null;"
                 :modal-class="{ [modalClass]: true }"
                 :saveButton="{ visible: false }"
                 :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
@@ -128,7 +128,7 @@
                             </span>
                         </div>
                         <div class="row">
-                        <div class="col">
+                            <div class="col">
                             <span class="full-width text-center">Tanggal Check-In</span>
                             <CalenderBooked @onBubbleEvent="records = $event"
                                 :selectedData="item"
@@ -142,8 +142,8 @@
                                 :perPage="perPage"
                                 :currentPage="currentPage"
                                 :date_checkin="item?.dateCheckin" class="mt-2" />
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </template>
             </div>

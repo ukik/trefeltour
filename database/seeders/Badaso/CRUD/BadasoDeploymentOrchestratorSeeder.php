@@ -212,5 +212,19 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(LodgeCartsCRUDDataRowAdded::class);
         $this->seed(CulinaryStoresCRUDDataTypeAdded::class);
         $this->seed(CulinaryStoresCRUDDataRowAdded::class);
+        $this->seed(CulinaryProductsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryProductsCRUDDataRowAdded::class);
+        $this->seed(CulinaryPricesCRUDDataTypeAdded::class);
+        $this->seed(CulinaryPricesCRUDDataRowAdded::class);
+        $this->seed(CulinaryCartsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryCartsCRUDDataRowAdded::class);
+        $this->seed(CulinaryBookingsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryBookingsCRUDDataRowAdded::class);
+        $this->seed(CulinaryBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryBookingItemsCRUDDataRowAdded::class);
+        $this->seed(CulinaryPaymentsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryPaymentsCRUDDataRowAdded::class);
+        $this->seed(CulinaryPaymentsValidationsCRUDDataTypeAdded::class);
+        $this->seed(CulinaryPaymentsValidationsCRUDDataRowAdded::class);
     }
 }

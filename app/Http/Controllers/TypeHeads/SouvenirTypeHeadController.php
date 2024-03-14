@@ -170,7 +170,12 @@ class SouvenirTypeHeadController extends Controller
         if(request()['showSoftDelete'] == 'true') {
             $data = $data->onlyTrashed();
         }
-        $data = $data->paginate(request()->perPage);
+
+        if(request()->popup) {
+            $data = $data->where('id', request()->id)->paginate(request()->perPage);
+        } else {
+            $data = $data->paginate(request()->perPage);
+        }
 
         // $encode = json_encode($paginate);
         // $decode = json_decode($encode);

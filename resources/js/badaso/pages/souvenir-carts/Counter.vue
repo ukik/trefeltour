@@ -38,22 +38,30 @@ export default {
         })
     },
     watch: {
-        quantity(val) {
+        set_quantity(val) {
+            if(this.mounted) this.quantity = val // update from parent
+        },
+        // quantity(val) {
 
-            if(!this.mounted) return
-            if(val >= this.stock) this.quantity = this.stock
-            if(val <= 1) this.quantity = 1
+        //     if(!this.mounted) return
+        //     if(val >= this.stock) this.quantity = this.stock
+        //     if(val <= 1) this.quantity = 1
 
-            this.$emit('onBubbleEvent', {
-                quantity: this.quantity,
-                id: this.selectedId
-            })
-        }
+        //     this.$emit('onBubbleEvent', {
+        //         quantity: this.quantity,
+        //         id: this.selectedId
+        //     })
+        // }
     },
     methods: {
         inc() {
             if(this.quantity < this.stock) {
                 this.quantity ++
+                if(this.quantity >= this.stock) this.quantity = this.stock
+                this.$emit('onBubbleEvent', {
+                    quantity: this.quantity,
+                    id: this.selectedId
+                })
             } else {
                 return
             }
@@ -61,6 +69,12 @@ export default {
         dec() {
             if(this.quantity > 1) {
                 this.quantity --
+                if(this.quantity <= 1) this.quantity = 1
+                this.$emit('onBubbleEvent', {
+                    quantity: this.quantity,
+                    id: this.selectedId
+                })
+
             } else {
                 return
             }

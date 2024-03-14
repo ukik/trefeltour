@@ -909,3 +909,58 @@ general,custom,weekend,weekday
         }
     ]
 }
+warung,cafe,resto,restaurant,others
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "warung",
+            "value": "warung"
+        },
+        {
+            "label": "cafe",
+            "value": "cafe"
+        },
+        {
+            "label": "resto",
+            "value": "resto"
+        },
+        {
+            "label": "restaurant",
+            "value": "restaurant"
+        },
+        {
+            "label": "lainnya",
+            "value": "lainnya"
+        }
+    ]
+}
+
+
+food,drink,snack,condiment,others
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "food",
+            "value": "food"
+        },
+        {
+            "label": "drink",
+            "value": "drink"
+        },
+        {
+            "label": "snack",
+            "value": "snack"
+        },
+        {
+            "label": "condiment",
+            "value": "condiment"
+        },
+        {
+            "label": "lainnya",
+            "value": "lainnya"
+        }
+    ]
+}

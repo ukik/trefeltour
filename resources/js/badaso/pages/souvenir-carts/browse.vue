@@ -4,7 +4,7 @@
     <stack-modal class="d-flex justify-content-center"
                 :show="show"
                 title=""
-                @close="show=false"
+                @close="getEntity(); show=false; selectedMulti = []; selected = []; selectedData = null; "
                 :modal-class="{ [modalClass]: true }"
                 :saveButton="{ visible: false }"
                 :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
@@ -50,6 +50,24 @@
                         {{ $rupiah(Math.round(getTotalAmount(selectedData?.souvenirPrice) * selectedData?.quantity)) }}
                     </span>
                 </div>
+                <div class="row">
+                    <div class="col">
+                    <div class="full-width text-center mt-2">Update Quantity</div>
+                    <CounterPopup @onBubbleEvent="onUpdateCounterPopupSingle"
+                        :selectedData="selectedData"
+                        :id="selectedData?.id"
+                        :limit="limit"
+                        :page="page"
+                        :filter="filter"
+                        :orderField="orderField"
+                        :orderDirection="orderDirection"
+                        :isShowDataRecycle="isShowDataRecycle"
+                        :perPage="perPage"
+                        :currentPage="currentPage"
+                        :selectedId="selectedData?.id" :set_quantity="selectedData?.quantity" :stock="selectedData?.souvenirPrice?.stock"
+                        />
+                    </div>
+                </div>
             </div>
             <div v-if="tipe == 'multi'" class="py-4" :class="[ selectedMulti.length >= 2 ? 'pr-2' : '' ]" style="
                     min-height: 250px;
@@ -57,13 +75,17 @@
                     overflow-y: overlay;
                     overflow-x: hidden;
                 ">
-                <div class="row">
+                <!-- <div class="row">
                     <span class="col">Customer</span>
                     <span class="col-auto">{{ selectedMulti.map((item) => item?.badasoUser?.name)[0] }} ({{ selectedMulti.map((item) => item?.badasoUser?.username)[0] }})</span>
-                </div>
+                </div> -->
                 <template v-for="(item, index) in selectedMulti" >
                     <div>
                         <hr>
+                        <div class="row">
+                            <span class="col">Customer </span>
+                            <span class="col-auto">{{ item?.badasoUser?.name }} ({{ item?.badasoUser?.username }})</span>
+                        </div>
                         <div class="row">
                             <span class="col">UUID </span>
                             <span class="col-auto">{{ item?.souvenirPrice?.uuid }}</span>
@@ -89,6 +111,38 @@
                             <span class="col-auto">
                                 {{ $rupiah(Math.round(getTotalAmount(item?.souvenirPrice) * item?.quantity)) }}
                             </span>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                            <div class="full-width text-center mt-2">Update Quantity</div>
+                            <CounterPopup @onBubbleEvent="onUpdateCounterPopup"
+                                :selectedData="item"
+                                :id="item?.id"
+                                :limit="limit"
+                                :page="page"
+                                :filter="filter"
+                                :orderField="orderField"
+                                :orderDirection="orderDirection"
+                                :isShowDataRecycle="isShowDataRecycle"
+                                :perPage="perPage"
+                                :currentPage="currentPage"
+                                :index="index"
+                                :selectedId="item.id" :set_quantity="item.quantity" :stock="item?.souvenirPrice?.stock"
+                                />
+
+                            <!-- <CalenderBooked @onBubbleEvent="records = $event"
+                                :selectedData="item"
+                                :id="item?.id"
+                                :limit="limit"
+                                :page="page"
+                                :filter="filter"
+                                :orderField="orderField"
+                                :orderDirection="orderDirection"
+                                :isShowDataRecycle="isShowDataRecycle"
+                                :perPage="perPage"
+                                :currentPage="currentPage"
+                                :date_checkin="item?.dateCheckin" class="mt-2" /> -->
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -225,9 +279,9 @@
                 </div>
             </div>
             <div>
-                <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
+                <!-- <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
                     Pilih untuk booking (1 Invoice untuk 1 Customer)
-                </div>
+                </div> -->
 
               <badaso-table-cart ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
@@ -743,6 +797,8 @@
 </template>
 
 <script>
+
+import CounterPopup from "./CounterPopup.vue"
 import Counter from "./Counter.vue"
 import StackModal from '@innologica/vue-stackable-modal'
 import axios from "axios"
@@ -753,7 +809,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel, Counter, StackModal },
+  components: { downloadExcel, Counter, StackModal, CounterPopup },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},
@@ -831,6 +887,17 @@ export default {
     // Swal.fire("SweetAlert2 is working!");
   },
   methods: {
+    onUpdateCounterPopup({ index, quantity}) {
+        console.log('onUpdateCounterPopup', index, quantity, this.selectedMulti)
+        let temp = JSON.parse(JSON.stringify(this.selectedMulti))
+        temp[index]['quantity'] = quantity
+        this.selectedMulti = []
+        this.selectedMulti = temp
+    },
+    onUpdateCounterPopupSingle({ index, quantity}) {
+        console.log('onUpdateCounterPopupSingle', quantity)
+        this.selectedData['quantity'] = quantity
+    },
     onSearch(val) {
         this.search = val
         this.selected = []
@@ -838,7 +905,6 @@ export default {
         this.getEntity();
     },
     async onPopupBooking() {
-        this.show = true
 
         var bodyFormData = new FormData();
 
@@ -867,6 +933,7 @@ export default {
         })
         this.$closeLoader();
 
+        this.show = true
     },
     async onInvoice() {
 
@@ -928,6 +995,10 @@ export default {
     },
     onBookingTerpilih() {
         // const ids = this.selected.map((item) => item.id);
+        this.tipe = 'multi'
+
+        this.onPopupBooking()
+        return
 
         const isAdmin = this.$store.getters['badaso/getUser']?.isAdmin
         // console.log('el.customerId', ids, this.selected.length, isAdmin)

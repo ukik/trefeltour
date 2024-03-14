@@ -28,6 +28,7 @@ class SouvenirBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 74,
                 'name' => 'souvenir_booking_items',
                 'slug' => 'souvenir-booking-items',
                 'display_name_singular' => 'Souvenir Booking Items',
@@ -41,13 +42,13 @@ class SouvenirBookingItemsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-02-22T13:31:32.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:31:32.000000Z',
-                'id' => 74,
+                'updated_at' => '2024-03-14T07:53:55.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_booking_items');
