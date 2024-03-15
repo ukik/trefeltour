@@ -255,10 +255,10 @@ class SouvenirStoresController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:souvenir_stores_unique',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:souvenir_stores_unique'
+                    // 'user_id' => 'unique:souvenir_stores_unique'
                 ],
             );
             if ($validator->fails()) {

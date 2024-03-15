@@ -291,7 +291,7 @@ class CulinaryStoresCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
-                    'type' => 'select',
+                    'type' => 'switch',
                     'display_name' => 'Is Available',
                     'required' => 0,
                     'browse' => 1,

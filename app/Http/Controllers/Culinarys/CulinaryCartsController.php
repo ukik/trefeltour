@@ -175,6 +175,7 @@ class CulinaryCartsController extends Controller
         }
     }
 
+    /*
     public function edit(Request $request)
     {
         // return $slug = $this->getSlug($request);
@@ -267,7 +268,219 @@ class CulinaryCartsController extends Controller
             return ApiResponse::failed($e);
         }
     }
+    */
 
+    public function add(Request $request)
+    {
+        DB::beginTransaction();
+
+        isOnlyAdminCulinary();
+
+        function getTotalAmount($value) {
+            //console.log('getTotalAmount', value)
+            return (
+                $value?->general_price -
+                ($value?->general_price * (($value?->discount_price)/100)) -
+                ($value?->cashback_price)
+            );
+        }
+
+        try {
+
+            // get slug by route name and get data type in table
+            $slug = $this->getSlug($request);
+
+            $data_type = $this->getDataType($slug);
+
+            $from_client = json_decode(request()->payload, true);
+            $description = request()->description;
+
+            $ids = [];
+            $customers = [];
+            foreach ($from_client as $key => $value) {
+                $ids[] = $value['id'];
+                $customers[] = $value['customerId'];
+            }
+
+            // ambil ulang data dari CulinaryCarts
+            $from_server_cart = \CulinaryCarts::with([
+                'culinaryPrice',
+            ])->whereIn('id', $ids)->get();
+
+            if(!$from_server_cart) return ApiResponse::failed("Data tidak ditemukan");
+
+            $forms = [];
+            foreach ($from_server_cart as $server) {
+                foreach ($from_client as $client) {
+                    if($server['customer_id'] == $client['customerId']) {
+
+                        array_push($forms, [
+                            'customer_id' => $server['customer_id'],
+                            'store_id' => $server['store_id'],
+                            'id' => $server['id'],
+                            'total' => getTotalAmount($server->culinaryPrice) * $server->quantity,
+                        ]);
+
+                        // array_push($total_sums, [
+                        //     'customer_id' => $pay['customerId'],
+                        //     'customer_id_sql' => $value['customer_id'],
+                        //     'id' => $value['id'],
+                        //     'total' => getTotalAmount($value->culinaryPrice) * $value->quantity,
+                        // ]);
+
+                        break;
+                    }
+                }
+            }
+
+
+            // UNIQUE MODE
+            // CONTOH
+            /*
+                $json='[
+                    {"ID":"126871","total":"200.00","currency":"USD","name":"John"},
+                    {"ID":"126872","total":"2000.00","currency":"Euro","name":"John"},
+                    {"ID":"126872","total":"1000.00","currency":"Euro","name":"John"},
+                    {"ID":"126872","total":"500.00","currency":"USD","name":"John"},
+                    {"ID":"126872","total":"1000.00","currency":"Euro","name":"John"}
+                ]';
+
+                $array=json_decode($json,true);  // convert to array
+                foreach($array as $row){
+                    if(!isset($result[$row['ID'].$row['currency']])){
+                        $result[$row['ID'].$row['currency']]=$row;  // on first occurrence, store the full row
+                    }else{
+                        $result[$row['ID'].$row['currency']]['total']+=$row['total'];  // after first occurrence, add current total to stored total
+                    }
+                }
+                $result=json_encode(array_values($result));  // reindex the array and convert to json
+                echo $result;  // display
+            */
+
+            // 1 DIMENSI
+            $array=json_decode(json_encode($forms),true);  // convert to array
+            $result = null;
+            foreach($array as $row){
+                if(!isset($result[$row['customer_id']])){
+                    $result[$row['customer_id']]=$row;  // on first occurrence, store the full row
+                }else{
+                    $result[$row['customer_id']]['total']+=$row['total'];  // after first occurrence, add current total to stored total
+                }
+            }
+
+            // return [ $result ];
+
+            $forms = [];
+            $uuids = [];
+            foreach ($result as $res) {
+                # code...
+
+                $uuid = ShortUuid();
+                $data = [
+                    'customer_id' => $res['customer_id'] ,
+                    'store_id' => $res['store_id'] ,
+
+                    'get_final_amount' => $res['total'] ,
+
+                    'description' => $description ,
+                    'code_table' => ('culinary-bookings') ,
+                    'uuid' => $uuid,
+                ];
+
+                $validator = Validator::make($data,
+                    [
+                        'customer_id' => 'required',
+                        'store_id' => 'required',
+                        // susah karena pake softDelete, pakai cara manual saja
+                        // 'ticket_id' => 'unique:travel_bookings'
+                    ],
+                );
+                if ($validator->fails()) {
+                    $errors = json_decode($validator->errors(), True);
+                    foreach ($errors as $key => $value) {
+                        return ApiResponse::failed(implode('',$value));
+                    }
+                }
+
+                $forms[] = $data;
+                array_push($uuids, $uuid);
+
+            }
+
+            CulinaryBookings::insert($forms);
+
+            $bookings = CulinaryBookings::whereIn('uuid', $uuids)->get();
+
+            // INSERT BOOKING ITEMS
+            $cartItems = [];
+            foreach ($from_server_cart as $value) {
+                foreach ($bookings as $booking) {
+                    if($value['customer_id'] == $booking['customer_id']) {
+
+                        # code...
+                        $items = [
+                            // INSERT TO BOOKING ITEMS
+                            'booking_id' => $booking->id,
+                            'store_id' => $value->store_id,
+                            'customer_id' => $value->customer_id,
+                            'product_id' => $value->product_id,
+                            'name' => $value->culinaryPrice->name,
+                            'get_price' => $value->culinaryPrice->general_price,
+                            'get_discount' => $value->culinaryPrice->discount_price,
+                            'get_cashback' => $value->culinaryPrice->cashback_price,
+                            'get_total_amount' => getTotalAmount($value->culinaryPrice),
+                            'quantity' => $value->quantity,
+                            'get_final_amount' => getTotalAmount($value->culinaryPrice) * $value->quantity,
+                            'description' => $value->culinaryPrice->description,
+                            'code_table' => 'culinary-booking-items',
+                            'uuid' => ShortUuid(),
+                        ];
+
+                        $validator = Validator::make($items,
+                            [
+                                '*' => 'required',
+                            ],
+                        );
+                        if ($validator->fails()) {
+                            $errors = json_decode($validator->errors(), True);
+                            foreach ($errors as $key => $value) {
+                                return ApiResponse::failed(implode('',$value));
+                            }
+                        }
+
+                        array_push($cartItems, $items);
+                    }
+                }
+            }
+
+            $booking_items = CulinaryBookingsItems::insert($cartItems);
+
+            // HAPUS CARTS
+            \CulinaryCarts::with([
+                'culinaryPrice',
+            ])->whereIn('id', $ids)->delete();
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [$booking, $booking_items]])
+                ->log($data_type->display_name_singular.' has been created');
+
+            DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
+            return ApiResponse::onlyEntity([$booking, $booking_items]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+
+    /*
     public function add(Request $request)
     {
         DB::beginTransaction();
@@ -396,6 +609,7 @@ class CulinaryCartsController extends Controller
             return ApiResponse::failed($e);
         }
     }
+    */
 
     public function delete(Request $request)
     {

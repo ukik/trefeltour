@@ -156,7 +156,7 @@
                             type: 'detail',
                             selectedData: record,
                             title: 'Detail Pembayaran',
-                            slug: 'souvenir-payments' })">
+                            slug: $route.params?.slug })">
                               <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                           </vs-button>
                         </vs-td>

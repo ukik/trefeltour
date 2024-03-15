@@ -161,7 +161,7 @@ class CulinaryProductsController extends Controller
                 'store_id' => $store_id,
                 'name' => $req['name'],
                 'category' => $req['category'],
-                'others' => $req['others'],
+                // 'others' => $req['others'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
                 'image' => $req['image'],
@@ -186,6 +186,8 @@ class CulinaryProductsController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
+
+            $data['others'] = $req['others'];
 
             \CulinaryProducts::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -231,7 +233,7 @@ class CulinaryProductsController extends Controller
                 'store_id' => $req['store_id'],
                 'name' => $req['name'],
                 'category' => $req['category'],
-                'others' => $req['others'],
+                // 'others' => $req['others'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
                 'image' => $req['image'],
@@ -258,6 +260,8 @@ class CulinaryProductsController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
+
+            $data['others'] = $req['others'];
 
             $stored_data = \CulinaryProducts::insert($data);
 

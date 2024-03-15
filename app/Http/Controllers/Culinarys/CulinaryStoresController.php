@@ -55,10 +55,8 @@ class CulinaryStoresController extends Controller
                 'badasoUser',
                 'culinaryProduct',
                 'culinaryProducts',
-                'culinaryBooking',
-                'culinaryBookings',
-                'culinaryPrice',
-                'culinaryPrices',
+                // 'culinaryBooking',
+                // 'culinaryBookings',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -120,10 +118,8 @@ class CulinaryStoresController extends Controller
                 'badasoUser',
                 'culinaryProduct',
                 'culinaryProducts',
-                'culinaryBooking',
-                'culinaryBookings',
-                'culinaryPrice',
-                'culinaryPrices',
+                // 'culinaryBooking',
+                // 'culinaryBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -158,6 +154,7 @@ class CulinaryStoresController extends Controller
             $data = [
 
                 'user_id' => $table_entity->user_id,
+                'category' => $req['category'],
                 'name' => $req['name'],
                 'email' => $req['email'],
                 'phone' => $req['phone'],
@@ -234,8 +231,8 @@ class CulinaryStoresController extends Controller
 
             $req = request()['data'];
             $data = [
-
                 'user_id' => $req['user_id'],
+                'category' => $req['category'],
                 'name' => $req['name'],
                 'email' => $req['email'],
                 'phone' => $req['phone'],
@@ -255,10 +252,10 @@ class CulinaryStoresController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:culinary_stores_unique',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:culinary_stores_unique'
+                    // 'user_id' => 'unique:culinary_stores_unique'
                 ],
             );
             if ($validator->fails()) {

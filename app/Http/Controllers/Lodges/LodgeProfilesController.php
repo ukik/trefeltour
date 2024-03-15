@@ -274,10 +274,10 @@ class LodgeProfilesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:lodge_profiles_unique',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:lodge_profiles_unique'
+                    // 'user_id' => 'unique:lodge_profiles_unique'
                 ],
             );
             if ($validator->fails()) {

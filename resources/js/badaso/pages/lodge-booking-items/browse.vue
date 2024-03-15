@@ -176,11 +176,6 @@
                           : 'default'
                       "
                     >
-                        <!-- <vs-td>
-                          <vs-button @click=" type='detail'; selectedData = record; show=true;">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
-                        </vs-td> -->
                         <vs-td>
                             <vs-button @click="$refs.SharedBrowserModal.onCall({
                               show: true,

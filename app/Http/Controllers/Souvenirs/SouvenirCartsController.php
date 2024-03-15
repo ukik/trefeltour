@@ -436,6 +436,19 @@ class SouvenirCartsController extends Controller
                             'uuid' => ShortUuid(),
                         ];
 
+
+                        $validator = Validator::make($items,
+                            [
+                                '*' => 'required',
+                            ],
+                        );
+                        if ($validator->fails()) {
+                            $errors = json_decode($validator->errors(), True);
+                            foreach ($errors as $key => $value) {
+                                return ApiResponse::failed(implode('',$value));
+                            }
+                        }
+
                         array_push($cartItems, $items);
                     }
                 }

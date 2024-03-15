@@ -162,9 +162,9 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_available',
-                    'type' => 'switch',
-                    'display_name' => 'Is Available',
+                    'field' => 'image',
+                    'type' => 'upload_image_multiple',
+                    'display_name' => 'Image',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -178,9 +178,9 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                 8 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'image',
-                    'type' => 'upload_image',
-                    'display_name' => 'Image',
+                    'field' => 'is_available',
+                    'type' => 'switch',
+                    'display_name' => 'Is Available',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,

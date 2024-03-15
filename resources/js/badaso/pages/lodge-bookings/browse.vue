@@ -150,11 +150,10 @@
                     $t('crudGenerated.footer.descriptionConnector')
                   "
                   :description-body="$t('crudGenerated.footer.descriptionBody')"
-                  multiple
+                  :multiple="false"
                 >
                   <template slot="thead">
-                    <vs-th style="width: 10px;"></vs-th>
-                    <vs-th style="width: 10px;"></vs-th>
+                    <vs-th></vs-th>
                     <vs-th
                       v-for="(dataRow, index) in dataType.dataRows"
                       :key="index"
@@ -179,22 +178,36 @@
                       "
                     >
                         <vs-td>
-                            <vs-button @click="$refs.SharedBrowserModal.onCall({
-                              show: true,
-                              type: 'detail',
-                              selectedData: record,
-                              title: 'Detail Order',
-                              slug: $route.params?.slug })">
+                            <!-- <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                show: true,
+                                type: 'detail',
+                                selectedData: record,
+                                title: 'Detail Booking',
+                                slug: $route.params?.slug })">
                                 <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                             </vs-button>
-                        </vs-td>
-                        <vs-td>
-                          <!-- <vs-button @click=" type='detail'; selectedData = record; show=true;">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button> -->
-                          <vs-button color="success" @click=" type='select'; selectedData = record; show=true;">
-                              <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
+
+                            <vs-button @click=" type='select'; selectedData = record; show=true;">
+                                <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                            </vs-button> -->
+                            <vs-dropdown>
+
+                                <vs-button class="btn-drop" type="filled" icon="more_vert"></vs-button>
+                                <vs-dropdown-menu>
+                                    <vs-dropdown-item @click="$refs.SharedBrowserModal.onCall({
+                                    show: true,
+                                    type: 'detail',
+                                    selectedData: record,
+                                    title: 'Detail Booking',
+                                    slug: $route.params?.slug })">
+                                    <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-dropdown-item>
+                                    <vs-dropdown-item @click=" type='select'; selectedData = record; show=true;">
+                                        <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-dropdown-item>
+                                </vs-dropdown-menu>
+                            </vs-dropdown>
+
                         </vs-td>
 
                       <template

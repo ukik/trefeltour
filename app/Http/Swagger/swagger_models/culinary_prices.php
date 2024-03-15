@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
+  *                     example={"name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
+  *                     example={"name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
   *                ),
   *             )
   *         )

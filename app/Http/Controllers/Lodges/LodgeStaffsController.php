@@ -218,7 +218,7 @@ class LodgeStaffsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user'
+                    'user_id' => 'required|unique:view_transport_drivers_check_user'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

@@ -144,6 +144,7 @@ class CulinaryBookingsController extends Controller
         }
     }
 
+    /*
     public function edit(Request $request)
     {
         // return $slug = $this->getSlug($request);
@@ -305,6 +306,7 @@ class CulinaryBookingsController extends Controller
             return ApiResponse::failed($e);
         }
     }
+    */
 
     public function delete(Request $request)
     {

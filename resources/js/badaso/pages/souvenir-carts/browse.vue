@@ -170,6 +170,7 @@
             </div>
         </stack-modal>
 
+    <shared-browser-modal ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -275,7 +276,10 @@
                 <div  class="row px-3">
                     <h3 class="col align-self-center">{{ dataType.displayNameSingular }}</h3>
 
-                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">Booking Terpilih</vs-button>
+                    <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">
+                        <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                        Booking Terpilih
+                    </vs-button>
                 </div>
             </div>
             <div>
@@ -304,6 +308,8 @@
                 multiple
               >
                 <template slot="thead">
+                    <vs-th></vs-th>
+                    <vs-th></vs-th>
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     :key="index"
@@ -334,6 +340,22 @@
                         ) || !isOnline
                       "
                     >
+                        <vs-td>
+                            <vs-button @click="$refs.SharedBrowserModal.onCall({
+                              show: true,
+                              type: 'detail',
+                              selectedData: record,
+                              title: 'Detail Order',
+                              slug: $route.params?.slug })">
+                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                            </vs-button>
+                        </vs-td>
+                        <vs-td>
+                          <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">
+                              <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                          </vs-button>
+                        </vs-td>
+
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
                         :key="indexColumn"
@@ -484,19 +506,19 @@
                                     {{ record.souvenirPrice?.name }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_price'">
-                                    {{ record.souvenirPrice?.generalPrice }}
+                                    {{ $rupiah(record.souvenirPrice?.generalPrice) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_discount'">
                                     {{ record.souvenirPrice?.discountPrice }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_cashback'">
-                                    {{ record.souvenirPrice?.cashbackPrice }}
+                                    {{ $rupiah(record.souvenirPrice?.cashbackPrice) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_total_amount'">
-                                    {{ getTotalAmount(record?.souvenirPrice) }}
+                                    {{ $rupiah(getTotalAmount(record?.souvenirPrice)) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_final_amount'">
-                                    {{ Math.round(getTotalAmount(record?.souvenirPrice) * record.quantity) }}
+                                    {{ $rupiah(Math.round(getTotalAmount(record?.souvenirPrice) * record.quantity)) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'stock'">
                                     {{ record.souvenirPrice?.stock }}

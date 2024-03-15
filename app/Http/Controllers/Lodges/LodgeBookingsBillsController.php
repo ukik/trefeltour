@@ -179,9 +179,9 @@ class LodgeBookingsBillsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:view_transport_workshops_check_user,user_id,'.$req['id'],
                     'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user,user_id,'.$req['id']
+                    // 'user_id' => 'unique:view_transport_workshops_check_user,user_id,'.$req['id']
 
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
@@ -262,9 +262,9 @@ class LodgeBookingsBillsController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:view_transport_workshops_check_user',
                     'codepos' => 'max:6',
-                    'user_id' => 'unique:view_transport_workshops_check_user'
+                    // 'user_id' => 'unique:view_transport_workshops_check_user'
 
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [

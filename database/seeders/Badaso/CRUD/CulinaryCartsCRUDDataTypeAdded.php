@@ -28,6 +28,7 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 92,
                 'name' => 'culinary_carts',
                 'slug' => 'culinary-carts',
                 'display_name_singular' => 'Culinary Carts',
@@ -35,19 +36,19 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => NULL,
+                'controller' => 'App\\Http\\Controllers\\Culinarys\\CulinaryCartsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => false,
-                'updated_at' => '2024-03-14T06:43:27.000000Z',
+                'is_soft_delete' => true,
                 'created_at' => '2024-03-14T06:43:27.000000Z',
-                'id' => 92,
+                'updated_at' => '2024-03-15T14:06:09.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_carts');

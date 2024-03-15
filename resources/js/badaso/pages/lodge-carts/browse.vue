@@ -278,7 +278,7 @@
 
                     <vs-button v-if="selected.length > 0" type="relief" @click="onBookingTerpilih">
                         <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                        Checkout Terpilih
+                        Booking Terpilih
                     </vs-button>
                 </div>
             </div>
@@ -357,8 +357,6 @@
                         <vs-td>
                           <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">
                               <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                              <!-- Booking Ini -->
-                              <!-- <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button> -->
                           </vs-button>
                         </vs-td>
                       <vs-td
