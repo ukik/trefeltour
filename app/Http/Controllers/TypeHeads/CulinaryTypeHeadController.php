@@ -201,14 +201,21 @@ class CulinaryTypeHeadController extends Controller
 
     function dialog_booking_culinary_payments_validations() {
 
-        $payment_id = CulinaryPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = CulinaryBookingsCheckPayments::where('payment_id',$payment_id)->with([
-            'badasoUsers',
-            'culinaryBookings',
-            'culinaryBooking',
-            'culinaryStore',
-            'culinaryStores',
+        // $payment_id = CulinaryPaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = CulinaryBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'culinaryBookings',
+        //     'culinaryBooking',
+        //     'culinaryStore',
+        //     'culinaryStores',
+        // ])->first();
+
+        $data = CulinaryPaymentsValidations::where('id',request()->id)->with([
+            'souvenirPayment',
+            'souvenirPayment.badasoUsers',
+            'souvenirPayment.souvenirBookings',
         ])->first();
+        $data = $data->souvenirPayment;
         return ApiResponse::onlyEntity($data);
     }
 

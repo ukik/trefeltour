@@ -1,6 +1,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 // @import 'node_modules/bootstrap-vue/src/index.scss';
 
+.badaso-unauthorize__container {
+    z-index: 99999999 !important;
+}
+
 .modal.fade.show {
     background: rgb(0 0 0 / 40%);
 }

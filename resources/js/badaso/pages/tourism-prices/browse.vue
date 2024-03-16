@@ -1,5 +1,77 @@
 <template>
   <div>
+        <stack-modal class="d-flex justify-content-center"
+                :show="show"
+                title=""
+                @close="show=false"
+                :modal-class="{ [modalClass]: true }"
+                :saveButton="{ visible: false }"
+                :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
+            >
+            <slot name="modal-header">
+                <div class="modal-header px-0">
+                    <h3 class="modal-title">
+                        Add To Cart
+                    </h3>
+                    <vs-button @click="show=false">
+                        <i class="vs-icon notranslate icon-scale material-icons null">close</i>
+                    </vs-button>
+                </div>
+            </slot>
+            <div class="py-4">
+                <div class="row">
+                    <span class="col">UUID </span>
+                    <span class="col-auto">{{ selectedData?.uuid }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Nama Harga </span>
+                    <span class="col-auto">{{ selectedData?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Toko </span>
+                    <span class="col-auto">{{ selectedData?.culinaryStore?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Jenis Produk</span>
+                    <span class="col-auto">{{ selectedData?.culinaryProduct?.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Stok</span>
+                    <span class="col-auto">{{ selectedData?.stock }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Quantity</span>
+                    <span class="col-auto">{{ selectedQuantity }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Harga</span>
+                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData)) }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Total Harga</span>
+                    <span class="col-auto">
+                        {{ $rupiah(Math.round(getTotalAmount(selectedData) * selectedQuantity)) }}
+                    </span>
+                </div>
+            </div>
+            <hr class="m-0">
+
+            <div slot="modal-footer">
+                <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" />
+                <div class="modal-header pt-0">
+                    <div class="modal-title">
+                        <Counter :stock="selectedData?.stock" @onBubbleEvent="selectedQuantity = $event" />
+                    </div>
+                    <vs-button :disabled="!selectedCustomer" @click="onAddToCart">
+                        <i class="vs-icon notranslate icon-scale material-icons null">shopping_cart</i>
+                        <span class="pl-1">Tambah</span>
+                    </vs-button>
+                </div>
+            </div>
+        </stack-modal>
+
+
+    <shared-browser-modal ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -125,6 +197,8 @@
                 multiple
               >
                 <template slot="thead">
+                    <vs-th></vs-th>
+                    <vs-th></vs-th>
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     :key="index"
@@ -148,6 +222,20 @@
                         : 'default'
                     "
                   >
+                        <vs-td>
+                          <vs-button @click="$refs.SharedBrowserModal.onCall({
+                            show: true,
+                            type: 'detail',
+                            selectedData: record,
+                            title: 'Detail Harga',
+                            slug: $route.params?.slug })">
+                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                          </vs-button>
+                        </vs-td>
+                        <vs-td>
+                            <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = null; selectedData = record;">Pilih</vs-button>
+                        </vs-td>
+
                     <template
                       v-if="
                         !idsOfflineDeleteRecord.includes(
@@ -298,11 +386,15 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                          <div v-else>
+                            <!-- <vs-button v-if="dataRow.field == 'add_cart'" type="relief" @click="show = true; selectedData = record;">Pilih</vs-button> -->
+                            <span >
+                                {{
+                                record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                                ]
+                            }}</span>
+                          </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">
@@ -502,7 +594,7 @@
                               Detail Layanan
                             </badaso-dropdown-item>
 
-                            <badaso-dropdown-item v-for="(item1, index1) in data[index].tourismVenue.tourismFacilities" :key="1+index1"
+                            <badaso-dropdown-item v-for="(item1, index1) in data[index].tourismVenue?.tourismFacilities" :key="1+index1"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -890,13 +982,19 @@
 </template>
 
 <script>
+import StackModal from '@innologica/vue-stackable-modal'
+import Counter from "./Counter.vue"
+import DialogUser from "./DialogUser.vue"
+
+import axios from "axios";
+
 import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel },
+  components: { downloadExcel, StackModal, Counter, DialogUser },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},
@@ -924,6 +1022,13 @@ export default {
     isMaintenance: false,
     showMaintenancePage: false,
     isShowDataRecycle: false,
+
+    show: false,
+    modalClass: 'none col align-self-center',
+    selectedData: null,
+    selectedQuantity: 1,
+    selectedCustomer: null,
+    description: '',
 
     lastPage: 0,
     currentPage: 1,
@@ -953,6 +1058,59 @@ export default {
     this.loadIdsOfflineDelete();
   },
   methods: {
+    async onAddToCart() {
+        if(this.selectedData?.stock <= 0) {
+            this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: "Stok habis",
+                color: "danger",
+            });
+            return
+        }
+
+        if(!this.selectedCustomer) {
+            this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: "Customer wajib diisi",
+                color: "danger",
+            });
+            return
+        }
+
+        var bodyFormData = new FormData();
+        bodyFormData.append('price_id', this.selectedData?.id);
+        bodyFormData.append('customer_id', this.selectedCustomer);
+        bodyFormData.append('quantity', this.selectedQuantity);
+
+        this.$openLoader();
+        await axios.post('/api/typehead/culinary/add_to_cart', bodyFormData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then((response) => {
+            this.show = false
+          this.$vs.notify({
+            title: this.$t("alert.success"),
+            text: "Berhasil ditambahkan ke keranjang",
+            color: "success",
+          });
+        })
+        .catch((error) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: "Gagal ditambahkan ke keranjang",
+            color: "danger",
+          });
+        })
+        this.$closeLoader();
+        // this.show = false
+    },
+    getTotalAmount(value) {
+        console.log('getTotalAmount', value)
+        const total =  (Number(value?.generalPrice) - ((Number(value?.generalPrice) * Number(value?.discountPrice)/100)) - Number(value?.cashbackPrice))
+        return total;
+    },
     onChangePage(val) {
         this.currentPage = val;
         this.getEntity();

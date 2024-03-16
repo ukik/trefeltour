@@ -200,14 +200,21 @@ class LodgeTypeHeadController extends Controller
 
     function dialog_booking_lodge_payments_validations() {
 
-        $payment_id = LodgePaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = LodgeBookingsCheckPayments::where('payment_id',$payment_id)->with([
-            'badasoUsers',
-            'lodgeBookings',
-            'lodgeBooking',
-            'lodgeProfile',
-            'lodgeProfiles',
+        // $payment_id = LodgePaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = LodgeBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'lodgeBookings',
+        //     'lodgeBooking',
+        //     'lodgeProfile',
+        //     'lodgeProfiles',
+        // ])->first();
+
+        $data = LodgePaymentsValidations::where('id',request()->id)->with([
+            'souvenirPayment',
+            'souvenirPayment.badasoUsers',
+            'souvenirPayment.souvenirBookings',
         ])->first();
+        $data = $data->souvenirPayment;
         return ApiResponse::onlyEntity($data);
     }
 

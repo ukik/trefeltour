@@ -79,12 +79,13 @@ export default {
         }
     },
     watch: {
+        type(val) {
+            if(val == 'detail') return this.modalClass = 'modal-xl'
+            this.modalClass = 'modal-fullscreen'
+        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         },
-        type(val) {
-            this.modalClass = val == 'detail' ? 'modal-xl' : 'modal-fullscreen'
-        }
     },
     async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)

@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"priceId":"", "description":"Abc", "daysDuration":"123"},
+  *                     example={"description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"priceId":"", "description":"Abc", "daysDuration":"123"},
+  *                     example={"description":"Abc"},
   *                ),
   *             )
   *         )

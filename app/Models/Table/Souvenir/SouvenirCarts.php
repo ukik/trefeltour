@@ -13,24 +13,6 @@ class SouvenirCarts extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // customer_id
-    // store_id
-    // product_id
-    // price_id
-    // name
-    // get_price
-    // get_discount
-    // get_cashback
-    // get_total_amount
-    // quantity
-    // get_final_amount
-    // description
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-
     protected $table = "souvenir_carts";
 
     public $fillable = [
@@ -38,13 +20,13 @@ class SouvenirCarts extends Model
         'store_id',
         'product_id',
         'price_id',
-        'name',
-        'get_price',
-        'get_discount',
-        'get_cashback',
-        'get_total_amount',
+        // 'name',
+        // 'get_price',
+        // 'get_discount',
+        // 'get_cashback',
+        // 'get_total_amount',
         'quantity',
-        'get_final_amount',
+        // 'get_final_amount',
         'description',
         'code_table',
     ];

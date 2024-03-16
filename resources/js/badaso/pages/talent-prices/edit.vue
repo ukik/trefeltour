@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogSkill @onBubbleEvent="updateTypeHead($event)" />
+              <DialogProduct @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import DialogSkill from './DialogSkill.vue'
+import DialogProduct from './DialogProduct.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogSkill
+    DialogProduct
   },
   name: "CrudGeneratedEdit",
   data: () => ({

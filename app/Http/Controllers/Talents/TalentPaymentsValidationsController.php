@@ -234,7 +234,7 @@ class TalentPaymentsValidationsController extends Controller
                 'validator_id' => userId(),
                 'payment_id' => $temp->id,
 
-                'is_valid' => $req['is_valid'] ? 'true' : 'false',
+                'is_valid' => $req['is_valid'] === 'true' ? 'true' : 'false',
                 'code_table' => ($slug),
                 'uuid' => ShortUuid(),
             ];

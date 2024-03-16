@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
+              <DialogProduct @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import DialogVenue from './DialogVenue.vue'
+import DialogProduct from './DialogProduct.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue
+    DialogProduct
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -530,7 +530,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'product_id') {
                 el.value = value ? value?.id : '';
             }
         });

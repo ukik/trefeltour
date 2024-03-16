@@ -246,8 +246,8 @@ class TravelBookingsController extends Controller
                 'get_cashback' => $temp->ticket_cashback_price ,
                 'get_total_amount' => round((($temp->ticket_price) - ((($temp->ticket_price) * ($temp->ticket_discount_price)/100)) - ($temp->ticket_cashback_price)), 2) ,
                 // 'description' => $req['description'] ,
-                // 'is_agreed' => (!isAdmin()) ?  'false' : ($req['is_agreed'] ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
-                // 'is_cancelled' => (!isAdmin()) ?  'false' : ($req['is_cancelled'] ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
+                // 'is_agreed' => (!isAdmin()) ?  'false' : ($req['is_agreed'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
+                // 'is_cancelled' => (!isAdmin()) ?  'false' : ($req['is_cancelled'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];

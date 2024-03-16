@@ -230,7 +230,7 @@ class TransportReturnsController extends Controller
                 'date_return' => date("Y-m-d", strtotime($req['date_return'])) ,
                 'time_return' => date("h:m:i", strtotime($req['time_return'])) ,
                 'officer' => $req['officer'] ,
-                'is_wrecked' => $req['is_wrecked'] ? 'true' : 'false',
+                'is_wrecked' => $req['is_wrecked'] === 'true' ? 'true' : 'false',
                 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),

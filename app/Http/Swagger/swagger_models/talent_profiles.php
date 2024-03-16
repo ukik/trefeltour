@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,12 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "userId":"", "uuid":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "userId":"", "uuid":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "image":"Abc", "portofolio":"Abc", "policy":"Abc", "description":"Abc", "website":"Abc", "instagram":"Abc", "tiktok":"Abc", "youtube":"Abc", "facebook":"Abc", "twitter":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="string", property="userId"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="userId"), 
+  *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="string", property="image"), 
   *                         @OA\Property(type="string", property="portofolio"), 
   *                         @OA\Property(type="string", property="policy"), 

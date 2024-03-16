@@ -237,8 +237,8 @@ class TravelReservationsController extends Controller
                 'max_budget' => $req['max_budget'] ,
                 'starting_location' => $req['starting_location'] ,
                 'arrival_location' => $req['arrival_location'] ,
-                // 'is_reserved' => (!isAdmin()) ?  'false' : ($req['is_reserved'] ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
-                // 'is_cancel' => (!isAdmin()) ?  'false' : ($req['is_cancel'] ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
+                // 'is_reserved' => (!isAdmin()) ?  'false' : ($req['is_reserved'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
+                // 'is_cancel' => (!isAdmin()) ?  'false' : ($req['is_cancel'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];

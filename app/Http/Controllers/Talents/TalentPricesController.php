@@ -14,6 +14,7 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use TalentPrices;
+use TalentSkills;
 
 class TalentPricesController extends Controller
 {
@@ -50,12 +51,12 @@ class TalentPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TalentPrices::with([
-                'badasoUser',
-                'badasoUsers',
                 'talentSkills',
-                'talentSkill',
-                'talentProfile',
                 'talentProfiles',
+                'talentProfile.badasoUsers',
+                'talentProfile.badasoUser',
+                'talentSkill',
+                'talentSkills',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -111,12 +112,12 @@ class TalentPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentPrices::with([
-                'badasoUser',
-                'badasoUsers',
                 'talentSkills',
-                'talentSkill',
-                'talentProfile',
                 'talentProfiles',
+                'talentProfile.badasoUsers',
+                'talentProfile.badasoUser',
+                'talentSkill',
+                'talentSkills',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -144,17 +145,16 @@ class TalentPricesController extends Controller
 
             $table_entity = \TalentPrices::where('id', $request->data['id'])->first();
 
-            $temp = \TalentSkills::where('id', $request['data']['skill_id'])->first();
-
             $req = request()['data'];
             $data = [
-                'profile_id' => $temp->profile_id,
-                'skill_id' => $temp->id,
 
+                'store_id' => $table_entity->store_id,
+                'product_id' => $table_entity->product_id,
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
+                'stock' => $req['stock'],
                 'description' => $req['description'],
 
                 'code_table' => ($slug),
@@ -163,7 +163,8 @@ class TalentPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'skill_id' => 'required',
+                    'store_id' => 'required',
+                    'product_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -216,17 +217,18 @@ class TalentPricesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TalentSkills::where('id', $request['data']['skill_id'])->first();
-
             $req = request()['data'];
-            $data = [
-                'profile_id' => $temp->profile_id,
-                'skill_id' => $temp->skill_id,
+            $store_id = TalentSkills::where('id', $req['product_id'])->value('store_id');
 
+            $data = [
+
+                'store_id' => $store_id,
+                'product_id' => $req['product_id'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
+                'stock' => $req['stock'],
                 'description' => $req['description'],
 
                 'code_table' => ($slug),
@@ -235,7 +237,8 @@ class TalentPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'skill_id' => 'required',
+                    'store_id' => 'required',
+                    'product_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

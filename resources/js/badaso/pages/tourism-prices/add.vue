@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <DialogVenue @onBubbleEvent="updateTypeHead($event)" />
+              <DialogProduct @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -422,12 +422,12 @@
 </template>
 
 <script>
-import DialogVenue from './DialogVenue.vue'
+import DialogProduct from './DialogProduct.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogVenue
+    DialogProduct
   },
   data: () => ({
     isValid: true,
@@ -493,7 +493,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'venue_id') {
+            if(el.field == 'product_id') {
                 el.value = value ? value?.id : '';
             }
         });

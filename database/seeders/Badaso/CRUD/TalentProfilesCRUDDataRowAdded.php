@@ -42,22 +42,6 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
-                    'type' => 'relation',
-                    'display_name' => 'Pilih Akun',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
                     'display_name' => 'UUID',
@@ -69,9 +53,41 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
+                    'order' => 2,
+                ),
+                2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'user_id',
+                    'type' => 'relation',
+                    'display_name' => 'Pilih Akun',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
                     'order' => 3,
                 ),
                 3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'name',
+                    'type' => 'text',
+                    'display_name' => 'Name',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 4,
+                ),
+                4 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
@@ -85,9 +101,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 4,
+                    'order' => 5,
                 ),
-                4 => 
+                5 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'portofolio',
@@ -101,9 +117,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 5,
+                    'order' => 6,
                 ),
-                5 => 
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'policy',
@@ -117,9 +133,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 6,
+                    'order' => 7,
                 ),
-                6 => 
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'description',
@@ -133,9 +149,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 8,
                 ),
-                7 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'website',
@@ -149,9 +165,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'instagram',
@@ -165,9 +181,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'tiktok',
@@ -181,9 +197,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
-                10 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'youtube',
@@ -197,9 +213,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 12,
                 ),
-                11 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'facebook',
@@ -213,9 +229,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 13,
                 ),
-                12 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'twitter',
@@ -229,9 +245,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 14,
                 ),
-                13 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
@@ -245,9 +261,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 15,
                 ),
-                14 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -261,9 +277,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -277,9 +293,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -293,9 +309,9 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
-                17 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -309,7 +325,7 @@ class TalentProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 18,
+                    'order' => 19,
                 ),
             ));
 

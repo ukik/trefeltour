@@ -226,5 +226,7 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(CulinaryPaymentsCRUDDataRowAdded::class);
         $this->seed(CulinaryPaymentsValidationsCRUDDataTypeAdded::class);
         $this->seed(CulinaryPaymentsValidationsCRUDDataRowAdded::class);
+        $this->seed(TalentCartsCRUDDataTypeAdded::class);
+        $this->seed(TalentCartsCRUDDataRowAdded::class);
     }
 }

@@ -44,11 +44,24 @@
                     <span class="col-auto">{{ selectedQuantity }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Harga</span>
-                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData)) }}</span>
+                    <span class="col">Harga Regular</span>
+                    <span class="col-auto">{{ $rupiah(selectedData?.generalPrice) }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Total Harga</span>
+                    <span class="col">Discount</span>
+                    <span class="col-auto">{{ $rupiah(selectedData?.discountPrice) }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Cashback</span>
+                    <span class="col-auto">{{ $rupiah(selectedData?.cashbackPrice) }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Harga Per Unit</span>
+                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData)) }}</span>
+                </div>
+                <hr>
+                <div class="row">
+                    <span class="col">Harga Per Unit x Quantity</span>
                     <span class="col-auto">
                         {{ $rupiah(Math.round(getTotalAmount(selectedData) * selectedQuantity)) }}
                     </span>

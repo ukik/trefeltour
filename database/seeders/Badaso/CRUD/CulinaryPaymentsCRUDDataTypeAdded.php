@@ -28,6 +28,7 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 95,
                 'name' => 'culinary_payments',
                 'slug' => 'culinary-payments',
                 'display_name_singular' => 'Culinary Payments',
@@ -41,13 +42,13 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-14T08:11:33.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T08:11:33.000000Z',
-                'id' => 95,
+                'updated_at' => '2024-03-16T07:21:46.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_payments');

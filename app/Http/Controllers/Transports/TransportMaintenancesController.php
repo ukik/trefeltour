@@ -242,7 +242,7 @@ class TransportMaintenancesController extends Controller
                 'maintenance_date' => date("Y-m-d", strtotime($req['maintenance_date'])),
                 'fee' => $req['fee'],
                 'description' => $req['description'],
-                'is_maintenance' => $req['is_maintenance'] ? 'true' : 'false',
+                'is_maintenance' => $req['is_maintenance'] === 'true' ? 'true' : 'false',
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];

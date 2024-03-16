@@ -201,14 +201,21 @@ class SouvenirTypeHeadController extends Controller
 
     function dialog_booking_souvenir_payments_validations() {
 
-        $payment_id = SouvenirPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = SouvenirBookingsCheckPayments::where('payment_id',$payment_id)->with([
-            'badasoUsers',
-            'souvenirBookings',
-            'souvenirBooking',
-            'souvenirStore',
-            'souvenirStores',
+        // $payment_id = SouvenirPaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = SouvenirBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'souvenirBookings',
+        //     'souvenirBooking',
+        //     'souvenirStore',
+        //     'souvenirStores',
+        // ])->first();
+
+        $data = SouvenirPaymentsValidations::where('id',request()->id)->with([
+            'souvenirPayment',
+            'souvenirPayment.badasoUsers',
+            'souvenirPayment.souvenirBookings',
         ])->first();
+        $data = $data->souvenirPayment;
         return ApiResponse::onlyEntity($data);
     }
 

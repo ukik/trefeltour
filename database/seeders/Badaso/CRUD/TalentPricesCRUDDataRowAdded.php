@@ -68,7 +68,7 @@ class TalentPricesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_profiles","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 3,
                 ),
                 3 => 
@@ -84,7 +84,7 @@ class TalentPricesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_skills","destination_table_column":"id","destination_table_display_column":"name"}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_skills","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 4,
                 ),
                 4 => 

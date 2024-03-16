@@ -172,22 +172,9 @@
                         <span v-else-if="dataRow.type == 'relation'">{{
                           displayRelationData(record, dataRow)
                         }}</span>
-                              <div v-else>
-                                  <!-- {{ record }} -->
-                                  <span v-if="dataRow.field == 'skill_id'">
-                                      {{ record?.talentSkill?.name }}
-                                  </span>
-                                  <div v-else-if="dataRow.field == 'profile_id'">
-                                        <span v-html="record?.userColumn"></span>
-                                  </div>
-                                  <span v-else>
-                                      {{
-                                          record[
-                                          $caseConvert.stringSnakeToCamel(dataRow.field)
-                                          ]
-                                      }}
-                                  </span>
-                              </div>
+                        <span v-else>{{
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }}</span>
                       </td>
                     </tr>
                   </table>

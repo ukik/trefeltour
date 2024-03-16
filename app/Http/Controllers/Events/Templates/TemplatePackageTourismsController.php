@@ -245,7 +245,7 @@ class TemplatePackageTourismsController extends Controller
                 'policy' => $req['policy'],
                 'country' => $req['country'],
                 'description' => $req['description'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'is_available' => $req['is_available'] === 'true' ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),

@@ -187,7 +187,19 @@ class CulinaryPaymentsCRUDDataRowAdded extends Seeder
                     'edit' => 1,
                     'add' => 1,
                     'delete' => 1,
-                    'details' => '{}',
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "Pending",
+"value": "pending"
+},
+{
+"label": "Sukses",
+"value": "success"
+}
+]
+}',
                     'relation' => NULL,
                     'order' => 9,
                 ),

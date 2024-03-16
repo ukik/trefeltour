@@ -48,7 +48,7 @@ class TalentPricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-17T15:09:13.000000Z',
-                'updated_at' => '2024-02-18T12:12:37.000000Z',
+                'updated_at' => '2024-03-16T17:13:57.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_prices');

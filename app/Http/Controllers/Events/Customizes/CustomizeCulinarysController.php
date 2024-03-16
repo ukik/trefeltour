@@ -166,7 +166,7 @@ class CustomizeCulinarysController extends Controller
                 'color' => $req['color'],
                 'code_stnk' => $req['code_stnk'],
                 'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'is_available' => $req['is_available'] === 'true' ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
@@ -251,7 +251,7 @@ class CustomizeCulinarysController extends Controller
                 'color' => $req['color'],
                 'code_stnk' => $req['code_stnk'],
                 'slot_passanger' => $req['slot_passanger'],
-                'is_available' => $req['is_available'] ? 'true' : 'false',
+                'is_available' => $req['is_available'] === 'true' ? 'true' : 'false',
 
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
