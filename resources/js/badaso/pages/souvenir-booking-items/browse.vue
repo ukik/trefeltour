@@ -1,30 +1,6 @@
 <template>
     <div>
-        <!-- <stack-modal
-                :show="show"
-                title=""
-                @close="show=false"
-                :modal-class="{ [modalClass]: true }"
-                :saveButton="{ visible: false }"
-                :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
-            >
-            <slot name="modal-header">
-                <div class="modal-header">
-                    <h3 class="modal-title">
-                        {{  type == 'detail' ? 'Detail Booking Item' : 'Booking Item' }}
-                    </h3>
-                    <vs-button @click="show=false">
-                        <i class="vs-icon notranslate icon-scale material-icons null">close</i>
-                    </vs-button>
-                </div>
-            </slot>
 
-            <shared-read-user :response="{
-                data: selectedData
-            }" v-if="type=='detail'" slug="souvenir-booking-items"></shared-read-user>
-
-            <div slot="modal-footer"></div>
-        </stack-modal> -->
         <shared-browser-modal ref="SharedBrowserModal" />
       <template v-if="!showMaintenancePage">
         <badaso-breadcrumb-hover full>

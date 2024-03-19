@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc"},
+  *                     example={"name":"Abc", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "stock":"123"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc"},
+  *                     example={"name":"Abc", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "stock":"123"},
   *                ),
   *             )
   *         )
@@ -201,17 +201,19 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "venueId":"", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "venueId":"", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "venueId":"", "name":"Abc", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "stock":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "venueId":"", "name":"Abc", "typePrice":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "stock":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="venueId"), 
+  *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="string", property="typePrice"), 
   *                         @OA\Property(type="integer", property="generalPrice"), 
   *                         @OA\Property(type="integer", property="discountPrice"), 
   *                         @OA\Property(type="integer", property="cashbackPrice"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="integer", property="stock"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

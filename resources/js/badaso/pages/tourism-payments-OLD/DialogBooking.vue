@@ -2,8 +2,8 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <!-- {{ userRole !== 'admin-culinary' }} xxxxxxxxxxxxxx -->
-        <label class="badaso-text__label col-12 p-1">Pilih Produk</label>
+        <!-- {{ userRole !== 'admin-tourism' }} xxxxxxxxxxxxxx -->
+        <label class="badaso-text__label col-12 p-1">Pilih Booking</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
             <vs-icon icon="table_chart" style="font-size: 18px;" class=""></vs-icon>
@@ -13,10 +13,10 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `Produk UUID (${item.uuid})` }"
-            @hit="selecteduser = $event" placeholder="Pilih Produk" @input="lookupUser" required>
+            :serializer="item => { return `UUID (${item.uuid}) Destinasi (${item?.tourismVenue?.name})` }"
+            @hit="selecteduser = $event" placeholder="Pilih Booking" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-culinary'" @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-tourism'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
 
@@ -31,7 +31,7 @@
             <slot name="modal-header">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        {{  type == 'detail' ? 'Detail' : 'Pilih' }} Produk
+                        {{  type == 'detail' ? 'Detail' : 'Pilih' }}
                     </h3>
                     <vs-button @click="show=false">
                         <i class="vs-icon notranslate icon-scale material-icons null">close</i>
@@ -41,9 +41,9 @@
 
             <shared-read-user :response="{
                 data: selecteduser
-            }" v-if="type=='detail'" slug="culinary-products"></shared-read-user>
+            }" v-if="type=='detail'" slug="tourism-bookings"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="culinary-products" />
+            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="tourism-bookings" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -77,10 +77,6 @@ export default {
         }
     },
     watch: {
-        type(val) {
-            if(val == 'detail') return this.modalClass = 'modal-xl'
-            this.modalClass = 'modal-fullscreen'
-        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         }
@@ -92,7 +88,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/culinary/dialog_prices_culinary_products?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/tourism/dialog_booking_tourism_bookings?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -100,7 +96,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `Produk UUID (${item.uuid})` //`Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+                    this.$refs.typeahead.inputValue = `UUID (${item.uuid}) Destinasi (${item.tourismVenue?.name})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -108,9 +104,9 @@ export default {
     },
     methods: {
         onBubbleEvent(response) {
-            console.log('onBubbleEvent',response)
+            console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `Produk UUID (${item.uuid})`
+            this.$refs.typeahead.inputValue = `UUID (${item.uuid}) Destinasi (${item.tourismVenue?.name})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
@@ -124,7 +120,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/culinary/dialog_prices_culinary_products?keyword=' + this.query, {
+                .get('/api/typehead/tourism/dialog_booking_tourism_bookings?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

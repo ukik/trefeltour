@@ -34,9 +34,8 @@ Route::group(['prefix' => '/typehead/culinary', 'middleware' => ['sanctum_1','BA
     Route::post('/add_to_cart', 'CulinaryTypeHeadController@add_to_cart');
 
     Route::get('/dialog_product_culinary_stores', 'CulinaryTypeHeadController@dialog_product_culinary_stores');
-    Route::get('/dialog_staff_culinary_stores', 'CulinaryTypeHeadController@dialog_staff_culinary_stores');
-    Route::get('/dialog_facility_culinary_stores', 'CulinaryTypeHeadController@dialog_facility_culinary_stores');
     Route::get('/dialog_prices_culinary_products', 'CulinaryTypeHeadController@dialog_prices_culinary_products');
+
     Route::get('/dialog_booking_culinary_bookings', 'CulinaryTypeHeadController@dialog_booking_culinary_bookings');
     Route::get('/dialog_booking_culinary_payments_validations', 'CulinaryTypeHeadController@dialog_booking_culinary_payments_validations');
 });

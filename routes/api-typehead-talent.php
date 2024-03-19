@@ -33,20 +33,9 @@ Route::group(['prefix' => '/typehead/talent', 'middleware' => ['sanctum_1','BADA
     Route::post('/update_to_cart', 'TalentTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'TalentTypeHeadController@add_to_cart');
 
-    // Route::get('/dialog_product_culinary_stores', 'CulinaryTypeHeadController@dialog_product_culinary_stores');
-    // Route::get('/dialog_staff_culinary_stores', 'CulinaryTypeHeadController@dialog_staff_culinary_stores');
-    // Route::get('/dialog_facility_culinary_stores', 'CulinaryTypeHeadController@dialog_facility_culinary_stores');
-    // Route::get('/dialog_prices_culinary_products', 'CulinaryTypeHeadController@dialog_prices_culinary_products');
-    // Route::get('/dialog_booking_culinary_bookings', 'CulinaryTypeHeadController@dialog_booking_culinary_bookings');
-    // Route::get('/dialog_booking_culinary_payments_validations', 'CulinaryTypeHeadController@dialog_booking_culinary_payments_validations');
+    Route::get('/dialog_skill_talent_profiles', 'TalentTypeHeadController@dialog_skill_talent_profiles');
+    Route::get('/dialog_prices_talent_skills', 'TalentTypeHeadController@dialog_prices_talent_skills');
 
-
-    // Route::get('/user', 'TalentTypeHeadController@getUser');
-    Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
-    Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
-
-    Route::get('/dialog_profile_talent_profiles', 'TalentTypeHeadController@dialog_profile_talent_profiles');
-    Route::get('/dialog_profile_talent_skills', 'TalentTypeHeadController@dialog_profile_talent_skills');
     Route::get('/dialog_booking_talent_bookings', 'TalentTypeHeadController@dialog_booking_talent_bookings');
     Route::get('/dialog_booking_talent_payments_validations', 'TalentTypeHeadController@dialog_booking_talent_payments_validations');
 

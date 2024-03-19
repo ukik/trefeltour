@@ -41,7 +41,7 @@
                   ></badaso-text>
 
 
-                  <badaso-text required disabled
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -514,7 +514,7 @@ export default {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value?.getFinalAmount;
+                el.value = this.$rupiah(value?.getFinalAmount);
             }
 
         });

@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use CulinaryBookingsItems;
+use TourismBookingsItems;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
@@ -52,22 +52,16 @@ class TourismBookingsItemsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \CulinaryBookingsItems::with([
-                'culinaryBooking',
-                'culinaryBookings',
+            $data = \TourismBookingsItems::with([
+                'tourismBooking',
+                'tourismBookings',
 
-                'culinaryProduct',
-                'culinaryProducts',
+                'tourismVenue',
+                'tourismVenues',
 
-                'culinaryStore.culinaryProduct',
-                'culinaryStore.culinaryProducts',
-                // 'culinaryStore.culinaryPrice',
-                // 'culinaryStore.culinaryPrices',
-                'culinaryStores',
-
-                'culinaryBooking.culinaryPayment',
-                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
-                'culinaryBooking.culinaryPayments',
+                'tourismBooking.tourismPayment',
+                'tourismBooking.tourismPayment.tourismPaymentsValidation',
+                'tourismBooking.tourismPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -127,22 +121,16 @@ class TourismBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryBookingsItems::with([
-                'culinaryBooking',
-                'culinaryBookings',
+            $data = \TourismBookingsItems::with([
+                'tourismBooking',
+                'tourismBookings',
 
-                'culinaryProduct',
-                'culinaryProducts',
+                'tourismVenue',
+                'tourismVenues',
 
-                'culinaryStore.culinaryProduct',
-                'culinaryStore.culinaryProducts',
-                // 'culinaryStore.culinaryPrice',
-                // 'culinaryStore.culinaryPrices',
-                'culinaryStores',
-
-                'culinaryBooking.culinaryPayment',
-                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
-                'culinaryBooking.culinaryPayments',
+                'tourismBooking.tourismPayment',
+                'tourismBooking.tourismPayment.tourismPaymentsValidation',
+                'tourismBooking.tourismPayments',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -160,11 +148,11 @@ class TourismBookingsItemsController extends Controller
     //     // return $slug = $this->getSlug($request);
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     isOnlyAdminTourism();
 
     //     $value = request()['data']['id'];
-    //     $check = \CulinaryPayments::where('booking_id', $value)->first();
-    //     if($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+    //     $check = \TourismPayments::where('booking_id', $value)->first();
+    //     if($check && !isAdminTourism()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
     //     try {
 
@@ -172,9 +160,9 @@ class TourismBookingsItemsController extends Controller
     //         $slug = $this->getSlug($request);
     //         $data_type = $this->getDataType($slug);
 
-    //         $table_entity = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
+    //         $table_entity = \TourismBookingsItems::where('id', $request->data['id'])->first();
 
-    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         $temp = \TourismPrices::where('id', $request->data['price_id'])->first();
     //         if(!$temp) return ApiResponse::failed("Harga Kosong");
 
     //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -223,9 +211,9 @@ class TourismBookingsItemsController extends Controller
     //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
 
-    //         \CulinaryBookingsItems::where('id', $request->data['id'])->update($data);
+    //         \TourismBookingsItems::where('id', $request->data['id'])->update($data);
     //         $updated['old_data'] = $table_entity;
-    //         $updated['updated_data'] = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
+    //         $updated['updated_data'] = \TourismBookingsItems::where('id', $request->data['id'])->first();
 
     //         DB::commit();
     //         activity($data_type->display_name_singular)
@@ -252,7 +240,7 @@ class TourismBookingsItemsController extends Controller
     // {
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     isOnlyAdminTourism();
 
     //     try {
 
@@ -261,7 +249,7 @@ class TourismBookingsItemsController extends Controller
 
     //         $data_type = $this->getDataType($slug);
 
-    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         $temp = \TourismPrices::where('id', $request->data['price_id'])->first();
     //         if(!$temp) return ApiResponse::failed("Harga Kosong");
 
     //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -304,7 +292,7 @@ class TourismBookingsItemsController extends Controller
     //         $data['description'] = $req['description'];
     //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-    //         $stored_data = \CulinaryBookingsItems::insert($data);
+    //         $stored_data = \TourismBookingsItems::insert($data);
 
     //         activity($data_type->display_name_singular)
     //             ->causedBy(auth()->user() ?? null)
@@ -329,11 +317,11 @@ class TourismBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryBookingsItems::where('id', $value)->with(['culinaryPayment'])->first();
-        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismBookingsItems::where('id', $value)->with(['tourismPayment'])->first();
+        if($check->tourismPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -421,7 +409,7 @@ class TourismBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         try {
             $request->validate([
@@ -459,10 +447,10 @@ class TourismBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
+            $filters = TourismBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinaryPayment == null) {
+                if($value->tourismPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

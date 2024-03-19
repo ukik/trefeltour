@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use TourismBookings;
-use TourismPayments;
+use TourismCarts;
+use TourismPrices;
+
 use TourismPaymentsValidations;
 use TourismVenues;
 use Uasoft\Badaso\Helpers\ApiResponse;
@@ -16,114 +18,226 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 class TourismTypeHeadController extends Controller
 {
     function getUser() {
-        $keyword = request()->keyword;
-
         if(isAdminTourism()) {
             return Auth::user();
         }
 
-        if(!request()['keyword']) {
-            $temp = TourismVenues::where('id', request()->id)->value('user_id');
-            return BadasoUsers::where('id', $temp)->first();
-        }
+        return TourismVenues::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        return BadasoUsers::orWhere('name','like','%'.$keyword.'%')
-            ->orWhere('email','like','%'.$keyword.'%')
-            ->orWhere('phone','like','%'.$keyword.'%')
-            ->limit(20)->get();
-    }
-
-    function getUserBookingEdit() {
-        $keyword = request()->keyword;
-
-        if(isAdminTourism()) {
-            return Auth::user();
-        }
-
-        $temp = TourismBookings::where('id', request()->id)->value('customer_id');
+        $temp = TourismVenues::where('id', request()->id)->value('user_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
-    function getUserPaymentValidationEdit() {
-        $keyword = request()->keyword;
 
-        if(isAdminTourism()) {
-            return Auth::user();
-        }
-
-        $validator_id = TourismPaymentsValidations::where('id', request()->id)->value('validator_id');
-        return BadasoUsers::where('id', $validator_id)->first();
-    }
 
     function dialog_venue_tourism_venues() {
-        $venue_id = \TourismFacilities::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
-            'badasoUsers',
-            // 'tourismPrice',
-            'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
-        ])->first();
+        $data = \TourismFacilities::where('id',request()->id)
+            ->with([
+                'tourismVenue',
+            ])
+            ->first();
+        $data = $data->tourismVenue;
         return ApiResponse::onlyEntity($data);
+
+        // $venue_id = \TourismFacilities::where('id',request()->id)->value('venue_id');
+        // $data = \TourismVenues::where('id',$venue_id)->with([
+        //     'badasoUsers',
+        //     // 'tourismPrice',
+        //     'tourismPrices',
+        //     'tourismFacility',
+        //     'tourismFacilities',
+        //     'tourismService',
+        //     'tourismServices',
+        // ])->first();
+        // return ApiResponse::onlyEntity($data);
     }
 
     function dialog_venue_tourism_services() {
-        $venue_id = \TourismServices::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
-            'badasoUsers',
-            // 'tourismPrice',
-            'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
-        ])->first();
+        $data = \TourismServices::where('id',request()->id)
+            ->with([
+                'tourismVenue',
+            ])
+            ->first();
+        $data = $data->tourismVenue;
         return ApiResponse::onlyEntity($data);
+
+        // $venue_id = \TourismServices::where('id',request()->id)->value('venue_id');
+        // $data = \TourismVenues::where('id',$venue_id)->with([
+        //     'badasoUsers',
+        //     // 'tourismPrice',
+        //     'tourismPrices',
+        //     'tourismFacility',
+        //     'tourismFacilities',
+        //     'tourismService',
+        //     'tourismServices',
+        // ])->first();
+        // return ApiResponse::onlyEntity($data);
     }
 
     function dialog_venue_tourism_prices() {
-        $venue_id = \TourismPrices::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
-            'badasoUsers',
-            // 'tourismPrice',
-            'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
-        ])->first();
+        $data = \TourismPrices::where('id',request()->id)
+            ->with([
+                'tourismVenue',
+            ])
+            ->first();
+        $data = $data->tourismVenue;
         return ApiResponse::onlyEntity($data);
+
+        // $venue_id = \TourismPrices::where('id',request()->id)->value('venue_id');
+        // $data = \TourismVenues::where('id',$venue_id)->with([
+        //     'badasoUsers',
+        //     // 'tourismPrice',
+        //     'tourismPrices',
+        //     'tourismFacility',
+        //     'tourismFacilities',
+        //     'tourismService',
+        //     'tourismServices',
+        // ])->first();
+        // return ApiResponse::onlyEntity($data);
     }
 
     function dialog_venue_tourism_facilities() {
-        $venue_id = \TourismFacilities::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
+        $data = \TourismFacilities::where('id',request()->id)
+            ->with([
+                'tourismVenue',
+            ])
+            ->first();
+        $data = $data->tourismVenue;
+        return ApiResponse::onlyEntity($data);
+
+        // $venue_id = \TourismFacilities::where('id',request()->id)->value('venue_id');
+        // $data = \TourismVenues::where('id',$venue_id)->with([
+        //     'badasoUsers',
+        //     // 'tourismPrice',
+        //     'tourismPrices',
+        //     'tourismFacility',
+        //     'tourismFacilities',
+        //     'tourismService',
+        //     'tourismServices',
+        // ])->first();
+        // return ApiResponse::onlyEntity($data);
+    }
+
+
+
+
+
+
+
+
+
+    function get_prices_booking(Request $request) {
+        // return request();
+        $payload = json_decode(request()->payload, true);
+        $data = \TourismCarts::with([
             'badasoUsers',
-            // 'tourismPrice',
+            'badasoUser',
+
+            'tourismVenues',
             'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
-        ])->first();
+            'tourismVenue.tourismFacility',
+            'tourismVenue.tourismFacilities',
+            'tourismVenue.tourismService',
+            'tourismVenue.tourismServices',
+        ])->whereIn('id', $payload)->get();
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_venue_tourism_bookings() {
-        $venue_id = \TourismBookings::where('id',request()->id)->value('venue_id');
-        $data = \TourismVenues::where('id',$venue_id)->with([
+    function add_to_cart(Request $request) {
+
+        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+
+        $data = TourismPrices::where('id', request()->price_id)->first();
+
+        $quantity = request()->quantity;
+
+        $carts = TourismCarts::query()
+            ->where('customer_id', request()->customer_id)
+            ->where('price_id', request()->price_id)
+            ->first();
+
+        TourismCarts::updateOrCreate([
+                'customer_id' => request()->customer_id,
+                'venue_id' => $data->venue_id,
+                'price_id' => $data->id,
+            ],
+            [
+                'customer_id' => request()->customer_id,
+                'venue_id' => $data->venue_id,
+                'price_id' => $data->id,
+                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
+                'code_table' => "talent-carts",
+                'uuid' => $carts?->uuid ?: ShortUuid(),
+            ]
+        );
+
+        // return request();
+    }
+
+    function update_to_cart(Request $request) {
+        // return request();
+        if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
+
+        TourismCarts::where('id', request()->id)->update([
+                'quantity' => request()->quantity,
+        ]);
+
+        $data = \TourismCarts::with([
             'badasoUsers',
-            // 'tourismPrice',
+            'badasoUser',
+
+            'tourismVenues',
             'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
-        ])->first();
+            'tourismVenue.tourismFacility',
+            'tourismVenue.tourismFacilities',
+            'tourismVenue.tourismService',
+            'tourismVenue.tourismServices',
+        ])->orderBy('id','desc');
+        if(request()['showSoftDelete'] == 'true') {
+            $data = $data->onlyTrashed();
+        }
+
+        if(request()->popup) {
+            $data = $data->where('id', request()->id)->paginate(request()->perPage);
+        } else {
+            $data = $data->paginate(request()->perPage);
+        }
+
+        // $encode = json_encode($paginate);
+        // $decode = json_decode($encode);
+        // $data['data'] = $decode->data;
+        // $data['total'] = $decode->total;
+
         return ApiResponse::onlyEntity($data);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function dialog_booking_tourism_bookings() {
 
@@ -131,295 +245,37 @@ class TourismTypeHeadController extends Controller
             'badasoUsers',
             'tourismBookings',
             'tourismBooking',
-            'tourismVenue',
             'tourismVenues',
+            'tourismPrices',
+            'tourismFacility',
+            'tourismFacilities',
+            'tourismService',
+            'tourismServices',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }
 
     function dialog_booking_tourism_payments_validations() {
 
-        $payment_id = \TourismPaymentsValidations::where('id',request()->id)->value('payment_id');
-        $data = \TourismBookingsCheckPayments::where('payment_id',$payment_id)->with([
-            'badasoUsers',
-            'tourismBookings',
-            'tourismBooking',
-            'tourismVenue',
-            'tourismVenues',
+        // $payment_id = \TourismPaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = \TourismBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'tourismBookings',
+        //     'tourismBooking',
+        //     'tourismPrice',
+        //     'tourismPrices',
+        //     'tourismSkill',
+        //     'tourismSkills',
+        // ])->first();
+
+        $data = TourismPaymentsValidations::where('id',request()->id)->with([
+            'tourismPayment',
+            'tourismPayment.badasoUsers',
+            'tourismPayment.tourismBookings',
         ])->first();
+        $data = $data->tourismPayment;
         return ApiResponse::onlyEntity($data);
     }
 
-
-
-    function tourism_bookings() {
-
-        if(request()->id && !request()['keyword'] && !request()['label']) {
-            $data = \TourismBookingsCheckPayments::where('id',request()->id)->with([
-                'badasoUsers',
-                'tourismBookings',
-                'tourismBooking',
-                'tourismVenue',
-                'tourismVenues',
-            ])->first();
-            return ApiResponse::onlyEntity($data);
-        }
-    }
-
-
-    /*
-    // MAINTENANCE
-    function tourism_maintenances() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('tourism_maintenances');
-
-        $query = \TransportMaintenances::query();
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-
-
-    // RENTAL
-    function tourism_rentals() {
-        $keyword = request()->keyword;
-
-        if(isAdminTourism() && !request()['keyword']) {
-           return \TransportRentals::where('user_id',Auth::user()->id)->first();
-        }
-
-        $columns = Schema::getColumnListing('tourism_rentals');
-
-        $query = \TransportRentals::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-    // RETURN
-    function tourism_returns() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('tourism_returns');
-
-        $query = \TransportRentals::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-
-    // VEHICLE
-    function tourism_vehicles() {
-        $keyword = request()->keyword;
-
-        if(request()->id && !request()['keyword']) {
-            return \TransportVehicles::where('id',request()->id)->first();
-        }
-
-
-        $columns = Schema::getColumnListing('tourism_vehicles');
-
-        $query = \TransportVehicles::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        if(isAdminTourism()) {
-            return $query = $query->where('user_id',Auth::user()->id)->limit(20)->get();
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-    // WORKSHOP
-    function tourism_workshops() {
-        $keyword = request()->keyword;
-
-        if(request()->id && !request()['keyword']) {
-            $workshop_id = \TransportMaintenances::where('id',request()->id)->value('workshop_id');
-            return \TransportWorkshops::where('id',$workshop_id)->first();
-        }
-
-        $columns = Schema::getColumnListing('tourism_workshops');
-
-        $query = \TransportWorkshops::query();
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        if(isAdminTourism()) {
-            return $query = $query->where('user_id',Auth::user()->id)->limit(20)->get();
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-
-
-    // PAYMENT
-    function tourism_payments() {
-        $keyword = request()->keyword;
-
-        if(request()->id && !request()['keyword'] && !request()['label']) {
-            $check = \ViewTransportPaymentsCheckValidations::where('id',request()->id)->with('user')->first();
-            return $check;
-        }
-
-        $columns = Schema::getColumnListing('view_tourism_payments_check_validations');
-
-        $query = \ViewTransportPaymentsCheckValidations::with([
-            'transportBooking',
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("transportBooking",function($q) use ($keyword) {
-            $columns = Schema::getColumnListing('tourism_bookings');
-            foreach ($columns as $value) {
-                switch ($value) {
-                    case "code_table":
-                    case "created_at":
-                    case "updated_at":
-                    case "deleted_at":
-                        # code...
-                        break;
-                    default:
-                        $q->orWhere($value,'like','%'.$keyword.'%');
-                        break;
-                }
-            }
-            return $q;
-        })
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-    function tourism_payments_validationsXXX() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('tourism_payments_validations');
-
-        $query = \TransportPaymentsValidations::with([
-            'transportPayment' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("transportPayment",function($q) use ($keyword) {
-            $columns = Schema::getColumnListing('tourism_payments');
-            foreach ($columns as $value) {
-                switch ($value) {
-                    case "code_table":
-                    case "created_at":
-                    case "updated_at":
-                    case "deleted_at":
-                        # code...
-                        break;
-                    default:
-                        $q->orWhere($value,'like','%'.$keyword.'%');
-                        break;
-                }
-            }
-            return $q;
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-    */
 
 }

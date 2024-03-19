@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "quantity":"123"},
+  *                     example={"quantity":"123"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "quantity":"123"},
+  *                     example={"quantity":"123"},
   *                ),
   *             )
   *         )

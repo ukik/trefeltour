@@ -15,10 +15,14 @@
               </h3>
 
               <DialogPayment @onBubbleEvent="updateTypeHeadPayment($event)" />
-              <DialogValidator @onBubbleEvent="updateTypeHeadValidator($event)" />
-
+              <!-- <DialogValidator @onBubbleEvent="updateTypeHeadValidator($event)" /> -->
             </div>
             <vs-row>
+                <vs-col class="mb-4">
+                    <vs-alert title="Penting" active="true" color="danger">
+                        Pembayaran yang tervalidasi tidak bisa diubah lagi
+                    </vs-alert>
+                </vs-col>
               <vs-col vs-lg="12" v-if="!isValid">
                 <p class="is-error">No fields have been filled</p>
               </vs-col>
@@ -516,6 +520,7 @@ export default {
                         if(isVal) {
                             el.type = 'switch_readonly'
                         }
+
                     }
                 }
             }

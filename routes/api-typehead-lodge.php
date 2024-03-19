@@ -37,6 +37,7 @@ Route::group(['prefix' => '/typehead/lodge', 'middleware' => ['sanctum_1','BADAS
     Route::get('/dialog_staff_lodge_profiles', 'LodgeTypeHeadController@dialog_staff_lodge_profiles');
     Route::get('/dialog_facility_lodge_profiles', 'LodgeTypeHeadController@dialog_facility_lodge_profiles');
     Route::get('/dialog_prices_lodge_rooms', 'LodgeTypeHeadController@dialog_prices_lodge_rooms');
+
     Route::get('/dialog_booking_lodge_bookings', 'LodgeTypeHeadController@dialog_booking_lodge_bookings');
     Route::get('/dialog_booking_lodge_payments_validations', 'LodgeTypeHeadController@dialog_booking_lodge_payments_validations');
 });

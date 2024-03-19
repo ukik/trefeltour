@@ -43,7 +43,7 @@
                 data: selecteduser
             }" v-if="type=='detail'" slug="badaso-users"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="badaso-users" />
+            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="badaso-users" label="validator" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -77,6 +77,10 @@ export default {
         }
     },
     watch: {
+        type(val) {
+            if(val == 'detail') return this.modalClass = 'modal-xl'
+            this.modalClass = 'modal-fullscreen'
+        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         }

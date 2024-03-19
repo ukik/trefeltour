@@ -22,27 +22,60 @@ class TalentTypeHeadController extends Controller
             return Auth::user();
         }
 
+        return TalentProfiles::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+
         $temp = TalentProfiles::where('id', request()->id)->value('user_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
-    function getUserBookingEdit() {
-        if(isAdminTalent()) {
-            return Auth::user();
-        }
 
-        $temp = TalentBookings::where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $temp)->first();
+
+
+
+    // function dialog_profile_talent_profilesX() {
+    //     $profile_id = \TalentSkills::where('id',request()->id)->value('profile_id');
+    //     $data = \TalentProfiles::where('id',$profile_id)->with([
+    //         'badasoUsers',
+    //         'badasoUser',
+    //     ])->first();
+    //     return ApiResponse::onlyEntity($data);
+    // }
+
+    // function dialog_profile_talent_skillsX() {
+    //     $skill_id = \TalentPrices::where('id',request()->id)->value('skill_id');
+    //     $data = \TalentSkills::where('id',$skill_id)->with([
+    //         'talentProfile',
+    //         'talentProfiles',
+    //         'talentProfile.badasoUser',
+    //         'talentPrice',
+    //         'talentPrices',
+    //     ])->first();
+    //     return ApiResponse::onlyEntity($data);
+    // }
+
+
+
+
+
+
+    function dialog_skill_talent_profiles() {
+        $data = \TalentSkills::where('id',request()->id)
+            ->with('talentProfile.badasoUsers')
+            ->first();
+        $data = $data->talentProfile;
+        return ApiResponse::onlyEntity($data);
     }
 
-    function getUserPaymentValidationEdit() {
-        if(isAdminTalent()) {
-            return Auth::user();
-        }
-
-        $validator_id = TalentPaymentsValidations::where('id', request()->id)->value('validator_id');
-        return BadasoUsers::where('id', $validator_id)->first();
+    function dialog_prices_talent_skills() {
+        $data = \TalentPrices::where('id',request()->id)
+            ->with([
+                'talentSkill.talentProfiles',
+            ])
+            ->first();
+        $data = $data->talentSkill;
+        return ApiResponse::onlyEntity($data);
     }
+
 
 
 
@@ -54,9 +87,6 @@ class TalentTypeHeadController extends Controller
         // return request();
         $payload = json_decode(request()->payload, true);
         $data = \TalentCarts::with([
-            // 'talentProfile.talentBooking.badasoUsers',
-            // 'talentProfile.talentBooking.badasoUser',
-            // 'talentProfile.talentBookings',
             'badasoUsers',
             'badasoUser',
 
@@ -70,55 +100,9 @@ class TalentTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_product_talent_stores() {
-        $data = \TalentSkills::where('id',request()->id)
-            ->with('talentProfile.badasoUsers')
-            ->first();
-        $data = $data->talentProfile;
-        return ApiResponse::onlyEntity($data);
-
-        // $id = \TalentSkills::where('id',request()->id)->value('profile_id');
-        // $data = \TalentProfiles::where('id',$id)->with([
-        //     'badasoUsers',
-        //     'badasoUser',
-        // ])->first();
-        // return ApiResponse::onlyEntity($data);
-    }
-
-    function dialog_prices_talent_products() {
-        $data = \TalentPrices::where('id',request()->id)
-            ->with([
-                'talentSkill.talentProfiles',
-            ])
-            ->first();
-        $data = $data->talentSkill;
-        return ApiResponse::onlyEntity($data);
-
-        // $skill_id = \TalentPrices::where('id',request()->id)->value('skill_id');
-        // $data = \TalentSkills::where('id',$skill_id)->with([
-        //     'talentProfile',
-        //     'talentProfiles',
-        //     'talentProfile.badasoUser',
-        //     'talentPrice',
-        //     'talentPrices',
-        // ])->first();
-        // return ApiResponse::onlyEntity($data);
-    }
 
     function add_to_cart(Request $request) {
 
-        // profile_id
-        // skill_id
-        // price_id
-        // name
-        // get_price
-        // get_discount
-        // get_cashback
-        // get_total_amount
-        // quantity
-        // get_final_amount
-        // description
-        // code_table
 
         if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
@@ -160,9 +144,6 @@ class TalentTypeHeadController extends Controller
         ]);
 
         $data = \TalentCarts::with([
-            // 'talentProfile.talentBooking.badasoUsers',
-            // 'talentProfile.talentBooking.badasoUser',
-            // 'talentProfile.talentBookings',
             'badasoUsers',
             'badasoUser',
 
@@ -197,39 +178,6 @@ class TalentTypeHeadController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    function dialog_profile_talent_profiles() {
-        $profile_id = \TalentSkills::where('id',request()->id)->value('profile_id');
-        $data = \TalentProfiles::where('id',$profile_id)->with([
-            'badasoUsers',
-            'badasoUser',
-        ])->first();
-        return ApiResponse::onlyEntity($data);
-    }
-
-    function dialog_profile_talent_skills() {
-        $skill_id = \TalentPrices::where('id',request()->id)->value('skill_id');
-        $data = \TalentSkills::where('id',$skill_id)->with([
-            'talentProfile',
-            'talentProfiles',
-            'talentProfile.badasoUser',
-            'talentPrice',
-            'talentPrices',
-        ])->first();
-        return ApiResponse::onlyEntity($data);
-    }
-
     function dialog_booking_talent_bookings() {
 
         $data = \TalentBookingsCheckPayments::where('payment_id',request()->id)->with([
@@ -258,11 +206,11 @@ class TalentTypeHeadController extends Controller
         // ])->first();
 
         $data = TalentPaymentsValidations::where('id',request()->id)->with([
-            'souvenirPayment',
-            'souvenirPayment.badasoUsers',
-            'souvenirPayment.souvenirBookings',
+            'talentPayment',
+            'talentPayment.badasoUsers',
+            'talentPayment.talentBookings',
         ])->first();
-        $data = $data->souvenirPayment;
+        $data = $data->talentPayment;
         return ApiResponse::onlyEntity($data);
     }
 

@@ -23,7 +23,7 @@
                 data: selectedData
             }" v-if="type=='detail'" slug="souvenir-bookings"></shared-read-user>
 
-            <shared-table-modal-souvenir-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="souvenir-booking-items" />
+            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="souvenir-booking-items" />
             <div slot="modal-footer"></div>
         </stack-modal>
 

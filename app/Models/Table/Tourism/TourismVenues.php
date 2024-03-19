@@ -20,6 +20,11 @@ class TourismVenues extends Model
         return $this->belongsTo(BadasoUsers::class,'user_id','id');
     }
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'user_id','id');
+    }
+
     public function badasoUsers()
     {
         return $this->belongsToMany(BadasoUsers::class, 'tourism_venues', 'id', 'user_id');

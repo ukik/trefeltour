@@ -155,8 +155,8 @@
                             show: true,
                             type: 'detail',
                             selectedData: record,
-                            title: 'Detail Talent Pembayaran Validasi',
-                            slug: 'talent-payments-validations' })">
+                            title: 'Detail Pembayaran Validasi',
+                            slug: $route.params?.slug })">
                               <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                           </vs-button>
                         </vs-td>
@@ -408,12 +408,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentPayment?.talentBooking?.id,
-                                  slug: 'talent-bookings',
+                                  id: data[index].souvenirPayment?.souvenirBooking?.id,
+                                  slug: 'souvenir-bookings',
                                 },
                               }"
                               v-if="
-                                data[index].talentPayment?.talentBooking?.id &&
+                                data[index].souvenirPayment?.souvenirBooking?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -430,12 +430,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentPayment?.id,
-                                  slug: 'talent-payments',
+                                  id: data[index].souvenirPayment?.id,
+                                  slug: 'souvenir-payments',
                                 },
                               }"
                               v-if="
-                                data[index].talentPayment?.id &&
+                                data[index].souvenirPayment?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -452,12 +452,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentPaymentsValidation?.id,
-                                  slug: 'talent-payments-validations',
+                                  id: data[index].souvenirPaymentsValidation?.id,
+                                  slug: 'souvenir-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].talentPaymentsValidation?.id &&
+                                data[index].souvenirPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -475,12 +475,12 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentPayment?.talentBooking?.talentSkill?.talentProfile?.id,
-                                  slug: 'talent-profiles',
+                                  id: data[index].souvenirPayment?.souvenirBooking?.souvenirSkill?.souvenirProfile?.id,
+                                  slug: 'souvenir-profiles',
                                 },
                               }"
                               v-if="
-                                data[index].talentPayment?.talentBooking?.talentSkill?.talentProfile?.id &&
+                                data[index].souvenirPayment?.souvenirBooking?.souvenirSkill?.souvenirProfile?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -493,12 +493,12 @@
                               Detail Profile
                             </badaso-dropdown-item>
 
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPayment?.talentBooking?.talentSkills" :key="1+index2"
+                            <badaso-dropdown-item v-for="(item2, index2) in data[index].souvenirPayment?.souvenirBooking?.souvenirSkills" :key="1+index2"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: item2.id,
-                                  slug: 'talent-skills',
+                                  slug: 'souvenir-skills',
                                 },
                               }"
                               v-if="
@@ -516,12 +516,12 @@
                             </badaso-dropdown-item>
 
 
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPayment?.talentBooking?.talentPrices" :key="2+index2"
+                            <badaso-dropdown-item v-for="(item2, index2) in data[index].souvenirPayment?.souvenirBooking?.souvenirPrices" :key="2+index2"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
                                   id: item2.id,
-                                  slug: 'talent-prices',
+                                  slug: 'souvenir-prices',
                                 },
                               }"
                               v-if="

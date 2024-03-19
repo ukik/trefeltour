@@ -23,35 +23,50 @@ class SouvenirTypeHeadController extends Controller
             return Auth::user();
         }
 
+        return SouvenirStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+
         $temp = SouvenirStores::where('id', request()->id)->value('user_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
-    function getUserBookingEdit() {
-        if(isAdminSouvenir()) {
-            return Auth::user();
-        }
 
-        $temp = SouvenirBookings::where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $temp)->first();
+
+
+
+
+
+
+    function dialog_product_souvenir_stores() {
+        $data = \SouvenirProducts::where('id',request()->id)
+            ->with('souvenirStore.badasoUsers')
+            ->first();
+        $data = $data->souvenirStore;
+        return ApiResponse::onlyEntity($data);
     }
 
-    function getUserPaymentValidationEdit() {
-        if(isAdminSouvenir()) {
-            return Auth::user();
-        }
-
-        $validator_id = SouvenirPaymentsValidations::where('id', request()->id)->value('validator_id');
-        return BadasoUsers::where('id', $validator_id)->first();
+    function dialog_prices_souvenir_products() {
+        $data = \SouvenirPrices::where('id',request()->id)
+            ->with([
+                'souvenirProduct.souvenirStores',
+            ])
+            ->first();
+        $data = $data->souvenirProduct;
+        return ApiResponse::onlyEntity($data);
     }
+
+
+
+
+
+
+
+
+
 
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);
         $data = \SouvenirCarts::with([
-            // 'souvenirStore.souvenirBooking.badasoUsers',
-            // 'souvenirStore.souvenirBooking.badasoUser',
-            // 'souvenirStore.souvenirBookings',
             'badasoUsers',
             'badasoUser',
 
@@ -65,55 +80,7 @@ class SouvenirTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_product_souvenir_stores() {
-        $data = \SouvenirProducts::where('id',request()->id)
-            ->with('souvenirStore.badasoUsers')
-            ->first();
-        $data = $data->souvenirStore;
-        return ApiResponse::onlyEntity($data);
-
-        // $id = \SouvenirProducts::where('id',request()->id)->value('store_id');
-        // $data = \SouvenirStores::where('id',$id)->with([
-        //     'badasoUsers',
-        //     'badasoUser',
-        // ])->first();
-        // return ApiResponse::onlyEntity($data);
-    }
-
-    function dialog_prices_souvenir_products() {
-        $data = \SouvenirPrices::where('id',request()->id)
-            ->with([
-                'souvenirProduct.souvenirStores',
-            ])
-            ->first();
-        $data = $data->souvenirProduct;
-        return ApiResponse::onlyEntity($data);
-
-        // $skill_id = \SouvenirPrices::where('id',request()->id)->value('skill_id');
-        // $data = \SouvenirSkills::where('id',$skill_id)->with([
-        //     'talentProfile',
-        //     'talentProfiles',
-        //     'talentProfile.badasoUser',
-        //     'talentPrice',
-        //     'talentPrices',
-        // ])->first();
-        // return ApiResponse::onlyEntity($data);
-    }
-
     function add_to_cart(Request $request) {
-
-        // store_id
-        // product_id
-        // price_id
-        // name
-        // get_price
-        // get_discount
-        // get_cashback
-        // get_total_amount
-        // quantity
-        // get_final_amount
-        // description
-        // code_table
 
         if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
@@ -155,9 +122,6 @@ class SouvenirTypeHeadController extends Controller
         ]);
 
         $data = \SouvenirCarts::with([
-            // 'souvenirStore.souvenirBooking.badasoUsers',
-            // 'souvenirStore.souvenirBooking.badasoUser',
-            // 'souvenirStore.souvenirBookings',
             'badasoUsers',
             'badasoUser',
 
@@ -184,6 +148,17 @@ class SouvenirTypeHeadController extends Controller
 
         return ApiResponse::onlyEntity($data);
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
     function dialog_booking_souvenir_bookings() {

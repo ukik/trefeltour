@@ -23,46 +23,16 @@ class LodgeTypeHeadController extends Controller
             return Auth::user();
         }
 
+        return LodgeProfiles::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+
         $temp = LodgeProfiles::where('id', request()->id)->value('user_id');
         return BadasoUsers::where('id', $temp)->first();
     }
 
-    function getUserBookingEdit() {
-        if(isAdminLodge()) {
-            return Auth::user();
-        }
 
-        $temp = LodgeBookings::where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $temp)->first();
-    }
 
-    function getUserPaymentValidationEdit() {
-        if(isAdminLodge()) {
-            return Auth::user();
-        }
 
-        $validator_id = LodgePaymentsValidations::where('id', request()->id)->value('validator_id');
-        return BadasoUsers::where('id', $validator_id)->first();
-    }
 
-    function get_prices_booking(Request $request) {
-        // return request();
-        $payload = json_decode(request()->payload, true);
-        $data = \LodgeCarts::with([
-            // 'lodgeProfile.lodgeBooking.badasoUsers',
-            // 'lodgeProfile.lodgeBooking.badasoUser',
-            // 'lodgeProfile.lodgeBookings',
-            'badasoUsers',
-            'badasoUser',
-            'lodgeRoom',
-            'lodgeRooms',
-            'lodgePrice',
-            'lodgePrices',
-            'lodgeProfile',
-            'lodgeProfiles',
-        ])->whereIn('id', $payload)->get();
-        return ApiResponse::onlyEntity($data);
-    }
 
     function dialog_room_lodge_profiles() {
         $data = \LodgeRooms::where('id',request()->id)
@@ -98,22 +68,29 @@ class LodgeTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-    function add_to_cart(Request $request) {
 
-        // id
-        // uuid
-        // profile_id
-        // room_id
-        // name
-        // general_price
-        // discount_price
-        // cashback_price
-        // stock
-        // description
-        // code_table
-        // created_at
-        // updated_at
-        // deleted_at
+
+
+
+
+
+    function get_prices_booking(Request $request) {
+        // return request();
+        $payload = json_decode(request()->payload, true);
+        $data = \LodgeCarts::with([
+            'badasoUsers',
+            'badasoUser',
+            'lodgeRoom',
+            'lodgeRooms',
+            'lodgePrice',
+            'lodgePrices',
+            'lodgeProfile',
+            'lodgeProfiles',
+        ])->whereIn('id', $payload)->get();
+        return ApiResponse::onlyEntity($data);
+    }
+
+    function add_to_cart(Request $request) {
 
         if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
@@ -159,9 +136,6 @@ class LodgeTypeHeadController extends Controller
         ]);
 
         $data = \LodgeCarts::with([
-            // 'lodgeProfile.lodgeBooking.badasoUsers',
-            // 'lodgeProfile.lodgeBooking.badasoUser',
-            // 'lodgeProfile.lodgeBookings',
             'badasoUsers',
             'badasoUser',
             'lodgeRoom',
@@ -183,6 +157,16 @@ class LodgeTypeHeadController extends Controller
 
         return ApiResponse::onlyEntity($data);
     }
+
+
+
+
+
+
+
+
+
+
 
 
     function dialog_booking_lodge_bookings() {

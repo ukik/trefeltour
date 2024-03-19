@@ -155,8 +155,8 @@
                             show: true,
                             type: 'detail',
                             selectedData: record,
-                            title: 'Detail Talent Pembayaran',
-                            slug: 'talent-payments' })">
+                            title: 'Detail Pembayaran',
+                            slug: $route.params?.slug })">
                               <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                           </vs-button>
                         </vs-td>

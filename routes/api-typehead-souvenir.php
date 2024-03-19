@@ -35,18 +35,8 @@ Route::group(['prefix' => '/typehead/souvenir', 'middleware' => ['sanctum_1','BA
 
     Route::get('/dialog_product_souvenir_stores', 'SouvenirTypeHeadController@dialog_product_souvenir_stores');
     Route::get('/dialog_prices_souvenir_products', 'SouvenirTypeHeadController@dialog_prices_souvenir_products');
+
     Route::get('/dialog_booking_souvenir_bookings', 'SouvenirTypeHeadController@dialog_booking_souvenir_bookings');
-
     Route::get('/dialog_booking_souvenir_payments_validations', 'SouvenirTypeHeadController@dialog_booking_souvenir_payments_validations');
-
-
-
-
-    // Route::get('/user', 'TalentTypeHeadController@getUser');
-    // Route::get('/user-booking-edit', 'TalentTypeHeadController@getUserBookingEdit');
-    // Route::get('/user-payment-validation-edit', 'TalentTypeHeadController@getUserPaymentValidationEdit');
-
-
-
 });
 

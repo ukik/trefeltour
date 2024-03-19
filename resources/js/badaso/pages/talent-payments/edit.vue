@@ -41,7 +41,7 @@
                     "
                   ></badaso-text>
 
-                  <badaso-text required disabled
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -506,6 +506,7 @@ export default {
 
             if(el.field == "total_amount") {
                 el.type = 'text_readonly'
+                el.value = this.$rupiah(el.value)
             }
 
             for (const key in this.record) {

@@ -74,6 +74,22 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                 3 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'name',
+                    'type' => 'text',
+                    'display_name' => 'Name',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 4,
+                ),
+                4 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'type_price',
                     'type' => 'select',
                     'display_name' => 'Jenis Tiket',
@@ -101,9 +117,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 4,
+                    'order' => 5,
                 ),
-                4 => 
+                5 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'general_price',
@@ -117,9 +133,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 5,
+                    'order' => 6,
                 ),
-                5 => 
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'discount_price',
@@ -133,9 +149,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 6,
+                    'order' => 7,
                 ),
-                6 => 
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'cashback_price',
@@ -149,9 +165,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 8,
                 ),
-                7 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'description',
@@ -165,9 +181,25 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'stock',
+                    'type' => 'number',
+                    'display_name' => 'Stock',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 10,
+                ),
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -181,9 +213,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 11,
                 ),
-                9 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -197,9 +229,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 12,
                 ),
-                10 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -213,9 +245,9 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 13,
                 ),
-                11 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -229,7 +261,7 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 14,
                 ),
             ));
 

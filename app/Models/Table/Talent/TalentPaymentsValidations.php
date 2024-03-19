@@ -24,13 +24,13 @@ class TalentPaymentsValidations extends Model
         return $this->belongsToMany(BadasoUsers::class, 'talent_payments_validations', 'id', 'validator_id');
     }
 
-    public function souvenirPayments()
+    public function talentPayments()
     {
-        return $this->belongsToMany(SouvenirPayments::class, 'talent_payments_validations', 'id', 'payment_id');
+        return $this->belongsToMany(TalentPayments::class, 'talent_payments_validations', 'id', 'payment_id');
     }
 
-    public function souvenirPayment()
+    public function talentPayment()
     {
-        return $this->belongsTo(SouvenirPayments::class,'payment_id','id');
+        return $this->belongsTo(TalentPayments::class,'payment_id','id');
     }
 }

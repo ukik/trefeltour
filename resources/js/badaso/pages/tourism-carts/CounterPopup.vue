@@ -115,7 +115,7 @@ export default {
 
 
             this.$openLoader();
-            await axios.post('/api/typehead/culinary/update_to_cart', bodyFormData, {
+            await axios.post('/api/typehead/tourism/update_to_cart', bodyFormData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

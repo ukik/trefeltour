@@ -41,9 +41,9 @@
 
             <shared-read-user :response="{
                 data: selecteduser
-            }" v-if="type=='detail'" slug="talent-products"></shared-read-user>
+            }" v-if="type=='detail'" slug="talent-skills"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-products" />
+            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-skills" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -92,7 +92,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/talent/dialog_prices_talent_products?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/talent/dialog_prices_talent_skills?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -124,7 +124,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/talent/dialog_prices_talent_products?keyword=' + this.query, {
+                .get('/api/typehead/talent/dialog_prices_talent_skills?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

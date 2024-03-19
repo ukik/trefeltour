@@ -1,39 +1,8 @@
 <template>
   <div>
     <template v-if="!showMaintenancePage">
-      <badaso-breadcrumb-hover full>
+      <badaso-breadcrumb-hover full :visibleButtonAction="selected.length != 0">
         <template slot="action">
-          <download-excel
-            :data="records"
-            :fields="fieldsForExcel"
-            :worksheet="dataType.displayNameSingular"
-            :name="dataType.displayNameSingular + '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-              v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd &&
-              $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
@@ -53,7 +22,7 @@
             @click.stop
             @click="confirmDeleteMultiple"
           >
-            {{ $t("action.bulkDelete") }}
+            {{ $t("action.bulkDelete") }} Permanent
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="restore"
@@ -62,24 +31,6 @@
             @click="confirmRestoreMultiple"
           >
             {{ $t("action.bulkRestore") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="settings"
-            v-if="
-              $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
-            "
-            @click.stop
-            @click="openMaintenanceDialog"
-          >
-            {{ $t("crudGenerated.maintenanceDialog.title") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            v-if="dataType.isSoftDelete"
-            icon="restore_from_trash"
-            @click.stop
-            :to="{ name: 'CrudGeneratedBrowseBin' }"
-          >
-            {{ $t("action.showTrash") }}
           </badaso-dropdown-item>
         </template>
       </badaso-breadcrumb-hover>
@@ -90,7 +41,7 @@
             :active="Object.keys(errors).length > 0"
             color="danger"
             icon="new_releases"
-            class="crud-generated__errors"
+            style="margin-bottom: 20px"
           >
             <span v-for="key in Object.keys(errors)" :key="key">
               <span v-for="err in errors[key]" :key="err">
@@ -105,10 +56,8 @@
               <h3>{{ dataType.displayNameSingular }}</h3>
             </div>
             <div>
-              <badaso-table ref="badaso_table_1"
-                v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
-                @onChangePage="onChangePage"
-                @onChangeMaxItems="onChangeMaxItems"
+              <badaso-table
+                v-if="dataType.serverSide !== 1"
                 v-model="selected"
                 pagination
                 :max-items="descriptionItems[0]"
@@ -117,7 +66,9 @@
                 stripe
                 description
                 :description-items="descriptionItems"
-                :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                :description-title="`${$t(
+                  'crudGenerated.footer.descriptionTitle'
+                )} Permanent`"
                 :description-connector="
                   $t('crudGenerated.footer.descriptionConnector')
                 "
@@ -172,12 +123,12 @@
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
                             }`"
-                            width="20%"
+                            width="100%"
                             alt=""
                           />
                           <div
                             v-else-if="dataRow.type == 'upload_image_multiple'"
-                            class="crud-generated__item--upload-image-multiple"
+                            style="width: 100%"
                           >
                             <img
                               v-for="(image, indexImage) in stringToArray(
@@ -187,9 +138,9 @@
                               )"
                               :key="indexImage"
                               :src="`${image}`"
-                              width="20%"
+                              width="100%"
                               alt=""
-                              class="crud-generated__item--image"
+                              style="margin-bottom: 10px"
                             />
                           </div>
                           <span
@@ -216,11 +167,11 @@
                           >
                           <a
                             v-else-if="dataRow.type == 'upload_file'"
-                            :href="`${
+                            :href="`${$api.badasoFile.download(
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
-                            }`"
+                            )}`"
                             target="_blank"
                             >{{
                               record[
@@ -230,19 +181,21 @@
                           >
                           <div
                             v-else-if="dataRow.type == 'upload_file_multiple'"
-                            class="crud-generated__item--upload-file-multiple"
+                            style="width: 100%"
                           >
                             <p
-                              v-for="(file, indexFile) in arrayToString(
+                              v-for="(file, indexFile) in stringToArray(
                                 record[
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
                               )"
                               :key="indexFile"
                             >
-                              <a :href="`${file}`" target="_blank">{{
-                                file
-                              }}</a>
+                              <a
+                                :href="`${$api.badasoFile.download(file)}`"
+                                target="_blank"
+                                >{{ file }}</a
+                              >
                             </p>
                           </div>
                           <p
@@ -265,7 +218,7 @@
                               dataRow.type == 'select_multiple' ||
                               dataRow.type == 'checkbox'
                             "
-                            class="crud-generated__item--select-multiple"
+                            style="width: 100%"
                           >
                             <p
                               v-for="(selected, indexSelected) in stringToArray(
@@ -282,8 +235,7 @@
                           </div>
                           <div v-else-if="dataRow.type == 'color_picker'">
                             <div
-                              class="crud-generated__item--color-picker"
-                              :style="`background-color: ${
+                              :style="`width: 100%; height: 14px; background-color: ${
                                 record[
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
@@ -298,19 +250,14 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                            <div v-if="dataRow.field == 'year_exp'">
-                                {{ $formatDate(record.yearExp) }}
-                            </div>
-                            <div v-else>
-                                {{
-                                    record[
-                                    $caseConvert.stringSnakeToCamel(dataRow.field)
-                                    ]
-                                }}
-                            </div>
+                          <span v-else>{{
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }}</span>
                         </template>
                       </vs-td>
-                      <vs-td class="crud-generated__button">
+                      <vs-td style="width: 1%; white-space: nowrap">
                         <badaso-dropdown vs-trigger-click>
                           <vs-button
                             size="large"
@@ -318,9 +265,6 @@
                             icon="more_vert"
                           ></vs-button>
                           <vs-dropdown-menu>
-
-
-
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
@@ -374,7 +318,7 @@
                                 )
                               "
                             >
-                              Delete
+                              Delete Permanent
                             </badaso-dropdown-item>
                             <badaso-dropdown-item
                               @click="confirmDeleteDataPending(data[index].id)"
@@ -391,60 +335,15 @@
                                 )
                               }}
                             </badaso-dropdown-item>
-
-                            <hr class="m-0 my-1">
-
-
-                            <!-- ADDITIONAL -->
-
-
                             <badaso-dropdown-item
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: data[index].talentProfile?.id,
-                                  slug: 'talent-profiles',
-                                },
-                              }"
-                              v-if="
-                                data[index].talentProfile?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
+                              @click="
+                                confirmRestoreDataSoftDelete(data[index].id)
                               "
-                              icon="visibility"
+                              icon="restore"
+                              v-if="isShowDataRecycle"
                             >
-                              Detail Profile
+                              {{ $t("softDelete.crudGenerator.restore") }}
                             </badaso-dropdown-item>
-
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPrices" :key="2+index2"
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: item2.id,
-                                  slug: 'talent-prices',
-                                },
-                              }"
-                              v-if="
-                                item2.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Harga: {{ item2.uuid }}
-                            </badaso-dropdown-item>
-
-                            <!-- --------------------- -->
-
-
                           </vs-dropdown-menu>
                         </badaso-dropdown>
                       </vs-td>
@@ -453,8 +352,8 @@
                 </template>
               </badaso-table>
               <div v-else>
-                <badaso-server-side-table  ref="badaso_table_2"
-                  v-model="selected" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
+                <badaso-server-side-table
+                  v-model="selected"
                   :data="records"
                   stripe
                   :pagination-data="data"
@@ -519,14 +418,14 @@
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
                               "
-                              width="20%"
+                              width="100%"
                               alt=""
                             />
                             <div
                               v-else-if="
                                 dataRow.type == 'upload_image_multiple'
                               "
-                              class="crud-generated__item--upload-image-multiple"
+                              style="width: 100%"
                             >
                               <img
                                 v-for="(image, indexImage) in stringToArray(
@@ -538,9 +437,9 @@
                                 )"
                                 :key="indexImage"
                                 :src="`${image}`"
-                                width="20%"
+                                width="100%"
                                 alt=""
-                                class="crud-generated__item--image"
+                                style="margin-bottom: 10px"
                               />
                             </div>
                             <span
@@ -567,11 +466,15 @@
                             >
                             <a
                               v-else-if="dataRow.type == 'upload_file'"
-                              :href="`${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }`"
+                              :href="`${$api.badasoFile.download(
+                                getDownloadUrl(
+                                  record[
+                                    $caseConvert.stringSnakeToCamel(
+                                      dataRow.field
+                                    )
+                                  ]
+                                )
+                              )}`"
                               target="_blank"
                               >{{
                                 getDownloadUrl(
@@ -585,10 +488,10 @@
                             >
                             <div
                               v-else-if="dataRow.type == 'upload_file_multiple'"
-                              class="crud-generated__item--upload-file-multiple"
+                              style="width: 100%"
                             >
                               <p
-                                v-for="(file, indexFile) in arrayToString(
+                                v-for="(file, indexFile) in stringToArray(
                                   record[
                                     $caseConvert.stringSnakeToCamel(
                                       dataRow.field
@@ -597,9 +500,13 @@
                                 )"
                                 :key="indexFile"
                               >
-                                <a :href="`${file}`" target="_blank">{{
-                                  getDownloadUrl(file)
-                                }}</a>
+                                <a
+                                  :href="`${$api.badasoFile.download(
+                                    getDownloadUrl(file)
+                                  )}`"
+                                  target="_blank"
+                                  >{{ getDownloadUrl(file) }}</a
+                                >
                               </p>
                             </div>
                             <p
@@ -624,7 +531,7 @@
                                 dataRow.type == 'select_multiple' ||
                                 dataRow.type == 'checkbox'
                               "
-                              class="crud-generated__item--select-multiple"
+                              style="width: 100%"
                             >
                               <p
                                 v-for="(
@@ -645,8 +552,7 @@
                             </div>
                             <div v-else-if="dataRow.type == 'color_picker'">
                               <div
-                                class="crud-generated__item--color-picker"
-                                :style="`background-color: ${
+                                :style="`width: 100%; height: 14px; background-color: ${
                                   record[
                                     $caseConvert.stringSnakeToCamel(
                                       dataRow.field
@@ -670,7 +576,7 @@
                             }}</span>
                           </template>
                         </vs-td>
-                        <vs-td class="crud-generated__button">
+                        <vs-td style="width: 1%; white-space: nowrap">
                           <badaso-dropdown vs-trigger-click>
                             <vs-button
                               size="large"
@@ -760,8 +666,9 @@
         <vs-prompt
           @accept="saveMaintenanceState"
           :active.sync="maintenanceDialog"
+          class="mb-0"
         >
-          <vs-row>
+          <vs-row class="mb-0">
             <badaso-switch
               :label="$t('crudGenerated.maintenanceDialog.switch')"
               :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
@@ -795,11 +702,12 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
-          <div class="badaso-maintenance__container">
-            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
-            <h1 class="badaso-maintenance__text">
-              We are under <br />maintenance
-            </h1>
+          <div
+            class="flex flex-direction-column justify-content-center align-items-center"
+          >
+            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon" />
+
+            <h1 class="mt-4 text-center">We are under <br />maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -809,17 +717,14 @@
 
 <script>
 import * as _ from "lodash";
-import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import moment from "moment";
 export default {
-  components: { downloadExcel },
-  name: "CrudGeneratedBrowse",
+  name: "CrudGeneratedBrowseBin",
   data: () => ({
     errors: {},
     data: {},
-    descriptionItems: [5, 10, 25, 50, 75, 100],
+    descriptionItems: [10, 50, 100],
     selected: [],
     records: [],
     dataType: [],
@@ -841,18 +746,11 @@ export default {
     maintenanceDialog: false,
     isMaintenance: false,
     showMaintenancePage: false,
-    isShowDataRecycle: false,
-
-    lastPage: 0,
-    currentPage: 1,
-    perPage: 5
+    isShowDataRecycle: true,
   }),
   watch: {
-    $route: {
-        immediate: true,
-        handler (to, from) {
-          this.getEntity();
-        }
+    $route: function (to, from) {
+      this.getEntity();
     },
     // page: function(to, from) {
     //   this.handleChangePage(to);
@@ -862,24 +760,10 @@ export default {
     // },
   },
   mounted() {
-    if (this.$route.query.search || this.$route.query.page) {
-      this.filter = this.$route.query.search;
-      this.page = this.$route.query.page;
-      this.show = this.$route.query.show;
-    }
-    // this.getEntity();
+    this.getEntity();
     this.loadIdsOfflineDelete();
   },
   methods: {
-    onChangePage(val) {
-        this.currentPage = val;
-        this.getEntity();
-    },
-    onChangeMaxItems(val) {
-        this.currentPage = 1; // reset ke page 1
-        this.perPage = val;
-        this.getEntity();
-    },
     getDownloadUrl(item) {
       if (item == null || item == undefined) return;
 
@@ -895,6 +779,21 @@ export default {
         accept: () => this.deleteRecordDataPending(id),
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
+        cancel: () => {
+          this.willDeleteId = null;
+        },
+      });
+    },
+    confirmRestoreDataSoftDelete(id) {
+      this.willDeleteId = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: () => this.deleteRestoreDataSoftDelete(id),
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -927,15 +826,22 @@ export default {
         cancel: () => {},
       });
     },
-    getEntity: _.debounce(async function () {
-    // async getEntity() {
+    confirmRestoreMultiple(id) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: this.restoreRecords,
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
+        cancel: () => {},
+      });
+    },
+    async getEntity() {
       this.$openLoader();
       try {
-        const {
-            data: {
-                data, total, lastPage, currentPage, perPage
-            }
-        } = await this.$api.badasoEntity.browse({
+        const response = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
           page: this.page,
@@ -943,27 +849,7 @@ export default {
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
-
-          perPage: this.perPage,
-          page: this.currentPage
         });
-
-        this.lastPage = lastPage
-        this.currentPage = currentPage
-        this.perPage = perPage
-        let response = {
-            data: {
-                data,
-                total,
-            }
-        }
-        // response['data'] = responseX.data
-        // response['data']['data'] = data
-        // response['data']['total'] = total
-        // console.log('getEntity', response)
-        // return
-        // console.log(this.$refs.badaso_table_1.loadData())
-
         const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
@@ -972,26 +858,10 @@ export default {
         this.$closeLoader();
         this.data = response.data;
         this.records = response.data.data;
-        this.records.map((record) => {
-          if (record.createdAt || record.updatedAt) {
-            record.createdAt = moment(record.createdAt).format(
-              "YYYY-MM-DD hh:mm:ss"
-            );
-            record.updatedAt = moment(record.updatedAt).format(
-              "YYYY-MM-DD hh:mm:ss"
-            );
-          }
-          return record;
-        });
-
-        console.log('getEntity this.records', this.records)
-
-
         this.totalItem =
           response.data.total > 0
             ? Math.ceil(response.data.total / this.limit)
             : 1;
-
         this.dataType = dataType;
         this.isMaintenance = this.dataType.isMaintenance == 1;
         const dataRows = this.dataType.dataRows.map((data) => {
@@ -1001,9 +871,9 @@ export default {
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        const addFields = dataRows.filter((row) => row.add == 1);
-        const editFields = dataRows.filter((row) => row.edit == 1);
-        const readFields = dataRows.filter((row) => row.read == 1);
+        const addFields = _.filter(dataRows, ["add", 1]);
+        const editFields = _.filter(dataRows, ["edit", 1]);
+        const readFields = _.filter(dataRows, ["read", 1]);
         this.isCanAdd = addFields.length > 0;
         this.isCanEdit = editFields.length > 0;
         this.isCanRead = readFields.length > 0;
@@ -1022,7 +892,7 @@ export default {
           color: "danger",
         });
       }
-    }, 500),
+    },
     deleteRecordDataPending(id) {
       try {
         const keyStore = window.location.pathname;
@@ -1052,6 +922,7 @@ export default {
                 }
               }
             }
+
             this.$setObjectStore(keyStore, { data: newData });
 
             this.idsOfflineDeleteRecord = this.idsOfflineDeleteRecord.filter(
@@ -1063,10 +934,10 @@ export default {
         console.error(error);
       }
     },
-    deleteRecord() {
+    deleteRestoreDataSoftDelete(id) {
       this.$openLoader();
       this.$api.badasoEntity
-        .delete({
+        .restore({
           slug: this.$route.params.slug,
           data: [
             {
@@ -1091,11 +962,71 @@ export default {
           });
         });
     },
+    deleteRecord() {
+      this.$openLoader();
+      this.$api.badasoEntity
+        .delete({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "id",
+              value: this.willDeleteId,
+            },
+          ],
+          isHardDelete: true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
       this.$openLoader();
       this.$api.badasoEntity
         .deleteMultiple({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "ids",
+              value: ids.join(","),
+            },
+          ],
+          isHardDelete: true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.selected = [];
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    restoreRecords() {
+      const ids = this.selected.map((item) => item.id);
+      this.$openLoader();
+      this.$api.badasoEntity
+        .restoreMultiple({
           slug: this.$route.params.slug,
           data: [
             {
@@ -1136,60 +1067,18 @@ export default {
         return [];
       }
     },
-    arrayToString(files) {
-      if (files) {
-        const mixArray = files;
-        const str = mixArray.replace(/\[|\]|"/g, "").split(",");
-        return str;
-      } else {
-        return [];
-      }
-    },
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.$router
-        .replace({
-          query: {
-            search: this.filter,
-            page: this.page,
-            show: this.limit,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       this.getEntity();
     },
     handleChangePage(page) {
       this.page = page;
-      this.$router
-        .replace({
-          query: {
-            search: this.filter,
-            page: this.page,
-            show: this.limit,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       this.getEntity();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
-      this.$router
-        .replace({
-          query: {
-            search: this.filter,
-            page: this.page,
-            show: this.limit,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       this.getEntity();
     },
     handleSort(field, direction) {
@@ -1212,31 +1101,15 @@ export default {
         const displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
-        if (relationType == "has_one") {
-          const list = record[table];
-          return list[displayColumn] ? list[displayColumn] : null;
-        } else if (relationType == "has_many") {
+
+        if (relationType == "has_many") {
           const list = record[table];
           const flatList = list.map((ls) => {
             return ls[displayColumn];
           });
           return flatList.join(", ");
-        } else if(relationType == "belongs_to"){
-          const lists = record[table];
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-          for(let list of lists){
-            if (list.id == record[field]){
-              return list[displayColumn];
-            }
-          }
-        }  else if (relationType == "belongs_to_many") {
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-          const lists = record[field]
-          let flatList = []
-          Object.keys(lists).forEach(function (ls, key) {
-            flatList.push(lists[ls][displayColumn]);
-          });
-          return flatList.join(",").replace(",", ", ");
+        } else {
+          return record[table] ? record[table][displayColumn] : null;
         }
       } else {
         return null;
@@ -1287,16 +1160,10 @@ export default {
       // eslint-disable-next-line new-cap
       const doc = new jsPDF("l");
 
-      // Dynamic table title
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(28);
-      doc.text(this.dataType.displayNameSingular, 149, 20, "center");
-
-      // Data table
       doc.autoTable({
         head: [this.fieldsForPdf],
         body: result,
-        startY: 30,
+        startY: 15,
         // Default for all columns
         styles: { valign: "middle" },
         headStyles: { fillColor: [6, 187, 211] },
@@ -1304,11 +1171,18 @@ export default {
         columnStyles: { text: { cellWidth: "wrap" } },
       });
 
-      // Output Table title and data table in new tab
       const output = doc.output("blob");
-      data = window.URL.createObjectURL(output);
-      window.open(data, "_blank");
 
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(output);
+        return;
+      }
+
+      data = window.URL.createObjectURL(output);
+      const link = document.createElement("a");
+      link.href = data;
+      link.download = this.dataType.displayNameSingular + ".pdf";
+      link.click();
       setTimeout(function () {
         // For Firefox it is necessary to delay revoking the ObjectURL
         window.URL.revokeObjectURL(data);
@@ -1355,9 +1229,6 @@ export default {
         console.error(error);
       }
     },
-    async onSwitchChangeDataShow() {
-      await this.getEntity();
-    },
   },
   computed: {
     isOnline: {
@@ -1366,10 +1237,23 @@ export default {
         return isOnline;
       },
     },
-    maintenanceImg() {
-      const config = this.$store.getters["badaso/getConfig"];
-      return config.maintenanceImage;
-    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+</style>

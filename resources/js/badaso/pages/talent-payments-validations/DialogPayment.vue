@@ -41,9 +41,9 @@
 
             <shared-read-user :response="{
                 data: selecteduser
-            }" v-if="type=='detail'" slug="talent-bookings"></shared-read-user>
+            }" v-if="type=='detail'" slug="talent-payments"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-bookings" />
+            <shared-table-modal-payment-validation v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-payments" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -77,6 +77,10 @@ export default {
         }
     },
     watch: {
+        type(val) {
+            if(val == 'detail') return this.modalClass = 'modal-xl'
+            this.modalClass = 'modal-fullscreen'
+        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         }
@@ -96,6 +100,12 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
+                    if(!item && this.$route.name === 'CrudGeneratedEdit') return this.$router.replace({
+                                name: 'CrudGeneratedBrowse',
+                                params: {
+                                  slug: this.$route.params.slug,
+                                },
+                              })
                     this.$refs.typeahead.inputValue = `UUID (${item.uuid})`
                     this.selecteduser = item;
                     this.users = [item];

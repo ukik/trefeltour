@@ -13,8 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use CulinaryPrices;
-use CulinaryProducts;
+use TourismPrices;
+use TourismVenues;
 
 class TourismPricesController extends Controller
 {
@@ -50,12 +50,10 @@ class TourismPricesController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \CulinaryPrices::with([
-                'culinaryStores',
-                'culinaryStore.badasoUsers',
-                'culinaryStore.badasoUser',
-                'culinaryProduct',
-                'culinaryProducts',
+            $data = \TourismPrices::with([
+                'tourismVenues',
+                'tourismVenue.badasoUsers',
+                'tourismVenue.badasoUser',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -110,12 +108,10 @@ class TourismPricesController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryPrices::with([
-                'culinaryStores',
-                'culinaryStore.badasoUsers',
-                'culinaryStore.badasoUser',
-                'culinaryProduct',
-                'culinaryProducts',
+            $data = \TourismPrices::with([
+                'tourismVenues',
+                'tourismVenue.badasoUsers',
+                'tourismVenue.badasoUser',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -133,7 +129,7 @@ class TourismPricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         try {
 
@@ -141,14 +137,14 @@ class TourismPricesController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \CulinaryPrices::where('id', $request->data['id'])->first();
+            $table_entity = \TourismPrices::where('id', $request->data['id'])->first();
 
             $req = request()['data'];
             $data = [
 
-                'store_id' => $table_entity->store_id,
-                'product_id' => $table_entity->product_id,
+                'venue_id' => $table_entity->venue_id,
                 'name' => $req['name'],
+                'type_price' => $req['type_price'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
@@ -161,8 +157,7 @@ class TourismPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'product_id' => 'required',
+                    'venue_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -177,9 +172,9 @@ class TourismPricesController extends Controller
                 }
             }
 
-            \CulinaryPrices::where('id', $request->data['id'])->update($data);
+            \TourismPrices::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \CulinaryPrices::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TourismPrices::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -206,7 +201,7 @@ class TourismPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         try {
 
@@ -216,13 +211,13 @@ class TourismPricesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
-            $store_id = CulinaryProducts::where('id', $req['product_id'])->value('store_id');
+            $venue_id = TourismVenues::where('id', $req['venue_id'])->value('id');
 
             $data = [
 
-                'store_id' => $store_id,
-                'product_id' => $req['product_id'],
+                'venue_id' => $venue_id,
                 'name' => $req['name'],
+                'type_price' => $req['type_price'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
@@ -235,8 +230,7 @@ class TourismPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'product_id' => 'required',
+                    'venue_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -253,7 +247,7 @@ class TourismPricesController extends Controller
                 }
             }
 
-            $stored_data = \CulinaryPrices::insert($data);
+            $stored_data = \TourismPrices::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
@@ -278,11 +272,11 @@ class TourismPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryPrices::where('id', $value)->with(['culinaryBooking'])->first();
-        if($check->culinaryBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismPrices::where('id', $value)->with(['tourismBooking'])->first();
+        if($check->tourismBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -369,7 +363,7 @@ class TourismPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         try {
             $request->validate([
@@ -407,10 +401,10 @@ class TourismPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryBooking')->get();
+            $filters = TourismPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismBooking')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinaryBooking == null) {
+                if($value->tourismBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

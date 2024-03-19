@@ -21,15 +21,15 @@
 
             <shared-read-user :response="{
                 data: selectedData
-            }" v-if="type=='detail'" slug="souvenir-bookings"></shared-read-user>
+            }" v-if="type=='detail'" slug="talent-bookings"></shared-read-user>
 
-            <shared-table-modal-souvenir-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="souvenir-booking-items" />
+            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="talent-booking-items" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
         <shared-browser-modal ref="SharedBrowserModal" />
       <template v-if="!showMaintenancePage">
-        <badaso-breadcrumb-hover full>
+        <badaso-breadcrumb full>
           <!-- <template slot="action">
             <download-excel
               :data="records"
@@ -110,7 +110,7 @@
               {{ $t("action.showTrash") }}
             </badaso-dropdown-item>
           </template> -->
-        </badaso-breadcrumb-hover>
+        </badaso-breadcrumb>
 
         <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
           <vs-col vs-lg="12">

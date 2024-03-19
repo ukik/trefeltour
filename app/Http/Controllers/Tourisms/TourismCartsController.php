@@ -13,14 +13,14 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use CulinaryCarts;
+use TourismCarts;
 
 use \BadasoUsers;
 use Faker\Core\Number;
 use Google\Service\Eventarc\Transport;
-use CulinaryBookings;
-use CulinaryBookingsItems;
-use CulinaryPrices;
+use TourismBookings;
+use TourismBookingsItems;
+use TourismPrices;
 
 
 class TourismCartsController extends Controller
@@ -57,19 +57,17 @@ class TourismCartsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \CulinaryCarts::with([
-                // 'culinaryStore.culinaryBooking.badasoUsers',
-                // 'culinaryStore.culinaryBooking.badasoUser',
-                // 'culinaryStore.culinaryBookings',
+            $data = \TourismCarts::with([
+                // 'tourismVenue.tourismBooking.badasoUsers',
+                // 'tourismVenue.tourismBooking.badasoUser',
+                // 'tourismVenue.tourismBookings',
                 'badasoUsers',
                 'badasoUser',
 
-                'culinaryProduct',
-                'culinaryProducts',
-                'culinaryPrice',
-                'culinaryPrices',
-                'culinaryStore',
-                'culinaryStores',
+                'tourismPrice',
+                'tourismPrices',
+                'tourismVenue',
+                'tourismVenues',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -94,10 +92,10 @@ class TourismCartsController extends Controller
                 };
 
                 $data = $data
-                    ->orWhere('store_id','like','%'.$search.'%')
+                    ->orWhere('venue_id','like','%'.$search.'%')
                     ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('culinaryPrice', $priceId)
-                    ->orWhereHas('culinaryProduct', $productId);
+                    ->orWhereHas('tourismPrice', $priceId);
+                    // ->orWhereHas('tourismProduct', $productId);
             }
 
             $data = $data->paginate(request()->perPage);
@@ -150,19 +148,17 @@ class TourismCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryCarts::with([
-                // 'culinaryStore.culinaryBooking.badasoUsers',
-                // 'culinaryStore.culinaryBooking.badasoUser',
-                // 'culinaryStore.culinaryBookings',
+            $data = \TourismCarts::with([
+                // 'tourismVenue.tourismBooking.badasoUsers',
+                // 'tourismVenue.tourismBooking.badasoUser',
+                // 'tourismVenue.tourismBookings',
                 'badasoUsers',
                 'badasoUser',
 
-                'culinaryProduct',
-                'culinaryProducts',
-                'culinaryPrice',
-                'culinaryPrices',
-                'culinaryStore',
-                'culinaryStores',
+                'tourismPrice',
+                'tourismPrices',
+                'tourismVenue',
+                'tourismVenues',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -181,11 +177,11 @@ class TourismCartsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         $value = request()['data']['id'];
-        $check = \CulinaryPayments::where('booking_id', $value)->first();
-        if($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+        $check = \TourismPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTourism()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -193,9 +189,9 @@ class TourismCartsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \CulinaryCarts::where('id', $request->data['id'])->first();
+            $table_entity = \TourismCarts::where('id', $request->data['id'])->first();
 
-            $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+            $temp = \TourismPrices::where('id', $request->data['price_id'])->first();
             if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -244,9 +240,9 @@ class TourismCartsController extends Controller
             $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
 
-            \CulinaryCarts::where('id', $request->data['id'])->update($data);
+            \TourismCarts::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \CulinaryCarts::where('id', $request->data['id'])->first();
+            $updated['updated_data'] = \TourismCarts::where('id', $request->data['id'])->first();
 
             DB::commit();
             activity($data_type->display_name_singular)
@@ -274,7 +270,7 @@ class TourismCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -302,9 +298,9 @@ class TourismCartsController extends Controller
                 $customers[] = $value['customerId'];
             }
 
-            // ambil ulang data dari CulinaryCarts
-            $from_server_cart = \CulinaryCarts::with([
-                'culinaryPrice',
+            // ambil ulang data dari TourismCarts
+            $from_server_cart = \TourismCarts::with([
+                'tourismPrice',
             ])->whereIn('id', $ids)->get();
 
             if(!$from_server_cart) return ApiResponse::failed("Data tidak ditemukan");
@@ -316,16 +312,16 @@ class TourismCartsController extends Controller
 
                         array_push($forms, [
                             'customer_id' => $server['customer_id'],
-                            'store_id' => $server['store_id'],
+                            'venue_id' => $server['venue_id'],
                             'id' => $server['id'],
-                            'total' => getTotalAmount($server->culinaryPrice) * $server->quantity,
+                            'total' => getTotalAmount($server->tourismPrice) * $server->quantity,
                         ]);
 
                         // array_push($total_sums, [
                         //     'customer_id' => $pay['customerId'],
                         //     'customer_id_sql' => $value['customer_id'],
                         //     'id' => $value['id'],
-                        //     'total' => getTotalAmount($value->culinaryPrice) * $value->quantity,
+                        //     'total' => getTotalAmount($value->tourismPrice) * $value->quantity,
                         // ]);
 
                         break;
@@ -378,19 +374,19 @@ class TourismCartsController extends Controller
                 $uuid = ShortUuid();
                 $data = [
                     'customer_id' => $res['customer_id'] ,
-                    'store_id' => $res['store_id'] ,
+                    'venue_id' => $res['venue_id'] ,
 
                     'get_final_amount' => $res['total'] ,
 
                     'description' => $description ,
-                    'code_table' => ('culinary-bookings') ,
+                    'code_table' => ('tourism-bookings') ,
                     'uuid' => $uuid,
                 ];
 
                 $validator = Validator::make($data,
                     [
                         'customer_id' => 'required',
-                        'store_id' => 'required',
+                        'venue_id' => 'required',
                         // susah karena pake softDelete, pakai cara manual saja
                         // 'ticket_id' => 'unique:travel_bookings'
                     ],
@@ -407,9 +403,9 @@ class TourismCartsController extends Controller
 
             }
 
-            CulinaryBookings::insert($forms);
+            TourismBookings::insert($forms);
 
-            $bookings = CulinaryBookings::whereIn('uuid', $uuids)->get();
+            $bookings = TourismBookings::whereIn('uuid', $uuids)->get();
 
             // INSERT BOOKING ITEMS
             $cartItems = [];
@@ -421,18 +417,17 @@ class TourismCartsController extends Controller
                         $items = [
                             // INSERT TO BOOKING ITEMS
                             'booking_id' => $booking->id,
-                            'store_id' => $value->store_id,
+                            'venue_id' => $value->venue_id,
                             'customer_id' => $value->customer_id,
-                            'product_id' => $value->product_id,
-                            'name' => $value->culinaryPrice->name,
-                            'get_price' => $value->culinaryPrice->general_price,
-                            'get_discount' => $value->culinaryPrice->discount_price,
-                            'get_cashback' => $value->culinaryPrice->cashback_price,
-                            'get_total_amount' => getTotalAmount($value->culinaryPrice),
+                            'name' => $value->tourismPrice->name,
+                            'get_price' => $value->tourismPrice->general_price,
+                            'get_discount' => $value->tourismPrice->discount_price,
+                            'get_cashback' => $value->tourismPrice->cashback_price,
+                            'get_total_amount' => getTotalAmount($value->tourismPrice),
                             'quantity' => $value->quantity,
-                            'get_final_amount' => getTotalAmount($value->culinaryPrice) * $value->quantity,
-                            'description' => $value->culinaryPrice->description,
-                            'code_table' => 'culinary-booking-items',
+                            'get_final_amount' => getTotalAmount($value->tourismPrice) * $value->quantity,
+                            'description' => $value->tourismPrice->description,
+                            'code_table' => 'tourism-booking-items',
                             'uuid' => ShortUuid(),
                         ];
 
@@ -453,11 +448,11 @@ class TourismCartsController extends Controller
                 }
             }
 
-            $booking_items = CulinaryBookingsItems::insert($cartItems);
+            $booking_items = TourismBookingsItems::insert($cartItems);
 
             // HAPUS CARTS
-            \CulinaryCarts::with([
-                'culinaryPrice',
+            \TourismCarts::with([
+                'tourismPrice',
             ])->whereIn('id', $ids)->delete();
 
             activity($data_type->display_name_singular)
@@ -485,7 +480,7 @@ class TourismCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -507,7 +502,7 @@ class TourismCartsController extends Controller
             $description = request()->description;
 
             // customer_id
-            // store_id
+            // venue_id
             // uuid
             // description
             // get_final_amount
@@ -518,32 +513,32 @@ class TourismCartsController extends Controller
                 $ids[] = $value['id'];
             }
 
-            $prices = \CulinaryCarts::with([
-                'culinaryPrice',
+            $prices = \TourismCarts::with([
+                'tourismPrice',
             ])->whereIn('id', $ids)->get();
 
             $total = 0;
 
             foreach ($prices as $key => $value) {
-                $total = getTotalAmount($value->culinaryPrice) * $value->quantity;
+                $total = getTotalAmount($value->tourismPrice) * $value->quantity;
             }
 
             $uuid = ShortUuid();
             $data = [
                 'customer_id' => $payload[0]['customerId'] ,
-                'store_id' => $payload[0]['storeId'] ,
+                'venue_id' => $payload[0]['storeId'] ,
 
                 'get_final_amount' => $total ,
 
                 'description' => $description ,
-                'code_table' => ('culinary-bookings') ,
+                'code_table' => ('tourism-bookings') ,
                 'uuid' => $uuid,
             ];
 
             $validator = Validator::make($data,
                 [
                     'customer_id' => 'required',
-                    'store_id' => 'required',
+                    'venue_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -555,8 +550,8 @@ class TourismCartsController extends Controller
                 }
             }
 
-            CulinaryBookings::insert($data);
-            $booking = CulinaryBookings::where('uuid', $uuid)->first();
+            TourismBookings::insert($data);
+            $booking = TourismBookings::where('uuid', $uuid)->first();
 
 
             // INSERT BOOKING ITEMS
@@ -564,29 +559,28 @@ class TourismCartsController extends Controller
             foreach ($prices as $key => $value) {
                 $items = [
                     // INSERT TO BOOKING ITEMS
-                    'store_id' => $value->store_id,
+                    'venue_id' => $value->venue_id,
                     'booking_id' => $booking->id,
-                    'product_id' => $value->product_id,
-                    'name' => $value->culinaryPrice->name,
-                    'get_price' => $value->culinaryPrice->general_price,
-                    'get_discount' => $value->culinaryPrice->discount_price,
-                    'get_cashback' => $value->culinaryPrice->cashback_price,
-                    'get_total_amount' => getTotalAmount($value->culinaryPrice),
+                    'name' => $value->tourismPrice->name,
+                    'get_price' => $value->tourismPrice->general_price,
+                    'get_discount' => $value->tourismPrice->discount_price,
+                    'get_cashback' => $value->tourismPrice->cashback_price,
+                    'get_total_amount' => getTotalAmount($value->tourismPrice),
                     'quantity' => $value->quantity,
-                    'get_final_amount' => getTotalAmount($value->culinaryPrice) * $value->quantity,
-                    'description' => $value->culinaryPrice->description,
-                    'code_table' => 'culinary-booking-items',
+                    'get_final_amount' => getTotalAmount($value->tourismPrice) * $value->quantity,
+                    'description' => $value->tourismPrice->description,
+                    'code_table' => 'tourism-booking-items',
                     'uuid' => ShortUuid(),
                 ];
 
                 array_push($bookingItems, $items);
             }
 
-            $booking_items = CulinaryBookingsItems::insert($bookingItems);
+            $booking_items = TourismBookingsItems::insert($bookingItems);
 
             // HAPUS CARTS
-            $prices = \CulinaryCarts::with([
-                'culinaryPrice',
+            $prices = \TourismCarts::with([
+                'tourismPrice',
             ])->whereIn('id', $ids)->delete();
 
 
@@ -615,11 +609,11 @@ class TourismCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryCarts::where('id', $value)->with(['culinaryPayment'])->first();
-        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismCarts::where('id', $value)->with(['tourismPayment'])->first();
+        if($check->tourismPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -707,7 +701,7 @@ class TourismCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTourism();
 
         try {
             $request->validate([
@@ -745,10 +739,10 @@ class TourismCartsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
+            $filters = TourismCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinaryPayment == null) {
+                if($value->tourismPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -3,7 +3,7 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
         <!-- {{ userRole !== 'admin-talent' }} xxxxxxxxxxxxxx -->
-        <label class="badaso-text__label col-12 p-1">Pilih Profile Talent</label>
+        <label class="badaso-text__label col-12 p-1">Pilih Toko Souvenir</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
             <vs-icon icon="table_chart" style="font-size: 18px;" class=""></vs-icon>
@@ -13,8 +13,8 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})` }"
-            @hit="selecteduser = $event" placeholder="Pilih Profile Talent" @input="lookupUser" required>
+            :serializer="item => { return `Toko Souvenir UUID (${item.uuid})` }"
+            @hit="selecteduser = $event" placeholder="Pilih Toko Souvenir" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
         <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-talent'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
@@ -77,6 +77,10 @@ export default {
         }
     },
     watch: {
+        type(val) {
+            if(val == 'detail') return this.modalClass = 'modal-xl'
+            this.modalClass = 'modal-fullscreen'
+        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         }
@@ -88,7 +92,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/talent/dialog_profile_talent_profiles?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/talent/dialog_skill_talent_profiles?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -96,7 +100,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})` //`Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+                    this.$refs.typeahead.inputValue = `Toko Souvenir UUID (${item.uuid})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -106,7 +110,7 @@ export default {
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+            this.$refs.typeahead.inputValue = `Toko Souvenir UUID (${item.uuid})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
@@ -120,7 +124,7 @@ export default {
             return
             // in practice this action should be debounced
             axios
-                .get('/api/typehead/talent/dialog_profile_talent_profiles?keyword=' + this.query, {
+                .get('/api/typehead/talent/dialog_skill_talent_profiles?keyword=' + this.query, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

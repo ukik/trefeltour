@@ -28,12 +28,12 @@
                     <span class="col-auto">{{ selectedData?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Toko </span>
-                    <span class="col-auto">{{ selectedData?.culinaryStore?.name }}</span>
+                    <span class="col">Lokasi </span>
+                    <span class="col-auto">{{ selectedData?.tourismVenue?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Jenis Produk</span>
-                    <span class="col-auto">{{ selectedData?.culinaryProduct?.name }}</span>
+                    <span class="col">Tipe</span>
+                    <span class="col-auto">{{ selectedData?.typePrice }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Stok</span>
@@ -550,7 +550,7 @@
                               Detail Pembayaran Validasi
                             </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -614,7 +614,7 @@
                               icon="visibility"
                             >
                               Detail Wahana ({{ item1.name }})
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
 
@@ -1083,7 +1083,7 @@ export default {
         bodyFormData.append('quantity', this.selectedQuantity);
 
         this.$openLoader();
-        await axios.post('/api/typehead/culinary/add_to_cart', bodyFormData, {
+        await axios.post('/api/typehead/tourism/add_to_cart', bodyFormData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }

@@ -13,7 +13,7 @@
         </div>
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
-            :serializer="item => { return `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})` }"
+            :serializer="item => { return `UUID (${item.uuid})` }"
             @hit="selecteduser = $event" placeholder="Pilih Pembayaran" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
         <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-tourism'" @click="onHapus" class="btn btn-primary col-auto mr-4">
@@ -41,9 +41,9 @@
 
             <shared-read-user :response="{
                 data: selecteduser
-            }" v-if="type=='detail'" slug="tourism-bookings"></shared-read-user>
+            }" v-if="type=='detail'" slug="tourism-payments"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="tourism-bookings" />
+            <shared-table-modal-payment-validation v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="tourism-payments" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -77,6 +77,10 @@ export default {
         }
     },
     watch: {
+        type(val) {
+            if(val == 'detail') return this.modalClass = 'modal-xl'
+            this.modalClass = 'modal-fullscreen'
+        },
         selecteduser(val) {
             this.$emit('onBubbleEvent', val)
         }
@@ -96,7 +100,7 @@ export default {
                 .then(response => {
                     console.log('AXIOS TYPEHEAD USER', response)
                     const item = response.data.data
-                    this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
+                    this.$refs.typeahead.inputValue = `UUID (${item.uuid})`
                     this.selecteduser = item;
                     this.users = [item];
                 })
@@ -106,7 +110,7 @@ export default {
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response
-            this.$refs.typeahead.inputValue = `UUID (${item.paymentUuid}) Destinasi (${item?.tourismVenue?.name})`
+            this.$refs.typeahead.inputValue = `UUID (${item.uuid})`
             this.selecteduser = response;
             this.users = [response];
             this.show = false
