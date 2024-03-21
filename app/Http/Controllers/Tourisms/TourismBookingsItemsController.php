@@ -53,6 +53,7 @@ class TourismBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TourismBookingsItems::with([
+                'badasoUsers',
                 'tourismBooking',
                 'tourismBookings',
 
@@ -122,6 +123,7 @@ class TourismBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismBookingsItems::with([
+                'badasoUsers',
                 'tourismBooking',
                 'tourismBookings',
 

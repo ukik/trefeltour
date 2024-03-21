@@ -15,6 +15,16 @@ class TourismBookingsItems extends Model
 
     protected $table = "tourism_booking_items";
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
+    public function badasoUsers()
+    {
+        return $this->belongsToMany(BadasoUsers::class, 'tourism_booking_items', 'id', 'customer_id');
+    }
+
     public function tourismBooking()
     {
         return $this->belongsTo(TourismBookings::class,'booking_id','id');

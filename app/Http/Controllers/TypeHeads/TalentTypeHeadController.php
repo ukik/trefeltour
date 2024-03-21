@@ -184,10 +184,8 @@ class TalentTypeHeadController extends Controller
             'badasoUsers',
             'talentBookings',
             'talentBooking',
-            'talentPrice',
-            'talentPrices',
-            'talentSkill',
-            'talentSkills',
+            'talentProfile',
+            'talentProfiles',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }

@@ -13,19 +13,6 @@ class LodgeBookingsCheckPayments extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // booking_id
-    // payment_id
-    // payment_uuid
-    // id
-    // customer_id
-    // store_id
-    // uuid
-    // description
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-    // get_final_amount
 
     protected $table = "lodge_bookings_check_payments";
 

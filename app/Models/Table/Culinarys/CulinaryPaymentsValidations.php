@@ -13,16 +13,6 @@ class CulinaryPaymentsValidations extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // validator_id
-    // payment_id
-    // uuid
-    // is_valid
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-
     protected $table = "culinary_payments_validations";
 
 

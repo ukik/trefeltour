@@ -116,8 +116,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TransportVehiclesCRUDDataRowAdded::class);
         $this->seed(TransportBookingsCRUDDataTypeAdded::class);
         $this->seed(TransportBookingsCRUDDataRowAdded::class);
-        $this->seed(TourismBookingsCRUDDataTypeAdded::class);
-        $this->seed(TourismBookingsCRUDDataRowAdded::class);
+        
+        
         
         
         $this->seed(TourismFacilitiesCRUDDataTypeAdded::class);
@@ -230,5 +230,10 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TalentCartsCRUDDataRowAdded::class);
         $this->seed(TourismCartsCRUDDataTypeAdded::class);
         $this->seed(TourismCartsCRUDDataRowAdded::class);
+        $this->seed(TourismBookingsCRUDDataDeleted::class);
+        $this->seed(TourismBookingsCRUDDataTypeAdded::class);
+        $this->seed(TourismBookingsCRUDDataRowAdded::class);
+        $this->seed(TourismBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(TourismBookingItemsCRUDDataRowAdded::class);
     }
 }

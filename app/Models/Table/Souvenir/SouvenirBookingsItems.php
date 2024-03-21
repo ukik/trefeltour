@@ -33,7 +33,15 @@ class SouvenirBookingsItems extends Model
 
     protected $table = "souvenir_booking_items";
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
 
+    public function badasoUsers()
+    {
+        return $this->belongsToMany(BadasoUsers::class, 'souvenir_booking_items', 'id', 'customer_id');
+    }
 
     public function souvenirBooking()
     {

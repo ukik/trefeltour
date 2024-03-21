@@ -7,359 +7,173 @@ use \BadasoUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use TransportBookings;
+use TransportBookingsCheckPayments;
+use TransportCarts;
+use TransportPrices;
+
+use TransportPaymentsValidations;
+use TransportRentals;
+use Uasoft\Badaso\Helpers\ApiResponse;
 
 class TransportTypeHeadController extends Controller
 {
     function getUser() {
-        $keyword = request()->keyword;
-
         if(isAdminTransport()) {
             return Auth::user();
         }
 
-        return BadasoUsers::orWhere('name','like','%'.$keyword.'%')
-            ->orWhere('email','like','%'.$keyword.'%')
-            ->orWhere('phone','like','%'.$keyword.'%')
-            ->limit(20)->get();
-    }
+        return TransportRentals::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-    // DRIVER
-    function transport_drivers() {
-        $keyword = request()->keyword;
-
-        if(request()->id && !request()['keyword']) {
-            return \TransportDrivers::where('id',request()->id)->with('user')->first();
-        }
-
-        $columns = Schema::getColumnListing('transport_drivers');
-
-        $query = \TransportDrivers::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-
-    // MAINTENANCE
-    function transport_maintenances() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('transport_maintenances');
-
-        $query = \TransportMaintenances::query();
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
+        $temp = TransportRentals::where('id', request()->id)->value('user_id');
+        return BadasoUsers::where('id', $temp)->first();
     }
 
 
 
-    // RENTAL
-    function transport_rentals() {
-        $keyword = request()->keyword;
 
-        if(isAdminTransport() && !request()['keyword']) {
-           return \TransportRentals::where('user_id',Auth::user()->id)->first();
-        }
-
-        $columns = Schema::getColumnListing('transport_rentals');
-
-        $query = \TransportRentals::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
+    function dialog_product_transport_stores() {
+        $data = \TransportVehicles::where('id',request()->id)
+            ->with('transportRental.badasoUsers')
+            ->first();
+        $data = $data->transportRental;
+        return ApiResponse::onlyEntity($data);
     }
 
-    // RETURN
-    function transport_returns() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('transport_returns');
-
-        $query = \TransportRentals::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
+    function dialog_prices_transport_products() {
+        $data = \TransportPrices::where('id',request()->id)
+            ->with([
+                'transportVehicle.transportRentals',
+            ])
+            ->first();
+        $data = $data->transportVehicle;
+        return ApiResponse::onlyEntity($data);
     }
 
 
-    // VEHICLE
-    function transport_vehicles() {
-        $keyword = request()->keyword;
 
-        if(request()->id && !request()['keyword']) {
-            return \TransportVehicles::where('id',request()->id)->first();
-        }
+    function get_prices_booking(Request $request) {
+        // return request();
+        $payload = json_decode(request()->payload, true);
+        $data = \TransportCarts::with([
+            'badasoUsers',
+            'badasoUser',
 
-
-        $columns = Schema::getColumnListing('transport_vehicles');
-
-        $query = \TransportVehicles::where('is_available','true');
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        if(isAdminTransport()) {
-            return $query = $query->where('user_id',Auth::user()->id)->limit(20)->get();
-        }
-
-        return $query = $query->limit(20)->get();
+            'transportVehicle',
+            'transportVehicles',
+            'transportPrice',
+            'transportPrices',
+            'transportRental',
+            'transportRentals',
+        ])->whereIn('id', $payload)->get();
+        return ApiResponse::onlyEntity($data);
     }
 
-    // WORKSHOP
-    function transport_workshops() {
-        $keyword = request()->keyword;
+    function add_to_cart(Request $request) {
 
-        if(request()->id && !request()['keyword']) {
-            $workshop_id = \TransportMaintenances::where('id',request()->id)->value('workshop_id');
-            return \TransportWorkshops::where('id',$workshop_id)->first();
+        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+
+        $data = TransportPrices::where('id', request()->price_id)->first();
+
+        $quantity = request()->quantity;
+
+        $carts = TransportCarts::query()
+            ->where('customer_id', request()->customer_id)
+            ->where('price_id', request()->price_id)
+            ->first();
+
+        TransportCarts::updateOrCreate([
+                'customer_id' => request()->customer_id,
+                'store_id' => $data->store_id,
+                'product_id' => $data->product_id,
+                'price_id' => $data->id,
+            ],
+            [
+                'customer_id' => request()->customer_id,
+                'store_id' => $data->store_id,
+                'product_id' => $data->product_id,
+                'price_id' => $data->id,
+                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
+                'code_table' => "transport-carts",
+                'uuid' => $carts?->uuid ?: ShortUuid(),
+            ]
+        );
+
+        // return request();
+    }
+
+    function update_to_cart(Request $request) {
+        // return request();
+        if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
+
+        TransportCarts::where('id', request()->id)->update([
+                'quantity' => request()->quantity,
+        ]);
+
+        $data = \TransportCarts::with([
+            'badasoUsers',
+            'badasoUser',
+
+            'transportVehicle',
+            'transportVehicles',
+            'transportPrice',
+            'transportPrices',
+            'transportRentals',
+        ])->orderBy('id','desc');
+        if(request()['showSoftDelete'] == 'true') {
+            $data = $data->onlyTrashed();
         }
 
-        $columns = Schema::getColumnListing('transport_workshops');
-
-        $query = \TransportWorkshops::query();
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
+        if(request()->popup) {
+            $data = $data->where('id', request()->id)->paginate(request()->perPage);
+        } else {
+            $data = $data->paginate(request()->perPage);
         }
 
-        if(isAdminTransport()) {
-            return $query = $query->where('user_id',Auth::user()->id)->limit(20)->get();
-        }
+        // $encode = json_encode($paginate);
+        // $decode = json_decode($encode);
+        // $data['data'] = $decode->data;
+        // $data['total'] = $decode->total;
 
-        return $query = $query->limit(20)->get();
+        return ApiResponse::onlyEntity($data);
     }
 
 
-    function transport_bookings() {
-        $keyword = request()->keyword;
 
-        if(request()->id && !request()['keyword'] && !request()['label']) {
-            $check = \ViewTransportBookingsCheckPayments::where('id',request()->id)->with('user')->first();
-            return $check;
-        }
 
-        if(request()['label'] == 'transport-returns') {
-            $check = \ViewTransportBookingsCheckPayments::where('id',request()->id)->with('user')->first();
-            return \TransportDrivers::where('id',$check?->driver_id)->with('user')->first();
-        }
 
-        $columns = Schema::getColumnListing('view_transport_bookings_check_payments');
+    function dialog_booking_transport_bookings() {
 
-        $query = \ViewTransportBookingsCheckPayments::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        })
-        ->where('booking_id',NULL);
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        if(isAdminTransport()) {
-            return $query = $query->where('customer_id',userId())->limit(20)->get();
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-
-    // PAYMENT
-    function transport_payments() {
-        $keyword = request()->keyword;
-
-        if(request()->id && !request()['keyword'] && !request()['label']) {
-            $check = \ViewTransportPaymentsCheckValidations::where('id',request()->id)->with('user')->first();
-            return $check;
-        }
-
-        $columns = Schema::getColumnListing('view_transport_payments_check_validations');
-
-        $query = \ViewTransportPaymentsCheckValidations::with([
+        $data = TransportBookingsCheckPayments::where('payment_id',request()->id)->with([
+            'badasoUsers',
+            'transportBookings',
             'transportBooking',
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("transportBooking",function($q) use ($keyword) {
-            $columns = Schema::getColumnListing('transport_bookings');
-            foreach ($columns as $value) {
-                switch ($value) {
-                    case "code_table":
-                    case "created_at":
-                    case "updated_at":
-                    case "deleted_at":
-                        # code...
-                        break;
-                    default:
-                        $q->orWhere($value,'like','%'.$keyword.'%');
-                        break;
-                }
-            }
-            return $q;
-        })
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
+            'transportRental',
+            'transportRentals',
+        ])->first();
+        return ApiResponse::onlyEntity($data);
     }
 
-    function transport_payments_validations() {
-        $keyword = request()->keyword;
 
-        $columns = Schema::getColumnListing('transport_payments_validations');
+    function dialog_booking_transport_payments_validations() {
 
-        $query = \TransportPaymentsValidations::with([
-            'transportPayment' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("transportPayment",function($q) use ($keyword) {
-            $columns = Schema::getColumnListing('transport_payments');
-            foreach ($columns as $value) {
-                switch ($value) {
-                    case "code_table":
-                    case "created_at":
-                    case "updated_at":
-                    case "deleted_at":
-                        # code...
-                        break;
-                    default:
-                        $q->orWhere($value,'like','%'.$keyword.'%');
-                        break;
-                }
-            }
-            return $q;
-        });
+        // $payment_id = TransportPaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = TransportBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'transportBookings',
+        //     'transportBooking',
+        //     'transportRental',
+        //     'transportRentals',
+        // ])->first();
 
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
+        $data = TransportPaymentsValidations::where('id',request()->id)->with([
+            'souvenirPayment',
+            'souvenirPayment.badasoUsers',
+            'souvenirPayment.souvenirBookings',
+        ])->first();
+        $data = $data->souvenirPayment;
+        return ApiResponse::onlyEntity($data);
     }
+
 
 }

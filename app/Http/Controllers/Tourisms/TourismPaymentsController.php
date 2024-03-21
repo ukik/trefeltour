@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tourisms;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
 // use App\Http\Controllers\Controller;
@@ -57,14 +58,50 @@ class TourismPaymentsController extends Controller
                 'tourismBooking',
                 'tourismPaymentsValidation',
                 'tourismPaymentsValidations',
-
-                'tourismBooking.tourismVenue',
-                'tourismBooking.tourismVenue.tourismPrices',
-                'tourismBooking.tourismVenue.tourismFacilities',
-                'tourismBooking.tourismVenue.tourismService',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
+            }
+
+            if(request()->search) {
+                $search = request()->search;
+                // $productId = function($q) use ($search) {
+                //     return $q->where('name','like','%'.$search.'%');
+                // };
+                $booking = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                        // ->orWhere('name','like','%'.$search.'%')
+                        // ->orWhere('general_price','like','%'.$search.'%')
+                        // ->orWhere('discount_price','like','%'.$search.'%')
+                        // ->orWhere('cashback_price','like','%'.$search.'%');
+                };
+                $customerId = function($q) use ($search) {
+                    return $q->where('name','like','%'.$search.'%');
+                };
+
+                $columns = Schema::getColumnListing('tourism_payments');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "booking_id":
+                        case "customer_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                            break;
+                    }
+                }
+
+                $data = $data
+                    ->orWhereHas('badasoUser', $customerId)
+                    ->orWhereHas('tourismBooking', $booking);
+                    // ->orWhereHas('tourismProduct', $productId);
             }
 
             if(request()->component == 'SharedTableModalPaymentValidation') {
@@ -127,11 +164,6 @@ class TourismPaymentsController extends Controller
                 'tourismBooking',
                 'tourismPaymentsValidation',
                 'tourismPaymentsValidations',
-
-                'tourismBooking.tourismVenue',
-                'tourismBooking.tourismVenue.tourismPrices',
-                'tourismBooking.tourismVenue.tourismFacilities',
-                'tourismBooking.tourismVenue.tourismService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -159,15 +191,16 @@ class TourismPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TourismPayments::where('id', $request->data['id'])->first();
-            $temp = \TourismBookings::where('id', $request->data['booking_id'])->first();
+            $table_entity = \TourismPayments::where('id', $request->data['id'])->with('tourismBooking')->first();
+            $temp = $table_entity->tourismBooking;
+            // $temp = \TourismBookings::where('id', $request->data['booking_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],
@@ -245,7 +278,7 @@ class TourismPaymentsController extends Controller
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => $req['date'],
@@ -302,8 +335,8 @@ class TourismPaymentsController extends Controller
         isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = TourismPaymentsValidations::where('payment_id', $value)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismPayments::where('id', $value)->with(['tourismPaymentsValidation'])->first();
+        if($check->tourismPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([

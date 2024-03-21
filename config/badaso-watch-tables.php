@@ -94,6 +94,7 @@ return [
     'talent_skills',
     'tourism_booking_items',
     'tourism_bookings',
+    'tourism_bookings__old',
     'tourism_carts',
     'tourism_facilities',
     'tourism_payments',

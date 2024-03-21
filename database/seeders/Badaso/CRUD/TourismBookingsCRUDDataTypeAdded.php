@@ -28,11 +28,11 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 46,
+                'id' => 99,
                 'name' => 'tourism_bookings',
                 'slug' => 'tourism-bookings',
-                'display_name_singular' => 'Wisata Booking',
-                'display_name_plural' => 'Wisata Booking',
+                'display_name_singular' => 'Tourism Bookings',
+                'display_name_plural' => 'Tourism Bookings',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -47,8 +47,8 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => 1,
-                'created_at' => '2024-02-08T05:16:16.000000Z',
-                'updated_at' => '2024-02-12T10:14:03.000000Z',
+                'created_at' => '2024-03-21T11:09:34.000000Z',
+                'updated_at' => '2024-03-21T11:37:18.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_bookings');
@@ -64,7 +64,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Wisata Booking',
+                    'title' => 'Tourism Bookings',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/tourism-bookings';
-                $menu_item->title = 'Wisata Booking';
+                $menu_item->title = 'Tourism Bookings';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

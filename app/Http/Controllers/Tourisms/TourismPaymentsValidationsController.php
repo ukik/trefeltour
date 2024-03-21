@@ -53,12 +53,8 @@ class TourismPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',
-
                 'tourismPayment.tourismBooking',
-                'tourismPayment.tourismBooking.tourismVenue',
-                'tourismPayment.tourismBooking.tourismVenue.tourismPrices',
-                'tourismPayment.tourismBooking.tourismVenue.tourismFacilities',
-                'tourismPayment.tourismBooking.tourismVenue.tourismService',
+                'tourismPayment.tourismBookings',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -112,12 +108,8 @@ class TourismPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',
-
                 'tourismPayment.tourismBooking',
-                'tourismPayment.tourismBooking.tourismVenue',
-                'tourismPayment.tourismBooking.tourismVenue.tourismPrices',
-                'tourismPayment.tourismBooking.tourismVenue.tourismFacilities',
-                'tourismPayment.tourismBooking.tourismVenue.tourismService',
+                'tourismPayment.tourismBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle

@@ -53,6 +53,7 @@ class TalentBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \CulinaryBookingsItems::with([
+                'badasoUsers',
                 'culinaryBooking',
                 'culinaryBookings',
 
@@ -128,6 +129,7 @@ class TalentBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \CulinaryBookingsItems::with([
+                'badasoUsers',
                 'culinaryBooking',
                 'culinaryBookings',
 

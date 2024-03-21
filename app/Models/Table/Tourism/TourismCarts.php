@@ -18,15 +18,8 @@ class TourismCarts extends Model
     public $fillable = [
         'customer_id',
         'venue_id',
-        'product_id',
         'price_id',
-        // 'name',
-        // 'get_price',
-        // 'get_discount',
-        // 'get_cashback',
-        // 'get_total_amount',
         'quantity',
-        // 'get_final_amount',
         'description',
         'code_table',
     ];

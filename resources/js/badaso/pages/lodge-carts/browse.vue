@@ -539,7 +539,6 @@
 
                                 <div class="ml-2 full-width" v-else-if="dataRow.field == 'ui_date_range'">
                                     <CounterDate :record="record" :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" />
-                                    <!-- <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.lodgePrice?.stock" /> -->
                                 </div>
                                 <span v-else>
                                 {{
@@ -834,7 +833,6 @@
 </template>
 
 <script>
-import Counter from "./Counter.vue"
 import CounterDate from "./counter-date.vue"
 import CalenderBooked from "./CalenderBooked.vue"
 import CalenderBookedPicker from "./CalenderBookedPicker.vue"
@@ -848,7 +846,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 export default {
-  components: { downloadExcel, Counter, StackModal, CounterDate, CalenderBooked, CalenderBookedPicker },
+  components: { downloadExcel, StackModal, CounterDate, CalenderBooked, CalenderBookedPicker },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},

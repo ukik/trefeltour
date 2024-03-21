@@ -3,7 +3,7 @@
         <vs-button @click="inc">
             <i class="vs-icon notranslate icon-scale material-icons null">add</i>
         </vs-button>
-        <input  type="number" class="col mx-2 vs-inputx vs-input--input normal" v-model="quantity">
+        <input @keyup="onKeyup"  type="number" class="col mx-2 vs-inputx vs-input--input normal" v-model="quantity">
         <vs-button @click="dec">
             <i class="vs-icon notranslate icon-scale material-icons null">remove</i>
         </vs-button>
@@ -53,20 +53,39 @@ export default {
         //     })
         // }
     },
-    methods: {
+    methods: { // tidak dibatasi jumlah maksimal
+        onKeyup() {
+            this.$emit('onBubbleEvent', {
+                quantity: this.quantity,
+                id: this.selectedId
+            })
+        },
         inc() {
-            if(this.quantity < this.stock) {
+            //if(this.quantity < this.stock) {
                 this.quantity ++
                 if(this.quantity >= this.stock) this.quantity = this.stock
                 this.$emit('onBubbleEvent', {
                     quantity: this.quantity,
                     id: this.selectedId
                 })
-            } else {
-                return
-            }
+            //} else if(this.quantity >= this.stock) {
+            //     this.quantity = this.stock
+            //     this.$emit('onBubbleEvent', {
+            //         quantity: this.quantity,
+            //         id: this.selectedId
+            //     })
+            //     return
+            // }
         },
         dec() {
+            // if(this.quantity >= this.stock) {
+            //     this.quantity = this.stock
+            //     this.$emit('onBubbleEvent', {
+            //         quantity: this.quantity,
+            //         id: this.selectedId
+            //     })
+            //     return
+            // }
             if(this.quantity > 1) {
                 this.quantity --
                 if(this.quantity <= 1) this.quantity = 1
@@ -74,11 +93,9 @@ export default {
                     quantity: this.quantity,
                     id: this.selectedId
                 })
-
-            } else {
-                return
             }
         },
+
     }
 }
 </script>

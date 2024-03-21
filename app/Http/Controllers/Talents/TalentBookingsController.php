@@ -176,7 +176,7 @@ class TalentBookingsController extends Controller
 
             $data = [
                 'customer_id' => $customer_id ,
-                'skill_id' => $temp->skill_id ,
+                'profile_id' => $temp->profile_id ,
                 'price_id' => $temp->id ,
 
                 'get_price' => $temp->general_price ,
@@ -262,7 +262,7 @@ class TalentBookingsController extends Controller
 
             $data = [
                 'customer_id' => $customer_id ,
-                'skill_id' => $temp->skill_id ,
+                'profile_id' => $temp->profile_id ,
                 'price_id' => $temp->id ,
 
                 'get_price' => $temp->general_price ,

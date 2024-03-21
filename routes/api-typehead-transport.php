@@ -28,17 +28,15 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 
 Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers\TypeHeads'], function ($request) {
     Route::get('/user', 'TransportTypeHeadController@getUser');
+    Route::get('/add_to_cart_user', 'TransportTypeHeadController@getUser');
+    Route::post('/get_prices_booking', 'TransportTypeHeadController@get_prices_booking');
+    Route::post('/update_to_cart', 'TransportTypeHeadController@update_to_cart');
+    Route::post('/add_to_cart', 'TransportTypeHeadController@add_to_cart');
 
-    // transport-bookings
-    Route::get('/transport-bookings', 'TransportTypeHeadController@transport_bookings');
-    Route::get('/transport-drivers', 'TransportTypeHeadController@transport_drivers');
-    Route::get('/transport-maintenances', 'TransportTypeHeadController@transport_maintenances');
-    Route::get('/transport-payments', 'TransportTypeHeadController@transport_payments');
-    Route::get('/transport-payments-validations', 'TransportTypeHeadController@transport_payments_validations');
-    Route::get('/transport-rentals', 'TransportTypeHeadController@transport_rentals');
-    Route::get('/transport-returns', 'TransportTypeHeadController@transport_returns');
-    Route::get('/transport-vehicles', 'TransportTypeHeadController@transport_vehicles');
-    Route::get('/transport-workshops', 'TransportTypeHeadController@transport_workshops');
+    Route::get('/dialog_product_transport_stores', 'TransportTypeHeadController@dialog_product_transport_stores');
+    Route::get('/dialog_prices_transport_products', 'TransportTypeHeadController@dialog_prices_transport_products');
 
+    Route::get('/dialog_booking_transport_bookings', 'TransportTypeHeadController@dialog_booking_transport_bookings');
+    Route::get('/dialog_booking_transport_payments_validations', 'TransportTypeHeadController@dialog_booking_transport_payments_validations');
 });
 

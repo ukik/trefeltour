@@ -178,7 +178,7 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 1,
                     'add' => 1,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 9,

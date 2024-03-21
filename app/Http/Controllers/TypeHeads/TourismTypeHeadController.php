@@ -134,6 +134,7 @@ class TourismTypeHeadController extends Controller
             'badasoUser',
 
             'tourismVenues',
+            'tourismPrice',
             'tourismPrices',
             'tourismVenue.tourismFacility',
             'tourismVenue.tourismFacilities',
@@ -187,6 +188,7 @@ class TourismTypeHeadController extends Controller
             'badasoUser',
 
             'tourismVenues',
+            'tourismPrice',
             'tourismPrices',
             'tourismVenue.tourismFacility',
             'tourismVenue.tourismFacilities',
@@ -245,12 +247,8 @@ class TourismTypeHeadController extends Controller
             'badasoUsers',
             'tourismBookings',
             'tourismBooking',
+            'tourismVenue',
             'tourismVenues',
-            'tourismPrices',
-            'tourismFacility',
-            'tourismFacilities',
-            'tourismService',
-            'tourismServices',
         ])->first();
         return ApiResponse::onlyEntity($data);
     }

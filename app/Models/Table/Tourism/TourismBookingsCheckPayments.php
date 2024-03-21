@@ -13,9 +13,10 @@ class TourismBookingsCheckPayments extends Model
     use HasFactory;
     use SoftDeletes;
 
+
     protected $table = "tourism_bookings_check_payments";
 
-    public function user()
+    public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
@@ -25,14 +26,15 @@ class TourismBookingsCheckPayments extends Model
         return $this->belongsToMany(BadasoUsers::class, 'tourism_bookings_check_payments', 'id', 'customer_id');
     }
 
-    public function tourismBookings()
-    {
-        return $this->belongsToMany(TourismBookings::class, 'tourism_bookings_check_payments', 'id', 'booking_id');
-    }
 
     public function tourismBooking()
     {
         return $this->belongsTo(TourismBookings::class,'booking_id','id');
+    }
+
+    public function tourismBookings()
+    {
+        return $this->belongsToMany(TourismBookings::class, 'tourism_bookings_check_payments', 'id', 'booking_id');
     }
 
     public function tourismVenue()
@@ -42,18 +44,6 @@ class TourismBookingsCheckPayments extends Model
 
     public function tourismVenues()
     {
-        return $this->belongsToMany(TourismVenues::class, 'tourism_facilities', 'id', 'venue_id');
+        return $this->belongsToMany(TourismVenues::class, 'tourism_bookings_check_payments', 'id', 'venue_id');
     }
-
-
-    public function tourismPayments()
-    {
-        return $this->hasMany(TourismPayments::class, 'booking_id', 'id');
-    }
-
-    public function tourismPayment()
-    {
-        return $this->hasOne(TourismPayments::class, 'booking_id', 'id');
-    }
-
 }

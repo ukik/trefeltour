@@ -53,6 +53,7 @@ class SouvenirBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \SouvenirBookingsItems::with([
+                'badasoUsers',
                 'souvenirBooking',
                 'souvenirBookings',
 
@@ -128,6 +129,7 @@ class SouvenirBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirBookingsItems::with([
+                'badasoUsers',
                 'souvenirBooking',
                 'souvenirBookings',
 

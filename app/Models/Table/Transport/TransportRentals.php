@@ -13,7 +13,9 @@ class TransportRentals extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function user()
+    protected $table = "transport_rentals";
+
+    public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'user_id','id');
     }
@@ -23,13 +25,23 @@ class TransportRentals extends Model
         return $this->belongsToMany(BadasoUsers::class, 'transport_rentals', 'id', 'user_id');
     }
 
-    public function transportVehicles()
+    public function transportBooking()
     {
-        return $this->hasMany(TransportVehicles::class, 'rental_id', 'id');
+        return $this->hasOne(TransportBookings::class, 'vehicle_id', 'id');
+    }
+
+    public function transportBookings()
+    {
+        return $this->hasMany(TransportBookings::class, 'vehicle_id', 'id');
     }
 
     public function transportVehicle()
     {
-        return $this->hasOne(TransportVehicles::class, 'rental_id', 'id');
+        return $this->hasOne(TransportVehicles::class, 'vehicle_id', 'id');
+    }
+
+    public function transportVehicles()
+    {
+        return $this->hasMany(TransportVehicles::class, 'vehicle_id', 'id');
     }
 }

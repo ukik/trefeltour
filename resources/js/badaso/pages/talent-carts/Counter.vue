@@ -3,7 +3,7 @@
         <vs-button @click="inc">
             <i class="vs-icon notranslate icon-scale material-icons null">add</i>
         </vs-button>
-        <input  type="number" class="col mx-2 vs-inputx vs-input--input normal" v-model="quantity">
+        <input  @keyup="onKeyup" type="number" class="col mx-2 vs-inputx vs-input--input normal" v-model="quantity">
         <vs-button @click="dec">
             <i class="vs-icon notranslate icon-scale material-icons null">remove</i>
         </vs-button>
@@ -53,7 +53,13 @@ export default {
         //     })
         // }
     },
-    methods: {
+    methods: { // tidak dibatasi jumlah maksimal
+        onKeyup() {
+            this.$emit('onBubbleEvent', {
+                quantity: this.quantity,
+                id: this.selectedId
+            })
+        },
         inc() {
             this.quantity ++
             this.$emit('onBubbleEvent', {

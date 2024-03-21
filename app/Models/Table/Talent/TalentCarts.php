@@ -20,13 +20,7 @@ class TalentCarts extends Model
         'profile_id',
         'skill_id',
         'price_id',
-        // 'name',
-        // 'get_price',
-        // 'get_discount',
-        // 'get_cashback',
-        // 'get_total_amount',
         'quantity',
-        // 'get_final_amount',
         'description',
         'code_table',
     ];
