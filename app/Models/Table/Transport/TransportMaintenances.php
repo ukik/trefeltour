@@ -13,6 +13,8 @@ class TransportMaintenances extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "transport_maintenances";
+
     public function transportWorkshops()
     {
         return $this->belongsToMany(TransportWorkshops::class, 'transport_maintenances', 'id', 'workshop_id');

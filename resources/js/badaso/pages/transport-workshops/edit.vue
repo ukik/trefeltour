@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead($event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
+import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadUser
+    DialogUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -494,15 +494,12 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'year_exp' && key == 'yearExp') {
-                        el.value = this.record[key]
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
-
                 }
             }
         });
-
-
 
 
         // REDIRECT

@@ -150,15 +150,21 @@
                         : 'default'
                     "
                   >
-                      <vs-td>
-                          <vs-button @click="$refs.SharedBrowserModal.onCall({
-                            show: true,
-                            type: 'detail',
-                            selectedData: record,
-                            title: 'Detail Pembayaran',
-                            slug: $route.params?.slug })">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
+                        <vs-td>
+                            <vs-row vs-w="12">
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+                                    <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                        show: true,
+                                        type: 'detail',
+                                        selectedData: record,
+                                        title: 'Detail',
+                                        slug: $route.params?.slug })">
+                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-button>
+                                </vs-col>
+                                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="0">
+                                </vs-col>
+                            </vs-row>
                         </vs-td>
 
                     <template
@@ -311,11 +317,13 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                            <div v-else>
+                                {{
+                                    record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                    ]
+                                }}
+                            </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">
@@ -405,7 +413,7 @@
 
                             <!-- ADDITIONAL -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -431,12 +439,34 @@
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentPaymentsValidation?.id,
+                                  id: data[index].talentBooking?.talentPayment?.id,
+                                  slug: 'talent-payments',
+                                },
+                              }"
+                              v-if="
+                                data[index].talentBooking?.talentPayment?.id &&
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="visibility"
+                            >
+                              Detail Pembayaran
+                            </badaso-dropdown-item>
+
+                            <badaso-dropdown-item
+                              :to="{
+                                name: 'CrudGeneratedRead',
+                                params: {
+                                  id: data[index].talentBooking?.talentPayment?.talentPaymentsValidation?.id,
                                   slug: 'talent-payments-validations',
                                 },
                               }"
                               v-if="
-                                data[index].talentPaymentsValidation?.id &&
+                                data[index].talentBooking?.talentPayment?.talentPaymentsValidation?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -447,41 +477,18 @@
                               icon="visibility"
                             >
                               Detail Pembayaran Validasi
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
-
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
-                                  id: data[index].talentBooking?.talentSkill?.talentProfile?.id,
-                                  slug: 'talent-profiles',
-                                },
-                              }"
-                              v-if="
-                                data[index].talentBooking?.talentSkill?.talentProfile?.id &&
-                                isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
-                              "
-                              icon="visibility"
-                            >
-                              Detail Profile
-                            </badaso-dropdown-item>
-
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentBooking?.talentSkills" :key="1+index2"
-                              :to="{
-                                name: 'CrudGeneratedRead',
-                                params: {
-                                  id: item2.id,
+                                  id: data[index].talentSkill?.id,
                                   slug: 'talent-skills',
                                 },
                               }"
                               v-if="
-                                item2.id &&
+                                data[index].talentService?.id &&
                                 isCanEdit &&
                                 $helper.isAllowedToModifyGeneratedCRUD(
                                   'edit',
@@ -491,11 +498,32 @@
                               "
                               icon="visibility"
                             >
-                              Detail Skill: {{ item2.name }}
+                              Detail Layanan
+                            </badaso-dropdown-item> -->
+
+                            <badaso-dropdown-item v-for="(item1, index1) in data[index]?.talentSkills" :key="1+index1"
+                              :to="{
+                                name: 'CrudGeneratedRead',
+                                params: {
+                                  id: item1.id,
+                                  slug: 'talent-skills',
+                                },
+                              }"
+                              v-if="
+                                item1.id &&
+                                isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                ) &&
+                                !isShowDataRecycle
+                              "
+                              icon="visibility"
+                            >
+                              Detail Wahana: {{ item1.name }}
                             </badaso-dropdown-item>
 
-
-                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentBooking?.talentPrices" :key="2+index2"
+                            <badaso-dropdown-item v-for="(item2, index2) in data[index].talentPrices" :key="2+index2"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -514,7 +542,7 @@
                               "
                               icon="visibility"
                             >
-                              Detail Harga: {{ item2.name }}
+                              Detail Harga: {{ item2.uuid }}
                             </badaso-dropdown-item>
 
                             <!-- --------------------- -->

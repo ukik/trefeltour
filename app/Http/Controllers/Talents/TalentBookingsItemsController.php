@@ -13,7 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use CulinaryBookingsItems;
+use TalentBookingsItems;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
@@ -52,23 +52,23 @@ class TalentBookingsItemsController extends Controller
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            $data = \CulinaryBookingsItems::with([
+            $data = \TalentBookingsItems::with([
                 'badasoUsers',
-                'culinaryBooking',
-                'culinaryBookings',
+                'talentBooking',
+                'talentBookings',
 
-                'culinaryProduct',
-                'culinaryProducts',
+                'talentSkill',
+                'talentSkills',
 
-                'culinaryStore.culinaryProduct',
-                'culinaryStore.culinaryProducts',
-                // 'culinaryStore.culinaryPrice',
-                // 'culinaryStore.culinaryPrices',
-                'culinaryStores',
+                'talentProfile.talentSkill',
+                'talentProfile.talentSkills',
+                // 'talentProfile.talentPrice',
+                // 'talentProfile.talentPrices',
+                'talentProfiles',
 
-                'culinaryBooking.culinaryPayment',
-                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
-                'culinaryBooking.culinaryPayments',
+                'talentBooking.talentPayment',
+                'talentBooking.talentPayment.talentPaymentsValidation',
+                'talentBooking.talentPayments',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -128,23 +128,23 @@ class TalentBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryBookingsItems::with([
+            $data = \TalentBookingsItems::with([
                 'badasoUsers',
-                'culinaryBooking',
-                'culinaryBookings',
+                'talentBooking',
+                'talentBookings',
 
-                'culinaryProduct',
-                'culinaryProducts',
+                'talentSkill',
+                'talentSkills',
 
-                'culinaryStore.culinaryProduct',
-                'culinaryStore.culinaryProducts',
-                // 'culinaryStore.culinaryPrice',
-                // 'culinaryStore.culinaryPrices',
-                'culinaryStores',
+                'talentProfile.talentSkill',
+                'talentProfile.talentSkills',
+                // 'talentProfile.talentPrice',
+                // 'talentProfile.talentPrices',
+                'talentProfiles',
 
-                'culinaryBooking.culinaryPayment',
-                'culinaryBooking.culinaryPayment.culinaryPaymentsValidation',
-                'culinaryBooking.culinaryPayments',
+                'talentBooking.talentPayment',
+                'talentBooking.talentPayment.talentPaymentsValidation',
+                'talentBooking.talentPayments',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -162,11 +162,11 @@ class TalentBookingsItemsController extends Controller
     //     // return $slug = $this->getSlug($request);
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     isOnlyAdminTalent();
 
     //     $value = request()['data']['id'];
-    //     $check = \CulinaryPayments::where('booking_id', $value)->first();
-    //     if($check && !isAdminCulinary()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
+    //     $check = \TalentPayments::where('booking_id', $value)->first();
+    //     if($check && !isAdminTalent()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
     //     try {
 
@@ -174,9 +174,9 @@ class TalentBookingsItemsController extends Controller
     //         $slug = $this->getSlug($request);
     //         $data_type = $this->getDataType($slug);
 
-    //         $table_entity = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
+    //         $table_entity = \TalentBookingsItems::where('id', $request->data['id'])->first();
 
-    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
     //         if(!$temp) return ApiResponse::failed("Harga Kosong");
 
     //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -225,9 +225,9 @@ class TalentBookingsItemsController extends Controller
     //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
 
-    //         \CulinaryBookingsItems::where('id', $request->data['id'])->update($data);
+    //         \TalentBookingsItems::where('id', $request->data['id'])->update($data);
     //         $updated['old_data'] = $table_entity;
-    //         $updated['updated_data'] = \CulinaryBookingsItems::where('id', $request->data['id'])->first();
+    //         $updated['updated_data'] = \TalentBookingsItems::where('id', $request->data['id'])->first();
 
     //         DB::commit();
     //         activity($data_type->display_name_singular)
@@ -254,7 +254,7 @@ class TalentBookingsItemsController extends Controller
     // {
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     isOnlyAdminTalent();
 
     //     try {
 
@@ -263,7 +263,7 @@ class TalentBookingsItemsController extends Controller
 
     //         $data_type = $this->getDataType($slug);
 
-    //         $temp = \CulinaryPrices::where('id', $request->data['price_id'])->first();
+    //         $temp = \TalentPrices::where('id', $request->data['price_id'])->first();
     //         if(!$temp) return ApiResponse::failed("Harga Kosong");
 
     //         $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
@@ -306,7 +306,7 @@ class TalentBookingsItemsController extends Controller
     //         $data['description'] = $req['description'];
     //         $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
-    //         $stored_data = \CulinaryBookingsItems::insert($data);
+    //         $stored_data = \TalentBookingsItems::insert($data);
 
     //         activity($data_type->display_name_singular)
     //             ->causedBy(auth()->user() ?? null)
@@ -331,11 +331,11 @@ class TalentBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryBookingsItems::where('id', $value)->with(['culinaryPayment'])->first();
-        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentBookingsItems::where('id', $value)->with(['talentPayment'])->first();
+        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
 
         try {
@@ -423,7 +423,7 @@ class TalentBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -461,10 +461,10 @@ class TalentBookingsItemsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
+            $filters = TalentBookingsItems::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinaryPayment == null) {
+                if($value->talentPayment == null) {
                     array_push($temp, $value['id']);
                 }
             }

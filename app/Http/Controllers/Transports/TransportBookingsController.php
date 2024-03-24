@@ -18,8 +18,8 @@ use TravelPayments;
 
 use \BadasoUsers;
 use Google\Service\Eventarc\Transport;
-use TransportDrivers;
 use TransportPayments;
+use TransportRentals;
 
 class TransportBookingsController extends Controller
 {
@@ -57,16 +57,15 @@ class TransportBookingsController extends Controller
 
             $data = \TransportBookings::with([
                 'badasoUsers',
-                'transportDrivers',
-                'transportVehicles',
-                'transportDriver',
-                'transportReturn',
-                'transportVehicle',
-                'transportVehicle.transportRental',
-                'transportVehicle.transportMaintenance',
-                'transportPayments',
+                'transportRentals',
+                'transportRental',
                 'transportPayment',
                 'transportPayment.transportPaymentsValidation',
+                'transportPayments',
+
+                'transportRental.transportPrices',
+                'transportRental.transportFacilities',
+                'transportRental.transportService',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -123,16 +122,15 @@ class TransportBookingsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportBookings::with([
                 'badasoUsers',
-                'transportDrivers',
-                'transportVehicles',
-                'transportDriver',
-                'transportReturn',
-                'transportVehicle',
-                'transportVehicle.transportRental',
-                'transportVehicle.transportMaintenance',
-                'transportPayments',
+                'transportRentals',
+                'transportRental',
                 'transportPayment',
                 'transportPayment.transportPaymentsValidation',
+                'transportPayments',
+
+                'transportRental.transportPrices',
+                'transportRental.transportFacilities',
+                'transportRental.transportService',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -154,9 +152,7 @@ class TransportBookingsController extends Controller
 
         $value = request()['data']['id'];
         $check = \TransportPayments::where('booking_id', $value)->first();
-        if($check && !isAdminTransport()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        if($check && !isAdminTransport()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -166,41 +162,39 @@ class TransportBookingsController extends Controller
 
             $table_entity = \TransportBookings::where('id', $request->data['id'])->first();
 
-            $temp = \TransportVehicles::where('id', $request->data['vehicle_id'])->first();
+            $temp = \TransportPrices::where('id', $request->data['type_price'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
+            $rental_id = TransportRentals::where('id', $request->data['rental_id'])->value('id');
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver->id ,
-                'vehicle_id' => $temp->id ,
-                'days_duration' => $req['days_duration'] ,
-                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
-                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
-                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
-                'destination' => $req['destination'] ,
-                'get_price' => $temp->daily_price ,
-                'get_discount' => $temp->discount_daily_price ,
-                'get_cashback' => $temp->cashback_daily_price ,
-                'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
-                'get_driver_daily_price' => $driver->daily_price ,
-                'get_total_amount_driver' => ($driver->daily_price * $req['days_duration']) ,
-                'description' => $req['description'] ,
+                'rental_id' => $rental_id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+                'type_price' => $temp->id ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    'customer_id' => 'required',
-                    'driver_id' => 'required',
-                    'vehicle_id' => 'required',
+                    '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'rental_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($table_entity->id)
                     // ],
                 ],
             );
@@ -211,7 +205,7 @@ class TransportBookingsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
 
             \TransportBookings::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -251,29 +245,26 @@ class TransportBookingsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TransportVehicles::where('id', $request->data['vehicle_id'])->first();
+            $temp = \TransportPrices::where('id', $request->data['type_price'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
             $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
-            $driver = TransportDrivers::where('id', $request->data['driver_id'])->first();
+            $rental_id = TransportRentals::where('id', $request->data['rental_id'])->value('id');
 
             $req = request()['data'];
             $data = [
                 'customer_id' => $customer_id ,
-                'driver_id' => $driver->id ,
-                'vehicle_id' => $temp->id ,
-                'days_duration' => $req['days_duration'] ,
-                'date_rent' => date("Y-m-d", strtotime($req['date_rent'])),
-                'time_depart' => date("h:m:i", strtotime($req['time_depart'])),
-                'time_arrive' => date("Y-m-d h:m:i", strtotime($req['time_arrive'])),
-                'destination' => $req['destination'] ,
-                'get_price' => $temp->daily_price ,
-                'get_discount' => $temp->discount_daily_price ,
-                'get_cashback' => $temp->cashback_daily_price ,
-                'get_total_amount' => round((($temp->daily_price) - ((($temp->daily_price) * ($temp->discount_daily_price)/100)) - ($temp->cashback_daily_price)), 2) ,
-                'get_driver_daily_price' => $driver->daily_price ,
-                'get_total_amount_driver' => ($driver->daily_price * $req['days_duration']) ,
-                'description' => $req['description'] ,
+                'rental_id' => $rental_id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_cashback' => $temp->cashback_price ,
+                'type_price' => $temp->id ,
+
+                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+
+                // 'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
@@ -281,9 +272,6 @@ class TransportBookingsController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    // 'customer_id' => 'required',
-                    // 'driver_id' => 'required',
-                    // 'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => 'unique:travel_bookings'
                 ],
@@ -295,7 +283,7 @@ class TransportBookingsController extends Controller
                 }
             }
 
-            // $data['description'] = $req['description'];
+            $data['description'] = $req['description'];
 
             $stored_data = \TransportBookings::insert($data);
 
@@ -326,9 +314,7 @@ class TransportBookingsController extends Controller
 
         $value = request()['data'][0]['value'];
         $check = TransportPayments::where('booking_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([

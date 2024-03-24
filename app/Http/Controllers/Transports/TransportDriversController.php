@@ -53,14 +53,14 @@ class TransportDriversController extends Controller
 
             $data = \TransportDrivers::with([
                 'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportReturns',
+                // 'transportBookings',
+                // 'transportBooking',
+                // 'transportReturn',
+                // 'transportBooking.transportVehicle',
+                // 'transportBooking.transportVehicle.transportRental',
+                // 'transportBooking.transportVehicle.transportMaintenance',
+                // 'transportBooking.transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -117,14 +117,14 @@ class TransportDriversController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportDrivers::with([
                 'badasoUsers',
-                'transportReturns',
-                'transportBookings',
-                'transportBooking',
-                'transportReturn',
-                'transportBooking.transportVehicle',
-                'transportBooking.transportVehicle.transportRental',
-                'transportBooking.transportVehicle.transportMaintenance',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportReturns',
+                // 'transportBookings',
+                // 'transportBooking',
+                // 'transportReturn',
+                // 'transportBooking.transportVehicle',
+                // 'transportBooking.transportVehicle.transportRental',
+                // 'transportBooking.transportVehicle.transportMaintenance',
+                // 'transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -154,8 +154,7 @@ class TransportDriversController extends Controller
 
             $req = request()['data'];
             $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
+                'user_id' => $table_entity->user_id ,
                 'daily_price' => $req['daily_price'] ,
                 'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
                 'is_available' => $req['is_available'] ,
@@ -168,14 +167,14 @@ class TransportDriversController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user,user_id,'.$req['id']
+                    'user_id' => 'required|unique:view_transport_drivers_check_user,user_id,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [
-                    'code_stnk.unique' => 'User sudah terdaftar'
+                    'user_id.unique' => 'User sudah terdaftar'
                 ]
             );
             if ($validator->fails()) {
@@ -223,8 +222,7 @@ class TransportDriversController extends Controller
 
             $req = request()['data'];
             $data = [
-                'user_id' => $req['user_id'] ,
-                'uuid' => $req['uuid'] ,
+                'user_id' => getUserId($req['user_id']) ,
                 'daily_price' => $req['daily_price'] ,
                 'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
                 'is_available' => $req['is_available'] === 'true' ? 'true' : 'false' ,
@@ -237,7 +235,7 @@ class TransportDriversController extends Controller
             $validator = Validator::make($data,
                 [
                     '*' => 'required',
-                    'user_id' => 'unique:view_transport_drivers_check_user'
+                    'user_id' => 'required|unique:view_transport_drivers_check_user'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

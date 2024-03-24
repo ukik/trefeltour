@@ -149,13 +149,24 @@ class TalentSkillsController extends Controller
 
             $profile_id = \TalentProfiles::where('id', $table_entity->profile_id)->value('id');
 
-            $req = $request->except('data.talent_id','data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['profile_id'] = $profile_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+            $req = request()['data'];
+            $data = [
 
-            $validator = Validator::make($req,
+                'profile_id' => $profile_id,
+                'name' => $req['name'],
+                'category' => $req['category'],
+                // 'others' => $req['others'],
+                'description' => $req['description'],
+                'policy' => $req['policy'],
+                'year_exp' => $req['year_exp'],
+                'is_available' => $req['is_available'],
+                'image' => $req['image'],
+
+                'code_table' => ($slug) ,
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'profile_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
@@ -172,7 +183,9 @@ class TalentSkillsController extends Controller
                 }
             }
 
-            \TalentSkills::where('id', $request->data['id'])->update($req);
+            $data['others'] = $req['others'];
+
+            \TalentSkills::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TalentSkills::where('id', $request->data['id'])->first();
 
@@ -210,15 +223,24 @@ class TalentSkillsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $profile_id = \TalentProfiles::where('id', $request['data']['profile_id'])->value('id');
+            $req = request()['data'];
+            $data = [
 
-            $req = $request->except('data.talent_id','data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['profile_id'] = $profile_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
+                'profile_id' => $req['profile_id'],
+                'name' => $req['name'],
+                'category' => $req['category'],
+                // 'others' => $req['others'],
+                'description' => $req['description'],
+                'policy' => $req['policy'],
+                'year_exp' => $req['year_exp'],
+                'is_available' => $req['is_available'],
+                'image' => $req['image'],
 
-            $validator = Validator::make($req,
+                'code_table' => ($slug) ,
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'profile_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
@@ -237,11 +259,13 @@ class TalentSkillsController extends Controller
                 }
             }
 
-            $stored_data = \TalentSkills::insert($req);
+            $data['others'] = $req['others'];
+
+            $profiled_data = \TalentSkills::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $stored_data])
+                ->withProperties(['attributes' => $profiled_data])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -250,7 +274,7 @@ class TalentSkillsController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity($stored_data);
+            return ApiResponse::onlyEntity($profiled_data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -314,7 +338,7 @@ class TalentSkillsController extends Controller
         }
     }
 
-    public function restore(Request $request)
+    public function reprofile(Request $request)
     {
         DB::beginTransaction();
 
@@ -332,12 +356,12 @@ class TalentSkillsController extends Controller
             $data_type = $this->getDataType($slug);
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
-            $this->restoreData($data, $data_type);
+            $this->reprofileData($data, $data_type);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been restore');
+                ->log($data_type->display_name_singular.' has been reprofile');
 
             DB::commit();
 
@@ -422,7 +446,7 @@ class TalentSkillsController extends Controller
         }
     }
 
-    public function restoreMultiple(Request $request)
+    public function reprofileMultiple(Request $request)
     {
         DB::beginTransaction();
 
@@ -444,7 +468,7 @@ class TalentSkillsController extends Controller
             $id_list = explode(',', $ids);
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;
-                $this->restoreData($should_delete, $data_type);
+                $this->reprofileData($should_delete, $data_type);
             }
 
             activity($data_type->display_name_singular)

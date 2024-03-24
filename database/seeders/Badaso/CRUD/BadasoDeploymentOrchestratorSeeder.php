@@ -114,8 +114,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TransportVehiclesCRUDDataDeleted::class);
         $this->seed(TransportVehiclesCRUDDataTypeAdded::class);
         $this->seed(TransportVehiclesCRUDDataRowAdded::class);
-        $this->seed(TransportBookingsCRUDDataTypeAdded::class);
-        $this->seed(TransportBookingsCRUDDataRowAdded::class);
+        
+        
         
         
         
@@ -167,14 +167,14 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TalentBookingsCRUDDataDeleted::class);
         
         
-        $this->seed(TalentBookingsCRUDDataTypeAdded::class);
-        $this->seed(TalentBookingsCRUDDataRowAdded::class);
+        
+        
         $this->seed(SouvenirStoresCRUDDataTypeAdded::class);
         $this->seed(SouvenirStoresCRUDDataRowAdded::class);
         $this->seed(SouvenirProductsCRUDDataTypeAdded::class);
         $this->seed(SouvenirProductsCRUDDataRowAdded::class);
-        $this->seed(SouvenirPricesCRUDDataTypeAdded::class);
-        $this->seed(SouvenirPricesCRUDDataRowAdded::class);
+        
+        
         $this->seed(SouvenirCartsCRUDDataTypeAdded::class);
         $this->seed(SouvenirCartsCRUDDataRowAdded::class);
         $this->seed(SouvenirBookingsCRUDDataTypeAdded::class);
@@ -235,5 +235,21 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TourismBookingsCRUDDataRowAdded::class);
         $this->seed(TourismBookingItemsCRUDDataTypeAdded::class);
         $this->seed(TourismBookingItemsCRUDDataRowAdded::class);
+        $this->seed(SouvenirPricesCRUDDataDeleted::class);
+        $this->seed(SouvenirPricesCRUDDataTypeAdded::class);
+        $this->seed(SouvenirPricesCRUDDataRowAdded::class);
+        $this->seed(TalentBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(TalentBookingItemsCRUDDataRowAdded::class);
+        $this->seed(TalentBookingsCRUDDataTypeAdded::class);
+        $this->seed(TalentBookingsCRUDDataRowAdded::class);
+        $this->seed(TransportCartsCRUDDataTypeAdded::class);
+        $this->seed(TransportCartsCRUDDataRowAdded::class);
+        $this->seed(TransportPricesCRUDDataTypeAdded::class);
+        $this->seed(TransportPricesCRUDDataRowAdded::class);
+        $this->seed(TransportBookingItemsCRUDDataTypeAdded::class);
+        $this->seed(TransportBookingItemsCRUDDataRowAdded::class);
+        $this->seed(TransportBookingsCRUDDataDeleted::class);
+        $this->seed(TransportBookingsCRUDDataTypeAdded::class);
+        $this->seed(TransportBookingsCRUDDataRowAdded::class);
     }
 }

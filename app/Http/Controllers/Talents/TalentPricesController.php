@@ -148,8 +148,8 @@ class TalentPricesController extends Controller
             $req = request()['data'];
             $data = [
 
-                'store_id' => $table_entity->store_id,
-                'product_id' => $table_entity->product_id,
+                'profile_id' => $table_entity->profile_id,
+                'skill_id' => $table_entity->skill_id,
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -163,8 +163,8 @@ class TalentPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'product_id' => 'required',
+                    'profile_id' => 'required',
+                    'skill_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -218,12 +218,12 @@ class TalentPricesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
-            $store_id = TalentSkills::where('id', $req['product_id'])->value('store_id');
+            $profile_id = TalentSkills::where('id', $req['skill_id'])->value('profile_id');
 
             $data = [
 
-                'store_id' => $store_id,
-                'product_id' => $req['product_id'],
+                'profile_id' => $profile_id,
+                'skill_id' => $req['skill_id'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -237,8 +237,8 @@ class TalentPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'product_id' => 'required',
+                    'profile_id' => 'required',
+                    'skill_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

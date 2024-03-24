@@ -198,9 +198,12 @@
               >
                 <template slot="thead">
                     <vs-th></vs-th>
-                    <vs-th></vs-th>
+                    <!-- <vs-th></vs-th> -->
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
+                    v-if="
+                        dataRow?.field != 'add_cart'
+                    "
                     :key="index"
                     :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
                   >
@@ -216,6 +219,9 @@
                     :data="record"
                     :key="index"
                     v-for="(record, index) in data"
+                    v-if="
+                        dataRow?.field != 'add_cart'
+                    "
                     :state="
                       idsOfflineDeleteRecord.includes(record.id.toString())
                         ? 'danger'
@@ -223,18 +229,26 @@
                     "
                   >
                         <vs-td>
-                          <vs-button @click="$refs.SharedBrowserModal.onCall({
-                            show: true,
-                            type: 'detail',
-                            selectedData: record,
-                            title: 'Detail Harga',
-                            slug: $route.params?.slug })">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
+                            <vs-row style="width:125px;">
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+                                    <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                        show: true,
+                                        type: 'detail',
+                                        selectedData: record,
+                                        title: 'Detail',
+                                        slug: $route.params?.slug })">
+                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-button>
+                                </vs-col>
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                                    <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = null; selectedData = record;">Pilih</vs-button>
+                                </vs-col>
+                            </vs-row>
                         </vs-td>
-                        <vs-td>
+
+                        <!-- <vs-td>
                             <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = null; selectedData = record;">Pilih</vs-button>
-                        </vs-td>
+                        </vs-td> -->
 
                     <template
                       v-if="

@@ -57,8 +57,8 @@ class SouvenirStoresController extends Controller
                 'souvenirProducts',
                 'souvenirBooking',
                 'souvenirBookings',
-                'souvenirPrice',
-                'souvenirPrices',
+                // 'souvenirPrice',
+                // 'souvenirPrices',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -122,8 +122,8 @@ class SouvenirStoresController extends Controller
                 'souvenirProducts',
                 'souvenirBooking',
                 'souvenirBookings',
-                'souvenirPrice',
-                'souvenirPrices',
+                // 'souvenirPrice',
+                // 'souvenirPrices',
             ])->whereId($request->id)->first();
 
             // add event notification handle

@@ -156,13 +156,28 @@ class TourismFacilitiesController extends Controller
 
             $venue_id = \TourismVenues::where('id', $table_entity->venue_id)->value('id');
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['venue_id'] = $venue_id;
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = $table_entity->uuid ?: ShortUuid();
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+
+                'venue_id' => $venue_id,
+                'name' => $req['name'],
+                'category' => $req['category'],
+                // 'others' => $req['others'],
+                'description' => $req['description'],
+                'policy' => $req['policy'],
+                'image' => $req['image'],
+
+                'code_table' => ($slug) ,
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'venue_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
@@ -179,7 +194,7 @@ class TourismFacilitiesController extends Controller
                 }
             }
 
-            \TourismFacilities::where('id', $request->data['id'])->update($req);
+            \TourismFacilities::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TourismFacilities::where('id', $request->data['id'])->first();
 
@@ -219,14 +234,29 @@ class TourismFacilitiesController extends Controller
 
             $venue_id = \TourismVenues::where('id', $request['data']['venue_id'])->value('id');
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
-            $req['category'] = implode(',', $req['category'] ?: []); // json_encode($req['category']); //
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['venue_id'] = $venue_id;
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = ShortUuid();
+            // $req['category'] = implode(',', $req['category'] ?: []); // json_encode($req['category']); //
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+
+                'venue_id' => $venue_id,
+                'name' => $req['name'],
+                'category' => $req['category'],
+                // 'others' => $req['others'],
+                'description' => $req['description'],
+                'policy' => $req['policy'],
+                'image' => $req['image'],
+
+                'code_table' => ($slug) ,
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'venue_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
@@ -245,7 +275,7 @@ class TourismFacilitiesController extends Controller
                 }
             }
 
-            $stored_data = \TourismFacilities::insert($req);
+            $stored_data = \TourismFacilities::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

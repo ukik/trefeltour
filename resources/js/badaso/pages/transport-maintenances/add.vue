@@ -14,8 +14,8 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadWorkshop @onBubbleEvent="updateTypeHead('workshop_id',$event)" />
-              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id',$event)" />
+              <DialogWorkshop @onBubbleEvent="updateTypeHead('workshop_id',$event)" />
+              <DialogVehicle @onBubbleEvent="updateTypeHead('vehicle_id',$event)" />
 
             </div>
             <vs-row>
@@ -423,13 +423,13 @@
 </template>
 
 <script>
-import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
-import TransportMaintenance_TypeHeadWorkshop from './TransportMaintenance_TypeHeadWorkshop.vue'
+import DialogVehicle from './DialogVehicle.vue'
+import DialogWorkshop from './DialogWorkshop.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadVehicle, TransportMaintenance_TypeHeadWorkshop
+    DialogVehicle, DialogWorkshop
   },
   data: () => ({
     isValid: true,

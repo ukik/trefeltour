@@ -1,31 +1,6 @@
 <template>
     <div>
-        <!-- <stack-modal
-                :show="show"
-                title=""
-                @close="show=false"
-                :modal-class="{ [modalClass]: true }"
-                :saveButton="{ visible: false }"
-                :cancelButton="{ title: 'Close', btnClass: { 'btn btn-primary': true } }"
-            >
-            <slot name="modal-header">
-                <div class="modal-header">
-                    <h3 class="modal-title">
-                        {{  type == 'detail' ? 'Detail Booking Item' : 'Booking Item' }}
-                    </h3>
-                    <vs-button @click="show=false">
-                        <i class="vs-icon notranslate icon-scale material-icons null">close</i>
-                    </vs-button>
-                </div>
-            </slot>
-
-            <shared-read-user :response="{
-                data: selectedData
-            }" v-if="type=='detail'" slug="souvenir-booking-items"></shared-read-user>
-
-            <div slot="modal-footer"></div>
-        </stack-modal> -->
-        <shared-browser-modal ref="SharedBrowserModal" />
+      <shared-browser-modal ref="SharedBrowserModal" />
       <template v-if="!showMaintenancePage">
         <badaso-breadcrumb-hover full>
           <template slot="action">
@@ -148,10 +123,10 @@
                     $t('crudGenerated.footer.descriptionConnector')
                   "
                   :description-body="$t('crudGenerated.footer.descriptionBody')"
-                  :multiple="false"
+                  multiple
                 >
                   <template slot="thead">
-                    <vs-th></vs-th>
+                      <vs-th></vs-th>
                     <vs-th
                       v-for="(dataRow, index) in dataType.dataRows"
                       :key="index"
@@ -161,7 +136,7 @@
                         {{ dataRow.displayName }}
                       </template>
                     </vs-th>
-                    <!-- <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th> -->
+                    <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
                   </template>
 
                   <template slot-scope="{ data }">
@@ -175,16 +150,22 @@
                           : 'default'
                       "
                     >
-                        <vs-td>
-                            <vs-button @click="$refs.SharedBrowserModal.onCall({
-                              show: true,
-                              type: 'detail',
-                              selectedData: record,
-                              title: 'Detail Booking Item',
-                              slug: $route.params?.slug })">
-                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                            </vs-button>
-                        </vs-td>
+                          <vs-td>
+                              <vs-row vs-w="12">
+                                  <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+                                      <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                          show: true,
+                                          type: 'detail',
+                                          selectedData: record,
+                                          title: 'Detail',
+                                          slug: $route.params?.slug })">
+                                          <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                      </vs-button>
+                                  </vs-col>
+                                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="0">
+                                  </vs-col>
+                              </vs-row>
+                          </vs-td>
 
                       <template
                         v-if="

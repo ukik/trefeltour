@@ -33,8 +33,12 @@ Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','B
     Route::post('/update_to_cart', 'TransportTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'TransportTypeHeadController@add_to_cart');
 
-    Route::get('/dialog_product_transport_stores', 'TransportTypeHeadController@dialog_product_transport_stores');
-    Route::get('/dialog_prices_transport_products', 'TransportTypeHeadController@dialog_prices_transport_products');
+    // Route::get('/dialog_product_transport_stores', 'TransportTypeHeadController@dialog_product_transport_stores');
+    // Route::get('/dialog_prices_transport_products', 'TransportTypeHeadController@dialog_prices_transport_products');
+
+    Route::get('/dialog_rental_transport_vehicles', 'TransportTypeHeadController@dialog_rental_transport_vehicles');
+    Route::get('/dialog_vehicle_transport_maintenances', 'TransportTypeHeadController@dialog_vehicle_transport_maintenances');
+    Route::get('/dialog_workshop_transport_maintenances', 'TransportTypeHeadController@dialog_workshop_transport_maintenances');
 
     Route::get('/dialog_booking_transport_bookings', 'TransportTypeHeadController@dialog_booking_transport_bookings');
     Route::get('/dialog_booking_transport_payments_validations', 'TransportTypeHeadController@dialog_booking_transport_payments_validations');

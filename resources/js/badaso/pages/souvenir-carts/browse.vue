@@ -309,7 +309,7 @@
               >
                 <template slot="thead">
                     <vs-th></vs-th>
-                    <vs-th></vs-th>
+                    <!-- <vs-th></vs-th> -->
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     :key="index"
@@ -341,20 +341,29 @@
                       "
                     >
                         <vs-td>
-                            <vs-button @click="$refs.SharedBrowserModal.onCall({
-                              show: true,
-                              type: 'detail',
-                              selectedData: record,
-                              title: 'Detail Order',
-                              slug: $route.params?.slug })">
-                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                            </vs-button>
+                            <vs-row vs-w="12" style="width:100px;">
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                                    <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                        show: true,
+                                        type: 'detail',
+                                        selectedData: record,
+                                        title: 'Detail',
+                                        slug: $route.params?.slug })">
+                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-button>
+                                </vs-col>
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                                    <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">
+                                        <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-button>
+                                </vs-col>
+                            </vs-row>
                         </vs-td>
-                        <vs-td>
+                        <!-- <vs-td>
                           <vs-button @click=" tipe='single'; selectedData = record; onPopupBooking();">
                               <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
                           </vs-button>
-                        </vs-td>
+                        </vs-td> -->
 
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"

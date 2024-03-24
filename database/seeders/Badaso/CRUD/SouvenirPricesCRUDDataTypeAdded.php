@@ -28,7 +28,6 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 71,
                 'name' => 'souvenir_prices',
                 'slug' => 'souvenir-prices',
                 'display_name_singular' => 'Souvenir Prices',
@@ -42,13 +41,13 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-02-22T13:22:33.000000Z',
-                'updated_at' => '2024-02-23T10:04:41.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-22T11:06:45.000000Z',
+                'created_at' => '2024-03-22T11:06:45.000000Z',
+                'id' => 101,
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_prices');

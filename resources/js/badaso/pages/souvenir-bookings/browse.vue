@@ -23,7 +23,7 @@
                 data: selectedData
             }" v-if="type=='detail'" slug="souvenir-bookings"></shared-read-user>
 
-            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="souvenir-booking-items" />
+            <shared-table-browse-modal :bookingId="selectedData?.id" v-if="type=='select'" slug="souvenir-booking-items" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
@@ -178,36 +178,28 @@
                       "
                     >
                         <vs-td>
-                            <!-- <vs-button @click="$refs.SharedBrowserModal.onCall({
-                                show: true,
-                                type: 'detail',
-                                selectedData: record,
-                                title: 'Detail Booking',
-                                slug: $route.params?.slug })">
-                                <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                            </vs-button>
-
-                            <vs-button @click=" type='select'; selectedData = record; show=true;">
-                                <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                            </vs-button> -->
-                            <vs-dropdown>
-
-                                <vs-button class="btn-drop" type="filled" icon="more_vert"></vs-button>
-                                <vs-dropdown-menu>
-                                    <vs-dropdown-item @click="$refs.SharedBrowserModal.onCall({
-                                    show: true,
-                                    type: 'detail',
-                                    selectedData: record,
-                                    title: 'Detail Booking',
-                                    slug: $route.params?.slug })">
-                                    <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                                    </vs-dropdown-item>
-                                    <vs-dropdown-item @click=" type='select'; selectedData = record; show=true;">
-                                        <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
-                                    </vs-dropdown-item>
-                                </vs-dropdown-menu>
-                            </vs-dropdown>
-
+                            <vs-row vs-w="12">
+                                <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+                                    <vs-dropdown>
+                                        <vs-button class="btn-drop" type="filled" icon="more_vert"></vs-button>
+                                        <vs-dropdown-menu>
+                                            <vs-dropdown-item @click="$refs.SharedBrowserModal.onCall({
+                                            show: true,
+                                            type: 'detail',
+                                            selectedData: record,
+                                            title: 'Detail Booking',
+                                            slug: $route.params?.slug })">
+                                            <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                            </vs-dropdown-item>
+                                            <vs-dropdown-item @click=" type='select'; selectedData = record; show=true;">
+                                                <vs-icon icon="shopping_cart" style="font-size: 18px;" class=""></vs-icon>
+                                            </vs-dropdown-item>
+                                        </vs-dropdown-menu>
+                                    </vs-dropdown>
+                                </vs-col>
+                                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="0">
+                                </vs-col>
+                            </vs-row>
                         </vs-td>
 
                       <template

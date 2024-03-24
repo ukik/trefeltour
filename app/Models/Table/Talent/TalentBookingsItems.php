@@ -16,6 +16,15 @@ class TalentBookingsItems extends Model
     protected $table = "talent_booking_items";
 
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
+    public function badasoUsers()
+    {
+        return $this->belongsToMany(BadasoUsers::class, 'talent_bookings', 'id', 'customer_id');
+    }
 
     public function talentBooking()
     {

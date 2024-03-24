@@ -28,11 +28,10 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 68,
                 'name' => 'talent_bookings',
                 'slug' => 'talent-bookings',
-                'display_name_singular' => 'Talent Booking',
-                'display_name_plural' => 'Talent Booking',
+                'display_name_singular' => 'Talent Bookings',
+                'display_name_plural' => 'Talent Bookings',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-02-18T11:33:21.000000Z',
-                'updated_at' => '2024-03-16T20:11:14.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-22T17:47:04.000000Z',
+                'created_at' => '2024-03-22T17:47:04.000000Z',
+                'id' => 103,
             ));
 
             Badaso::model('Permission')->generateFor('talent_bookings');
@@ -64,7 +63,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Talent Booking',
+                    'title' => 'Talent Bookings',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/talent-bookings';
-                $menu_item->title = 'Talent Booking';
+                $menu_item->title = 'Talent Bookings';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

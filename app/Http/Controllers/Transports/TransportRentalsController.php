@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transports;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use BadasoUsers;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -55,12 +56,12 @@ class TransportRentalsController extends Controller
                 'badasoUsers',
                 'transportVehicles',
                 'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportVehicle.transportMaintenance',
+                // 'transportVehicle.transportBooking',
+                // 'transportVehicle.transportBooking.transportDriver',
+                // 'transportVehicle.transportBooking.transportReturn',
+                // 'transportVehicle.transportBooking.transportPayment',
+                // 'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -233,7 +234,7 @@ class TransportRentalsController extends Controller
 
             $req = request()['data'];
             $data = [
-                'user_id' => $req['user_id'],
+                'user_id' => getUserId($req['user_id']),
                 'name' => $req['name'],
                 'email' => $req['email'],
                 'phone' => $req['phone'],

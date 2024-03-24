@@ -13,6 +13,7 @@ class TransportReturns extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "transport_returns";
 
     public function transportBookings()
     {

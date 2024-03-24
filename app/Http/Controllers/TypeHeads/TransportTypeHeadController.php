@@ -32,23 +32,56 @@ class TransportTypeHeadController extends Controller
 
 
 
-    function dialog_product_transport_stores() {
+
+    function dialog_rental_transport_vehicles() {
         $data = \TransportVehicles::where('id',request()->id)
-            ->with('transportRental.badasoUsers')
+            ->with([
+                'transportRental',
+            ])
             ->first();
         $data = $data->transportRental;
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_prices_transport_products() {
-        $data = \TransportPrices::where('id',request()->id)
+    function dialog_vehicle_transport_maintenances() {
+        $data = \TransportMaintenances::where('id',request()->id)
             ->with([
-                'transportVehicle.transportRentals',
+                'transportVehicle',
             ])
             ->first();
         $data = $data->transportVehicle;
         return ApiResponse::onlyEntity($data);
     }
+
+    function dialog_workshop_transport_maintenances() {
+        $data = \TransportMaintenances::where('id',request()->id)
+            ->with([
+                'transportWorkshop',
+            ])
+            ->first();
+        $data = $data->transportWorkshop;
+        return ApiResponse::onlyEntity($data);
+    }
+
+
+
+    // function dialog_product_transport_stores() {
+    //     $data = \TransportVehicles::where('id',request()->id)
+    //         ->with('transportRental.badasoUsers')
+    //         ->first();
+    //     $data = $data->transportRental;
+    //     return ApiResponse::onlyEntity($data);
+    // }
+
+    // function dialog_prices_transport_products() {
+    //     $data = \TransportPrices::where('id',request()->id)
+    //         ->with([
+    //             'transportVehicle.transportRentals',
+    //         ])
+    //         ->first();
+    //     $data = $data->transportVehicle;
+    //     return ApiResponse::onlyEntity($data);
+    // }
 
 
 

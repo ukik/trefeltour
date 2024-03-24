@@ -28,11 +28,10 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 45,
                 'name' => 'transport_bookings',
                 'slug' => 'transport-bookings',
-                'display_name_singular' => 'Transport Booking',
-                'display_name_plural' => 'Transport Booking',
+                'display_name_singular' => 'Transport Bookings',
+                'display_name_plural' => 'Transport Bookings',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-02-01T14:49:14.000000Z',
-                'updated_at' => '2024-02-02T08:13:37.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-23T16:53:26.000000Z',
+                'created_at' => '2024-03-23T16:53:26.000000Z',
+                'id' => 107,
             ));
 
             Badaso::model('Permission')->generateFor('transport_bookings');
@@ -64,7 +63,7 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Booking',
+                    'title' => 'Transport Bookings',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-bookings';
-                $menu_item->title = 'Transport Booking';
+                $menu_item->title = 'Transport Bookings';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

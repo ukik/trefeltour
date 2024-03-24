@@ -13,7 +13,14 @@ class TransportBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "transport_bookings";
+
     public function user()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
+    public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }

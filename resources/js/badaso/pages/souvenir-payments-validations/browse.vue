@@ -151,15 +151,23 @@
                     "
                   >
                         <vs-td>
-                          <vs-button @click="$refs.SharedBrowserModal.onCall({
-                            show: true,
-                            type: 'detail',
-                            selectedData: record,
-                            title: 'Detail Pembayaran Validasi',
-                            slug: $route.params?.slug })">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
+                            <vs-row vs-w="12">
+                                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+                                    <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                        show: true,
+                                        type: 'detail',
+                                        selectedData: record,
+                                        title: 'Detail',
+                                        slug: $route.params?.slug })">
+                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                    </vs-button>
+                                </vs-col>
+                                <!-- <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                                </vs-col> -->
+                            </vs-row>
                         </vs-td>
+
+
                     <template
                       v-if="
                         !idsOfflineDeleteRecord.includes(

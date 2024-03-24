@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <type-head-customer @onBubbleEvent="updateTypeHead($event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -441,12 +441,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHeadCustomer from './TypeHeadCustomer.vue'
+import DialogUser from './DialogUser.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadCustomer
+    DialogUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({

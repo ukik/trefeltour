@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-bookings",
-  *      operationId="browseTransportBooking",
+  *      operationId="browseTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Browse Transport Booking",
-  *      description="Returns list of Transport Booking",
+  *      summary="Browse Transport Bookings",
+  *      description="Returns list of Transport Bookings",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-bookings/read?slug=transport-bookings&id={id}",
-  *      operationId="readTransportBooking",
+  *      operationId="readTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Get Transport Booking based on id",
-  *      description="Returns Transport Booking based on id",
+  *      summary="Get Transport Bookings based on id",
+  *      description="Returns Transport Bookings based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-bookings/add",
-  *      operationId="addTransportBooking",
+  *      operationId="addTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Insert new Transport Booking",
-  *      description="Insert new Transport Booking into database",
+  *      summary="Insert new Transport Bookings",
+  *      description="Insert new Transport Bookings into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "description":"Abc"},
+  *                     example={},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-bookings/edit",
-  *      operationId="editTransportBooking",
+  *      operationId="editTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Edit an existing Transport Booking",
-  *      description="Edit an existing Transport Booking",
+  *      summary="Edit an existing Transport Bookings",
+  *      description="Edit an existing Transport Bookings",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "description":"Abc"},
+  *                     example={},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-bookings/delete",
-  *      operationId="deleteTransportBooking",
+  *      operationId="deleteTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Delete one record of Transport Booking",
-  *      description="Delete one record of Transport Booking",
+  *      summary="Delete one record of Transport Bookings",
+  *      description="Delete one record of Transport Bookings",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-bookings/delete-multiple",
-  *      operationId="deleteMultipleTransportBooking",
+  *      operationId="deleteMultipleTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Delete multiple record of Transport Booking",
-  *      description="Delete multiple record of Transport Booking",
+  *      summary="Delete multiple record of Transport Bookings",
+  *      description="Delete multiple record of Transport Bookings",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-bookings/sort",
-  *      operationId="sortTransportBooking",
+  *      operationId="sortTransportBookings",
   *      tags={"transport-bookings"},
-  *      summary="Sort existing Transport Booking",
-  *      description="Sort existing Transport Booking",
+  *      summary="Sort existing Transport Bookings",
+  *      description="Sort existing Transport Bookings",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,30 +201,19 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "getTotalAmountDriver":"123", "description":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "driverId":"", "vehicleId":"", "uuid":"Abc", "daysDuration":"123", "dateRent":"Abc", "timeDepart":"Abc", "timeArrive":"2021-01-01T00:00:00.000Z", "destination":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getDriverDailyPrice":"123", "getTotalAmountDriver":"123", "description":"Abc", "deletedAt":"2021-01-01T00:00:00.000Z", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "customerId":"", "rentalId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "rentalId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="driverId"), 
-  *                         @OA\Property(type="string", property="vehicleId"), 
+  *                         @OA\Property(type="string", property="rentalId"), 
   *                         @OA\Property(type="string", property="uuid"), 
-  *                         @OA\Property(type="integer", property="daysDuration"), 
-  *                         @OA\Property(type="string", property="dateRent"), 
-  *                         @OA\Property(type="string", property="timeDepart"), 
-  *                         @OA\Property(type="string", property="timeArrive"), 
-  *                         @OA\Property(type="string", property="destination"), 
-  *                         @OA\Property(type="integer", property="getPrice"), 
-  *                         @OA\Property(type="integer", property="getDiscount"), 
-  *                         @OA\Property(type="integer", property="getCashback"), 
-  *                         @OA\Property(type="integer", property="getTotalAmount"), 
-  *                         @OA\Property(type="integer", property="getDriverDailyPrice"), 
-  *                         @OA\Property(type="integer", property="getTotalAmountDriver"), 
   *                         @OA\Property(type="string", property="description"), 
-  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="integer", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
-  *                         @OA\Property(type="string", property="updatedAt"),
+  *                         @OA\Property(type="string", property="updatedAt"), 
+  *                         @OA\Property(type="string", property="deletedAt"),
   *                     ),
   *                ),
   *             )

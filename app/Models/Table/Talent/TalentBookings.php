@@ -75,6 +75,16 @@ class TalentBookings extends Model
         return $this->belongsToMany(TalentPrices::class, 'talent_bookings', 'id', 'price_id');
     }
 
+    public function talentProfile()
+    {
+        return $this->belongsTo(TalentProfiles::class,'profile_id','id');
+    }
+
+    public function talentProfiles()
+    {
+        return $this->belongsToMany(TalentProfiles::class, 'talent_bookings', 'id', 'profile_id');
+    }
+
 
     public function talentPayments()
     {

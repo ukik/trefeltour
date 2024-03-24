@@ -94,7 +94,7 @@ class TalentCartsController extends Controller
                 };
 
                 $data = $data
-                    ->orWhere('store_id','like','%'.$search.'%')
+                    ->orWhere('profile_id','like','%'.$search.'%')
                     ->orWhereHas('badasoUser', $customerId)
                     ->orWhereHas('talentPrice', $priceId)
                     ->orWhereHas('talentSkill', $productId);
@@ -316,7 +316,9 @@ class TalentCartsController extends Controller
 
                         array_push($forms, [
                             'customer_id' => $server['customer_id'],
-                            'store_id' => $server['store_id'],
+                            'profile_id' => $server['profile_id'],
+                            'skill_id' => $server['skill_id'],
+                            'price_id' => $server['price_id'],
                             'id' => $server['id'],
                             'total' => getTotalAmount($server->talentPrice) * $server->quantity,
                         ]);
@@ -378,7 +380,8 @@ class TalentCartsController extends Controller
                 $uuid = ShortUuid();
                 $data = [
                     'customer_id' => $res['customer_id'] ,
-                    'store_id' => $res['store_id'] ,
+                    'profile_id' => $res['profile_id'] ,
+                    'price_id' => $res['price_id'] ,
 
                     'get_final_amount' => $res['total'] ,
 
@@ -390,7 +393,8 @@ class TalentCartsController extends Controller
                 $validator = Validator::make($data,
                     [
                         'customer_id' => 'required',
-                        'store_id' => 'required',
+                        'profile_id' => 'required',
+                        'price_id' => 'required',
                         // susah karena pake softDelete, pakai cara manual saja
                         // 'ticket_id' => 'unique:travel_bookings'
                     ],
@@ -421,9 +425,9 @@ class TalentCartsController extends Controller
                         $items = [
                             // INSERT TO BOOKING ITEMS
                             'booking_id' => $booking->id,
-                            'store_id' => $value->store_id,
+                            'profile_id' => $value->profile_id,
                             'customer_id' => $value->customer_id,
-                            'product_id' => $value->product_id,
+                            'skill_id' => $value->skill_id,
                             'name' => $value->talentPrice->name,
                             'get_price' => $value->talentPrice->general_price,
                             'get_discount' => $value->talentPrice->discount_price,
@@ -480,136 +484,6 @@ class TalentCartsController extends Controller
     }
 
 
-    /*
-    public function add(Request $request)
-    {
-        DB::beginTransaction();
-
-        isOnlyAdminTalent();
-
-        function getTotalAmount($value) {
-            //console.log('getTotalAmount', value)
-            return (
-                $value?->general_price -
-                ($value?->general_price * (($value?->discount_price)/100)) -
-                ($value?->cashback_price)
-            );
-        }
-
-        try {
-
-            // get slug by route name and get data type in table
-            $slug = $this->getSlug($request);
-
-            $data_type = $this->getDataType($slug);
-
-            $payload = json_decode(request()->payload, true);
-            $description = request()->description;
-
-            // customer_id
-            // store_id
-            // uuid
-            // description
-            // get_final_amount
-            // code_table
-
-            $ids = [];
-            foreach ($payload as $key => $value) {
-                $ids[] = $value['id'];
-            }
-
-            $prices = \TalentCarts::with([
-                'talentPrice',
-            ])->whereIn('id', $ids)->get();
-
-            $total = 0;
-
-            foreach ($prices as $key => $value) {
-                $total = getTotalAmount($value->talentPrice) * $value->quantity;
-            }
-
-            $uuid = ShortUuid();
-            $data = [
-                'customer_id' => $payload[0]['customerId'] ,
-                'store_id' => $payload[0]['storeId'] ,
-
-                'get_final_amount' => $total ,
-
-                'description' => $description ,
-                'code_table' => ('talent-bookings') ,
-                'uuid' => $uuid,
-            ];
-
-            $validator = Validator::make($data,
-                [
-                    'customer_id' => 'required',
-                    'store_id' => 'required',
-                    // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
-                ],
-            );
-            if ($validator->fails()) {
-                $errors = json_decode($validator->errors(), True);
-                foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
-                }
-            }
-
-            TalentBookings::insert($data);
-            $booking = TalentBookings::where('uuid', $uuid)->first();
-
-
-            // INSERT BOOKING ITEMS
-            $bookingItems = [];
-            foreach ($prices as $key => $value) {
-                $items = [
-                    // INSERT TO BOOKING ITEMS
-                    'store_id' => $value->store_id,
-                    'booking_id' => $booking->id,
-                    'product_id' => $value->product_id,
-                    'name' => $value->talentPrice->name,
-                    'get_price' => $value->talentPrice->general_price,
-                    'get_discount' => $value->talentPrice->discount_price,
-                    'get_cashback' => $value->talentPrice->cashback_price,
-                    'get_total_amount' => getTotalAmount($value->talentPrice),
-                    'quantity' => $value->quantity,
-                    'get_final_amount' => getTotalAmount($value->talentPrice) * $value->quantity,
-                    'description' => $value->talentPrice->description,
-                    'code_table' => 'talent-booking-items',
-                    'uuid' => ShortUuid(),
-                ];
-
-                array_push($bookingItems, $items);
-            }
-
-            $booking_items = TalentBookingsItems::insert($bookingItems);
-
-            // HAPUS CARTS
-            $prices = \TalentCarts::with([
-                'talentPrice',
-            ])->whereIn('id', $ids)->delete();
-
-
-
-            activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$booking, $booking_items]])
-                ->log($data_type->display_name_singular.' has been created');
-
-            DB::commit();
-
-            // add event notification handle
-            $table_name = $data_type->name;
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
-
-            return ApiResponse::onlyEntity([$booking, $booking_items]);
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return ApiResponse::failed($e);
-        }
-    }
-    */
 
     public function delete(Request $request)
     {

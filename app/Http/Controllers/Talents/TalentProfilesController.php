@@ -13,10 +13,8 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
-use TalentPrices;
-use TourismBookings;
+
 use TalentProfiles;
-use TalentSkills;
 
 class TalentProfilesController extends Controller
 {
@@ -156,13 +154,28 @@ class TalentProfilesController extends Controller
 
             $table_entity = \TalentProfiles::where('id', $request->data['id'])->first();
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['user_id'] = $table_entity->user_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+            $req = request()['data'];
+            $data = [
 
-            $validator = Validator::make($req,
+                'user_id' => $table_entity->user_id,
+                'name' => $req['name'],
+                'image' => $req['image'],
+                'portofolio' => $req['portofolio'],
+                'policy' => $req['policy'],
+                'description' => $req['description'],
+                'website' => $req['website'],
+                'instagram' => $req['instagram'],
+                'tiktok' => $req['tiktok'],
+                'youtube' => $req['youtube'],
+                'facebook' => $req['facebook'],
+                'twitter' => $req['twitter'],
+                'is_available' => $req['is_available'],
+
+                'code_table' => ($slug) ,
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
                     // 'codepos' => 'max:6',
@@ -181,7 +194,7 @@ class TalentProfilesController extends Controller
 
             // $data['description'] = $req['description'];
 
-            \TalentProfiles::where('id', $request->data['id'])->update($req);
+            \TalentProfiles::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TalentProfiles::where('id', $request->data['id'])->first();
 
@@ -219,17 +232,32 @@ class TalentProfilesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
+            $req = request()['data'];
+            $data = [
+                'user_id' => $req['user_id'],
+                'name' => $req['name'],
+                'image' => $req['image'],
+                'portofolio' => $req['portofolio'],
+                'policy' => $req['policy'],
+                'description' => $req['description'],
+                'website' => $req['website'],
+                'instagram' => $req['instagram'],
+                'tiktok' => $req['tiktok'],
+                'youtube' => $req['youtube'],
+                'facebook' => $req['facebook'],
+                'twitter' => $req['twitter'],
+                'is_available' => $req['is_available'],
 
-            $validator = Validator::make($req,
+                'code_table' => ($slug) ,
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
-                    'user_id' => 'required',
+                    'user_id' => 'required|unique:talent_stores_unique',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    'user_id' => 'unique:talent_profiles_unique'
+                    // 'user_id' => 'unique:talent_stores_unique'
                 ],
             );
             if ($validator->fails()) {
@@ -239,7 +267,7 @@ class TalentProfilesController extends Controller
                 }
             }
 
-            $stored_data = \TalentProfiles::insert($req);
+            $stored_data = \TalentProfiles::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

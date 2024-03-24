@@ -158,13 +158,33 @@ class TourismServicesController extends Controller
 
             $venue_id = \TourismVenues::where('id', $table_entity->venue_id)->value('id');
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['venue_id'] = $venue_id;
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = $table_entity->uuid ?: ShortUuid();
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+                'venue_id' => $venue_id,
+                'is_toilet' => $req['is_toilet'],
+                'is_bathroom' => $req['is_bathroom'],
+                'is_mushola' => $req['is_mushola'],
+                'is_rest_area' => $req['is_rest_area'],
+                'is_bar' => $req['is_bar'],
+                'is_culinary' => $req['is_culinary'],
+                'is_souvenir' => $req['is_souvenir'],
+                'is_park' => $req['is_park'],
+                'is_wifi' => $req['is_wifi'],
+                'is_security' => $req['is_security'],
+                'is_medic' => $req['is_medic'],
+
+                'code_table' => ($slug) ,
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+
+            $validator = Validator::make($data ,
                 [
                     'venue_id' => 'required',
                     'venue_id' => [
@@ -180,7 +200,7 @@ class TourismServicesController extends Controller
                 }
             }
 
-            \TourismServices::where('id', $request->data['id'])->update($req);
+            \TourismServices::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TourismServices::where('id', $request->data['id'])->first();
 
@@ -220,14 +240,33 @@ class TourismServicesController extends Controller
 
             $venue_id = \TourismVenues::where('id', $request['data']['venue_id'])->value('id');
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['venue_id'] = $venue_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
-            // $req['category'] = implode(',', $req['category']); // json_encode($req['category']); //
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['venue_id'] = $venue_id;
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = ShortUuid();
+            // // $req['category'] = implode(',', $req['category']); // json_encode($req['category']); //
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+                'venue_id' => $venue_id,
+                'is_toilet' => $req['is_toilet'],
+                'is_bathroom' => $req['is_bathroom'],
+                'is_mushola' => $req['is_mushola'],
+                'is_rest_area' => $req['is_rest_area'],
+                'is_bar' => $req['is_bar'],
+                'is_culinary' => $req['is_culinary'],
+                'is_souvenir' => $req['is_souvenir'],
+                'is_park' => $req['is_park'],
+                'is_wifi' => $req['is_wifi'],
+                'is_security' => $req['is_security'],
+                'is_medic' => $req['is_medic'],
+
+                'code_table' => ($slug) ,
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'venue_id' => 'required',
                     'venue_id' => 'unique:tourism_services_unique'
@@ -247,7 +286,7 @@ class TourismServicesController extends Controller
                 }
             }
 
-            $stored_data = \TourismServices::insert($req);
+            $stored_data = \TourismServices::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

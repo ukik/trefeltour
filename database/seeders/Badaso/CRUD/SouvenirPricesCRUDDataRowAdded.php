@@ -26,22 +26,6 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                 0 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'add_cart',
-                    'type' => 'text',
-                    'display_name' => 'AddCart',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 1,
-                ),
-                1 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
                     'display_name' => 'Id',
@@ -53,9 +37,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 2,
+                    'order' => 1,
                 ),
-                2 => 
+                1 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
@@ -69,9 +53,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 3,
+                    'order' => 2,
                 ),
-                3 => 
+                2 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'store_id',
@@ -85,9 +69,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => '{"relation_type":"belongs_to","destination_table":"souvenir_stores","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
-                    'order' => 4,
+                    'order' => 3,
                 ),
-                4 => 
+                3 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'product_id',
@@ -101,9 +85,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => '{"relation_type":"belongs_to","destination_table":"souvenir_products","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
-                    'order' => 5,
+                    'order' => 4,
                 ),
-                5 => 
+                4 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'name',
@@ -117,9 +101,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 6,
+                    'order' => 5,
                 ),
-                6 => 
+                5 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'general_price',
@@ -133,9 +117,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 6,
                 ),
-                7 => 
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'discount_price',
@@ -149,9 +133,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 7,
                 ),
-                8 => 
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'cashback_price',
@@ -165,9 +149,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 8,
                 ),
-                9 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'stock',
@@ -181,13 +165,13 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 9,
                 ),
-                10 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'description',
-                    'type' => 'textarea',
+                    'type' => 'text',
                     'display_name' => 'Description',
                     'required' => 0,
                     'browse' => 1,
@@ -197,9 +181,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 10,
                 ),
-                11 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -213,9 +197,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 11,
                 ),
-                12 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -229,9 +213,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 12,
                 ),
-                13 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -245,9 +229,9 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 13,
                 ),
-                14 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -261,7 +245,7 @@ class SouvenirPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 14,
                 ),
             ));
 

@@ -52,18 +52,24 @@ class TransportVehiclesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportVehicles::with([
+                'badasoUsers',
                 'transportRentals',
                 'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportMaintenance',
+                // 'transportBooking',
+                // 'transportBooking.transportDriver',
+                // 'transportBooking.transportReturn',
+                // 'transportBooking.transportPayment',
+                // 'transportBooking.transportPayment.transportPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()['rental_id']) {
+                $data = $data->where('rental_id', request()['rental_id']);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -115,14 +121,15 @@ class TransportVehiclesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportVehicles::with([
+                'badasoUsers',
                 'transportRentals',
                 'transportRental',
-                'transportMaintenance',
-                'transportBooking',
-                'transportBooking.transportDriver',
-                'transportBooking.transportReturn',
-                'transportBooking.transportPayment',
-                'transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportMaintenance',
+                // 'transportBooking',
+                // 'transportBooking.transportDriver',
+                // 'transportBooking.transportReturn',
+                // 'transportBooking.transportPayment',
+                // 'transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -149,12 +156,12 @@ class TransportVehiclesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $table_entity = \TransportVehicles::where('id', $request->data['id'])->first();
-            $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
+            // return $temp = \TransportRentals::where('rental_id', $request->data['rental_id'])->first();
 
             $req = request()['data'];
             $data = [
                 'rental_id' => $table_entity->rental_id,
-                'user_id' => $temp->user_id,
+                'user_id' => $table_entity->user_id,
                 'model' => $req['model'],
                 'brand' => $req['brand'],
                 'daily_price' => $req['daily_price'],
@@ -238,8 +245,8 @@ class TransportVehiclesController extends Controller
 
             $req = request()['data'];
             $data = [
+                'rental_id' => $temp->id,
                 'user_id' => $temp->user_id,
-                'rental_id' => $req['rental_id'],
                 'model' => $req['model'],
                 'brand' => $req['brand'],
                 'daily_price' => $req['daily_price'],

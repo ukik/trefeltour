@@ -162,14 +162,40 @@ class TourismVenuesController extends Controller
 
             $table_entity = \TourismVenues::where('id', $request->data['id'])->first();
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['user_id'] = $table_entity->user_id;
-            $req['code_table'] = ($slug);
-            $req['uuid'] = $table_entity->uuid ?: ShortUuid();
-            $req['category'] = $req['category']; // json_encode($req['category']); //
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['user_id'] = $table_entity->user_id;
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = $table_entity->uuid ?: ShortUuid();
+            // $req['category'] = $req['category']; // json_encode($req['category']); //
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+                'user_id' => $table_entity->user_id,
+                'day_open' => $req['day_open'],
+                'day_close' => $req['day_close'],
+                'time_open' => $req['time_open'],
+                'time_close' => $req['time_close'],
+                'name' => $req['name'],
+                'email' => $req['email'],
+                'phone' => $req['phone'],
+                'location' => $req['location'],
+                'image' => $req['image'],
+                'address' => $req['address'],
+                'codepos' => $req['codepos'],
+                'city' => $req['city'],
+                'country' => $req['country'],
+                'policy' => $req['policy'],
+                'category' => $req['category'],
+                'description' => $req['description'],
+                'is_available' => $req['is_available'],
+
+                'code_table' => ($slug) ,
+                'uuid' => $table_entity->uuid ?: ShortUuid(),
+            ];
+
+
+            $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
                     'codepos' => 'max:6',
@@ -188,7 +214,7 @@ class TourismVenuesController extends Controller
 
             // $data['description'] = $req['description'];
 
-            \TourismVenues::where('id', $request->data['id'])->update($req);
+            \TourismVenues::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TourismVenues::where('id', $request->data['id'])->first();
 
@@ -226,13 +252,38 @@ class TourismVenuesController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
-            $req = $req['data'];
-            $req['code_table'] = ($slug);
-            $req['uuid'] = ShortUuid();
-            $req['category'] = implode(',', $req['category'] ?: []); // json_encode($req['category']); //
+            // $req = $request->except('data.id','data.uuid','data.created_at','data.updated_at','data.deleted_at','data.code_table');
+            // $req = $req['data'];
+            // $req['code_table'] = ($slug);
+            // $req['uuid'] = ShortUuid();
+            // $req['category'] = implode(',', $req['category'] ?: []); // json_encode($req['category']); //
 
-            $validator = Validator::make($req,
+            $req = request()['data'];
+            $data = [
+                'user_id' => $req['user_id'],
+                'day_open' => $req['day_open'],
+                'day_close' => $req['day_close'],
+                'time_open' => $req['time_open'],
+                'time_close' => $req['time_close'],
+                'name' => $req['name'],
+                'email' => $req['email'],
+                'phone' => $req['phone'],
+                'location' => $req['location'],
+                'image' => $req['image'],
+                'address' => $req['address'],
+                'codepos' => $req['codepos'],
+                'city' => $req['city'],
+                'country' => $req['country'],
+                'policy' => $req['policy'],
+                'category' => $req['category'],
+                'description' => $req['description'],
+                'is_available' => $req['is_available'],
+
+                'code_table' => ($slug) ,
+                'uuid' => ShortUuid(),
+            ];
+
+            $validator = Validator::make($data,
                 [
                     'user_id' => 'required',
                     'codepos' => 'max:6',
@@ -247,7 +298,7 @@ class TourismVenuesController extends Controller
                 }
             }
 
-            $stored_data = \TourismVenues::insert($req);
+            $stored_data = \TourismVenues::insert($data);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

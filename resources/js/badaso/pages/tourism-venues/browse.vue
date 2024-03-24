@@ -1,153 +1,172 @@
 <template>
-  <div>
-    <template v-if="!showMaintenancePage">
-      <badaso-breadcrumb-hover full>
-        <template slot="action">
-          <download-excel
-            :data="records"
-            :fields="fieldsForExcel"
-            :worksheet="dataType.displayNameSingular"
-            :name="dataType.displayNameSingular + '.xls'"
-            class="crud-generated__excel-button"
-          >
+    <div>
+      <shared-browser-modal ref="SharedBrowserModal" />
+      <template v-if="!showMaintenancePage">
+        <badaso-breadcrumb-hover full>
+          <template slot="action">
+            <download-excel
+              :data="records"
+              :fields="fieldsForExcel"
+              :worksheet="dataType.displayNameSingular"
+              :name="dataType.displayNameSingular + '.xls'"
+              class="crud-generated__excel-button"
+            >
+              <badaso-dropdown-item
+                icon="file_upload"
+                v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
+              >
+                {{ $t("action.exportToExcel") }}
+              </badaso-dropdown-item>
+            </download-excel>
             <badaso-dropdown-item
               icon="file_upload"
               v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
+              @click="generatePdf"
             >
-              {{ $t("action.exportToExcel") }}
+              {{ $t("action.exportToPdf") }}
             </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd &&
-              $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="list"
-            :to="{ name: 'CrudGeneratedSort' }"
-            v-if="
-              isCanSort &&
-              $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
-            "
-          >
-            {{ $t("action.sort") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="delete_sweep"
-            v-if="
-              selected.length > 0 &&
-              $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
-            "
-            @click.stop
-            @click="confirmDeleteMultiple"
-          >
-            {{ $t("action.bulkDelete") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="restore"
-            v-if="selected.length > 0 && isShowDataRecycle"
-            @click.stop
-            @click="confirmRestoreMultiple"
-          >
-            {{ $t("action.bulkRestore") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="settings"
-            v-if="
-              $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
-            "
-            @click.stop
-            @click="openMaintenanceDialog"
-          >
-            {{ $t("crudGenerated.maintenanceDialog.title") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            v-if="dataType.isSoftDelete"
-            icon="restore_from_trash"
-            @click.stop
-            :to="{ name: 'CrudGeneratedBrowseBin' }"
-          >
-            {{ $t("action.showTrash") }}
-          </badaso-dropdown-item>
-        </template>
-      </badaso-breadcrumb-hover>
+            <badaso-dropdown-item
+              icon="add"
+              :to="{ name: 'CrudGeneratedAdd' }"
+              v-if="
+                isCanAdd &&
+                $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
+              "
+            >
+              {{ $t("action.add") }}
+            </badaso-dropdown-item>
+            <badaso-dropdown-item
+              icon="list"
+              :to="{ name: 'CrudGeneratedSort' }"
+              v-if="
+                isCanSort &&
+                $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+              "
+            >
+              {{ $t("action.sort") }}
+            </badaso-dropdown-item>
+            <badaso-dropdown-item
+              icon="delete_sweep"
+              v-if="
+                selected.length > 0 &&
+                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
+              "
+              @click.stop
+              @click="confirmDeleteMultiple"
+            >
+              {{ $t("action.bulkDelete") }}
+            </badaso-dropdown-item>
+            <badaso-dropdown-item
+              icon="restore"
+              v-if="selected.length > 0 && isShowDataRecycle"
+              @click.stop
+              @click="confirmRestoreMultiple"
+            >
+              {{ $t("action.bulkRestore") }}
+            </badaso-dropdown-item>
+            <badaso-dropdown-item
+              icon="settings"
+              v-if="
+                $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
+              "
+              @click.stop
+              @click="openMaintenanceDialog"
+            >
+              {{ $t("crudGenerated.maintenanceDialog.title") }}
+            </badaso-dropdown-item>
+            <badaso-dropdown-item
+              v-if="dataType.isSoftDelete"
+              icon="restore_from_trash"
+              @click.stop
+              :to="{ name: 'CrudGeneratedBrowseBin' }"
+            >
+              {{ $t("action.showTrash") }}
+            </badaso-dropdown-item>
+          </template>
+        </badaso-breadcrumb-hover>
 
-      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
-        <vs-col vs-lg="12">
-          <vs-alert
-            :active="Object.keys(errors).length > 0"
-            color="danger"
-            icon="new_releases"
-            class="crud-generated__errors"
-          >
-            <span v-for="key in Object.keys(errors)" :key="key">
-              <span v-for="err in errors[key]" :key="err">
-                {{ err }}
+        <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
+          <vs-col vs-lg="12">
+            <vs-alert
+              :active="Object.keys(errors).length > 0"
+              color="danger"
+              icon="new_releases"
+              class="crud-generated__errors"
+            >
+              <span v-for="key in Object.keys(errors)" :key="key">
+                <span v-for="err in errors[key]" :key="err">
+                  {{ err }}
+                </span>
               </span>
-            </span>
-          </vs-alert>
-        </vs-col>
-        <vs-col vs-lg="12">
-          <vs-card>
-            <div slot="header">
-              <h3>{{ dataType.displayNameSingular }}</h3>
-            </div>
-            <div>
-              <badaso-table ref="badaso_table_1"
-                v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
-                @onChangePage="onChangePage"
-                @onChangeMaxItems="onChangeMaxItems"
-                v-model="selected"
-                pagination
-                :max-items="descriptionItems[0]"
-                search
-                :data="records"
-                stripe
-                description
-                :description-items="descriptionItems"
-                :description-title="$t('crudGenerated.footer.descriptionTitle')"
-                :description-connector="
-                  $t('crudGenerated.footer.descriptionConnector')
-                "
-                :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
-              >
-                <template slot="thead">
-                  <vs-th
-                    v-for="(dataRow, index) in dataType.dataRows"
-                    :key="index"
-                    :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
-                  >
-                    <template v-if="dataRow.browse == 1">
-                      {{ dataRow.displayName }}
-                    </template>
-                  </vs-th>
-                  <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
-                </template>
+            </vs-alert>
+          </vs-col>
+          <vs-col vs-lg="12">
+            <vs-card>
+              <div slot="header">
+                <h3>{{ dataType.displayNameSingular }}</h3>
+              </div>
+              <div>
+                <badaso-table ref="badaso_table_1"
+                  v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
+                  @onChangePage="onChangePage"
+                  @onChangeMaxItems="onChangeMaxItems"
+                  v-model="selected"
+                  pagination
+                  :max-items="descriptionItems[0]"
+                  search
+                  :data="records"
+                  stripe
+                  description
+                  :description-items="descriptionItems"
+                  :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                  :description-connector="
+                    $t('crudGenerated.footer.descriptionConnector')
+                  "
+                  :description-body="$t('crudGenerated.footer.descriptionBody')"
+                  multiple
+                >
+                  <template slot="thead">
+                      <vs-th></vs-th>
+                    <vs-th
+                      v-for="(dataRow, index) in dataType.dataRows"
+                      :key="index"
+                      :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
+                    >
+                      <template v-if="dataRow.browse == 1">
+                        {{ dataRow.displayName }}
+                      </template>
+                    </vs-th>
+                    <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
+                  </template>
 
-                <template slot-scope="{ data }">
-                  <vs-tr
-                    :data="record"
-                    :key="index"
-                    v-for="(record, index) in data"
-                    :state="
-                      idsOfflineDeleteRecord.includes(record.id.toString())
-                        ? 'danger'
-                        : 'default'
-                    "
-                  >
+                  <template slot-scope="{ data }">
+                    <vs-tr
+                      :data="record"
+                      :key="index"
+                      v-for="(record, index) in data"
+                      :state="
+                        idsOfflineDeleteRecord.includes(record.id.toString())
+                          ? 'danger'
+                          : 'default'
+                      "
+                    >
+                          <vs-td>
+                              <vs-row vs-w="12">
+                                  <vs-col class="p-0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+                                      <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                          show: true,
+                                          type: 'detail',
+                                          selectedData: record,
+                                          title: 'Detail',
+                                          slug: $route.params?.slug })">
+                                          <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
+                                      </vs-button>
+                                  </vs-col>
+                                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="0">
+                                  </vs-col>
+                              </vs-row>
+                          </vs-td>
+
                     <template
                       v-if="
                         !idsOfflineDeleteRecord.includes(

@@ -3,6 +3,14 @@
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Illuminate\Support\Facades\Auth;
 
+if (!function_exists('getUserId')) {
+    function getUserId($user_id){
+        return BadasoUsers::where('id', $user_id)->value('id');
+    }
+}
+
+
+
 if (!function_exists('Faker')) {
     function Faker(){
         return \Faker\Factory::create();
