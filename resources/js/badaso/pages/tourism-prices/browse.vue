@@ -1103,7 +1103,7 @@ export default {
         .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: "Gagal ditambahkan ke keranjang",
+            text: error.response?.data?.message, // "Gagal ditambahkan ke keranjang"
             color: "danger",
           });
         })

@@ -2,14 +2,35 @@
 
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Illuminate\Support\Facades\Auth;
+use Uasoft\Badaso\Facades\Badaso;
+
+if (!function_exists('getSlug')) {
+    function getSlug($request){
+        // dd(request()->slug);
+        // if(request()->slug) {
+        //     return request()->slug;
+        // }
+        $slug = explode('.', $request->route()->getName())[0];
+
+        return $slug;
+    }
+}
+
+if (!function_exists('getDataType')) {
+    function getDataType($slug){
+        $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
+        // $data_type = DataType::where('slug', $slug)->first();
+        $data_type->data_rows = $data_type->dataRows;
+
+        return $data_type;
+    }
+}
 
 if (!function_exists('getUserId')) {
     function getUserId($user_id){
         return BadasoUsers::where('id', $user_id)->value('id');
     }
 }
-
-
 
 if (!function_exists('Faker')) {
     function Faker(){

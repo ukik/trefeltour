@@ -14,7 +14,7 @@
                     <h3 class="modal-title">
                         Booking
                     </h3>
-                    <vs-button @click="show=false">
+                    <vs-button @click="getEntity(); show=false; selectedMulti = []; selected = []; selectedData = null;">
                         <i class="vs-icon notranslate icon-scale material-icons null">close</i>
                     </vs-button>
                 </div>
@@ -61,7 +61,7 @@
                   <div class="row">
                         <div class="col">
                             <span class="full-width text-center">Tanggal Check-In</span>
-                            <CalenderBooked @onBubbleEvent="records = $event"
+                            <CalenderBooked @onBubbleEvent="records = $event" @onBubbleEventUpdate="selectedData = $event"
                                 :selectedData="selectedData"
                                 :id="selectedData?.id"
                                 :limit="limit"
@@ -130,7 +130,7 @@
                         <div class="row">
                             <div class="col">
                             <span class="full-width text-center">Tanggal Check-In</span>
-                            <CalenderBooked @onBubbleEvent="records = $event"
+                            <CalenderBooked @onBubbleEvent="records = $event" @onBubbleEventUpdate="onBubbleEventUpdate($event, index)"
                                 :selectedData="item"
                                 :id="item?.id"
                                 :limit="limit"
@@ -537,9 +537,9 @@
                                     </li>
                                 </ol>
 
-                                <div class="ml-2 full-width" v-else-if="dataRow.field == 'ui_date_range'">
+                                <!-- <div class="ml-2 full-width" v-else-if="dataRow.field == 'ui_date_range'">
                                     <CounterDate :record="record" :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" />
-                                </div>
+                                </div> -->
                                 <span v-else>
                                 {{
                                     record[
@@ -929,6 +929,14 @@ export default {
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
+    },
+    onBubbleEventUpdate(event, index) {
+        let temp = JSON.parse(JSON.stringify(this.selectedMulti))
+        this.selectedMulti = []
+
+        temp[index] = event
+        this.selectedMulti = temp
+        // console.log('onBubbleEventCalenderCheckIn', this.records) // $emit('onBubbleEvent', $event)
     },
     async onPopupBooking() {
 

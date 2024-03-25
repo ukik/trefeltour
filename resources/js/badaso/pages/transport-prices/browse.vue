@@ -29,16 +29,12 @@
                       <span class="col-auto">{{ selectedData?.name }}</span>
                   </div>
                   <div class="row">
-                      <span class="col">Tempat </span>
-                      <span class="col-auto">{{ selectedData?.transportProfile?.name }}</span>
+                      <span class="col">Rental </span>
+                      <span class="col-auto">{{ selectedData?.transportRental?.name }}</span>
                   </div>
                   <div class="row">
-                      <span class="col">Kamar</span>
-                      <span class="col-auto">{{ selectedData?.transportRoom?.name }}</span>
-                  </div>
-                  <div class="row">
-                      <span class="col">Kuota</span>
-                      <span class="col-auto">{{ selectedData?.transportRoom?.quota }} kamar</span>
+                      <span class="col">Unit </span>
+                      <span class="col-auto">{{ selectedData?.transportVehicle?.model }}</span>
                   </div>
                   <div class="row">
                       <span class="col">Quantity</span>
@@ -74,8 +70,16 @@
                   <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" />
                   <vs-row>
                     <vs-col>
-                        <div class="full-width text-center pb-2">Pilih Tanggal Check-In</div>
-                        <CalenderBooked @onBubbleEvent="onUpdateEvent" />
+                        <!-- untuk transport rental -->
+                        <div class="full-width text-center pb-2">
+                            <vs-button @click="is_calender_pilih = true" color="primary" :type="is_calender_pilih ? 'filled' : 'border'">Pilih Tanggal Check-In</vs-button>
+                            <vs-button @click="is_calender_pilih = false" color="success" :type="!is_calender_pilih ? 'filled' : 'border'">Lihat Sudah Booked</vs-button>
+                        </div>
+
+                        <CalenderCheckIn v-show="is_calender_pilih" @onBubbleEvent="onUpdateEvent" />
+                        <CalenderBooked v-show="!is_calender_pilih" :selectedData="selectedData" />
+
+
                     </vs-col>
                   </vs-row>
                   <!-- <vs-row>
@@ -1033,6 +1037,7 @@
   import Counter from "./Counter.vue"
   import DialogUser from "./DialogUser.vue"
   import CalenderBooked from "./CalenderBooked.vue"
+  import CalenderCheckIn from "./CalenderCheckIn.vue"
 
   import axios from "axios";
 
@@ -1042,7 +1047,7 @@
   import "jspdf-autotable";
   import moment from "moment";
   export default {
-    components: { downloadExcel, StackModal, Counter, DialogUser, CalenderBooked },
+    components: { downloadExcel, StackModal, Counter, DialogUser, CalenderBooked, CalenderCheckIn },
     name: "CrudGeneratedBrowse",
     data: () => ({
       errors: {},
@@ -1080,6 +1085,8 @@
     //   selectedCheckIn: null,
     //   selectedCheckOut: null,
       description: '',
+
+      is_calender_pilih: true,
 
       lastPage: 0,
       currentPage: 1,
@@ -1176,9 +1183,10 @@
             });
           })
           .catch((error) => {
+            console.log('error', error)
             this.$vs.notify({
               title: this.$t("alert.danger"),
-              text: "Gagal ditambahkan ke keranjang",
+              text: error.response?.data?.message, // "Gagal ditambahkan ke keranjang"
               color: "danger",
             });
           })

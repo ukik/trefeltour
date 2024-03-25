@@ -7,6 +7,12 @@ use \BadasoUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
+use Illuminate\Support\Facades\Validator;
+use Exception;
+use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
+use Uasoft\Badaso\Helpers\GetData;
+use Uasoft\Badaso\Models\DataType;
+
 class TravelTypeHeadController extends Controller
 {
     function getUser() {

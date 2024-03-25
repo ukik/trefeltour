@@ -14,7 +14,7 @@
                     <h3 class="modal-title">
                         Booking
                     </h3>
-                    <vs-button @click="show=false">
+                    <vs-button @click="getEntity(); show=false; selectedMulti = []; selected = []; selectedData = null; ">
                         <i class="vs-icon notranslate icon-scale material-icons null">close</i>
                     </vs-button>
                 </div>

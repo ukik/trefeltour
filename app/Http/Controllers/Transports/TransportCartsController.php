@@ -20,8 +20,9 @@ use Faker\Core\Number;
 use Google\Service\Eventarc\Transport;
 use TransportBookings;
 use TransportBookingsItems;
+use TransportCartsCalenders;
 use TransportPrices;
-
+use TransportVehicles;
 
 class TransportCartsController extends Controller
 {
@@ -58,9 +59,6 @@ class TransportCartsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportCarts::with([
-                // 'transportRental.transportBooking.badasoUsers',
-                // 'transportRental.transportBooking.badasoUser',
-                // 'transportRental.transportBookings',
                 'badasoUsers',
                 'badasoUser',
 
@@ -151,9 +149,6 @@ class TransportCartsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportCarts::with([
-                // 'transportRental.transportBooking.badasoUsers',
-                // 'transportRental.transportBooking.badasoUser',
-                // 'transportRental.transportBookings',
                 'badasoUsers',
                 'badasoUser',
 
@@ -223,8 +218,6 @@ class TransportCartsController extends Controller
                         array_push($forms, [
                             'customer_id' => $server['customer_id'],
                             'rental_id' => $server['rental_id'],
-                            'vehicle_id' => $server['vehicle_id'],
-                            'price_id' => $server['price_id'],
                             'id' => $server['id'],
                             'total' => getTotalAmount($server->transportPrice) * $server->quantity,
                         ]);
@@ -287,7 +280,6 @@ class TransportCartsController extends Controller
                 $data = [
                     'customer_id' => $res['customer_id'] ,
                     'rental_id' => $res['rental_id'] ,
-                    'price_id' => $res['price_id'] ,
 
                     'get_final_amount' => $res['total'] ,
 
@@ -300,7 +292,6 @@ class TransportCartsController extends Controller
                     [
                         'customer_id' => 'required',
                         'rental_id' => 'required',
-                        'price_id' => 'required',
                         // susah karena pake softDelete, pakai cara manual saja
                         // 'ticket_id' => 'unique:travel_bookings'
                     ],
@@ -365,6 +356,63 @@ class TransportCartsController extends Controller
 
             $booking_items = TransportBookingsItems::insert($cartItems);
 
+
+            $transport_carts_calenders = [];  // untuk transport rental
+            $colors = ['gray','red','orange','yellow','green','teal','blue','indigo','purple','pink'];
+            $color = $colors[array_rand($colors,1)];
+
+            $arr_vehicle_id = [];
+            foreach ($from_client as $value) {
+                $temps = json_decode($value['dateCheckin'], true);
+                foreach ($temps as $value1) {
+                    $transport_carts_calenders[] = [
+                        'customer_id' => $value['customerId'],
+                        'rental_id' => $value['rentalId'],
+                        'vehicle_id' => $value['vehicleId'],
+                        'price_id' => $value['priceId'],
+
+                        'value_id' => $value1['id'],
+                        'value_date' => $value1['date'],
+                        'color' => $color,
+                        'code_table' => "transport-carts-calenders",
+                    ];
+
+                    $arr_vehicle_id[] = $value['vehicleId'];
+                }
+            }
+
+            session()->put('transport_carts_calenders', $transport_carts_calenders);
+
+            # check dimulai hari ini dan seterusnya
+            $GET_LodgeCartsCalenders = TransportCartsCalenders::query()
+                ->whereIn('vehicle_id', $arr_vehicle_id)
+                ->whereDate('value_date', '>=', now())
+                ->with([
+                    // 'badasoUser',
+                    'transportVehicle'
+                ])
+                ->get();
+
+            foreach ($GET_LodgeCartsCalenders as $value1) {
+                // $name = $value1?->badasoUser?->name;
+                // $username = $value1?->badasoUser?->username;
+                $unit = $value1?->transportVehicle?->model;
+                $stnk = $value1?->transportVehicle?->code_stnk;
+                foreach ($transport_carts_calenders as $value2) {
+                    # code...
+                    if(
+                        $value1['value_id'] == $value2['value_id'] &&
+                        $value1['vehicle_id'] == $value2['vehicle_id']
+                    ) {
+                        return ApiResponse::failed("$unit (STNK $stnk) tanggal $value1->value_id duplikat, lihat tanggal booked");
+                        break;
+                    }
+                }
+                # code...
+            }
+
+            $TransportCartsCalenders = TransportCartsCalenders::insert($transport_carts_calenders);
+
             // HAPUS CARTS
             \TransportCarts::with([
                 'transportPrice',
@@ -372,7 +420,7 @@ class TransportCartsController extends Controller
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$booking, $booking_items]])
+                ->withProperties(['attributes' => [$booking, $booking_items, $TransportCartsCalenders]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -381,9 +429,30 @@ class TransportCartsController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity([$booking, $booking_items]);
+            return ApiResponse::onlyEntity([$booking, $booking_items, $TransportCartsCalenders]);
         } catch (Exception $e) {
             DB::rollBack();
+
+            $err = strstr($e, ' for key ', true);
+            $extract = str_replace("'","", strrchr( $err, ' entry ') );
+            $vehicle_id = strtok($extract, '-');
+            $value_id = substr( $extract, 3); // explode(' ', $err)[count(explode(' ', $err))-1];
+
+            $transport_carts_calenders = session()->get('transport_carts_calenders');
+
+            foreach ($transport_carts_calenders as $value1) {
+                if(
+                    $value1['value_id'] == $value_id &&
+                    $value1['vehicle_id'] == $vehicle_id
+                ) {
+                    $vehicle = TransportVehicles::where('id', $value1['vehicle_id'])->first();
+                    $unit = $vehicle?->model;
+                    $stnk = $vehicle?->code_stnk;
+                    return ApiResponse::failed("$unit (STNK $stnk) tanggal $value_id sudah dipakai, lihat tanggal booked");
+                    break;
+                }
+                # code...
+            }
 
             return ApiResponse::failed($e);
         }

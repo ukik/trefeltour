@@ -13,24 +13,6 @@ class LodgeBookingsItems extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // uuid
-    // store_id
-    // booking_id
-    // product_id
-    // name
-    // get_price
-    // get_discount
-    // get_cashback
-    // get_total_amount
-    // quantity
-    // get_final_amount
-    // description
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-
     protected $table = "lodge_booking_items";
 
     public function badasoUser()

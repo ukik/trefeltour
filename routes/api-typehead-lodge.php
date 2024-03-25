@@ -33,6 +33,9 @@ Route::group(['prefix' => '/typehead/lodge', 'middleware' => ['sanctum_1','BADAS
     Route::post('/update_to_cart', 'LodgeTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'LodgeTypeHeadController@add_to_cart');
 
+    Route::get('/get_calender_booked', 'LodgeTypeHeadController@get_calender_booked'); // untuk transport rental
+
+
     Route::get('/dialog_room_lodge_profiles', 'LodgeTypeHeadController@dialog_room_lodge_profiles');
     Route::get('/dialog_staff_lodge_profiles', 'LodgeTypeHeadController@dialog_staff_lodge_profiles');
     Route::get('/dialog_facility_lodge_profiles', 'LodgeTypeHeadController@dialog_facility_lodge_profiles');

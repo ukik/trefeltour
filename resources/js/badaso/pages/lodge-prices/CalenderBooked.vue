@@ -1,15 +1,20 @@
 <template>
-    <Calendar :min-date='getYesterday' is-expanded :attributes="attributes" @dayclick="onDayClick" />
+    <Calendar @update:to-page="updateToPage" @update:from-page="updateFromPage" :min-date='getYesterday' is-expanded :attributes="attributes" @dayclick="onDayClick" />
 </template>
 
 
 <script>
 import { Calendar, DatePicker } from 'v-calendar'
+import * as _ from "lodash";
+import axios from 'axios';
 
 export default {
     components: {
         Calendar,
         DatePicker
+    },
+    props: {
+        selectedData: null,
     },
   data() {
     return {
@@ -40,23 +45,81 @@ export default {
     this.yesterday_format = `${yesterday_year}-${yesterday_month}-${yesterday_day}`
 
 
+    console.log('selectedData', this.selectedData)
+    this.onRetrieve(this.selectedData?.roomId, month, year)
   },
   computed: {
     getYesterday() {
         return this.today.setDate(this.today.getDate() + 0)
     },
     dates() {
-      return this.days.map(day => day.date);
+      return this.days.map(day => { return { date: day.date, descripton: day.descripton } });
     },
     attributes() {
-      return this.dates.map(date => ({
-        highlight: true,
-        dates: date,
+      let temp = this.dates.map(dates => ({
+        // highlight: true,
+        highlight: {
+          color: 'red',
+          fillMode: 'outline',
+        },
+        dates: dates.date,
+        // dot: true,
+        popover: {
+            label: dates.descripton
+        }
       }));
+      console.log('attributes', temp)
+      return temp
     },
   },
   methods: {
+    onRetrieve: _.debounce( function(room_id, month, year) {
+        axios({
+            url: `/api/typehead/lodge/get_calender_booked`,
+            method: 'get',
+            params: {
+                room_id: room_id,
+                month: month,
+                year: year,
+            },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        // .get(`/api/typehead/lodge/get_calender_booked`, {
+        //     room_id: room_id,
+        //     month: month,
+        //     year: year,
+        // }, {
+        //     headers: {
+        //         Authorization: `Bearer ${localStorage.getItem('token')}`
+        //     }
+        // })
+        .then(response => {
+            console.log('CalenderBooked', response)
+            this.days = []
+            response?.data.forEach(element => {
+                this.days.push({
+                    id: element?.value_id,
+                    date: element?.value_date,
+                    descripton: `${element?.badaso_user?.username} - ${element?.badaso_user?.name} - ${element?.badaso_user?.email} - ${element?.badaso_user?.phone}`,
+                });
+            });
+            // const item = response.data.data
+            // this.$refs.typeahead.inputValue = `UUID (${item.uuid})` //`Profile UUID (${item.uuid}) - Nama (${item?.badasoUser.name}) - Username (${item?.badasoUser.username}) - Email (${item?.badasoUser.email}) - Telpon (${item?.badasoUser.phone})`
+            // this.selecteduser = item;
+            // this.users = [item];
+        })
+    }, 500),
+    updateFromPage({month, year}) {
+        console.log('updateFromPage', {month, year})
+        this.onRetrieve(this.selectedData?.roomId, month, year)
+    },
+    updateToPage(event) {
+        console.log('updateToPage', event)
+    },
     onDayClick(day) {
+        return // disabled calender
 
         if(((new Date(day.id)) < new Date(this.yesterday_format)  )) return
 

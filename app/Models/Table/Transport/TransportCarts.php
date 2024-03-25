@@ -20,6 +20,7 @@ class TransportCarts extends Model
         'rental_id',
         'vehicle_id',
         'price_id',
+        'date_checkin',
         'quantity',
         'description',
         'code_table',

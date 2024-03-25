@@ -169,100 +169,6 @@ class LodgeCartsController extends Controller
         }
     }
 
-    /*
-    public function edit(Request $request)
-    {
-        // return $slug = $this->getSlug($request);
-        DB::beginTransaction();
-
-        isOnlyAdminLodge();
-
-        $value = request()['data']['id'];
-        $check = \LodgePayments::where('booking_id', $value)->first();
-        if($check && !isAdminLodge()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-
-        try {
-
-            // get slug by route name and get data type
-            $slug = $this->getSlug($request);
-            $data_type = $this->getDataType($slug);
-
-            $table_entity = \LodgeCarts::where('id', $request->data['id'])->first();
-
-            $temp = \lodgePrices::where('id', $request->data['price_id'])->first();
-            if(!$temp) return ApiResponse::failed("Harga Kosong");
-
-            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
-
-            $req = request()['data'];
-            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
-
-            $data = [
-                'customer_id' => $customer_id ,
-                'profile_id' => $temp->profile_id ,
-                'skill_id' => $temp->skill_id ,
-                'price_id' => $temp->id ,
-
-                'get_price' => $temp->general_price ,
-                'get_discount' => $temp->discount_price ,
-                'get_cashback' => $temp->cashback_price ,
-
-                'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
-                'days_duration' => $req['days_duration'] ,
-
-                // 'description' => $req['description'] ,
-                'code_table' => ($slug) ,
-                'uuid' => $table_entity->uuid ?: ShortUuid(),
-            ];
-
-            $validator = Validator::make($data,
-                [
-                    '*' => 'required',
-                    // susah karena pake softDelete, pakai cara manual saja
-                    // 'venue_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
-                    // ],
-                    // 'customer_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
-                    // ],
-                ],
-            );
-            if ($validator->fails()) {
-                $errors = json_decode($validator->errors(), True);
-                foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
-                }
-            }
-
-            $data['description'] = $req['description'];
-            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
-
-
-            \LodgeCarts::where('id', $request->data['id'])->update($data);
-            $updated['old_data'] = $table_entity;
-            $updated['updated_data'] = \LodgeCarts::where('id', $request->data['id'])->first();
-
-            DB::commit();
-            activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties([
-                    'old' => $updated['old_data'],
-                    'attributes' => $updated['updated_data'],
-                ])
-                ->log($data_type->display_name_singular.' has been updated');
-
-            // add event notification handle
-            $table_name = $data_type->name;
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
-
-            return ApiResponse::onlyEntity($updated['updated_data']);
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return ApiResponse::failed($e);
-        }
-    }
-    */
 
     public function add(Request $request)
     {
@@ -423,6 +329,7 @@ class LodgeCartsController extends Controller
                             'get_discount' => $value->lodgePrice->discount_price,
                             'get_cashback' => $value->lodgePrice->cashback_price,
                             'get_total_amount' => getTotalAmount($value->lodgePrice),
+                            'date_checkin' => $value->date_checkin,
                             'quantity' => $value->quantity,
                             'get_final_amount' => getTotalAmount($value->lodgePrice) * $value->quantity,
                             'description' => $value->lodgePrice->description,

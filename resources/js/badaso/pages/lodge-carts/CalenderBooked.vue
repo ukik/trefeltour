@@ -59,6 +59,7 @@ export default {
 
     if(!this.date_checkin) return
     this.days = JSON.parse(this.date_checkin)
+    console.log('this.days', this.days)
   },
   computed: {
     getYesterday() {
@@ -132,7 +133,15 @@ export default {
         })
         .then((response) => {
             console.log('onUpdateQuantity', response.data?.data?.data)
-            // if(response.data?.data?.data) this.$emit('onBubbleEvent', response.data?.data?.data); // di sinkronkan saat modal di tutup saja
+            const temp = response.data?.data?.data
+            temp.forEach(element => {
+                if(element?.id === this.id) {
+                    console.log('onUpdateQuantity dateCheckin', element, response.data?.data?.data)
+                    this.days = JSON.parse(element.dateCheckin)
+                    this.$emit('onBubbleEventUpdate', element)
+                }
+            });
+            if(response.data?.data?.data) this.$emit('onBubbleEvent', response.data?.data?.data); // di sinkronkan saat modal di tutup saja
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: "Berhasil update keranjang",
