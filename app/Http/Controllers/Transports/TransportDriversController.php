@@ -156,6 +156,7 @@ class TransportDriversController extends Controller
             $data = [
                 'user_id' => $table_entity->user_id ,
                 'daily_price' => $req['daily_price'] ,
+                'name' => $req['name'] ,
                 'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
                 'is_available' => $req['is_available'] ,
                 'is_reserved' => $req['is_reserved'] ,
@@ -224,6 +225,7 @@ class TransportDriversController extends Controller
             $data = [
                 'user_id' => getUserId($req['user_id']) ,
                 'daily_price' => $req['daily_price'] ,
+                'name' => $req['name'] ,
                 'year_exp' => date("Y-m-d", strtotime($req['year_exp'])),
                 'is_available' => $req['is_available'] === 'true' ? 'true' : 'false' ,
                 'is_reserved' => $req['is_reserved'] === 'true' ? 'true' : 'false' ,

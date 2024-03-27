@@ -100,7 +100,7 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_prices","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 5,
                 ),
                 5 => 
@@ -186,15 +186,15 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                 10 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'quantity',
-                    'type' => 'number',
-                    'display_name' => 'Quantity',
+                    'field' => 'date_checkin',
+                    'type' => 'textarea',
+                    'display_name' => 'Date Checkin',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 11,
@@ -202,9 +202,9 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                 11 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_final_amount',
+                    'field' => 'ui_date_range',
                     'type' => 'text',
-                    'display_name' => 'Get Final Amount',
+                    'display_name' => 'Ui Date Range',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -218,9 +218,9 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                 12 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'stock',
-                    'type' => 'text',
-                    'display_name' => 'Stock',
+                    'field' => 'quantity',
+                    'type' => 'number',
+                    'display_name' => 'Quantity',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -234,6 +234,22 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'get_final_amount',
+                    'type' => 'text',
+                    'display_name' => 'Get Final Amount',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 14,
+                ),
+                14 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Code Table',
@@ -245,9 +261,9 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 15,
                 ),
-                14 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -261,9 +277,9 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -277,9 +293,9 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -293,7 +309,7 @@ class TransportCartsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
             ));
 

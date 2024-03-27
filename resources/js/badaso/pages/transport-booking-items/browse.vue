@@ -310,6 +310,12 @@
                                 ]
                               }}
                             </div>
+                            <ol class="ml-2" style="width:100px;" v-else-if="dataRow.field == 'date_checkin'">
+                                <li v-for="item in JSON.parse(record.dateCheckin)?.map(e => e.id)">
+                                    <span>{{ item }}</span>
+                                </li>
+                            </ol>
+
                             <span v-else-if="dataRow.type == 'relation'">{{
                               displayRelationData(record, dataRow)
                             }}</span>

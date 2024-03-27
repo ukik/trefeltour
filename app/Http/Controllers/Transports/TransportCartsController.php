@@ -330,6 +330,7 @@ class TransportCartsController extends Controller
                             'get_discount' => $value->transportPrice->discount_price,
                             'get_cashback' => $value->transportPrice->cashback_price,
                             'get_total_amount' => getTotalAmount($value->transportPrice),
+                            'date_checkin' => $value->date_checkin,
                             'quantity' => $value->quantity,
                             'get_final_amount' => getTotalAmount($value->transportPrice) * $value->quantity,
                             'description' => $value->transportPrice->description,

@@ -19,6 +19,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use TransportCartsCalenders;
+use TransportPayments;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
@@ -70,7 +71,15 @@ class TransportTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-
+    function dialog_payment_transport_drivers() {
+        $data = TransportPayments::where('id',request()->id)
+            ->with([
+                'transportDriverUser'
+            ])
+            ->first();
+        $data = $data?->transportDriverUser;
+        return ApiResponse::onlyEntity($data);
+    }
 
     // function dialog_product_transport_stores() {
     //     $data = \TransportVehicles::where('id',request()->id)
@@ -337,10 +346,12 @@ class TransportTypeHeadController extends Controller
             // $data['data'] = $decode->data;
             // $data['total'] = $decode->total;
 
-            activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$TransportCarts]])
-                ->log($data_type->display_name_singular.' has been created');
+
+            # cukup data yang penting2 aja
+            // activity($data_type->display_name_singular)
+            //     ->causedBy(auth()->user() ?? null)
+            //     ->withProperties(['attributes' => [$TransportCarts]])
+            //     ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
 

@@ -42,22 +42,6 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
-                    'type' => 'relation',
-                    'display_name' => 'Supir',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","avatar","phone"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
                     'display_name' => 'UUID',
@@ -69,14 +53,30 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
+                    'order' => 2,
+                ),
+                2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'user_id',
+                    'type' => 'relation',
+                    'display_name' => 'Supir',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","username","email","avatar","phone"]}',
                     'order' => 3,
                 ),
                 3 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'daily_price',
-                    'type' => 'number',
-                'display_name' => 'Fee Harian (Rp)',
+                    'field' => 'name',
+                    'type' => 'text',
+                    'display_name' => 'Name',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -90,10 +90,10 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                 4 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'year_exp',
-                    'type' => 'date',
-                    'display_name' => 'Pengalaman Sejak',
-                    'required' => 1,
+                    'field' => 'daily_price',
+                    'type' => 'number',
+                'display_name' => 'Fee Harian (Rp)',
+                    'required' => 0,
                     'browse' => 1,
                     'read' => 1,
                     'edit' => 1,
@@ -106,9 +106,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                 5 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_reserved',
-                    'type' => 'switch',
-                    'display_name' => 'Sedang Bekerja',
+                    'field' => 'year_exp',
+                    'type' => 'date',
+                    'display_name' => 'Pengalaman Sejak',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -122,9 +122,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_available',
+                    'field' => 'is_reserved',
                     'type' => 'switch',
-                    'display_name' => 'Jasa Tersedia',
+                    'display_name' => 'Sedang Bekerja',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -138,6 +138,22 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'is_available',
+                    'type' => 'switch',
+                    'display_name' => 'Jasa Tersedia',
+                    'required' => 1,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 8,
+                ),
+                8 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'description',
                     'type' => 'textarea',
                     'display_name' => 'Deskripsi',
@@ -149,9 +165,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -165,9 +181,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -181,9 +197,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
-                10 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -197,9 +213,9 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 12,
                 ),
-                11 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -213,7 +229,7 @@ class TransportDriversCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 13,
                 ),
             ));
 

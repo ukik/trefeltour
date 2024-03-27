@@ -40,6 +40,15 @@ class TransportBookings extends Model
         return $this->belongsTo(TransportDrivers::class,'driver_id','id');
     }
 
+    public function transportRentals()
+    {
+        return $this->belongsToMany(TransportRentals::class, 'transport_bookings', 'id', 'rental_id');
+    }
+
+    public function transportRental()
+    {
+        return $this->belongsTo(TransportRentals::class,'rental_id','id');
+    }
 
     public function transportVehicles()
     {

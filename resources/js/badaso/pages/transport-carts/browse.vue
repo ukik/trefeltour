@@ -559,8 +559,6 @@
                                     </li>
                                 </ol>
 
-CRUD ULANG INI
-
                                 <!-- <div class="ml-2 full-width" v-else-if="dataRow.field == 'ui_date_range'">
                                     <CounterDate :record="record" :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" />
                                 </div> -->

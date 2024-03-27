@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"quantity":"123"},
+  *                     example={},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"quantity":"123"},
+  *                     example={},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -214,9 +214,10 @@
   *                         @OA\Property(type="string", property="getDiscount"), 
   *                         @OA\Property(type="string", property="getCashback"), 
   *                         @OA\Property(type="string", property="getTotalAmount"), 
+  *                         @OA\Property(type="string", property="dateCheckin"), 
+  *                         @OA\Property(type="string", property="uiDateRange"), 
   *                         @OA\Property(type="integer", property="quantity"), 
   *                         @OA\Property(type="string", property="getFinalAmount"), 
-  *                         @OA\Property(type="string", property="stock"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

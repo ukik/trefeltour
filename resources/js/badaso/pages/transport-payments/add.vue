@@ -14,7 +14,8 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <DialogBooking @onBubbleEvent="updateTypeHeadBooking($event)" />
+              <DialogDriver @onBubbleEvent="updateTypeHeadDriver($event)" />
 
             </div>
             <vs-row>
@@ -29,6 +30,7 @@
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
                 <template v-if="dataRow.add == 1">
+
                   <badaso-text required
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -40,8 +42,30 @@
                     "
                   ></badaso-text>
 
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
+                  <badaso-text required @input="total_amount_driver = $event"
+                    v-if="dataRow.type == 'text_custom_total_amount_driver' && is_driver"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <badaso-text required readonly
+                    v-if="dataRow.type == 'text_custom_total_amount_all' && is_driver"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="getAmountAll"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -52,6 +76,7 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
 
                   <badaso-email
                     v-if="dataRow.type == 'email'"
@@ -194,7 +219,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -436,12 +461,13 @@
 </template>
 
 <script>
-import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
+import DialogBooking from './DialogBooking.vue'
+import DialogDriver from './DialogDriver.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadBooking
+    DialogBooking, DialogDriver
   },
   data: () => ({
     isValid: true,
@@ -454,34 +480,19 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    is_driver: false,
+
+    total_amount: 0,
+    total_amount_driver: 0,
+    total_amount_all: 0,
   }),
     async mounted() { this.$openLoader();
-        const response_user = await this.$api.badasoAuthUser.user({}).catch((error) => {
-          this.errors = error.errors;
-          // this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
+        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        this.userId = userId
+        this.userRole = userRole
+        this.isAdmin = isAdmin
 
-        console.log('response_user', response_user)
-        this.userId = response_user.data.user.id;
-
-        for(let role of response_user.data.user.roles) {
-            switch (role.name) {
-                case 'customer':
-                case 'student':
-                    this.isAdmin = false;
-                    break;
-                case 'administrator':
-                case 'admin':
-                    this.isAdmin = true;
-                    break;
-            }
-            this.userRole = role.name
-        }
         await this.getDataType();
         // await this.getRelationDataBySlug();
         await this.requestObjectStoreData();
@@ -494,24 +505,31 @@ export default {
         temp.forEach(el => {
 
             if(el.field == "total_amount") {
-                el.type = "text_readonly"
+                el.type = 'text_readonly'
             }
 
             if(el.field == "total_amount_driver") {
-                el.type = "text_readonly"
+                el.type = 'text_custom_total_amount_driver'
+            }
+
+            if(el.field == "total_amount_all") {
+                el.type = 'text_custom_total_amount_all'
             }
 
 
             // switch (vm.userRole) {
-            //     case 'customer':
-            //     case 'student':
-            //         // if(el.field == "customer_id") {
-            //         //     el.value = vm.userId
-            //         // }
-            //         break;
+            //     // case 'customer':
+            //     // case 'student':
+            //     //     if(el.field == "is_reserved") {
+            //     //         el.value = false
+            //     //         el.type = "hidden"
+            //     //     }
+            //     //     break;
             //     case 'administrator':
             //     case 'admin':
-
+            //         if(el.field == "is_available") {
+            //             el.value = false
+            //         }
             //         break;
             // }
 
@@ -522,8 +540,8 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadBooking(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -531,15 +549,43 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'booking_id') {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value ? value?.get_total_amount : '';
+                this.total_amount = value ? value?.getFinalAmount : 0;
+                this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
+
+                el.value = this.$rupiah(value?.getFinalAmount);
             }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadDriver(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'driver_id') {
+                el.value = value ? value?.id : '';
+                this.is_driver = value ? true : false
+            }
+
             if(el.field == 'total_amount_driver') {
-                el.value = value ? value?.get_total_amount_driver : '';
+
+                el.value = value ? value?.dailyPrice : 0;
+
+                this.total_amount_driver = el.value;
+                this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
             }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
@@ -716,6 +762,14 @@ export default {
       const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
+    getAmountAll: {
+        get() {
+            return this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
+        },
+        set(val) {
+
+        }
+    }
   },
 };
 </script>

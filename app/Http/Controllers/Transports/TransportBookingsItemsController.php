@@ -60,10 +60,11 @@ class TransportBookingsItemsController extends Controller
                 'transportVehicle',
                 'transportVehicles',
 
-                'transportRental.transportVehicle',
-                'transportRental.transportVehicles',
+                // 'transportRental.transportVehicle',
+                // 'transportRental.transportVehicles',
                 // 'transportRental.transportPrice',
                 // 'transportRental.transportPrices',
+                'transportRental',
                 'transportRentals',
 
                 'transportBooking.transportPayment',
@@ -136,10 +137,11 @@ class TransportBookingsItemsController extends Controller
                 'transportVehicle',
                 'transportVehicles',
 
-                'transportRental.transportVehicle',
-                'transportRental.transportVehicles',
+                // 'transportRental.transportVehicle',
+                // 'transportRental.transportVehicles',
                 // 'transportRental.transportPrice',
                 // 'transportRental.transportPrices',
+                'transportRental',
                 'transportRentals',
 
                 'transportBooking.transportPayment',

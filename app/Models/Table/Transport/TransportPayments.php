@@ -17,6 +17,7 @@ class TransportPayments extends Model
         'id',
         'booking_id',
         'customer_id',
+        'driver_id',
         'uuid',
         'total_amount',
         'total_amount_driver',
@@ -62,4 +63,27 @@ class TransportPayments extends Model
     {
         return $this->hasOne(TransportPaymentsValidations::class, 'payment_id', 'id');
     }
+
+    public function transportDriver()
+    {
+        return $this->belongsTo(TransportDrivers::class,'driver_id','id');
+    }
+
+    public function transportDrivers()
+    {
+        return $this->belongsToMany(TransportDrivers::class, 'transport_payments', 'id', 'driver_id');
+    }
+
+
+
+    public function transportDriverUser()
+    {
+        return $this->belongsTo(TransportDriversUsers::class,'driver_id','id');
+    }
+
+    public function transportDriverUsers()
+    {
+        return $this->belongsToMany(TransportDriversUsers::class, 'transport_payments', 'id', 'driver_id');
+    }
+
 }

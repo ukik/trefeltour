@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "totalAmountDriver":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "totalAmountDriver":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,15 +201,17 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "totalAmountDriver":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "totalAmountDriver":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "bookingId":"", "customerId":"", "driverId":"", "uuid":"Abc", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isSelected":"Abc"}, {"id":"123", "bookingId":"", "customerId":"", "driverId":"", "uuid":"Abc", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isSelected":"Abc"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="customerId"), 
+  *                         @OA\Property(type="string", property="driverId"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="integer", property="totalAmountDriver"), 
+  *                         @OA\Property(type="integer", property="totalAmountAll"), 
   *                         @OA\Property(type="string", property="codeTransaction"), 
   *                         @OA\Property(type="string", property="method"), 
   *                         @OA\Property(type="string", property="date"), 
@@ -219,7 +221,8 @@
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"),
+  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="string", property="isSelected"),
   *                     ),
   *                ),
   *             )

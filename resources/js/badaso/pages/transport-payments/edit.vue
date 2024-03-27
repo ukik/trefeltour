@@ -14,7 +14,9 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadBooking @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <DialogBooking @onBubbleEvent="updateTypeHeadBooking($event)" />
+              <DialogDriver :is_selected="is_selected" @onBubbleEvent="updateTypeHeadDriver($event)" />
+
 
             </div>
             <vs-row>
@@ -41,8 +43,30 @@
                     "
                   ></badaso-text>
 
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
+                  <badaso-text required @input="total_amount_all = $rupiah(Number(total_amount) + Number($event))"
+                    v-if="dataRow.type == 'text_custom_total_amount_driver'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <badaso-text required readonly
+                    v-if="dataRow.type == 'text_custom_total_amount_all'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="total_amount_all"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -396,6 +420,7 @@
                 </vs-button>
                 <!-- -------------------- -->
 
+
                 <vs-button
                   :to="{
                     name: 'DataPendingEditRead',
@@ -454,14 +479,14 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadBooking from './TransportMaintenance_TypeHeadBooking.vue'
+import DialogBooking from './DialogBooking.vue'
+import DialogDriver from './DialogDriver.vue'
 
 export default {
-  name: "CrudGeneratedAdd",
-  components: {
-    TransportMaintenance_TypeHeadBooking
-  },
   name: "CrudGeneratedEdit",
+  components: {
+    DialogBooking, DialogDriver
+  },
   data: () => ({
     isValid: true,
     errors: {},
@@ -473,6 +498,12 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    is_selected: null,
+
+    total_amount: 0,
+    total_amount_driver: 0,
+    total_amount_all: 0,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
@@ -500,15 +531,22 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
 
             if(el.field == "total_amount") {
-                el.type = "text_readonly"
+                el.type = 'text_readonly'
+                el.value = this.$rupiah(el.value)
+
+                this.total_amount = el.value
             }
 
             if(el.field == "total_amount_driver") {
-                el.type = "text_readonly"
+                el.type = 'text_custom_total_amount_driver'
+            }
+
+            if(el.field == "total_amount_all") {
+                el.type = 'text_custom_total_amount_all'
             }
 
             for (const key in this.record) {
@@ -516,28 +554,38 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.type == 'date' && key == 'date') {
-                        el.value =  new Date(this.record[key]);
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
 
-                    // switch (vm.userRole) {
-                    //     case 'customer':
-                    //     case 'student':
-                    //         // if(el.field == "customer_id" && key == 'customerId') {
-                    //         //     el.value = vm.userId
-                    //         // }
-                    //         break;
-                    //     case 'administrator':
-                    //     case 'admin':
-                    //         // if(el.field == "customer_id" && key == 'customerId') {
-                    //         //     el.value = this.record[key]
-                    //         // }
-                    //         break;
-                    // }
+                    if(el.field == 'date' && key == 'date') {
+                        el.value = new Date(this.record[key])
+                    }
+
+
+                    if(el.field == 'total_amount_driver' && key == 'totalAmountDriver') {
+                        this.total_amount_driver = Number(this.record[key])
+                        el.value = Math.round(this.record[key])
+                    }
+
+                    if(el.field == 'total_amount' && key == 'totalAmount') {
+                        this.total_amount = Number(this.record[key])
+                    }
+
+                    if(el.field == 'total_amount_all' && key == 'totalAmountAll') {
+                        this.total_amount_all = this.$rupiah(this.record[key])
+                    }
+
+
+                    if(el.field == 'is_selected' && key == 'isSelected') {
+                        this.is_selected = isVal
+                    }
+
 
                 }
             }
         });
+
 
         // REDIRECT
         if(this.record['transportPaymentsValidation'] && !this.isAdmin) {
@@ -557,10 +605,17 @@ export default {
 
 
   },
+  watch: {
+    // total_amount_driver(val) {
+    //     this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
+    // },
+    // total_amount(val) {
+    //     this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
+    // },
+  },
   methods: {
-    updateTypeHead(field, value) {
-
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadBooking(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -568,15 +623,42 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'booking_id') {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value ? value?.get_total_amount : '';
+                this.total_amount = value ? value?.getFinalAmount : 0;
+                this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
+
+                el.value = this.$rupiah(value?.getFinalAmount);
             }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadDriver(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'driver_id') {
+                el.value = value ? value?.id : '';
+            }
+
             if(el.field == 'total_amount_driver') {
-                el.value = value ? value?.get_total_amount_driver : '';
+
+                el.value = value ? value?.dailyPrice : 0;
+
+                this.total_amount_driver = el.value;
+                this.total_amount_all = this.$rupiah(Number(this.total_amount) + Number(this.total_amount_driver));
             }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

@@ -63,9 +63,9 @@ class TransportBookingsController extends Controller
                 'transportPayment.transportPaymentsValidation',
                 'transportPayments',
 
-                'transportRental.transportPrices',
-                'transportRental.transportFacilities',
-                'transportRental.transportService',
+                // 'transportRental.transportPrices',
+                // 'transportRental.transportFacilities',
+                // 'transportRental.transportService',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();

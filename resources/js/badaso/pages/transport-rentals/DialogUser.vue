@@ -3,7 +3,7 @@
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
         <!-- {{ userRole !== 'admin-transport' }} xxxxxxxxxxxxxx -->
-        <label class="badaso-text__label col-12 p-1">Admin Rental</label>
+        <label class="badaso-text__label col-12 p-1">Pilih Owner</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
             <vs-icon icon="table_chart" style="font-size: 18px;" class=""></vs-icon>
@@ -14,7 +14,7 @@
 
         <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
             :serializer="item => { return `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})` }"
-            @hit="selecteduser = $event" placeholder="Ketik: Nama, Email, Telp" @input="lookupUser" required>
+            @hit="selecteduser = $event" placeholder="Pilih Owner" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
         <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus

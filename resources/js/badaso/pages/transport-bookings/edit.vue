@@ -14,9 +14,8 @@
                 }}
               </h3>
 
-              <TransportMaintenance_TypeHeadUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
-              <TransportMaintenance_TypeHeadVehicle @onBubbleEvent="updateTypeHead('vehicle_id', $event)" />
-              <TransportMaintenance_TypeHeadDriver @onBubbleEvent="updateTypeHeadDriver('driver_id', $event)" />
+              <DialogSkill @onBubbleEvent="updateTypeHeadSkill('skill_id', $event)" />
+              <DialogUser @onBubbleEvent="updateTypeHead('customer_id', $event)" />
 
             </div>
             <vs-row>
@@ -42,20 +41,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
-
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
-                    v-if="dataRow.type == 'text_readonly'"
-                    :style="'pointer-events:none;'"
-                    :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName"
-                    v-model="dataRow.value"
-                    size="12"
-                    :alert="
-                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    "
-                  ></badaso-text>
-
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -282,6 +267,7 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-checkbox>
+
                   <badaso-select
                     v-if="dataRow.type == 'select'"
                     :label="dataRow.displayName"
@@ -293,6 +279,20 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
+
+                  <badaso-select
+                    v-if="dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to' && dataRow.field == 'price_id' && priceList.length > 0"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="priceList"
+                  ></badaso-select>
+
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
                     :label="dataRow.displayName"
@@ -328,7 +328,7 @@
                   <badaso-select
                     v-if="
                       dataRow.type == 'relation' &&
-                      dataRow.relation.relationType == 'belongs_to'
+                      dataRow.relation.relationType == 'belongs_to' && dataRow.field !== 'price_id'
                     "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -454,16 +454,16 @@
 </template>
 
 <script>
+import DialogSkill from './DialogSkill.vue'
+import DialogUser from './DialogUser.vue'
+
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TransportMaintenance_TypeHeadUser from './TransportMaintenance_TypeHeadUser.vue'
-import TransportMaintenance_TypeHeadDriver from './TransportMaintenance_TypeHeadDriver.vue'
-import TransportMaintenance_TypeHeadVehicle from './TransportMaintenance_TypeHeadVehicle.vue'
-
 export default {
+  name: "CrudGeneratedAdd",
   components: {
-    TransportMaintenance_TypeHeadUser, TransportMaintenance_TypeHeadDriver, TransportMaintenance_TypeHeadVehicle
+    DialogSkill, DialogUser
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -477,12 +477,16 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    priceList: [],
+
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
         this.userId = userId
         this.userRole = userRole
         this.isAdmin = isAdmin
+
 
 
         await this.getDetailEntity();
@@ -503,68 +507,24 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
-
-            if(el.field == "get_price") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_discount") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_cashback") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_total_amount") {
-                el.type = "text_readonly"
-            }
-            if(el.field == "get_driver_daily_price") {
-                el.type = "text_readonly"
-            }
-
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
-                    // const isVal = element == undefined || element == 'false' ? false : !!(element)
+                    const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.field == 'date_rent' && key == 'dateRent') {
-                        el.value = this.record[key]
-                    }
-                    if (el.field == 'time_depart' && key == 'timeDepart') {
-                        el.value = this.record[key]
-                    }
-                    if (el.field == 'time_arrive' && key == 'timeArrive') {
-                        el.value = new Date(this.record[key])
-                    }
-
-
-                    // switch (vm.userRole) {
-                    //     case 'customer':
-                    //     case 'student':
-                    //         if(el.field == "customer_id" && key == 'customerId') {
-                    //             el.value = vm.userId
-                    //         }
-                    //         if(el.field == "is_cancelled" && key == 'isCancelled') {
-                    //             el.type = "hidden"
-                    //         }
-                    //         if(el.field == "is_agreed" && key == 'isAgreed') {
-                    //             el.type = "hidden"
-                    //         }
-                    //         break;
-                    //     case 'administrator':
-                    //     case 'admin':
-                    //         if(el.field == "customer_id" && key == 'customerId') {
-                    //             el.value = this.record[key]
-                    //         }
-                    //         break;
+                    // if(el.field == 'is_medic' && key == 'isMedic') {
+                    //     el.value = isVal
                     // }
 
                 }
             }
         });
 
+
         // REDIRECT
-        if(this.record['transportPayment'] && !this.isAdmin) {
+        if(this.record['talentPayment'] && !this.isAdmin) {
             this.$router.replace({
                 name: 'CrudGeneratedRead',
                 params: {
@@ -574,7 +534,6 @@ export default {
             })
         }
 
-
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
         console.log('dataType', this.dataType.dataRows)
@@ -583,7 +542,7 @@ export default {
   },
   methods: {
     updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -594,31 +553,27 @@ export default {
             if(el.field == field) {
                 el.value = value ? value?.id : '';
             }
-
-            if(el.field == "get_price") {
-                el.value = value ? value?.daily_price : '';
-            }
-            if(el.field == "get_discount") {
-                el.value = value ? value?.discount_daily_price : '';
-            }
-            if(el.field == "get_cashback") {
-                el.value = value ? value?.cashback_daily_price : '';
-            }
-            if(el.field == "get_total_amount") {
-                const total =  (Number(value?.daily_price) - ((Number(value?.daily_price) * Number(value?.discount_daily_price)/100)) - Number(value?.cashback_daily_price))
-
-                el.value = value ? total : '';
-
-                // this.total_amount = total
-            }
-
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
-    updateTypeHeadDriver(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadSkill(field, value) {
+        console.log('updateTypeHeadSkill', value, this.dataType.dataRows)
+
+
+        let _arr = []
+        value?.talentPrices.forEach(arr => {
+            const total = `${(Number(arr?.generalPrice) - ((Number(arr?.generalPrice) * Number(arr?.discountPrice)/100)) - Number(arr?.cashbackPrice))}`
+            _arr.push({
+                value: arr.id,
+                label: `Skill: Harga Rp.${arr.generalPrice} + Diskon ${arr.discountPrice}% - Cashback Rp.${arr.cashbackPrice} = Total Rp.${total}`,
+                ...arr
+            })
+        })
+
+        this.priceList = _arr
+        console.log('this.priceList', this.priceList)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -626,28 +581,23 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'skill_id') {
+
                 el.value = value ? value?.id : '';
-            }
-            if(el.field == "get_driver_daily_price") {
 
-                el.value = value ? value?.daily_price : '';
-
-                // this.total_amount = this.total_amount + value?.daily_price
             }
-            // if(el.field == "get_total_amount") {
-            //     el.value = this.total_amount
-            // }
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
+
     submitForm() {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
          dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : (row.value == undefined ? '' : row.value);
+        //  dataRows[row.field] = (typeof row.value == "boolean") ? row.value.toString() : (row.value == undefined ? '' : row.value);
 
 //dataRows[row.field] = row.value == undefined ? 'false' : row.value.toString();
          console.log(row.field, row.value)

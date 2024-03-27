@@ -62,6 +62,7 @@ class TransportPaymentsController extends Controller
                 'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
+                'transportDrivers'
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -132,6 +133,7 @@ class TransportPaymentsController extends Controller
                 'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
+                'transportDrivers'
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -161,16 +163,21 @@ class TransportPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
+            // $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
+            // $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+
             $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
-            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+            // $temp = $table_entity->transportBooking;
 
             $req = request()['data'];
             $data = [
-                'booking_id' => $temp->id,
-                'customer_id' => $temp->customer_id,
+                'booking_id' => $table_entity->id,
+                'customer_id' => $table_entity->customer_id,
+                'driver_id' => $table_entity->driver_id,
 
-                'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
+                'total_amount' => $table_entity->total_amount,
+                'total_amount_driver' => $req['total_amount_driver'] ?: 0 ,
+                'total_amount_all' => $table_entity->total_amount + $req['total_amount_driver'],
 
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
@@ -186,7 +193,7 @@ class TransportPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking,booking_id,' . $req['id']
+                    'booking_id' => 'unique:transport_payments_unique,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
                 ],
@@ -249,8 +256,10 @@ class TransportPaymentsController extends Controller
                 'customer_id' => $temp->customer_id,
                 'booking_id' => $temp->id,
 
-                'total_amount' => $temp->get_total_amount,
-                'total_amount_driver' => $temp->get_total_amount_driver ,
+                'total_amount' => $temp->get_final_amount,
+                'total_amount_driver' => $req['driver_id'] ? $req['total_amount_driver'] : 0,
+                'total_amount_all' => $temp->get_final_amount + $req['total_amount_driver'],
+
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
                 'date' => date("Y-m-d", strtotime($req['date'])),
@@ -265,7 +274,7 @@ class TransportPaymentsController extends Controller
                 $data,
                 [
                     '*' => 'required',
-                    'booking_id' => 'unique:view_transport_payments_check_booking'
+                    'booking_id' => 'unique:transport_payments_unique'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'booking_id' => 'unique:travel_payments'
                 ],
@@ -277,6 +286,7 @@ class TransportPaymentsController extends Controller
                 }
             }
 
+            $data['driver_id'] = $req['driver_id'];
             $data['description'] = $req['description'];
 
             $stored_data = \TransportPayments::insert($data);

@@ -43,7 +43,7 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
-                    'type' => 'relation',
+                    'type' => 'text',
                     'display_name' => 'Uuid',
                     'required' => 0,
                     'browse' => 1,
@@ -52,7 +52,7 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_rentals","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
+                    'relation' => NULL,
                     'order' => 2,
                 ),
                 2 => 
@@ -68,7 +68,7 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_rentals","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 3,
                 ),
                 3 => 
@@ -218,9 +218,9 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                 12 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_final_amount',
-                    'type' => 'number',
-                    'display_name' => 'Get Final Amount',
+                    'field' => 'date_checkin',
+                    'type' => 'textarea',
+                    'display_name' => 'DateCheckin',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -234,9 +234,9 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'description',
-                    'type' => 'text',
-                    'display_name' => 'Description',
+                    'field' => 'get_final_amount',
+                    'type' => 'number',
+                    'display_name' => 'Get Final Amount',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -250,6 +250,22 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'description',
+                    'type' => 'text',
+                    'display_name' => 'Description',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 15,
+                ),
+                15 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Code Table',
@@ -261,9 +277,9 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -277,9 +293,9 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -293,9 +309,9 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
-                17 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -309,7 +325,7 @@ class TransportBookingItemsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 18,
+                    'order' => 19,
                 ),
             ));
 

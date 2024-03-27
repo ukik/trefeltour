@@ -242,8 +242,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TalentBookingItemsCRUDDataRowAdded::class);
         $this->seed(TalentBookingsCRUDDataTypeAdded::class);
         $this->seed(TalentBookingsCRUDDataRowAdded::class);
-        $this->seed(TransportCartsCRUDDataTypeAdded::class);
-        $this->seed(TransportCartsCRUDDataRowAdded::class);
+        
+        
         $this->seed(TransportPricesCRUDDataTypeAdded::class);
         $this->seed(TransportPricesCRUDDataRowAdded::class);
         $this->seed(TransportBookingItemsCRUDDataTypeAdded::class);
@@ -251,5 +251,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(TransportBookingsCRUDDataDeleted::class);
         $this->seed(TransportBookingsCRUDDataTypeAdded::class);
         $this->seed(TransportBookingsCRUDDataRowAdded::class);
+        $this->seed(TransportCartsCRUDDataDeleted::class);
+        $this->seed(TransportCartsCRUDDataTypeAdded::class);
+        $this->seed(TransportCartsCRUDDataRowAdded::class);
     }
 }

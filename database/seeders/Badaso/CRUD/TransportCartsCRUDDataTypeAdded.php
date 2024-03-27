@@ -45,9 +45,9 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => true,
-                'updated_at' => '2024-03-23T16:19:09.000000Z',
-                'created_at' => '2024-03-23T16:19:09.000000Z',
-                'id' => 104,
+                'updated_at' => '2024-03-25T17:34:12.000000Z',
+                'created_at' => '2024-03-25T17:34:12.000000Z',
+                'id' => 108,
             ));
 
             Badaso::model('Permission')->generateFor('transport_carts');

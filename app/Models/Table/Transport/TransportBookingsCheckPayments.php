@@ -46,4 +46,16 @@ class TransportBookingsCheckPayments extends Model
     {
         return $this->belongsToMany(TransportVehicles::class, 'transport_bookings_check_payments', 'id', 'vehicle_id');
     }
+
+
+    public function transportRentals()
+    {
+        return $this->belongsToMany(TransportRentals::class, 'transport_bookings', 'id', 'rental_id');
+    }
+
+    public function transportRental()
+    {
+        return $this->belongsTo(TransportRentals::class,'rental_id','id');
+    }
+
 }

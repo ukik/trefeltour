@@ -13,6 +13,8 @@ class TransportDrivers extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "transport_drivers";
+
     public function user()
     {
         return $this->belongsTo(BadasoUsers::class,'user_id','id');

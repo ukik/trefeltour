@@ -23,7 +23,7 @@
                 data: selectedData
             }" v-if="type=='detail'" slug="culinary-bookings"></shared-read-user>
 
-            <shared-table-browse-modal :bookingId="selectedData?.id" v-if="type=='select'" slug="culinary-booking-items" />
+            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="culinary-booking-items" />
             <div slot="modal-footer"></div>
         </stack-modal>
 
