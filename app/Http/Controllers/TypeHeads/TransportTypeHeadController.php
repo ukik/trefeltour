@@ -395,11 +395,12 @@ class TransportTypeHeadController extends Controller
         // ])->first();
 
         $data = TransportPaymentsValidations::where('id',request()->id)->with([
-            'souvenirPayment',
-            'souvenirPayment.badasoUsers',
-            'souvenirPayment.souvenirBookings',
+            'transportPayment',
+            'transportPayment.badasoUsers',
+            'transportPayment.transportBookings',
+            'transportPayment.transportDrivers',
         ])->first();
-        $data = $data->souvenirPayment;
+        $data = $data->transportPayment;
         return ApiResponse::onlyEntity($data);
     }
 

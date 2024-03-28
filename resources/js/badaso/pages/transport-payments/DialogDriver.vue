@@ -2,9 +2,9 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <!-- {{ userRole !== 'admin-transport' }} xxxxxxxxxxxxxx -->
+
         <label class="badaso-text__label col-12 p-1">Pilih Supir (opsional)</label>
-{{ is_selected }}
+
         <div v-if="!is_selected" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
             <vs-icon icon="table_chart" style="font-size: 18px;" class=""></vs-icon>
         </div>
@@ -12,11 +12,11 @@
             <vs-icon icon="content_paste" style="font-size: 18px;" class=""></vs-icon>
         </div>
 
-        <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0" :class="[ $route?.name == 'CrudGeneratedEdit' ? 'mr-4' : '']"  v-model="query" :ieCloseFix="false" :data="users"
+        <vue-typeahead-bootstrap disabled ref="typeahead" class="col p-0"   v-model="query" :ieCloseFix="false" :data="users"
             :serializer="item => { return `Nama (${item.name}) Email (${item.email}) Telp (${item.phone})` }"
             @hit="selecteduser = $event" placeholder="Pilih Supir" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="!is_selected" @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
 
@@ -61,7 +61,7 @@ import StackModal from '@innologica/vue-stackable-modal'
 
 export default {
     components: {
-        'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
+        VueTypeaheadBootstrap, // 'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
         StackModal,
     },
     props: {
@@ -90,7 +90,7 @@ export default {
     },
     async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userRole = userRole
 
         if(this.$route.params?.id) {

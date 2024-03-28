@@ -163,21 +163,20 @@ class TransportPaymentsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            // $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
-            // $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
-
             $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
+            $temp = \TransportBookings::where('id', $request->data['booking_id'])->first();
+
+            // $table_entity = \TransportPayments::where('id', $request->data['id'])->first();
             // $temp = $table_entity->transportBooking;
 
             $req = request()['data'];
             $data = [
-                'booking_id' => $table_entity->id,
-                'customer_id' => $table_entity->customer_id,
-                'driver_id' => $table_entity->driver_id,
+                'booking_id' => $temp->id,
+                'customer_id' => $temp->customer_id,
 
-                'total_amount' => $table_entity->total_amount,
+                'total_amount' => $temp->get_final_amount,
                 'total_amount_driver' => $req['total_amount_driver'] ?: 0 ,
-                'total_amount_all' => $table_entity->total_amount + $req['total_amount_driver'],
+                'total_amount_all' => $temp->get_final_amount + $req['total_amount_driver'],
 
                 'code_transaction' => $req['code_transaction'],
                 'method' => $req['method'],
@@ -205,6 +204,7 @@ class TransportPaymentsController extends Controller
                 }
             }
 
+            $data['driver_id'] = $req['driver_id'];
             $data['description'] = $req['description'];
 
             \TransportPayments::where('id', $request->data['id'])->update($data);

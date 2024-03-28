@@ -22,7 +22,7 @@
                                     })
                                 }}
                             </h3>
-                            <!-- <bootstrap-alert /> -->
+                            <!-- <shared-bootstrap-alert /> -->
                         </div>
                         <vs-row>
                             <vs-col v-for="(dataRow, rowIndex) in dataType.dataRows" :key="rowIndex"
@@ -197,7 +197,7 @@ export default {
     }),
     async mounted() {
         this.$openLoader();
-        this.isAuth = await this.$authUtil.getAuth(this.$api)
+        this.isAuth = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
 
         this.getDetailEntity();
     },

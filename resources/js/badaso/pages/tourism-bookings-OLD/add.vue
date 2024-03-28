@@ -461,7 +461,7 @@ export default {
     priceList: [],
   }),
     async mounted() { this.$openLoader();
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userId = userId
         this.userRole = userRole
         this.isAdmin = isAdmin

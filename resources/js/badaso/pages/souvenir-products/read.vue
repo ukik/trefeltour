@@ -27,7 +27,7 @@
                   })
                 }}
               </h3>
-              <!-- <bootstrap-alert /> -->
+              <!-- <shared-bootstrap-alert /> -->
             </div>
             <vs-row>
               <vs-col
@@ -245,7 +245,7 @@ export default {
     isAuth: {},
   }),
   async mounted() { this.$openLoader();
-    this.isAuth = await this.$authUtil.getAuth(this.$api)
+    this.isAuth = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
 
     this.getDetailEntity();
   },

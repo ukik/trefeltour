@@ -61,7 +61,7 @@ import StackModal from '@innologica/vue-stackable-modal'
 
 export default {
     components: {
-        'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
+        VueTypeaheadBootstrap, // 'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
         StackModal,
     },
     data() {
@@ -87,7 +87,7 @@ export default {
     },
     async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userRole = userRole
 
         if(this.$route.params?.id) {

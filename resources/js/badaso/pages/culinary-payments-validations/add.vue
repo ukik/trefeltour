@@ -15,7 +15,6 @@
               </h3>
 
               <DialogPayment @onBubbleEvent="updateTypeHeadPayment($event)" />
-              <!-- <DialogValidator @onBubbleEvent="updateTypeHeadValidator($event)" /> -->
 
             </div>
             <vs-row>
@@ -444,12 +443,11 @@
 
 <script>
 import DialogPayment from './DialogPayment.vue'
-// import DialogValidator from './DialogValidator.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogPayment, //DialogValidator
+    DialogPayment,
   },
   data: () => ({
     isValid: true,
@@ -464,7 +462,7 @@ export default {
     isAdmin: false,
   }),
     async mounted() { this.$openLoader();
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userId = userId
         this.userRole = userRole
         this.isAdmin = isAdmin

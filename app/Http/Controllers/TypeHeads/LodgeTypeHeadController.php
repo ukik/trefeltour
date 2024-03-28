@@ -300,11 +300,11 @@ class LodgeTypeHeadController extends Controller
         // ])->first();
 
         $data = LodgePaymentsValidations::where('id',request()->id)->with([
-            'souvenirPayment',
-            'souvenirPayment.badasoUsers',
-            'souvenirPayment.souvenirBookings',
+            'lodgePayment',
+            'lodgePayment.badasoUsers',
+            'lodgePayment.lodgeBookings',
         ])->first();
-        $data = $data->souvenirPayment;
+        $data = $data->lodgePayment;
         return ApiResponse::onlyEntity($data);
     }
 

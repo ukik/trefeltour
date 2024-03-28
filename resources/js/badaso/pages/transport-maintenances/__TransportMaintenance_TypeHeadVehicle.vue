@@ -29,7 +29,7 @@
             @hit="selecteduser = $event" placeholder="Ketik: Reservasi UUID, Kategori, Status Tiket, Tanggal Berangkat, Jam Berangkat, Min Budget, Max Budget, Lokasi Berangkat, Lokasi Tiba, Nama, Email, Telp" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
 
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="() => selecteduser" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' " @click="() => selecteduser" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
     </div>
@@ -60,7 +60,7 @@ export default {
     },
     async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userRole = userRole
 
         console.log('this.$route',this.$route)

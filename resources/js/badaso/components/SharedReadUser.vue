@@ -198,13 +198,15 @@
                             ]
                             }}
                         </div>
-                        <span v-else-if="dataRow.type == 'relation'">{{
-                            displayRelationData(record, dataRow)
-                        }}</span>
+                        <span v-else-if="dataRow.type == 'relation'">
+                            {{
+                                displayRelationData(record, dataRow)
+                            }}
+                        </span>
                             <div v-else>
                                 <!-- {{ record }} -->
                                 <ol class="ml-3" style="width:100px;" v-if="dataRow.field == 'date_checkin'">
-                                   <li v-for="item in JSON.parse(record.dateCheckin)?.map(e => e.id)">
+                                   <li v-for="item in JSON.parse(record?.dateCheckin)?.map(e => e.id)">
                                         <span>{{ item }}</span>
                                     </li>
                                 </ol>
@@ -251,6 +253,7 @@ export default {
   }),
   async mounted() { this.$openLoader();
     this.isAuth = await this.$authUtil.getAuth(this.$api)
+    console.log('SharedReadUser', this.isAuth)
 
     this.getDetailEntity();
   },

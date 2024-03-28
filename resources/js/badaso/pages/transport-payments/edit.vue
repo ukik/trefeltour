@@ -44,7 +44,7 @@
                   ></badaso-text>
 
                   <badaso-text required @input="total_amount_all = $rupiah(Number(total_amount) + Number($event))"
-                    v-if="dataRow.type == 'text_custom_total_amount_driver'"
+                    v-if="dataRow.type == 'text_custom_total_amount_driver' && is_driver"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -55,7 +55,7 @@
                   ></badaso-text>
 
                   <badaso-text required readonly
-                    v-if="dataRow.type == 'text_custom_total_amount_all'"
+                    v-if="dataRow.type == 'text_custom_total_amount_all' && is_driver"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -499,14 +499,15 @@ export default {
     userRole: "",
     isAdmin: false,
 
-    is_selected: null,
+    is_selected: true, // dafault true as hidden
+    is_driver: false,
 
     total_amount: 0,
     total_amount_driver: 0,
     total_amount_all: 0,
   }),
     async mounted() { this.$openLoader();
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userId = userId
         this.userRole = userRole
         this.isAdmin = isAdmin
@@ -549,6 +550,10 @@ export default {
                 el.type = 'text_custom_total_amount_all'
             }
 
+            if(el.field == "driver_id") {
+                if(el.value) this.is_driver = true
+            }
+
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
@@ -589,6 +594,7 @@ export default {
 
         // REDIRECT
         if(this.record['transportPaymentsValidation'] && !this.isAdmin) {
+            this.$formExpiredNotify(this.$vs)
             this.$router.replace({
                 name: 'CrudGeneratedRead',
                 params: {
@@ -649,6 +655,7 @@ export default {
 
             if(el.field == 'driver_id') {
                 el.value = value ? value?.id : '';
+                this.is_driver = value ? true : false
             }
 
             if(el.field == 'total_amount_driver') {

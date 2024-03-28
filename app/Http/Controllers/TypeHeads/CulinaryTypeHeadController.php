@@ -173,11 +173,11 @@ class CulinaryTypeHeadController extends Controller
         // ])->first();
 
         $data = CulinaryPaymentsValidations::where('id',request()->id)->with([
-            'souvenirPayment',
-            'souvenirPayment.badasoUsers',
-            'souvenirPayment.souvenirBookings',
+            'culinaryPayment',
+            'culinaryPayment.badasoUsers',
+            'culinaryPayment.culinaryBookings',
         ])->first();
-        $data = $data->souvenirPayment;
+        $data = $data->culinaryPayment;
         return ApiResponse::onlyEntity($data);
     }
 

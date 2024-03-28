@@ -2,7 +2,7 @@
 <template>
     <div class="mb-2 mt-3 p-0 col ml-3 pr-2 row">
         <!-- {{ selecteduser }} xxxxxxxxxxx -->
-        <!-- {{ userRole !== 'admin-transport' }} xxxxxxxxxxxxxx -->
+
         <label class="badaso-text__label col-12 p-1">Pilih Pembayaran</label>
 
         <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
@@ -16,7 +16,7 @@
             :serializer="item => { return `UUID (${item.uuid})` }"
             @hit="selecteduser = $event" placeholder="Pilih Pembayaran" @input="lookupUser" required>
         </vue-typeahead-bootstrap>
-        <div v-if="$route?.name == 'CrudGeneratedAdd' && userRole !== 'admin-transport'" @click="onHapus" class="btn btn-primary col-auto mr-4">
+        <div v-if="$route?.name == 'CrudGeneratedAdd' " @click="onHapus" class="btn btn-primary col-auto mr-4">
             Hapus
         </div>
 
@@ -61,7 +61,7 @@ import StackModal from '@innologica/vue-stackable-modal'
 
 export default {
     components: {
-        'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
+        VueTypeaheadBootstrap, // 'vue-typeahead-bootstrap': VueTypeaheadBootstrap,
         StackModal,
     },
     data() {
@@ -87,7 +87,7 @@ export default {
     },
     async mounted() { this.$openLoader();
         console.log('this.$route',this.$route)
-        const { userId, userRole, isAdmin } = await this.$authUtil.getAuth(this.$api)
+        const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userRole = userRole
 
         if(this.$route.params?.id) {

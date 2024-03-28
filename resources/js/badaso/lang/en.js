@@ -182,6 +182,7 @@ export default {
   },
 
   alert: {
+    warning: "Warning",
     success: "Success",
     danger: "Danger",
     error: "Error",

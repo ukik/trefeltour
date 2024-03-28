@@ -178,6 +178,7 @@ export default {
   },
 
   alert: {
+    warning: "Peringatan",
     success: "Sukses",
     danger: "Bahaya",
     error: "Kesalahan",
