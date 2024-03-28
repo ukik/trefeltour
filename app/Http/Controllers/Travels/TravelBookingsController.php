@@ -14,7 +14,9 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use TravelBookings;
-use TravelPayments;
+
+use \BadasoUsers;
+use Google\Service\Eventarc\Transport;
 
 class TravelBookingsController extends Controller
 {
@@ -52,12 +54,17 @@ class TravelBookingsController extends Controller
 
             $data = \TravelBookings::with([
                 'badasoUsers',
-                'travelTickets',
-                'travelTicket',
-                'travelReservation',
+                'badasoUser',
+                'travelStore.travelTicket',
+                'travelStore.travelTickets',
+                // 'travelStore.travelPrice',
+                // 'travelStore.travelPrices',
+                'travelStores',
+                'travelBookingItem',
+                'travelBookingItems',
                 'travelPayment',
                 'travelPayment.travelPaymentsValidation',
-                // 'travelPaymentsValidation'
+                'travelPayments'
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -114,19 +121,22 @@ class TravelBookingsController extends Controller
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TravelBookings::with([
                 'badasoUsers',
-                'travelTickets',
-                'travelTicket',
-                'travelReservation',
+                'badasoUser',
+                'travelStore.travelTicket',
+                'travelStore.travelTickets',
+                // 'travelStore.travelPrice',
+                // 'travelStore.travelPrices',
+                'travelStores',
+                'travelBookingItem',
+                'travelBookingItems',
                 'travelPayment',
                 'travelPayment.travelPaymentsValidation',
-                // 'travelPaymentsValidation'
+                'travelPayments'
             ])->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
-
-            // $data->customer_selected = DB::table('travel_reservations')->where('customer_id', request()->id)->limit(1)->get();
 
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
@@ -134,16 +144,17 @@ class TravelBookingsController extends Controller
         }
     }
 
+    /*
     public function edit(Request $request)
     {
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
+        isOnlyAdminTravel();
+
         $value = request()['data']['id'];
-        $check = TravelPayments::where('booking_id', $value)->first();
-        if($check && !isAdmin()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = \TravelPayments::where('booking_id', $value)->first();
+        if($check && !isAdminTravel()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -153,23 +164,24 @@ class TravelBookingsController extends Controller
 
             $table_entity = \TravelBookings::where('id', $request->data['id'])->first();
 
-            // dimatikan saja, intinya kalo sudah is_reserved maka user akan diredirect ke page detail
-            if(!isAdmin() && $table_entity->is_agreed || $table_entity->is_cancelled) return ApiResponse::failed('Maaf harus dari admin');
+            $temp = \TravelPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
 
-            $temp = \TravelTickets::where('id', $request->data['ticket_id'])->first();
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
+            // if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
-                'ticket_id' => $temp->id ,
-                'customer_id' => $temp->customer_id ,
-                'reservation_id' => $temp->reservation_id ,
-                'get_price' => $temp->ticket_price ,
-                'get_discount' => $temp->ticket_discount_price ,
-                'get_cashback' => $temp->ticket_cashback_price ,
-                'get_total_amount' => round((($temp->ticket_price) - ((($temp->ticket_price) * ($temp->ticket_discount_price)/100)) - ($temp->ticket_cashback_price)), 2) ,
-                // 'description' => $req['description'] ,
-                // 'is_agreed' => $req['is_agreed'], // bisa dihapus, cukup via "travel_payment_validations"
-                // 'is_cancelled' => $req['is_cancelled'], // bisa dihapus, cukup via "travel_payment_validations"
+                'customer_id' => $customer_id ,
+                'store_id' => $temp->store_id ,
+
+                'get_final_amount' => $temp->get_final_amount ,
+
+                // 'get_total_amount' => round((($temp->general_price) - ((($temp->general_price) * ($temp->discount_price)/100)) - ($temp->cashback_price)), 2) ,
+                // 'days_duration' => $req['days_duration'] ,
+
+                'description' => $req['description'] ,
                 'code_table' => ($slug) ,
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
@@ -178,8 +190,11 @@ class TravelBookingsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    // 'venue_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    // ],
+                    // 'customer_id' => [
+                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
                     // ],
                 ],
             );
@@ -191,6 +206,8 @@ class TravelBookingsController extends Controller
             }
 
             $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
+
 
             \TravelBookings::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -221,11 +238,7 @@ class TravelBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        // UNIQUE + SoftDelete
-        // cukup CREATE aja karena di edit tidak bisa di edit relationship
-        $unique = TravelBookings::where('ticket_id', $request->data['ticket_id'])
-            ->where('deleted_at',NULL)->first();
-        if($unique) return ApiResponse::failed('Tiket UUID sudah dipakai');
+        isOnlyAdminTravel();
 
         try {
 
@@ -234,20 +247,24 @@ class TravelBookingsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \TravelTickets::where('id', $request->data['ticket_id'])->first();
+            $temp = \TravelPrices::where('id', $request->data['price_id'])->first();
+            if(!$temp) return ApiResponse::failed("Harga Kosong");
+
+            $customer_id = BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
+            if($req['days_duration'] <= 0) return ApiResponse::failed("Minimal 1 Hari");
+
             $data = [
-                'ticket_id' => $temp->id ,
-                'customer_id' => $temp->customer_id ,
-                'reservation_id' => $temp->reservation_id ,
-                'get_price' => $temp->ticket_price ,
-                'get_discount' => $temp->ticket_discount_price ,
-                'get_cashback' => $temp->ticket_cashback_price ,
-                'get_total_amount' => round((($temp->ticket_price) - ((($temp->ticket_price) * ($temp->ticket_discount_price)/100)) - ($temp->ticket_cashback_price)), 2) ,
+                'customer_id' => $req['customer_id'] ,
+                'store_id' => $temp->store_id ,
+                'price_id' => $temp->id ,
+
+                'get_price' => $temp->general_price ,
+                'get_discount' => $temp->discount_price ,
+                'get_final_amount' => $temp->get_final_amount ,
+
                 // 'description' => $req['description'] ,
-                // 'is_agreed' => (!isAdmin()) ?  'false' : ($req['is_agreed'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
-                // 'is_cancelled' => (!isAdmin()) ?  'false' : ($req['is_cancelled'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
                 'uuid' => ShortUuid(),
             ];
@@ -267,6 +284,7 @@ class TravelBookingsController extends Controller
             }
 
             $data['description'] = $req['description'];
+            $data['get_final_amount'] = $data['get_total_amount'] * $data['days_duration'];
 
             $stored_data = \TravelBookings::insert($data);
 
@@ -288,16 +306,18 @@ class TravelBookingsController extends Controller
             return ApiResponse::failed($e);
         }
     }
+    */
 
     public function delete(Request $request)
     {
         DB::beginTransaction();
 
+        isOnlyAdminTravel();
+
         $value = request()['data'][0]['value'];
-        $check = TravelPayments::where('booking_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TravelBookings::where('id', $value)->with(['travelPayment'])->first();
+        if($check->travelPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -383,6 +403,8 @@ class TravelBookingsController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
+        isOnlyAdminTravel();
 
         try {
             $request->validate([

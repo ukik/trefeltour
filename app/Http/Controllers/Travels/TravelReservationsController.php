@@ -223,7 +223,7 @@ class TravelReservationsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \App\Models\Table\BadasoUsers::where('id', $request->data['customer_id'])->first();
+            $temp = \BadasoUsers::where('id', $request->data['customer_id'])->first();
 
             $req = request()['data'];
             $data = [

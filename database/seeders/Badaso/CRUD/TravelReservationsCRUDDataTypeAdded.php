@@ -28,10 +28,9 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 32,
                 'name' => 'travel_reservations',
                 'slug' => 'travel-reservations',
-                'display_name_singular' => 'Travel Reservasi',
+                'display_name_singular' => 'Travel Reservations',
                 'display_name_plural' => 'Travel Reservations',
                 'icon' => NULL,
                 'model_name' => NULL,
@@ -42,13 +41,13 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-23T03:44:06.000000Z',
-                'updated_at' => '2024-01-29T04:20:41.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-28T21:47:03.000000Z',
+                'created_at' => '2024-03-28T21:47:03.000000Z',
+                'id' => 113,
             ));
 
             Badaso::model('Permission')->generateFor('travel_reservations');

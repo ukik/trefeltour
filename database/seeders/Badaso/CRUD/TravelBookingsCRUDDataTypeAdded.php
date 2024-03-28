@@ -28,11 +28,10 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 33,
                 'name' => 'travel_bookings',
                 'slug' => 'travel-bookings',
-                'display_name_singular' => 'Travel Booking',
-                'display_name_plural' => 'Travel Booking',
+                'display_name_singular' => 'Travel Bookings',
+                'display_name_plural' => 'Travel Bookings',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-23T15:56:15.000000Z',
-                'updated_at' => '2024-02-01T14:49:59.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-28T21:42:20.000000Z',
+                'created_at' => '2024-03-28T21:42:20.000000Z',
+                'id' => 112,
             ));
 
             Badaso::model('Permission')->generateFor('travel_bookings');
@@ -64,7 +63,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Booking',
+                    'title' => 'Travel Bookings',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/travel-bookings';
-                $menu_item->title = 'Travel Booking';
+                $menu_item->title = 'Travel Bookings';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

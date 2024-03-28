@@ -21,9 +21,10 @@ class TravelPaymentsValidationsController extends Controller
     public $isLogged;
     public $isRole;
 
-    public function __construct() {
+    public function __construct()
+    {
 
-        if(Auth::check()) {
+        if (Auth::check()) {
 
             $this->isLogged = true;
 
@@ -32,7 +33,6 @@ class TravelPaymentsValidationsController extends Controller
             }
 
             $this->isRole = $role;
-
         } else {
             return ApiResponse::unauthorized();
         }
@@ -53,10 +53,10 @@ class TravelPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'travelPayments',
                 'travelPayment',
-                'travelPayment.travelBooking.travelTicket',
-                'travelPayment.travelBooking.travelReservation'
-            ])->orderBy('id','desc');
-            if(request()['showSoftDelete'] == 'true') {
+                'travelPayment.travelBooking',
+                'travelPayment.travelBookings',
+            ])->orderBy('id', 'desc');
+            if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
             $data = $data->paginate(request()->perPage);
@@ -100,7 +100,7 @@ class TravelPaymentsValidationsController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
             $request->validate([
-                'id' => 'exists:'.$data_type->name,
+                'id' => 'exists:' . $data_type->name,
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
@@ -108,8 +108,8 @@ class TravelPaymentsValidationsController extends Controller
                 'badasoUsers',
                 'travelPayments',
                 'travelPayment',
-                'travelPayment.travelBooking.travelTicket',
-                'travelPayment.travelBooking.travelReservation'
+                'travelPayment.travelBooking',
+                'travelPayment.travelBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -126,15 +126,14 @@ class TravelPaymentsValidationsController extends Controller
 
     public function edit(Request $request)
     {
-        // return $slug = $this->getSlug($request);
+
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTravel();
+
         $value = request()['data']['id'];
-        $check = TravelPaymentsValidations::where('id', $value)->where('is_valid','true')->first();
-        if($check && !isAdmin()) {
-            return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
-        }
+        $check = TravelPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if ($check && !isAdminTravel()) return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
 
         try {
 
@@ -147,27 +146,28 @@ class TravelPaymentsValidationsController extends Controller
 
             $req = request()['data'];
             $data = [
-                'validator_id' => userId() ,
-                'payment_id' => $temp->id ,
+                'validator_id' => userId(),
+                'payment_id' => $temp->id,
 
-                'is_valid' => $req['is_valid'] ,
-                'code_table' => ($slug) ,
+                'is_valid' => $req['is_valid'],
+                'code_table' => ($slug),
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
-            $validator = Validator::make($data,
+            $validator = Validator::make(
+                $data,
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_payments_validations')->ignore($req['id'])
-                    // ],
+                    'payment_id' => [
+                        'required', \Illuminate\Validation\Rule::unique('travel_payments_validations')->ignore($table_entity->id)
+                    ],
                 ],
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
                 foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
+                    return ApiResponse::failed(implode('', $value));
                 }
             }
 
@@ -182,7 +182,7 @@ class TravelPaymentsValidationsController extends Controller
                     'old' => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
                 ])
-                ->log($data_type->display_name_singular.' has been updated');
+                ->log($data_type->display_name_singular . ' has been updated');
 
             // add event notification handle
             $table_name = $data_type->name;
@@ -200,13 +200,13 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTravel();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
         $unique = TravelPaymentsValidations::where('payment_id', $request->data['payment_id'])
-            ->where('deleted_at',NULL)->first();
-        if($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
+            ->where('deleted_at', NULL)->first();
+        if ($unique) return ApiResponse::failed('Payment UUID sudah dipakai');
 
         try {
 
@@ -219,25 +219,26 @@ class TravelPaymentsValidationsController extends Controller
 
             $req = request()['data'];
             $data = [
-                'validator_id' => userId() ,
-                'payment_id' => $temp->id ,
+                'validator_id' => userId(),
+                'payment_id' => $temp->id,
 
-                'is_valid' => $req['is_valid'] ,
-                'code_table' => ($slug) ,
+                'is_valid' => $req['is_valid'] === 'true' ? 'true' : 'false',
+                'code_table' => ($slug),
                 'uuid' => ShortUuid(),
             ];
 
-            $validator = Validator::make($data,
+            $validator = Validator::make(
+                $data,
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => 'unique:travel_payments_validations'
+                    'payment_id' => 'unique:travel_payments_validations'
                 ],
             );
             if ($validator->fails()) {
                 $errors = json_decode($validator->errors(), True);
                 foreach ($errors as $key => $value) {
-                    return ApiResponse::failed(implode('',$value));
+                    return ApiResponse::failed(implode('', $value));
                 }
             }
 
@@ -248,7 +249,7 @@ class TravelPaymentsValidationsController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
-                ->log($data_type->display_name_singular.' has been created');
+                ->log($data_type->display_name_singular . ' has been created');
 
             DB::commit();
 
@@ -268,12 +269,11 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTravel();
+
         $value = request()['data'][0]['value'];
-        $check = TravelPaymentsValidations::where('id', $value)->where('is_valid','true')->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TravelPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -305,7 +305,7 @@ class TravelPaymentsValidationsController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been deleted');
+                ->log($data_type->display_name_singular . ' has been deleted');
 
             DB::commit();
 
@@ -344,7 +344,7 @@ class TravelPaymentsValidationsController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been restore');
+                ->log($data_type->display_name_singular . ' has been restore');
 
             DB::commit();
 
@@ -360,7 +360,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdmin();
+        isOnlyAdminTravel();
 
         try {
             $request->validate([
@@ -397,14 +397,13 @@ class TravelPaymentsValidationsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelPaymentsValidations::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_valid','false')->get();
+            $filters = TravelPaymentsValidations::whereIn('id', explode(",", request()['data'][0]['value']))->where('is_valid', 'false')->get();
             $temp = [];
             foreach ($filters as $value) {
                 array_push($temp, $value['id']);
             }
             $id_list = $temp;
             // -------------------------------------------- //
-
 
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;
@@ -414,7 +413,7 @@ class TravelPaymentsValidationsController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been bulk deleted');
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 
@@ -454,7 +453,7 @@ class TravelPaymentsValidationsController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been bulk deleted');
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 
@@ -492,7 +491,7 @@ class TravelPaymentsValidationsController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $single_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             } else {
                 foreach ($request->data as $index => $row) {
@@ -502,7 +501,7 @@ class TravelPaymentsValidationsController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $updated_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             }
 

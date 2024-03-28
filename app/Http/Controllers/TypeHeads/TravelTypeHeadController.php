@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 use \BadasoUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
+use TravelBookings;
+use TravelBookingsCheckPayments;
+use TravelCarts;
+use TravelPrices;
+
+use TravelPaymentsValidations;
+use TravelReservations;
+use Uasoft\Badaso\Helpers\ApiResponse;
 
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -16,191 +25,161 @@ use Uasoft\Badaso\Models\DataType;
 class TravelTypeHeadController extends Controller
 {
     function getUser() {
-        $keyword = request()->keyword;
-        return BadasoUsers::orWhere('name','like','%'.$keyword.'%')
-            ->orWhere('email','like','%'.$keyword.'%')
-            ->orWhere('phone','like','%'.$keyword.'%')
-            ->limit(20)->get();
-    }
-    function edit_get_user() {
-        $customer_id = DB::table('travel_reservations')->where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $customer_id)->limit(1)->first();
-    }
-
-    // FOR
-    // http://localhost:8000/trevolia-dashboard/general/travel-tickets
-    function edit_travel_tickets_customer_id() {
-        $customer_id = \TravelTickets::where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $customer_id)->limit(1)->first();
-    }
-    function list_travel_tickets_reservation_id() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('travel_reservations');
-
-        $query = \TravelReservations::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
+        if(isAdminTravel()) {
+            return Auth::user();
         }
 
-        if(isAdmin()) {
-            return $query = $query->limit(20)->get();
-        }
-        return $query = $query->where('customer_id',userId())->limit(20)->get();
-    }
-    function edit_travel_tickets_reservation_id() {
-        $id = \TravelTickets::where('id', request()->id)->value('reservation_id');
-        return \TravelReservations::with('user')->where('id',$id)->first();
+        return TravelReservations::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+
+        $temp = TravelReservations::where('id', request()->id)->value('user_id');
+        return BadasoUsers::where('id', $temp)->first();
     }
 
-    // FOR
-    // http://localhost:8000/trevolia-dashboard/general/travel-bookings
-    function edit_travel_bookings_customer_id() {
-        $id = \TravelTickets::where('id', request()->id)->value('customer_id');
-        return BadasoUsers::where('id', $id)->limit(1)->first();
-    }
-    function list_travel_bookings_ticket_id() {
-        $keyword = request()->keyword;
 
-        $columns = Schema::getColumnListing('travel_tickets');
 
-        $query = \TravelTickets::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
 
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        if(isAdmin()) {
-            return $query = $query->limit(20)->get();
-        }
-
-        return $query = $query->where('customer_id',userId())->limit(20)->get();
-    }
-    function edit_travel_bookings_ticket_id() {
-        $id = \TravelBookings::where('id', request()->id)->value('ticket_id');
-        return \TravelTickets::with('user')->where('id',$id)->first();
+    function dialog_product_travel_stores() {
+        $data = \TravelTickets::where('id',request()->id)
+            ->with('travelReservation.badasoUsers')
+            ->first();
+        $data = $data->travelReservation;
+        return ApiResponse::onlyEntity($data);
     }
 
-    // Route::get('/search-travel-payments', 'TravelTypeHeadController@list_travel_payments_booking_id');
-    // Route::get('/edit-travel-payments', 'TravelTypeHeadController@edit_travel_payments_booking_id');
-    function list_travel_payments_booking_id() {
-        $keyword = request()->keyword;
-
-        $columns = Schema::getColumnListing('travel_bookings');
-
-        $query = \TravelBookings::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
-
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
-        }
-
-        return $query = $query->limit(20)->get();
-    }
-    function edit_travel_payments_booking_id() {
-        $id = \TravelPayments::where('id', request()->id)->value('booking_id');
-        return \TravelBookings::with('user')->where('id',$id)->first();
+    function dialog_prices_travel_products() {
+        $data = \TravelPrices::where('id',request()->id)
+            ->with([
+                'travelTicket.travelReservations',
+            ])
+            ->first();
+        $data = $data->travelTicket;
+        return ApiResponse::onlyEntity($data);
     }
 
-    // // travel-payments-validations
-    // Route::get('/user-travel-payments-validations', 'TravelTypeHeadController@edit_travel_payments_validations_validator_id');
-    // Route::get('/search-travel-payments-validations', 'TravelTypeHeadController@list_travel_payments_validations_payment_id');
-    // Route::get('/edit-travel-payments-validations', 'TravelTypeHeadController@edit_travel_payments_validations_payment_id');
-    function edit_travel_payments_validations_validator_id() {
-        $id = \TravelPaymentsValidations::where('id', request()->id)->value('validator_id');
-        return BadasoUsers::where('id', $id)->limit(1)->first();
+
+
+    function get_prices_booking(Request $request) {
+        // return request();
+        $payload = json_decode(request()->payload, true);
+        $data = \TravelCarts::with([
+            'badasoUsers',
+            'badasoUser',
+
+            'travelTicket',
+            'travelTickets',
+            'travelPrice',
+            'travelPrices',
+            'travelReservation',
+            'travelReservations',
+        ])->whereIn('id', $payload)->get();
+        return ApiResponse::onlyEntity($data);
     }
-    function list_travel_payments_validations_payment_id() {
-        $keyword = request()->keyword;
 
-        $columns = Schema::getColumnListing('travel_payments');
+    function add_to_cart(Request $request) {
 
-        $query = \TravelPayments::with([
-            'user' => function($q) use ($keyword) {
-                return $q;
-            }])
-        ->whereHas("user",function($q) use ($keyword) {
-            return $q
-                ->where('email','like','%'.$keyword.'%')
-                ->orWhere('name','like','%'.$keyword.'%')
-                ->orWhere('phone','like','%'.$keyword.'%');
-        });
+        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
-        foreach ($columns as $value) {
-            switch ($value) {
-                case "code_table":
-                case "created_at":
-                case "updated_at":
-                case "deleted_at":
-                    # code...
-                    break;
-                default:
-                    $query->orWhere($value,'like','%'.$keyword.'%');
-                    break;
-            }
+        $data = TravelPrices::where('id', request()->price_id)->first();
+
+        $quantity = request()->quantity;
+
+        $carts = TravelCarts::query()
+            ->where('customer_id', request()->customer_id)
+            ->where('price_id', request()->price_id)
+            ->first();
+
+        TravelCarts::updateOrCreate([
+                'customer_id' => request()->customer_id,
+                'store_id' => $data->store_id,
+                'product_id' => $data->product_id,
+                'price_id' => $data->id,
+            ],
+            [
+                'customer_id' => request()->customer_id,
+                'store_id' => $data->store_id,
+                'product_id' => $data->product_id,
+                'price_id' => $data->id,
+                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
+                'code_table' => "travel-carts",
+                'uuid' => $carts?->uuid ?: ShortUuid(),
+            ]
+        );
+
+        // return request();
+    }
+
+    function update_to_cart(Request $request) {
+        // return request();
+        if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
+
+        TravelCarts::where('id', request()->id)->update([
+                'quantity' => request()->quantity,
+        ]);
+
+        $data = \TravelCarts::with([
+            'badasoUsers',
+            'badasoUser',
+
+            'travelTicket',
+            'travelTickets',
+            'travelPrice',
+            'travelPrices',
+            'travelReservations',
+        ])->orderBy('id','desc');
+        if(request()['showSoftDelete'] == 'true') {
+            $data = $data->onlyTrashed();
         }
 
-        return $query = $query->limit(20)->get();
+        if(request()->popup) {
+            $data = $data->where('id', request()->id)->paginate(request()->perPage);
+        } else {
+            $data = $data->paginate(request()->perPage);
+        }
+
+        // $encode = json_encode($paginate);
+        // $decode = json_decode($encode);
+        // $data['data'] = $decode->data;
+        // $data['total'] = $decode->total;
+
+        return ApiResponse::onlyEntity($data);
     }
-    function edit_travel_payments_validations_payment_id() {
-        $id = \TravelPaymentsValidations::where('id', request()->id)->value('validator_id');
-        return \TravelPayments::with('user')->where('id',$id)->first();
+
+
+
+
+
+    function dialog_booking_travel_bookings() {
+
+        $data = TravelBookingsCheckPayments::where('payment_id',request()->id)->with([
+            'badasoUsers',
+            'travelBookings',
+            'travelBooking',
+            'travelReservation',
+            'travelReservations',
+        ])->first();
+        return ApiResponse::onlyEntity($data);
     }
+
+
+    function dialog_booking_travel_payments_validations() {
+
+        // $payment_id = TravelPaymentsValidations::where('id',request()->id)->value('payment_id');
+        // $data = TravelBookingsCheckPayments::where('payment_id',$payment_id)->with([
+        //     'badasoUsers',
+        //     'travelBookings',
+        //     'travelBooking',
+        //     'travelReservation',
+        //     'travelReservations',
+        // ])->first();
+
+        $data = TravelPaymentsValidations::where('id',request()->id)->with([
+            'travelPayment',
+            'travelPayment.badasoUsers',
+            'travelPayment.travelBookings',
+        ])->first();
+        $data = $data->travelPayment;
+        return ApiResponse::onlyEntity($data);
+    }
+
+
 }

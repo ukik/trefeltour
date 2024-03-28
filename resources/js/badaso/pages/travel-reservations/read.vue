@@ -2,7 +2,7 @@
   <div>
     <template v-if="!isMaintenance">
       <badaso-breadcrumb-row full>
-        <template slot="action" v-if="!record['travelTicket'] && !isAuth?.isAdmin">
+        <template slot="action">
           <vs-button
             color="warning"
             type="relief"
@@ -27,7 +27,7 @@
                   })
                 }}
               </h3>
-              <shared-bootstrap-alert />
+              <!-- <shared-bootstrap-alert /> -->
             </div>
             <vs-row>
               <vs-col

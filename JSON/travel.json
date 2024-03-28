@@ -170,14 +170,28 @@ tunai,bank transfer,e-wallet,qris,lainnya
     ]
 }
 
-
-,,,,,
+bisnis,ekonomi
 {
     "size": 12,
     "items": [
         {
-            "label": "car",
-            "value": "car"
+            "label": "bisnis",
+            "value": "bisnis"
+        },
+        {
+            "label": "ekonomi",
+            "value": "ekonomi"
+        }
+    ]
+}
+,,,,,
+mobil,motor,bus,truck,pickup,train,kapal,pesawat
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "mobil",
+            "value": "mobil"
         },
         {
             "label": "motor",
@@ -194,6 +208,56 @@ tunai,bank transfer,e-wallet,qris,lainnya
         {
             "label": "pickup",
             "value": "pickup"
+        },
+        {
+            "label": "train",
+            "value": "train"
+        },
+        {
+            "label": "kapal",
+            "value": "kapal"
+        },
+        {
+            "label": "pesawat",
+            "value": "pesawat"
+        }
+    ]
+}
+
+{
+    "size": 12,
+    "items": [
+        {
+            "label": "mobil",
+            "value": "mobil"
+        },
+        {
+            "label": "motor",
+            "value": "motor"
+        },
+        {
+            "label": "bus",
+            "value": "bus"
+        },
+        {
+            "label": "truck",
+            "value": "truck"
+        },
+        {
+            "label": "pickup",
+            "value": "pickup"
+        },
+        {
+            "label": "train",
+            "value": "train"
+        },
+        {
+            "label": "kapal",
+            "value": "kapal"
+        },
+        {
+            "label": "pesawat",
+            "value": "pesawat"
         },
         {
             "label": "others",

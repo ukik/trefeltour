@@ -104,7 +104,24 @@ if (!function_exists('isAdmin')) {
         }
     }
 }
+if (!function_exists('isAdminTravel')) {
+    function isAdminTravel(){
+        if(Auth::check()) {
 
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'admin-travel':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 if (!function_exists('isAdminTransport')) {
     function isAdminTransport(){
         if(Auth::check()) {
@@ -215,6 +232,12 @@ if (!function_exists('isAdminCulinary')) {
     }
 }
 
+
+if (!function_exists('isOnlyAdminTravel')) {
+    function isOnlyAdminTravel(){
+        if(!isAdminTravel()) return ApiResponse::failed('Maaf harus dari admin');
+    }
+}
 
 if (!function_exists('isOnlyAdminTransport')) {
     function isOnlyAdminTransport(){
