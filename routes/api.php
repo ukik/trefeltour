@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['prefix' => '/typehead', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
+Route::group(['prefix' => '/typehead', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers\TypeHeads'], function ($request) {
     Route::get('/user', 'TravelTypeHeadController@getUser');
     Route::get('/user-travel-reservations', 'TravelTypeHeadController@edit_get_user');
 
