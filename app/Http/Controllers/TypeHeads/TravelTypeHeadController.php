@@ -18,6 +18,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 
 use Illuminate\Support\Facades\Validator;
 use Exception;
+use TravelStores;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
@@ -29,16 +30,42 @@ class TravelTypeHeadController extends Controller
             return Auth::user();
         }
 
-        return TravelReservations::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+        return TravelStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = TravelReservations::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = TravelReservations::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
+    }
+
+    function travel_stores_dialog_user() {
+        if(isAdminTravel()) {
+            return Auth::user();
+        }
+
+        return TravelStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
+    }
+
+    function travel_reservations_dialog_user() {
+        if(isAdminTravel()) {
+            return Auth::user();
+        }
+
+        return TravelReservations::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
     }
 
 
 
 
-    function dialog_product_travel_stores() {
+
+
+
+
+
+
+
+
+
+
+    function dialog_reservation_travel_stores() {
         $data = \TravelTickets::where('id',request()->id)
             ->with('travelReservation.badasoUsers')
             ->first();
@@ -46,13 +73,13 @@ class TravelTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-    function dialog_prices_travel_products() {
+    function dialog_prices_travel_reservations() {
         $data = \TravelPrices::where('id',request()->id)
             ->with([
-                'travelTicket.travelReservations',
+                'travelReservation',
             ])
             ->first();
-        $data = $data->travelTicket;
+        $data = $data->travelReservation;
         return ApiResponse::onlyEntity($data);
     }
 
@@ -91,13 +118,13 @@ class TravelTypeHeadController extends Controller
         TravelCarts::updateOrCreate([
                 'customer_id' => request()->customer_id,
                 'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
+                'reservation_id' => $data->reservation_id,
                 'price_id' => $data->id,
             ],
             [
                 'customer_id' => request()->customer_id,
                 'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
+                'reservation_id' => $data->reservation_id,
                 'price_id' => $data->id,
                 'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
                 'code_table' => "travel-carts",

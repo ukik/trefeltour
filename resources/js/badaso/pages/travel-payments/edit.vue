@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHead_BookingId v-if="isAdmin" @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <DialogBooking @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -41,8 +41,7 @@
                     "
                   ></badaso-text>
 
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -53,6 +52,7 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
 
                   <badaso-email
                     v-if="dataRow.type == 'email'"
@@ -396,6 +396,7 @@
                 </vs-button>
                 <!-- -------------------- -->
 
+
                 <vs-button
                   :to="{
                     name: 'DataPendingEditRead',
@@ -454,12 +455,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHead_BookingId from './TypeHead_BookingId.vue'
+import DialogBooking from './DialogBooking.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_BookingId
+    DialogBooking
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -500,11 +501,12 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
+        console.log('this.record', this.record)
         temp.forEach(el => {
 
             if(el.field == "total_amount") {
-                el.type = "text_readonly"
+                el.type = 'text_readonly'
+                el.value = this.$rupiah(el.value)
             }
 
             for (const key in this.record) {
@@ -512,31 +514,21 @@ export default {
                     const element = this.record[key];
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
-                    if(el.type == 'date' && key == 'date') {
-                        el.value =  new Date(this.record[key]);
+                    if(el.field == 'is_available' && key == 'isAvailable') {
+                        el.value = isVal
                     }
 
-                    switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            // if(el.field == "customer_id" && key == 'customerId') {
-                            //     el.value = vm.userId
-                            // }
-                            break;
-                        case 'administrator':
-                        case 'admin':
-                            // if(el.field == "customer_id" && key == 'customerId') {
-                            //     el.value = this.record[key]
-                            // }
-                            break;
+                    if(el.field == 'date' && key == 'date') {
+                        el.value = new Date(this.record[key])
                     }
 
                 }
             }
         });
 
+
         // REDIRECT
-        if(this.record['travelPaymentsValidation'] && !this.isAdmin) {
+        if(this.record['tourismPaymentsValidation'] && !this.isAdmin) {
             this.$router.replace({
                 name: 'CrudGeneratedRead',
                 params: {
@@ -554,9 +546,8 @@ export default {
 
   },
   methods: {
-    updateTypeHead(field, value) {
-
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -564,12 +555,13 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'booking_id') {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value ? value?.get_total_amount : '';
+                el.value = value?.getFinalAmount;
             }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"namePassanger":"Abc", "ktpPassanger":"Abc", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc"},
+  *                     example={"namePassanger":"Abc", "ktpPassanger":"123", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"namePassanger":"Abc", "ktpPassanger":"Abc", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc"},
+  *                     example={"namePassanger":"Abc", "ktpPassanger":"123", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "customerId":"", "namePassanger":"Abc", "ktpPassanger":"Abc", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "customerId":"", "namePassanger":"Abc", "ktpPassanger":"Abc", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "customerId":"", "namePassanger":"Abc", "ktpPassanger":"123", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "customerId":"", "namePassanger":"Abc", "ktpPassanger":"123", "birthDate":"Abc", "category":"Abc", "minBudget":"123", "maxBudget":"123", "ticketStatus":"Abc", "description":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "isReserved":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="namePassanger"), 
-  *                         @OA\Property(type="string", property="ktpPassanger"), 
+  *                         @OA\Property(type="integer", property="ktpPassanger"), 
   *                         @OA\Property(type="string", property="birthDate"), 
   *                         @OA\Property(type="string", property="category"), 
   *                         @OA\Property(type="integer", property="minBudget"), 

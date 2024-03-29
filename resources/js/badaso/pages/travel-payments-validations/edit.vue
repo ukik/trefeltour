@@ -14,10 +14,15 @@
                 }}
               </h3>
 
-              <TypeHeadPaymentId v-if="isAdmin" @onBubbleEvent="updateTypeHead('payment_id', $event)" />
+              <DialogPayment @onBubbleEvent="updateTypeHeadPayment($event)" />
 
             </div>
             <vs-row>
+                <vs-col class="mb-4">
+                    <vs-alert title="Penting" active="true" color="danger">
+                        Pembayaran yang tervalidasi tidak bisa diubah lagi
+                    </vs-alert>
+                </vs-col>
               <vs-col vs-lg="12" v-if="!isValid">
                 <p class="is-error">No fields have been filled</p>
               </vs-col>
@@ -40,6 +45,20 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+                  <badaso-text required disabled
+                    v-if="dataRow.type == 'text_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -382,6 +401,7 @@
                 </vs-button>
                 <!-- -------------------- -->
 
+
                 <vs-button
                   :to="{
                     name: 'DataPendingEditRead',
@@ -396,7 +416,6 @@
                   <vs-icon icon="history"></vs-icon>
                   <strong>{{ $t("offlineFeature.dataUpdatePending") }}</strong>
                 </vs-button>
-
               </vs-col>
             </vs-row>
           </vs-card>
@@ -441,12 +460,12 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
-import TypeHeadPaymentId from './typeHead_PaymentId.vue'
+import DialogPayment from './DialogPayment.vue'
 
 export default {
   name: "CrudGeneratedEdit",
   components: {
-    TypeHeadPaymentId
+    DialogPayment,
   },
   data: () => ({
     isValid: true,
@@ -486,13 +505,11 @@ export default {
         let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
 
         const vm = this
-
         console.log('this.record', this.record)
         temp.forEach(el => {
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
                     const element = this.record[key];
-
                     const isVal = element == undefined || element == 'false' ? false : !!(element)
 
                     if(el.field == 'is_valid' && key == 'isValid') {
@@ -501,29 +518,12 @@ export default {
                         if(isVal) {
                             el.type = 'switch_readonly'
                         }
-                    }
-                    if(el.type == 'datetime' && key == 'validateTime') {
-                        el.value = this.record[key] // new Date();
-                    }
 
-                    switch (vm.userRole) {
-                        case 'customer':
-                        case 'student':
-                            if(el.field == "is_valid" && key == 'isValid') {
-                                el.type = "hidden"
-                            }
-                            break;
-                        case 'administrator':
-                        case 'admin':
-                            if(el.field == "validator_id" && key == 'validatorId') {
-                                el.value = this.record[key]
-                            }
-                            break;
                     }
-
                 }
             }
         });
+
 
         // REDIRECT
         if(!this.isAdmin) {
@@ -536,7 +536,6 @@ export default {
             })
         }
 
-
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
         console.log('dataType', this.dataType.dataRows)
@@ -544,9 +543,8 @@ export default {
 
   },
   methods: {
-    updateTypeHead(field, value) {
-
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadPayment(value) {
+        console.log('updateTypeHeadPayment', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -557,6 +555,25 @@ export default {
             if(el.field == 'payment_id') {
                 el.value = value ? value?.id : '';
             }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadValidator(value) {
+        console.log('updateTypeHeadValidator', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'validator_id') {
+                el.value = value ? value?.id : '';
+            }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

@@ -28,11 +28,10 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 25,
                 'name' => 'travel_payments',
                 'slug' => 'travel-payments',
-                'display_name_singular' => 'Travel Pembayaran',
-                'display_name_plural' => 'Travel Pembayaran',
+                'display_name_singular' => 'Travel Payments',
+                'display_name_plural' => 'Travel Payments',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-21T12:37:45.000000Z',
-                'updated_at' => '2024-01-31T03:53:15.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-29T11:32:30.000000Z',
+                'created_at' => '2024-03-29T11:32:30.000000Z',
+                'id' => 115,
             ));
 
             Badaso::model('Permission')->generateFor('travel_payments');
@@ -64,7 +63,7 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Pembayaran',
+                    'title' => 'Travel Payments',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/travel-payments';
-                $menu_item->title = 'Travel Pembayaran';
+                $menu_item->title = 'Travel Payments';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

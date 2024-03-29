@@ -25,6 +25,7 @@ class TravelStores extends Model
         return $this->belongsToMany(BadasoUsers::class, 'travel_stores', 'id', 'user_id');
     }
 
+
     public function travelBooking()
     {
         return $this->hasOne(TravelBookings::class, 'store_id', 'id');

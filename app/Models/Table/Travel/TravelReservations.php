@@ -18,15 +18,20 @@ class TravelReservations extends Model
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function badasoUsers()
     {
         return $this->belongsToMany(BadasoUsers::class, 'travel_reservations', 'id', 'customer_id');
         // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
-    public function travelTicket()
-    {
-        return $this->hasOne(TravelTickets::class, 'reservation_id', 'id');
-    }
+    // public function travelTicket()
+    // {
+    //     return $this->hasOne(TravelTickets::class, 'reservation_id', 'id');
+    // }
 
 }

@@ -28,11 +28,10 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 34,
                 'name' => 'travel_payments_validations',
                 'slug' => 'travel-payments-validations',
-                'display_name_singular' => 'Travel Pembayaran Validasi',
-                'display_name_plural' => 'Travel Pembayaran Validasi',
+                'display_name_singular' => 'Travel Payments Validations',
+                'display_name_plural' => 'Travel Payments Validations',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-24T10:23:49.000000Z',
-                'updated_at' => '2024-01-31T04:11:26.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-03-29T12:06:03.000000Z',
+                'created_at' => '2024-03-29T12:06:03.000000Z',
+                'id' => 116,
             ));
 
             Badaso::model('Permission')->generateFor('travel_payments_validations');
@@ -64,7 +63,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Pembayaran Validasi',
+                    'title' => 'Travel Payments Validations',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/travel-payments-validations';
-                $menu_item->title = 'Travel Pembayaran Validasi';
+                $menu_item->title = 'Travel Payments Validations';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

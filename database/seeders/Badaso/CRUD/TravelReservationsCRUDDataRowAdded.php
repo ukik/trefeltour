@@ -91,7 +91,7 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'ktp_passanger',
-                    'type' => 'text',
+                    'type' => 'number',
                     'display_name' => 'Ktp Passanger',
                     'required' => 0,
                     'browse' => 1,
@@ -135,28 +135,36 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "plane",
-"value": "plane"
+"label": "mobil",
+"value": "mobil"
 },
 {
-"label": "ship",
-"value": "ship"
-},
-{
-"label": "train",
-"value": "train"
+"label": "motor",
+"value": "motor"
 },
 {
 "label": "bus",
 "value": "bus"
 },
 {
-"label": "car",
-"value": "car"
+"label": "truck",
+"value": "truck"
 },
 {
-"label": "motor",
-"value": "motor"
+"label": "pickup",
+"value": "pickup"
+},
+{
+"label": "train",
+"value": "train"
+},
+{
+"label": "kapal",
+"value": "kapal"
+},
+{
+"label": "pesawat",
+"value": "pesawat"
 }
 ]
 }',
@@ -211,12 +219,12 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "One Way",
-"value": "one way"
+"label": "bisnis",
+"value": "bisnis"
 },
 {
-"label": "Pulang Pergi",
-"value": "pulang pergi"
+"label": "ekonomi",
+"value": "ekonomi"
 }
 ]
 }',
@@ -344,9 +352,9 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 18,
@@ -406,7 +414,7 @@ class TravelReservationsCRUDDataRowAdded extends Seeder
                     'type' => 'datetime',
                     'display_name' => 'Deleted At',
                     'required' => 0,
-                    'browse' => 1,
+                    'browse' => 0,
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,

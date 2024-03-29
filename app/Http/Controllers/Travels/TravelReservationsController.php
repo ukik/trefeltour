@@ -15,7 +15,7 @@ use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use TravelPayments;
 use TravelReservations;
-use TravelTickets;
+use TravelPrices;
 
 class TravelReservationsController extends Controller
 {
@@ -52,12 +52,13 @@ class TravelReservationsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TravelReservations::with([
+                'badasoUser',
                 'badasoUsers',
                 // 'travelTicket.travelReservations',
                 // 'travelTicket.travelReservation',
-                'travelTicket.travelBooking',
-                'travelTicket.travelPayment',
-                'travelTicket.travelPayment.travelPaymentsValidation',
+                // 'travelTicket.travelBooking',
+                // 'travelTicket.travelPayment',
+                // 'travelTicket.travelPayment.travelPaymentsValidation',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -113,12 +114,13 @@ class TravelReservationsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TravelReservations::with([
+                'badasoUser',
                 'badasoUsers',
                 // 'travelTicket.travelReservations',
                 // 'travelTicket.travelReservation',
-                'travelTicket.travelBooking',
-                'travelTicket.travelPayment',
-                'travelTicket.travelPayment.travelPaymentsValidation',
+                // 'travelTicket.travelBooking',
+                // 'travelTicket.travelPayment',
+                // 'travelTicket.travelPayment.travelPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -139,7 +141,7 @@ class TravelReservationsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data']['id'];
-        $check = TravelTickets::where('reservation_id', $value)->first();
+        $check = TravelPrices::where('reservation_id', $value)->first();
         if($check && !isAdmin()) {
             return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         }
@@ -158,15 +160,32 @@ class TravelReservationsController extends Controller
             $req = request()['data'];
             $data = [
                 'customer_id' => $table_entity->customer_id ,
+                'name_passanger' => $req['name_passanger'] ,
+                'ktp_passanger' => $req['ktp_passanger'] ,
+                'birth_date' => date("Y-m-d", strtotime($req['birth_date'])) ,
                 'category' => $req['category'] ,
+                'min_budget' => $req['min_budget'] ,
+                'max_budget' => $req['max_budget'] ,
                 'ticket_status' => $req['ticket_status'] ,
                 'description' => $req['description'] ,
                 'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
-                'starting_time' => date("h:m:i", strtotime($req['starting_time'])) ,
-                'min_budget' => $req['min_budget'] ,
-                'max_budget' => $req['max_budget'] ,
+                'starting_time' => $req['starting_time'] ,
                 'starting_location' => $req['starting_location'] ,
                 'arrival_location' => $req['arrival_location'] ,
+                'starting_terminal' => $req['starting_terminal'] ,
+                'arrival_terminal' => $req['arrival_terminal'] ,
+                'is_reserved' => $req['is_reserved'] ,
+
+                // 'customer_id' => $table_entity->customer_id ,
+                // 'category' => $req['category'] ,
+                // 'ticket_status' => $req['ticket_status'] ,
+                // 'description' => $req['description'] ,
+                // 'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
+                // 'starting_time' => date("h:m:i", strtotime($req['starting_time'])) ,
+                // 'min_budget' => $req['min_budget'] ,
+                // 'max_budget' => $req['max_budget'] ,
+                // 'starting_location' => $req['starting_location'] ,
+                // 'arrival_location' => $req['arrival_location'] ,
                 // 'is_reserved' => $req['is_reserved'], // bisa dihapus, cukup via "travel_payment_validations"
                 // 'is_cancel' => $req['is_cancel'], // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
@@ -223,20 +242,37 @@ class TravelReservationsController extends Controller
 
             $data_type = $this->getDataType($slug);
 
-            $temp = \BadasoUsers::where('id', $request->data['customer_id'])->first();
+            $customer_id = \BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
             $data = [
-                'customer_id' => $temp->id ,
+                'customer_id' => $customer_id ,
+                'name_passanger' => $req['name_passanger'] ,
+                'ktp_passanger' => $req['ktp_passanger'] ,
+                'birth_date' => date("Y-m-d", strtotime($req['birth_date'])) ,
                 'category' => $req['category'] ,
+                'min_budget' => $req['min_budget'] ,
+                'max_budget' => $req['max_budget'] ,
                 'ticket_status' => $req['ticket_status'] ,
                 'description' => $req['description'] ,
                 'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
-                'starting_time' => date("h:m:i", strtotime($req['starting_time'])) ,
-                'min_budget' => $req['min_budget'] ,
-                'max_budget' => $req['max_budget'] ,
+                'starting_time' => $req['starting_time'] ,
                 'starting_location' => $req['starting_location'] ,
                 'arrival_location' => $req['arrival_location'] ,
+                'starting_terminal' => $req['starting_terminal'] ,
+                'arrival_terminal' => $req['arrival_terminal'] ,
+                'is_reserved' => $req['is_reserved'] ,
+
+
+                // 'category' => $req['category'] ,
+                // 'ticket_status' => $req['ticket_status'] ,
+                // 'description' => $req['description'] ,
+                // 'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
+                // 'starting_time' => date("h:m:i", strtotime($req['starting_time'])) ,
+                // 'min_budget' => $req['min_budget'] ,
+                // 'max_budget' => $req['max_budget'] ,
+                // 'starting_location' => $req['starting_location'] ,
+                // 'arrival_location' => $req['arrival_location'] ,
                 // 'is_reserved' => (!isAdmin()) ?  'false' : ($req['is_reserved'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 // 'is_cancel' => (!isAdmin()) ?  'false' : ($req['is_cancel'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
@@ -281,7 +317,7 @@ class TravelReservationsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TravelTickets::where('reservation_id', $value)->first();
+        $check = TravelPrices::where('reservation_id', $value)->first();
         if($check) {
             return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
         }

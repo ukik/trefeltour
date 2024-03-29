@@ -14,7 +14,7 @@
                 }}
               </h3>
 
-              <TypeHead_BookingId v-if="isAdmin" @onBubbleEvent="updateTypeHead('booking_id', $event)" />
+              <DialogBooking @onBubbleEvent="updateTypeHead($event)" />
 
             </div>
             <vs-row>
@@ -40,8 +40,8 @@
                     "
                   ></badaso-text>
 
-                  <!-- ADDITIONAL -->
-                  <badaso-text required
+
+                  <badaso-text required readonly
                     v-if="dataRow.type == 'text_readonly'"
                     :style="'pointer-events:none;'"
                     :label="dataRow.displayName"
@@ -52,6 +52,7 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
 
                   <badaso-email
                     v-if="dataRow.type == 'email'"
@@ -194,7 +195,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -436,12 +437,12 @@
 </template>
 
 <script>
-import TypeHead_BookingId from './TypeHead_BookingId.vue'
+import DialogBooking from './DialogBooking.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHead_BookingId
+    DialogBooking
   },
   data: () => ({
     isValid: true,
@@ -473,21 +474,25 @@ export default {
         temp.forEach(el => {
 
             if(el.field == "total_amount") {
-                el.type = "text_readonly"
+                el.type = 'text_readonly'
             }
 
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    // if(el.field == "customer_id") {
-                    //     el.value = vm.userId
-                    // }
-                    break;
-                case 'administrator':
-                case 'admin':
 
-                    break;
-            }
+            // switch (vm.userRole) {
+            //     // case 'customer':
+            //     // case 'student':
+            //     //     if(el.field == "is_reserved") {
+            //     //         el.value = false
+            //     //         el.type = "hidden"
+            //     //     }
+            //     //     break;
+            //     case 'administrator':
+            //     case 'admin':
+            //         if(el.field == "is_available") {
+            //             el.value = false
+            //         }
+            //         break;
+            // }
 
         });
 
@@ -496,8 +501,8 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHead(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -505,12 +510,13 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == field) {
+            if(el.field == 'booking_id') {
                 el.value = value ? value?.id : '';
             }
             if(el.field == 'total_amount') {
-                el.value = value ? value?.get_total_amount : '';
+                el.value = this.$rupiah(value?.getFinalAmount);
             }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

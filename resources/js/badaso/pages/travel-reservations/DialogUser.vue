@@ -92,7 +92,7 @@ export default {
 
         if(this.$route.params?.id) {
             axios
-                .get(`/api/typehead/travel/user?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/travel/travel_reservations_dialog_user?id=` + this.$route.params?.id, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

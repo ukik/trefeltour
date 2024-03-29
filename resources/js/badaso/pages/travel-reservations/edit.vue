@@ -497,6 +497,15 @@ export default {
                     if(el.field == 'is_available' && key == 'isAvailable') {
                         el.value = isVal
                     }
+
+                    if(el.field == 'birth_date' && key == 'birthDate') {
+                        el.value = new Date(this.record[key])
+                    }
+
+                    if(el.field == 'starting_date' && key == 'startingDate') {
+                        el.value = new Date(this.record[key])
+                    }
+
                 }
             }
         });

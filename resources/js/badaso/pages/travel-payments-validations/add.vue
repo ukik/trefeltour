@@ -14,10 +14,15 @@
                 }}
               </h3>
 
-              <TypeHeadPaymentId v-if="isAdmin" @onBubbleEvent="updateTypeHead('payment_id', $event)" />
+              <DialogPayment @onBubbleEvent="updateTypeHeadPayment($event)" />
 
             </div>
             <vs-row>
+                <vs-col class="mb-4">
+                    <vs-alert title="Penting" active="true" color="danger">
+                        Pembayaran yang tervalidasi tidak bisa diubah lagi
+                    </vs-alert>
+                </vs-col>
               <vs-col vs-lg="12" v-if="!isValid">
                 <p class="is-error">No fields have been filled</p>
               </vs-col>
@@ -39,6 +44,21 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+
+                  <badaso-text required disabled
+                    v-if="dataRow.type == 'text_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -180,7 +200,7 @@
                     "
                   ></badaso-upload-file-multiple>
                   <badaso-switch
-                    v-if="dataRow.type == 'switch' && !isNaN(dataRow.value)"
+                    v-if="dataRow.type == 'switch'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -422,13 +442,12 @@
 </template>
 
 <script>
-
-import TypeHeadPaymentId from './typeHead_PaymentId.vue'
+import DialogPayment from './DialogPayment.vue'
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    TypeHeadPaymentId
+    DialogPayment,
   },
   data: () => ({
     isValid: true,
@@ -458,25 +477,25 @@ export default {
         const vm = this
 
         temp.forEach(el => {
-
-            switch (vm.userRole) {
-                case 'customer':
-                case 'student':
-                    if(el.field == "is_valid") {
-                        el.value = false
-                        el.type = "hidden"
-                    }
-                    break;
-                case 'administrator':
-                case 'admin':
-                    if(el.field == "validator_id") {
-                        el.value = vm.userId
-                    }
-                    if(el.field == "is_valid") {
-                        el.value = false
-                    }
-                    break;
+            if(el.field == "is_valid") {
+                el.value = false
             }
+
+            // switch (vm.userRole) {
+            //     // case 'customer':
+            //     // case 'student':
+            //     //     if(el.field == "is_reserved") {
+            //     //         el.value = false
+            //     //         el.type = "hidden"
+            //     //     }
+            //     //     break;
+            //     case 'administrator':
+            //     case 'admin':
+            //         if(el.field == "is_available") {
+            //             el.value = false
+            //         }
+            //         break;
+            // }
 
         });
 
@@ -485,8 +504,8 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
-    updateTypeHead(field, value) {
-        console.log('updateTypeHead', field, value, this.dataType.dataRows)
+    updateTypeHeadPayment(value) {
+        console.log('updateTypeHead', value, this.dataType.dataRows)
 
         if(this.dataType?.dataRows == undefined) return
 
@@ -495,6 +514,24 @@ export default {
         temp.forEach(el => {
 
             if(el.field == 'payment_id') {
+                el.value = value ? value?.id : '';
+            }
+
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadValidator(value) {
+        console.log('updateTypeHeadValidator', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'validator_id') {
                 el.value = value ? value?.id : '';
             }
 

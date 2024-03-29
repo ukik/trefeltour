@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Travels;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use BadasoUsers;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -53,10 +54,10 @@ class TravelStoresController extends Controller
             $data = \TravelStores::with([
                 'badasoUsers',
                 'badasoUser',
-                'culinaryProduct',
-                'culinaryProducts',
-                // 'culinaryBooking',
-                // 'culinaryBookings',
+                // 'travelReservation',
+                // 'travelReservations',
+                // 'travelBooking',
+                // 'travelBookings',
             ])->orderBy('id','desc');
 
             if(request()['showSoftDelete'] == 'true') {
@@ -116,10 +117,10 @@ class TravelStoresController extends Controller
             $data = \TravelStores::with([
                 'badasoUsers',
                 'badasoUser',
-                'culinaryProduct',
-                'culinaryProducts',
-                // 'culinaryBooking',
-                // 'culinaryBookings',
+                // 'travelReservation',
+                // 'travelReservations',
+                // 'travelBooking',
+                // 'travelBookings',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -152,7 +153,6 @@ class TravelStoresController extends Controller
 
             $req = request()['data'];
             $data = [
-
                 'user_id' => $table_entity->user_id,
                 'category' => $req['category'],
                 'name' => $req['name'],
@@ -164,7 +164,7 @@ class TravelStoresController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'country' => $req['country'],
-                'policy' => $req['description'],
+                'policy' => $req['policy'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
 
@@ -230,8 +230,11 @@ class TravelStoresController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
+
+            $user_id = BadasoUsers::where('id', $req['user_id'])->value('id');
+
             $data = [
-                'user_id' => $req['user_id'],
+                'user_id' => $user_id,
                 'category' => $req['category'],
                 'name' => $req['name'],
                 'email' => $req['email'],
@@ -242,7 +245,7 @@ class TravelStoresController extends Controller
                 'codepos' => $req['codepos'],
                 'city' => $req['city'],
                 'country' => $req['country'],
-                'policy' => $req['description'],
+                'policy' => $req['policy'],
                 'description' => $req['description'],
                 'is_available' => $req['is_available'],
 
@@ -252,10 +255,10 @@ class TravelStoresController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'user_id' => 'required|unique:culinary_stores_unique',
+                    'user_id' => 'required|unique:travel_stores_unique',
                     // 'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'user_id' => 'unique:culinary_stores_unique'
+                    // 'user_id' => 'unique:travel_stores_unique'
                 ],
             );
             if ($validator->fails()) {
@@ -293,8 +296,8 @@ class TravelStoresController extends Controller
         isOnlyAdminTravel();
 
         $value = request()['data'][0]['value'];
-        $check = TravelStores::where('id', $value)->with(['culinarySkill','culinaryPrice'])->first();
-        if($check->culinarySkill || $check->culinaryPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TravelStores::where('id', $value)->with(['travelSkill','travelPrice'])->first();
+        if($check->travelSkill || $check->travelPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -419,10 +422,10 @@ class TravelStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['culinarySkill','culinaryPrice'])->get();
+            $filters = TravelStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['travelSkill','travelPrice'])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinarySkill == null && $value->culinaryPrice == null) {
+                if($value->travelSkill == null && $value->travelPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }
