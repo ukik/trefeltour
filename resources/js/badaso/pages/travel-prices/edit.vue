@@ -14,7 +14,8 @@
                 }}
               </h3>
 
-              <DialogReservation @onBubbleEvent="updateTypeHead($event)" />
+              <DialogReservation @onBubbleEvent="updateTypeHeadReservation($event)" />
+              <DialogStore @onBubbleEvent="updateTypeHeadStore($event)" />
 
             </div>
             <vs-row>
@@ -46,6 +47,19 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
+
+
+                  <badaso-text readonly
+                    v-if="dataRow.field == 'name'"
+                    label="Jumlah Harga"
+                    :placeholder="!isNaN(total_price) ? '' : 'Jumlah Harga'"
+                    v-model="total_price"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+
                   <badaso-email
                     v-if="dataRow.type == 'email'"
                     :label="dataRow.displayName"
@@ -86,6 +100,8 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-search>
+
+
                   <badaso-number
                     v-if="dataRow.type == 'number'"
                     :label="dataRow.displayName"
@@ -96,6 +112,7 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-number>
+
                   <badaso-url
                     v-if="dataRow.type == 'url'"
                     :label="dataRow.displayName"
@@ -447,14 +464,14 @@
 // eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
+import DialogStore from './DialogStore.vue'
 import DialogReservation from './DialogReservation.vue'
 
 export default {
-  name: "CrudGeneratedAdd",
-  components: {
-    DialogReservation
-  },
   name: "CrudGeneratedEdit",
+  components: {
+    DialogReservation,DialogStore
+  },
   data: () => ({
     isValid: true,
     errors: {},
@@ -466,6 +483,8 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    total_price: 0,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
@@ -494,6 +513,11 @@ export default {
 
         const vm = this
         console.log('this.record', this.record)
+
+        let general_price = 0
+        let discount_price = 0
+        let cashback_price = 0
+
         temp.forEach(el => {
             for (const key in this.record) {
                 if (Object.hasOwnProperty.call(this.record, key)) {
@@ -503,10 +527,29 @@ export default {
                     if(el.field == 'is_available' && key == 'isAvailable') {
                         el.value = isVal
                     }
+
+                    if(el.field == 'starting_date' && key == 'startingDate') {
+                        el.value = new Date(this.record[key])
+                    }
+
+                    if(el.field == 'general_price' && key == 'generalPrice') {
+                        general_price = Number(this.record[key])
+                    }
+
+                    if(el.field == 'discount_price' && key == 'discountPrice') {
+                        discount_price = Number(this.record[key])
+                    }
+
+                    if(el.field == 'cashback_price' && key == 'cashbackPrice') {
+                        cashback_price = Number(this.record[key])
+                    }
+
                 }
             }
+
         });
 
+        this.total_price = this.$totalAmount({ general:general_price, discount:discount_price, cashback:cashback_price })
 
         // REDIRECT
         // if(this.record['travelTicket'] && !this.isAdmin) {
@@ -525,8 +568,37 @@ export default {
 
 
   },
+  watch: {
+    dataType: {
+        deep: true,
+        handler(dataType) {
+            console.log('watch dataType.dataRows')
+
+            let general_price = 0
+            let discount_price = 0
+            let cashback_price = 0
+
+            dataType.dataRows.forEach(el => {
+                if(el.field == 'general_price') {
+                    general_price = Number(el.value)
+                }
+
+                if(el.field == 'discount_price') {
+                    discount_price = Number(el.value)
+                }
+
+                if(el.field == 'cashback_price') {
+                    cashback_price = Number(el.value)
+                }
+            });
+
+            this.total_price = this.$totalAmount({ general:general_price, discount:discount_price, cashback:cashback_price })
+            this.total_price = this.$rupiah(this.total_price)
+        }
+    }
+  },
   methods: {
-    updateTypeHead(value) {
+    updateTypeHeadReservation(value) {
 
         console.log('updateTypeHead', value, this.dataType.dataRows)
 
@@ -539,6 +611,46 @@ export default {
             if(el.field == 'reservation_id') {
                 el.value = value ? value?.id : '';
             }
+
+            if(el.field == 'ticket_status') {
+                el.value = value ? value?.ticketStatus : '';
+            }
+            if(el.field == 'starting_date') {
+                el.value = value ? value?.startingDate : '';
+            }
+            if(el.field == 'starting_time') {
+                el.value = value ? value?.startingTime : '';
+            }
+            if(el.field == 'starting_location') {
+                el.value = value ? value?.startingLocation : '';
+            }
+            if(el.field == 'arrival_location') {
+                el.value = value ? value?.arrivalLocation : '';
+            }
+            if(el.field == 'starting_terminal') {
+                el.value = value ? value?.startingTerminal : '';
+            }
+            if(el.field == 'arrival_terminal') {
+                el.value = value ? value?.arrivalTerminal : '';
+            }
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
+    updateTypeHeadStore(value) {
+        console.log('updateTypeHeadStore', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'store_id') {
+                el.value = value ? value?.id : '';
+            }
+
         });
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));

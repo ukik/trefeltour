@@ -43,7 +43,7 @@
                 data: selecteduser
             }" v-if="type=='detail'" slug="travel-reservations"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="travel-reservations" />
+            <shared-table-modal-params params="DialogReservation&status=true" v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="travel-reservations" />
             <div slot="modal-footer"></div>
         </stack-modal>
 

@@ -77,7 +77,7 @@
                 </div>
                 <div class="row">
                     <span class="col">Discount</span>
-                    <span class="col-auto">{{ $rupiah(selectedData?.talentPrice?.discountPrice) }}</span>
+                    <span class="col-auto">{{ (selectedData?.talentPrice?.discountPrice) }}%</span>
                 </div>
                 <div class="row">
                     <span class="col">Cashback</span>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="row">
                             <span class="col">Discount</span>
-                            <span class="col-auto">{{ $rupiah(item?.talentPrice?.discountPrice) }}</span>
+                            <span class="col-auto">{{ (item?.talentPrice?.discountPrice) }}%</span>
                         </div>
                         <div class="row">
                             <span class="col">Cashback</span>

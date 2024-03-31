@@ -59,19 +59,23 @@ class TravelTypeHeadController extends Controller
 
 
 
-
-
-
-
-
-
-    function dialog_reservation_travel_stores() {
-        $data = \TravelTickets::where('id',request()->id)
-            ->with('travelReservation.badasoUsers')
+    function dialog_prices_travel_stores() {
+        $data = \TravelPrices::where('id',request()->id)
+            ->with([
+                'travelStore',
+            ])
             ->first();
-        $data = $data->travelReservation;
+        $data = $data->travelStore;
         return ApiResponse::onlyEntity($data);
     }
+
+    // function dialog_reservation_travel_stores() {
+    //     $data = \TravelTickets::where('id',request()->id)
+    //         ->with('travelReservation.badasoUsers')
+    //         ->first();
+    //     $data = $data->travelReservation;
+    //     return ApiResponse::onlyEntity($data);
+    // }
 
     function dialog_prices_travel_reservations() {
         $data = \TravelPrices::where('id',request()->id)

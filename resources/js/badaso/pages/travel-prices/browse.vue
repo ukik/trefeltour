@@ -49,7 +49,7 @@
                 </div>
                 <div class="row">
                     <span class="col">Discount</span>
-                    <span class="col-auto">{{ $rupiah(selectedData?.discountPrice) }}</span>
+                    <span class="col-auto">{{ (selectedData?.discountPrice) }}%</span>
                 </div>
                 <div class="row">
                     <span class="col">Cashback</span>
@@ -400,8 +400,18 @@
                             displayRelationData(record, dataRow)
                           }}</span>
                           <div v-else>
+                            <span v-if="dataRow.field == 'general_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'discount_price'">
+                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
+                            </span>
+                            <span v-else-if="dataRow.field == 'cashback_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+
                             <!-- <vs-button v-if="dataRow.field == 'add_cart'" type="relief" @click="show = true; selectedData = record;">Pilih</vs-button> -->
-                            <span >
+                            <span v-else>
                                 {{
                                 record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)

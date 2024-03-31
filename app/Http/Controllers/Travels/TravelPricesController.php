@@ -14,7 +14,8 @@ use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
 use TravelPrices;
-use TravelTickets;
+use TravelReservations;
+use TravelStores;
 
 class TravelPricesController extends Controller
 {
@@ -54,8 +55,8 @@ class TravelPricesController extends Controller
                 'travelStores',
                 'travelStore.badasoUsers',
                 'travelStore.badasoUser',
-                'travelTicket',
-                'travelTickets',
+                'travelReservation',
+                'travelReservations',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -114,8 +115,8 @@ class TravelPricesController extends Controller
                 'travelStores',
                 'travelStore.badasoUsers',
                 'travelStore.badasoUser',
-                'travelTicket',
-                'travelTickets',
+                'travelReservation',
+                'travelReservations',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -147,26 +148,34 @@ class TravelPricesController extends Controller
             $data = [
 
                 'store_id' => $table_entity->store_id,
-                'ticket_id' => $table_entity->ticket_id,
+                'reservation_id' => $table_entity->reservation_id,
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
-                'stock' => $req['stock'],
                 'description' => $req['description'],
-
+                'code_ticket' => $req['code_ticket'],
+                'seat_no' => $req['seat_no'],
+                // 'image' => $req['image'],
+                'ticket_status' => $req['ticket_status'],
+                'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
+                'starting_time' => $req['starting_time'],
+                'starting_location' => $req['starting_location'],
+                'arrival_location' => $req['arrival_location'],
+                'starting_terminal' => $req['starting_terminal'],
+                'arrival_terminal' => $req['arrival_terminal'],
                 'code_table' => ($slug),
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'ticket_id' => 'required',
+                    '*' => 'required',
+                    // 'reservation_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
-                    // ],
+                    'reservation_id' => [
+                        \Illuminate\Validation\Rule::unique('travel_prices_unique')->ignore($req['id'])
+                    ],
                 ],
             );
 
@@ -176,6 +185,8 @@ class TravelPricesController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
+
+            $data['image'] = $req['image'];
 
             \TravelPrices::where('id', $request->data['id'])->update($data);
             $updated['old_data'] = $table_entity;
@@ -216,18 +227,27 @@ class TravelPricesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
-            $store_id = TravelTickets::where('id', $req['ticket_id'])->value('store_id');
+            $reservation_id = TravelReservations::where('id', $req['reservation_id'])->value('id');
+            $store_id = TravelStores::where('id', $req['store_id'])->value('id');
 
             $data = [
-
+                'reservation_id' => $reservation_id,
                 'store_id' => $store_id,
-                'ticket_id' => $req['ticket_id'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
-                'stock' => $req['stock'],
                 'description' => $req['description'],
+                'code_ticket' => $req['code_ticket'],
+                'seat_no' => $req['seat_no'],
+                // 'image' => $req['image'],
+                'ticket_status' => $req['ticket_status'],
+                'starting_date' => date("Y-m-d", strtotime($req['starting_date'])) ,
+                'starting_time' => $req['starting_time'],
+                'starting_location' => $req['starting_location'],
+                'arrival_location' => $req['arrival_location'],
+                'starting_terminal' => $req['starting_terminal'],
+                'arrival_terminal' => $req['arrival_terminal'],
 
                 'code_table' => ($slug),
                 'uuid' => ShortUuid(),
@@ -235,10 +255,10 @@ class TravelPricesController extends Controller
 
             $validator = Validator::make($data,
                 [
-                    'store_id' => 'required',
-                    'ticket_id' => 'required',
+                    '*' => 'required',
+                    'reservation_id' => 'unique:travel_prices_unique',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => [
+                    // 'reservation_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
                     // ],
                 ],
@@ -252,6 +272,9 @@ class TravelPricesController extends Controller
                     return ApiResponse::failed(implode('',$value));
                 }
             }
+
+            $data['image'] = $req['image'];
+
 
             $stored_data = \TravelPrices::insert($data);
 

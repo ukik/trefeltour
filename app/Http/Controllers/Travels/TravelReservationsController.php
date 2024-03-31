@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use TravelPayments;
 use TravelReservations;
 use TravelPrices;
+use TravelReservationsWaitingList;
 
 class TravelReservationsController extends Controller
 {
@@ -50,8 +51,15 @@ class TravelReservationsController extends Controller
             // $only_data_soft_delete = $request->showSoftDelete == 'true';
 
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
+            $request = request();
 
-            $data = \TravelReservations::with([
+            if($request['params'] == 'DialogReservation' && $request['status'] === 'true') {
+                $data = TravelReservationsWaitingList::query();
+            } else {
+                $data = TravelReservations::query();
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 // 'travelTicket.travelReservations',
@@ -63,6 +71,7 @@ class TravelReservationsController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

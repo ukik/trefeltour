@@ -68,7 +68,7 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"travel_reservations","destination_table_column":"id","destination_table_display_column":"name_passanger","destination_table_display_more_column":["id","name_passanger"]}',
                     'order' => 3,
                 ),
                 3 => 
@@ -202,6 +202,22 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                 11 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'image',
+                    'type' => 'upload_image',
+                    'display_name' => 'Image',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 12,
+                ),
+                12 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'ticket_status',
                     'type' => 'select',
                     'display_name' => 'Ticket Status',
@@ -225,9 +241,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 13,
                 ),
-                12 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'starting_date',
@@ -241,9 +257,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 14,
                 ),
-                13 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'starting_time',
@@ -257,9 +273,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 15,
                 ),
-                14 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'starting_location',
@@ -273,9 +289,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'arrival_location',
@@ -289,9 +305,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'starting_terminal',
@@ -305,9 +321,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
-                17 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'arrival_terminal',
@@ -321,9 +337,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 18,
+                    'order' => 19,
                 ),
-                18 => 
+                19 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -337,9 +353,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 19,
+                    'order' => 20,
                 ),
-                19 => 
+                20 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -353,9 +369,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 20,
+                    'order' => 21,
                 ),
-                20 => 
+                21 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -369,9 +385,9 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 21,
+                    'order' => 22,
                 ),
-                21 => 
+                22 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -385,7 +401,7 @@ class TravelPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 22,
+                    'order' => 23,
                 ),
             ));
 

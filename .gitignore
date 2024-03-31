@@ -28,7 +28,7 @@ storage/api-docs
 yarn.lock
 package-lock.json
 composer.lock
-
+vendor.zip
 
 /__node_modules
 ___.git
