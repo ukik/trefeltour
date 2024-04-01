@@ -262,7 +262,7 @@
             </div>
         </stack-modal>
 
-    <shared-browser-modal ref="SharedBrowserModal" />
+    <shared-browser-modal-cart ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -440,7 +440,8 @@
                                         type: 'detail',
                                         selectedData: record,
                                         title: 'Detail',
-                                        slug: $route.params?.slug })">
+                                        slug: 'talent-prices',
+                                        url: '/api/typehead/talent/dialog_cart_price' })">
                                         <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                                     </vs-button>
                                 </vs-col>

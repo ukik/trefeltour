@@ -91,6 +91,20 @@ class LodgeTypeHeadController extends Controller
         //return ApiResponse::onlyEntity($data);
     }
 
+
+
+
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \LodgePrices::with([
+            'lodgeProfiles',
+            'lodgeProfile',
+            'lodgeRoom',
+            'LodgeRooms',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
+
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);

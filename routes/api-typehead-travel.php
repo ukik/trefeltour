@@ -39,6 +39,7 @@ Route::group(['prefix' => '/typehead/travel', 'middleware' => ['sanctum_1','BADA
     Route::get('/dialog_prices_travel_reservations', 'TravelTypeHeadController@dialog_prices_travel_reservations');
     Route::get('/dialog_prices_travel_stores', 'TravelTypeHeadController@dialog_prices_travel_stores');
 
+    Route::get('/dialog_cart_price', 'TravelTypeHeadController@dialog_cart_price');
 
     // Route::get('/dialog_reservation_travel_stores', 'TravelTypeHeadController@dialog_reservation_travel_stores');
 

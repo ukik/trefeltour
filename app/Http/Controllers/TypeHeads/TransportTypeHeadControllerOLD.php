@@ -7,6 +7,9 @@ use \BadasoUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use TransportCarts;
+use Uasoft\Badaso\Helpers\ApiResponse;
+
 
 class TransportTypeHeadControllerOLD extends Controller
 {
@@ -210,6 +213,23 @@ class TransportTypeHeadControllerOLD extends Controller
         }
 
         return $query = $query->limit(20)->get();
+    }
+
+
+
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \TransportCarts::with([
+            'badasoUser',
+            'badasoUsers',
+            'travelStores',
+            'travelStore',
+            'travelReservation',
+            'travelReservations',
+            'travelCart',
+            'travelCarts',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
     }
 
 

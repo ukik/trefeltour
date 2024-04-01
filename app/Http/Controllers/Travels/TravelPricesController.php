@@ -52,11 +52,14 @@ class TravelPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TravelPrices::with([
+                'badasoUser',
+                'badasoUsers',
                 'travelStores',
-                'travelStore.badasoUsers',
-                'travelStore.badasoUser',
+                'travelStore',
                 'travelReservation',
                 'travelReservations',
+                'travelCart',
+                'travelCarts',
             ])->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
@@ -112,11 +115,14 @@ class TravelPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TravelPrices::with([
+                'badasoUser',
+                'badasoUsers',
                 'travelStores',
-                'travelStore.badasoUsers',
-                'travelStore.badasoUser',
+                'travelStore',
                 'travelReservation',
                 'travelReservations',
+                'travelCart',
+                'travelCarts',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -142,13 +148,14 @@ class TravelPricesController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $table_entity = \TravelPrices::where('id', $request->data['id'])->first();
+            $table_entity = \TravelPrices::where('id', $request->data['id'])->with('travelReservation')->first();
 
             $req = request()['data'];
             $data = [
 
                 'store_id' => $table_entity->store_id,
                 'reservation_id' => $table_entity->reservation_id,
+                'customer_id' => $table_entity->travelReservation?->customer_id,
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -227,11 +234,12 @@ class TravelPricesController extends Controller
             $data_type = $this->getDataType($slug);
 
             $req = request()['data'];
-            $reservation_id = TravelReservations::where('id', $req['reservation_id'])->value('id');
+            $reservation = TravelReservations::where('id', $req['reservation_id'])->first();
             $store_id = TravelStores::where('id', $req['store_id'])->value('id');
 
             $data = [
-                'reservation_id' => $reservation_id,
+                'reservation_id' => $reservation->id,
+                'customer_id' => $reservation->customer_id,
                 'store_id' => $store_id,
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],

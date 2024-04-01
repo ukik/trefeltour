@@ -112,6 +112,22 @@ class TransportTypeHeadController extends Controller
         //return ApiResponse::onlyEntity($data);
     }
 
+
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \TransportPrices::with([
+            'transportRental',
+            'transportRentals',
+            // 'transportRental.badasoUsers',
+            // 'transportRental.badasoUser',
+            'transportVehicle',
+            'transportVehicles',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
+
+
+
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);

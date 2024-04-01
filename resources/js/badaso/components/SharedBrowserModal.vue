@@ -40,6 +40,7 @@ export default {
     },
     methods: {
         onCall({ show, type, selectedData, title, slug }) {
+            console.log('onCall', { show, type, selectedData, title, slug })
             this.show = show
             this.type = type
             this.selectedData = selectedData

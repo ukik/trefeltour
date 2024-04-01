@@ -33,6 +33,8 @@ Route::group(['prefix' => '/typehead/culinary', 'middleware' => ['sanctum_1','BA
     Route::post('/update_to_cart', 'CulinaryTypeHeadController@update_to_cart');
     Route::post('/add_to_cart', 'CulinaryTypeHeadController@add_to_cart');
 
+    Route::get('/dialog_cart_price', 'CulinaryTypeHeadController@dialog_cart_price');
+
     Route::get('/dialog_product_culinary_stores', 'CulinaryTypeHeadController@dialog_product_culinary_stores');
     Route::get('/dialog_prices_culinary_products', 'CulinaryTypeHeadController@dialog_prices_culinary_products');
 

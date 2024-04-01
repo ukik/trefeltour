@@ -66,7 +66,16 @@ class SouvenirTypeHeadController extends Controller
 
 
 
-
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \SouvenirPrices::with([
+            'souvenirStores',
+            'souvenirStore',
+            'souvenirProduct',
+            'souvenirProducts',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
 
 
     function get_prices_booking(Request $request) {

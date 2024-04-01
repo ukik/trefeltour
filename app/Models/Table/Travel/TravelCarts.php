@@ -17,9 +17,9 @@ class TravelCarts extends Model
 
     public $fillable = [
         'customer_id',
-        'store_id',
-        'ticket_id',
+        'reservation_id',
         'price_id',
+        'store_id',
         'quantity',
         'description',
         'code_table',
@@ -45,16 +45,6 @@ class TravelCarts extends Model
         return $this->belongsToMany(TravelStores::class, 'travel_carts', 'id', 'store_id');
     }
 
-    public function travelTicket()
-    {
-        return $this->belongsTo(TravelTickets::class,'ticket_id','id');
-    }
-
-    public function travelTickets()
-    {
-        return $this->belongsToMany(TravelTickets::class, 'travel_carts', 'id', 'ticket_id');
-    }
-
     public function travelPrice()
     {
         return $this->belongsTo(TravelPrices::class,'price_id','id');
@@ -63,5 +53,16 @@ class TravelCarts extends Model
     public function travelPrices()
     {
         return $this->belongsToMany(TravelPrices::class, 'travel_carts', 'id', 'price_id');
+    }
+
+
+    public function travelReservation()
+    {
+        return $this->belongsTo(TravelReservations::class,'reservation_id','id');
+    }
+
+    public function travelReservations()
+    {
+        return $this->belongsToMany(TravelReservations::class, 'travel_carts', 'id', 'reservation_id');
     }
 }

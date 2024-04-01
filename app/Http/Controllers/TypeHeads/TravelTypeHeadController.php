@@ -89,6 +89,24 @@ class TravelTypeHeadController extends Controller
 
 
 
+
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \TravelPrices::with([
+            'badasoUser',
+            'badasoUsers',
+            'travelStores',
+            'travelStore',
+            'travelReservation',
+            'travelReservations',
+            'travelCart',
+            'travelCarts',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
+
+
+
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);
@@ -106,38 +124,96 @@ class TravelTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
+
     function add_to_cart(Request $request) {
 
-        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+        DB::beginTransaction();
 
-        $data = TravelPrices::where('id', request()->price_id)->first();
+        try {
+            // get slug by route name and get data type in table
+            //$slug = getSlug($request);
 
-        $quantity = request()->quantity;
+            $data_type = getDataType('travel-carts'); // nama table
 
-        $carts = TravelCarts::query()
-            ->where('customer_id', request()->customer_id)
-            ->where('price_id', request()->price_id)
-            ->first();
+            if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
-        TravelCarts::updateOrCreate([
-                'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'reservation_id' => $data->reservation_id,
-                'price_id' => $data->id,
-            ],
-            [
-                'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'reservation_id' => $data->reservation_id,
-                'price_id' => $data->id,
-                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
-                'code_table' => "travel-carts",
-                'uuid' => $carts?->uuid ?: ShortUuid(),
-            ]
-        );
+            $data = TravelPrices::where('id', request()->price_id)->first();
 
-        // return request();
+            $carts = TravelCarts::query()
+                ->where('customer_id', request()->customer_id)
+                ->where('price_id', request()->price_id)
+                ->first();
+
+            if($carts) return ApiResponse::failed("Data ini sudah di keranjang");
+
+            $TravelCarts = TravelCarts::updateOrCreate([
+                    'customer_id' => request()->customer_id,
+                    'reservation_id' => $data->reservation_id,
+                    'store_id' => $data->store_id,
+                    'price_id' => $data->id,
+                ],
+                [
+                    'customer_id' => request()->customer_id,
+                    'reservation_id' => $data->reservation_id,
+                    'store_id' => $data->store_id,
+                    'price_id' => $data->id,
+                    'quantity' => 1,
+                    'code_table' => "travel-carts",
+                    'uuid' => $carts?->uuid ?: ShortUuid(),
+                ]
+            );
+
+            /*
+            // untuk travel rental (TIDAK PERLU, SAAT checkout di cart aja)
+            // ===================================================================
+            # check dimulai hari ini dan seterusnya
+            $GET_TravelCartsCalenders = TravelCartsCalenders::query()
+                ->where('vehicle_id', $data->vehicle_id)
+                ->whereDate('value_id', '>=', now())
+                ->get();
+
+            foreach ($GET_TravelCartsCalenders as $value1) {
+                foreach ($travel_carts_calenders as $value2) {
+                    # code...
+                    if(
+                        $value1['value_id'] == $value2['value_id'] &&
+                        $value1['vehicle_id'] == $value2['vehicle_id']
+                    ) {
+                        return ApiResponse::failed("Tanggal $value1->value_id sudah dipakai");
+                        break;
+                    }
+                }
+                # code...
+            }
+
+            $TravelCartsCalenders = TravelCartsCalenders::insert($travel_carts_calenders);
+            // $TravelCartsCalenders = TravelCartsCalenders::upsert(
+            //     $travel_carts_calenders,
+            //     uniqueBy: ['customer_id', 'rental_id', 'vehicle_id', 'price_id', 'value_id'],
+            //     update: ['value_id','value_date']
+            // );
+            // ===================================================================
+            */
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [$TravelCarts]])
+                ->log($data_type->display_name_singular.' has been created');
+
+            DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
+            return ApiResponse::onlyEntity([$TravelCarts]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
     }
+
 
     function update_to_cart(Request $request) {
         // return request();

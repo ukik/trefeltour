@@ -58,6 +58,18 @@ class CulinaryTypeHeadController extends Controller
 
 
 
+
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \CulinaryPrices::with([
+            'culinaryStores',
+            'culinaryStore',
+            'culinaryProduct',
+            'culinaryProducts',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
+
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);

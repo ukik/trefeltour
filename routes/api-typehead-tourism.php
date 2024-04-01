@@ -40,6 +40,7 @@ Route::group(['prefix' => '/typehead/tourism', 'middleware' => ['sanctum_1','BAD
 
     // Route::get('/dialog_skill_talent_profiles', 'TalentTypeHeadController@dialog_skill_talent_profiles');
     // Route::get('/dialog_prices_talent_skills', 'TalentTypeHeadController@dialog_prices_talent_skills');
+    Route::get('/dialog_cart_price', 'TourismTypeHeadController@dialog_cart_price');
 
     Route::get('/dialog_booking_tourism_bookings', 'TourismTypeHeadController@dialog_booking_tourism_bookings');
     Route::get('/dialog_booking_tourism_payments_validations', 'TourismTypeHeadController@dialog_booking_tourism_payments_validations');

@@ -24,24 +24,32 @@
                     <span class="col-auto">{{ selectedData?.uuid }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Nama Harga </span>
+                    <span class="col">Label Harga </span>
                     <span class="col-auto">{{ selectedData?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Toko </span>
+                    <span class="col">Vendor </span>
                     <span class="col-auto">{{ selectedData?.travelStore?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Jenis Produk</span>
-                    <span class="col-auto">{{ selectedData?.travelReservation?.name }}</span>
+                    <span class="col">Nomor Kursi</span>
+                    <span class="col-auto">({{ selectedData?.codeTicket }}) {{ selectedData?.seatNo }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Stok</span>
-                    <span class="col-auto">{{ selectedData?.stock }}</span>
+                    <span class="col">Status Tiket</span>
+                    <span class="col-auto">{{ selectedData?.ticketStatus }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Quantity</span>
-                    <span class="col-auto">{{ selectedQuantity }}</span>
+                    <span class="col">Jadwal Berangkat</span>
+                    <span class="col-auto">{{ $formatTime(selectedData?.startingTime) }}, {{ selectedData?.startingDate }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Lokasi Berangkat</span>
+                    <span class="col-auto">{{ selectedData?.startingTerminal }}, {{ selectedData?.startingLocation }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Lokasi Tujuan</span>
+                    <span class="col-auto">{{ selectedData?.arrivalTerminal }}, {{ selectedData?.arrivalLocation }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Harga Regular</span>
@@ -70,12 +78,16 @@
             <hr class="m-0">
 
             <div slot="modal-footer">
-                <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" />
+                <!-- <DialogUser @onBubbleEvent="selectedCustomer = $event?.id" /> -->
                 <div class="modal-header pt-0">
-                    <div class="modal-title">
+                    <!-- <div class="modal-title">
                         <Counter :stock="selectedData?.stock" @onBubbleEvent="selectedQuantity = $event" />
-                    </div>
-                    <vs-button :disabled="!selectedCustomer" @click="onAddToCart">
+                    </div> -->
+                    <vs-alert v-if="selectedData?.travelCart" color="danger" icon="new_releases" >
+                        <span>Data ini sudah di keranjang</span>
+                    </vs-alert>
+
+                    <vs-button v-else :disabled="!selectedCustomer" @click="onAddToCart">
                         <i class="vs-icon notranslate icon-scale material-icons null">shopping_cart</i>
                         <span class="pl-1">Tambah</span>
                     </vs-button>
@@ -246,7 +258,7 @@
                           </vs-button>
                         </vs-td>
                         <vs-td>
-                            <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = null; selectedData = record;">Pilih</vs-button>
+                            <vs-button type="relief" @click="show = true; selectedQuantity = 1; selectedCustomer = record?.customerId; selectedData = record;">Pilih</vs-button>
                         </vs-td>
 
                     <template
@@ -1112,6 +1124,7 @@ export default {
             }
         })
         .then((response) => {
+            if(response.data?.data) this.selectedData['travelCart'] = response.data?.data
             this.show = false
           this.$vs.notify({
             title: this.$t("alert.success"),

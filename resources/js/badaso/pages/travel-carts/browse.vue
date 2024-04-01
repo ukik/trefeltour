@@ -25,29 +25,45 @@
                     <span class="col-auto">{{ selectedData?.badasoUser?.name }} ({{ selectedData?.badasoUser?.username }})</span>
                 </div>
                 <div class="row">
-                    <span class="col">UUID</span>
-                    <span class="col-auto">{{ selectedData?.culinaryProduct?.uuid }}</span>
+                    <span class="col">UUID </span>
+                    <span class="col-auto">{{ selectedData?.uuid }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Jenis Produk</span>
-                    <span class="col-auto">{{ selectedData?.culinaryProduct?.name }}</span>
+                    <span class="col">Label Harga </span>
+                    <span class="col-auto">{{ selectedData?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Stok</span>
-                    <span class="col-auto">{{ selectedData?.culinaryPrice?.stock }}</span>
+                    <span class="col">Vendor </span>
+                    <span class="col-auto">{{ selectedData?.travelStore?.name }}</span>
                 </div>
                 <div class="row">
-                    <span class="col">Quantity</span>
-                    <span class="col-auto">{{ selectedData?.quantity }}</span>
+                    <span class="col">Nomor Kursi</span>
+                    <span class="col-auto">({{ selectedData?.codeTicket }}) {{ selectedData?.seatNo }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Status Tiket</span>
+                    <span class="col-auto">{{ selectedData?.ticketStatus }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Jadwal Berangkat</span>
+                    <span class="col-auto">{{ $formatTime(selectedData?.startingTime) }}, {{ selectedData?.startingDate }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Lokasi Berangkat</span>
+                    <span class="col-auto">{{ selectedData?.startingTerminal }}, {{ selectedData?.startingLocation }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Lokasi Tujuan</span>
+                    <span class="col-auto">{{ selectedData?.arrivalTerminal }}, {{ selectedData?.arrivalLocation }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Harga</span>
-                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData?.culinaryPrice)) }}</span>
+                    <span class="col-auto">{{ $rupiah(getTotalAmount(selectedData?.travelPrice)) }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Total Tagihan</span>
                     <span class="col-auto">
-                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.culinaryPrice) * selectedData?.quantity)) }}
+                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.travelPrice) * selectedData?.quantity)) }}
                     </span>
                 </div>
                 <div class="row">
@@ -64,7 +80,7 @@
                         :isShowDataRecycle="isShowDataRecycle"
                         :perPage="perPage"
                         :currentPage="currentPage"
-                        :selectedId="selectedData?.id" :set_quantity="selectedData?.quantity" :stock="selectedData?.culinaryPrice?.stock"
+                        :selectedId="selectedData?.id" :set_quantity="selectedData?.quantity" :stock="selectedData?.travelPrice?.stock"
                         />
                     </div>
                 </div>
@@ -88,28 +104,45 @@
                         </div>
                         <div class="row">
                             <span class="col">UUID </span>
-                            <span class="col-auto">{{ item?.culinaryPrice?.uuid }}</span>
+                            <span class="col-auto">{{ item?.uuid }}</span>
                         </div>
                         <div class="row">
-                            <span class="col">Jenis Produk</span>
-                            <span class="col-auto">{{ item?.culinaryProduct?.name }}</span>
+                            <span class="col">Label Harga </span>
+                            <span class="col-auto">{{ item?.name }}</span>
                         </div>
                         <div class="row">
-                            <span class="col">Stok</span>
-                            <span class="col-auto">{{ item?.culinaryPrice?.stock }}</span>
+                            <span class="col">Vendor </span>
+                            <span class="col-auto">{{ item?.travelStore?.name }}</span>
                         </div>
                         <div class="row">
-                            <span class="col">Quantity</span>
-                            <span class="col-auto">{{ item?.quantity }}</span>
+                            <span class="col">Nomor Kursi</span>
+                            <span class="col-auto">({{ item?.codeTicket }}) {{ item?.seatNo }}</span>
                         </div>
+                        <div class="row">
+                            <span class="col">Status Tiket</span>
+                            <span class="col-auto">{{ item?.ticketStatus }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Jadwal Berangkat</span>
+                            <span class="col-auto">{{ $formatTime(item?.startingTime) }}, {{ item?.startingDate }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Lokasi Berangkat</span>
+                            <span class="col-auto">{{ item?.startingTerminal }}, {{ item?.startingLocation }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Lokasi Tujuan</span>
+                            <span class="col-auto">{{ item?.arrivalTerminal }}, {{ item?.arrivalLocation }}</span>
+                        </div>
+
                         <div class="row">
                             <span class="col">Harga</span>
-                            <span class="col-auto">{{ $rupiah(getTotalAmount(item?.culinaryPrice)) }}</span>
+                            <span class="col-auto">{{ $rupiah(getTotalAmount(item?.travelPrice)) }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Total Harga</span>
                             <span class="col-auto">
-                                {{ $rupiah(Math.round(getTotalAmount(item?.culinaryPrice) * item?.quantity)) }}
+                                {{ $rupiah(Math.round(getTotalAmount(item?.travelPrice) * item?.quantity)) }}
                             </span>
                         </div>
                         <div class="row">
@@ -127,7 +160,7 @@
                                 :perPage="perPage"
                                 :currentPage="currentPage"
                                 :index="index"
-                                :selectedId="item.id" :set_quantity="item.quantity" :stock="item?.culinaryPrice?.stock"
+                                :selectedId="item.id" :set_quantity="item.quantity" :stock="item?.travelPrice?.stock"
                                 />
 
                             <!-- <CalenderBooked @onBubbleEvent="records = $event"
@@ -149,7 +182,7 @@
             </div>
 
             <hr class="m-0">
-            <!-- <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="culinary-products" /> -->
+            <!-- <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="travel-products" /> -->
             <div slot="modal-footer">
                 <div v-if="tipe=='multi'" class="px-3">
                     <div class="row">
@@ -170,7 +203,7 @@
             </div>
         </stack-modal>
 
-    <shared-browser-modal ref="SharedBrowserModal" />
+    <shared-browser-modal-cart ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -347,7 +380,8 @@
                               type: 'detail',
                               selectedData: record,
                               title: 'Detail Order',
-                              slug: $route.params?.slug })">
+                              slug: 'travel-prices',
+                              url: '/api/typehead/travel/dialog_cart_price' })">
                                 <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                             </vs-button>
                         </vs-td>
@@ -504,29 +538,29 @@
                             <div :class="[ dataRow.field == 'quantity' ? 'row' : '']" v-else>
                                 <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button>
                                 <span v-if="dataRow.field == 'name'">
-                                    {{ record.culinaryPrice?.name }}
+                                    {{ record.travelPrice?.name }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_price'">
-                                    {{ $rupiah(record.culinaryPrice?.generalPrice) }}
+                                    {{ $rupiah(record.travelPrice?.generalPrice) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_discount'">
-                                    {{ record.culinaryPrice?.discountPrice }}
+                                    {{ record.travelPrice?.discountPrice }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_cashback'">
-                                    {{ $rupiah(record.culinaryPrice?.cashbackPrice) }}
+                                    {{ $rupiah(record.travelPrice?.cashbackPrice) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_total_amount'">
-                                    {{ $rupiah(getTotalAmount(record?.culinaryPrice)) }}
+                                    {{ $rupiah(getTotalAmount(record?.travelPrice)) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_final_amount'">
-                                    {{ $rupiah(Math.round(getTotalAmount(record?.culinaryPrice) * record.quantity)) }}
+                                    {{ $rupiah(Math.round(getTotalAmount(record?.travelPrice) * record.quantity)) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'stock'">
-                                    {{ record.culinaryPrice?.stock }}
+                                    {{ record.travelPrice?.stock }}
                                 </span>
-                                <div class="full-width" v-else-if="dataRow.field == 'quantity'">
-                                    <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.culinaryPrice?.stock" />
-                                </div>
+                                <!-- <div class="full-width" v-else-if="dataRow.field == 'quantity'">
+                                    <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.travelPrice?.stock" />
+                                </div> -->
                                 <span v-else>
                                 {{
                                     record[
@@ -887,7 +921,7 @@ export default {
 
         let total = 0
         val.forEach(element => {
-            total += Number(this.getTotalAmount(element?.culinaryPrice) * element.quantity)
+            total += Number(this.getTotalAmount(element?.travelPrice) * element.quantity)
         });
         this.totalTagihan = total
     }
@@ -939,7 +973,7 @@ export default {
         }
 
         this.$openLoader();
-        await axios.post('/api/typehead/culinary/get_prices_booking', bodyFormData, {
+        await axios.post('/api/typehead/travel/get_prices_booking', bodyFormData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -985,7 +1019,7 @@ export default {
 
 
         this.$openLoader();
-        await axios.post('/trevolia-api/v1/entities/culinary-carts/add', bodyFormData, {
+        await axios.post('/trevolia-api/v1/entities/travel-carts/add', bodyFormData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -1096,7 +1130,7 @@ export default {
 
 
         this.$openLoader();
-        await axios.post('/api/typehead/culinary/update_to_cart', bodyFormData, {
+        await axios.post('/api/typehead/travel/update_to_cart', bodyFormData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }

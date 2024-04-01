@@ -170,7 +170,7 @@
             </div>
     </stack-modal>
 
-    <shared-browser-modal ref="SharedBrowserModal" />
+    <shared-browser-modal-cart ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -350,7 +350,8 @@
                               type: 'detail',
                               selectedData: record,
                               title: 'Detail Order',
-                              slug: $route.params?.slug })">
+                              slug: 'lodge-prices',
+                              url: '/api/typehead/lodge/dialog_cart_price' })">
                                 <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                             </vs-button>
                         </vs-td>

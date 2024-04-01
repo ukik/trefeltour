@@ -127,7 +127,14 @@ class TourismTypeHeadController extends Controller
 
 
 
-
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \TourismPrices::with([
+            'tourismVenues',
+            'tourismVenue',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
 
 
 

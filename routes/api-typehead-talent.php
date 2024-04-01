@@ -36,6 +36,8 @@ Route::group(['prefix' => '/typehead/talent', 'middleware' => ['sanctum_1','BADA
     Route::get('/dialog_skill_talent_profiles', 'TalentTypeHeadController@dialog_skill_talent_profiles');
     Route::get('/dialog_prices_talent_skills', 'TalentTypeHeadController@dialog_prices_talent_skills');
 
+    Route::get('/dialog_cart_price', 'TalentTypeHeadController@dialog_cart_price');
+
     Route::get('/dialog_booking_talent_bookings', 'TalentTypeHeadController@dialog_booking_talent_bookings');
     Route::get('/dialog_booking_talent_payments_validations', 'TalentTypeHeadController@dialog_booking_talent_payments_validations');
 

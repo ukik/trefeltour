@@ -210,6 +210,9 @@
                                         <span>{{ item }}</span>
                                     </li>
                                 </ol>
+                                <span v-else-if="dataRow.field == 'starting_date'">
+                                    {{ $formatTime(record?.startingDate) }}
+                                </span>
                                 <span v-else-if="dataRow.field == 'get_final_amount'">
                                     {{ $rupiah(record?.getFinalAmount) }}
                                 </span>
@@ -344,45 +347,51 @@ export default {
       }
     },
     displayRelationData(record, dataRow) {
-      const table = this.$caseConvert.stringSnakeToCamel(
-        dataRow.relation.destinationTable
-      );
-      this.$caseConvert.stringSnakeToCamel(
-        dataRow.relation.destinationTableColumn
-      );
-      const displayColumn = this.$caseConvert.stringSnakeToCamel(
-        dataRow.relation.destinationTableDisplayColumn
-      );
+        console.log('displayRelationData', dataRow)
+        try {
+            const table = this.$caseConvert.stringSnakeToCamel(
+                dataRow.relation.destinationTable
+            );
+            this.$caseConvert.stringSnakeToCamel(
+                dataRow.relation.destinationTableColumn
+            );
+            const displayColumn = this.$caseConvert.stringSnakeToCamel(
+                dataRow.relation.destinationTableDisplayColumn
+            );
 
-      if (dataRow.relation.relationType == "has_one") {
-        const list = record[table];
-        return list[displayColumn];
-      } else if(dataRow.relation.relationType == "has_many") {
-        const list = record[table];
-        const flatList = list.map((ls) => {
-          return ls[displayColumn];
-        });
-        return flatList.join(", ");
-      } else if (dataRow.relation.relationType == "belongs_to") {
-        const lists = record[table];
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
-        for (let list of lists) {
-          if (list?.id == record[field]) {
-            return list[displayColumn];
-          }
+            if (dataRow.relation.relationType == "has_one") {
+                const list = record[table];
+                return list[displayColumn];
+            } else if(dataRow.relation.relationType == "has_many") {
+                const list = record[table];
+                const flatList = list.map((ls) => {
+                return ls[displayColumn];
+                });
+                return flatList.join(", ");
+            } else if (dataRow.relation.relationType == "belongs_to") {
+                const lists = record[table];
+                let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+                for (let list of lists) {
+                if (list?.id == record[field]) {
+                    return list[displayColumn];
+                }
+                }
+            } else if (dataRow.relation.relationType == "belongs_to_many") {
+                let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+                const lists = record[field];
+                let flatList = [];
+                Object.keys(lists).forEach(function (ls, key) {
+                flatList.push(lists[ls][displayColumn]);
+                });
+
+                return flatList.join(",").replace(",", ", ");
+            } else {
+                return record[table] ? record[table][displayColumn] : null;
+            }
+
+        } catch (error) {
+            console.log('error displayRelationData', error)
         }
-      } else if (dataRow.relation.relationType == "belongs_to_many") {
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
-        const lists = record[field];
-        let flatList = [];
-        Object.keys(lists).forEach(function (ls, key) {
-          flatList.push(lists[ls][displayColumn]);
-        });
-
-        return flatList.join(",").replace(",", ", ");
-      } else {
-        return record[table] ? record[table][displayColumn] : null;
-      }
     },
   },
 };

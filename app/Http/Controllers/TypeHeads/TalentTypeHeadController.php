@@ -85,8 +85,17 @@ class TalentTypeHeadController extends Controller
 
 
 
-
-
+    function dialog_cart_price(Request $request) {
+        // return request();
+        $data = \TalentPrices::with([
+            'talentSkills',
+            'talentProfiles',
+            'talentProfile',
+            'talentSkill',
+            'talentSkills',
+        ])->where('id', request()->price_id)->first();
+        return ApiResponse::onlyEntity($data);
+    }
 
 
     function get_prices_booking(Request $request) {

@@ -35,6 +35,7 @@ Route::group(['prefix' => '/typehead/lodge', 'middleware' => ['sanctum_1','BADAS
 
     Route::get('/get_calender_booked', 'LodgeTypeHeadController@get_calender_booked'); // untuk transport rental
 
+    Route::get('/dialog_cart_price', 'LodgeTypeHeadController@dialog_cart_price');
 
     Route::get('/dialog_room_lodge_profiles', 'LodgeTypeHeadController@dialog_room_lodge_profiles');
     Route::get('/dialog_staff_lodge_profiles', 'LodgeTypeHeadController@dialog_staff_lodge_profiles');

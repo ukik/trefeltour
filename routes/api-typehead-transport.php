@@ -41,6 +41,7 @@ Route::group(['prefix' => '/typehead/transport', 'middleware' => ['sanctum_1','B
 
     Route::get('/dialog_payment_transport_drivers', 'TransportTypeHeadController@dialog_payment_transport_drivers');
 
+    Route::get('/dialog_cart_price', 'TransportTypeHeadController@dialog_cart_price');
 
     Route::get('/dialog_booking_transport_bookings', 'TransportTypeHeadController@dialog_booking_transport_bookings');
     Route::get('/dialog_booking_transport_payments_validations', 'TransportTypeHeadController@dialog_booking_transport_payments_validations');
