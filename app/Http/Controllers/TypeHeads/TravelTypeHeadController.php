@@ -69,13 +69,6 @@ class TravelTypeHeadController extends Controller
         return ApiResponse::onlyEntity($data);
     }
 
-    // function dialog_reservation_travel_stores() {
-    //     $data = \TravelTickets::where('id',request()->id)
-    //         ->with('travelReservation.badasoUsers')
-    //         ->first();
-    //     $data = $data->travelReservation;
-    //     return ApiResponse::onlyEntity($data);
-    // }
 
     function dialog_prices_travel_reservations() {
         $data = \TravelPrices::where('id',request()->id)
@@ -110,17 +103,26 @@ class TravelTypeHeadController extends Controller
     function get_prices_booking(Request $request) {
         // return request();
         $payload = json_decode(request()->payload, true);
+
         $data = \TravelCarts::with([
             'badasoUsers',
             'badasoUser',
-
-            'travelTicket',
-            'travelTickets',
             'travelPrice',
             'travelPrices',
             'travelReservation',
             'travelReservations',
+            'travelStore',
+            'travelStores',
         ])->whereIn('id', $payload)->get();
+
+        // $data = \TravelCarts::whereIn('id', $payload)->select('price_id')->pluck('price_id');
+        // $data = TravelPrices::whereIn('id', $data)
+        //     ->with([
+        //         'badasoUser',
+        //         'travelStore',
+        //         'travelReservation'
+        //     ])->get();
+
         return ApiResponse::onlyEntity($data);
     }
 
@@ -226,9 +228,6 @@ class TravelTypeHeadController extends Controller
         $data = \TravelCarts::with([
             'badasoUsers',
             'badasoUser',
-
-            'travelTicket',
-            'travelTickets',
             'travelPrice',
             'travelPrices',
             'travelReservations',

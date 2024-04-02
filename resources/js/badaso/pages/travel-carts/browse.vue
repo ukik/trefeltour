@@ -26,11 +26,19 @@
                 </div>
                 <div class="row">
                     <span class="col">UUID </span>
-                    <span class="col-auto">{{ selectedData?.uuid }}</span>
+                    <span class="col-auto">{{ selectedData?.travelPrice?.uuid }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Indentitas Penumpang </span>
+                    <span class="col-auto">{{ selectedData?.travelReservation?.namePassanger }}, {{ selectedData?.travelReservation?.birthDate }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">KTP Penumpang </span>
+                    <span class="col-auto">{{ selectedData?.travelReservation?.ktpPassanger }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Label Harga </span>
-                    <span class="col-auto">{{ selectedData?.name }}</span>
+                    <span class="col-auto">{{ selectedData?.travelPrice?.name }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Vendor </span>
@@ -38,23 +46,23 @@
                 </div>
                 <div class="row">
                     <span class="col">Nomor Kursi</span>
-                    <span class="col-auto">({{ selectedData?.codeTicket }}) {{ selectedData?.seatNo }}</span>
+                    <span class="col-auto">({{ selectedData?.travelPrice?.codeTicket }}) {{ selectedData?.travelPrice?.seatNo }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Status Tiket</span>
-                    <span class="col-auto">{{ selectedData?.ticketStatus }}</span>
+                    <span class="col-auto">{{ selectedData?.travelPrice?.ticketStatus }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Jadwal Berangkat</span>
-                    <span class="col-auto">{{ $formatTime(selectedData?.startingTime) }}, {{ selectedData?.startingDate }}</span>
+                    <span class="col-auto">{{ $formatTime(selectedData?.travelPrice?.startingTime) }}, {{ selectedData?.travelPrice?.startingDate }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Lokasi Berangkat</span>
-                    <span class="col-auto">{{ selectedData?.startingTerminal }}, {{ selectedData?.startingLocation }}</span>
+                    <span class="col-auto">{{ selectedData?.travelPrice?.startingTerminal }}, {{ selectedData?.travelPrice?.startingLocation }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Lokasi Tujuan</span>
-                    <span class="col-auto">{{ selectedData?.arrivalTerminal }}, {{ selectedData?.arrivalLocation }}</span>
+                    <span class="col-auto">{{ selectedData?.travelPrice?.arrivalTerminal }}, {{ selectedData?.travelPrice?.arrivalLocation }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Harga</span>
@@ -63,10 +71,10 @@
                 <div class="row">
                     <span class="col">Total Tagihan</span>
                     <span class="col-auto">
-                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.travelPrice) * selectedData?.quantity)) }}
+                        {{ $rupiah(Math.round(getTotalAmount(selectedData?.travelPrice) * selectedData?.travelPrice?.quantity)) }}
                     </span>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                     <div class="full-width text-center mt-2">Update Quantity</div>
                     <CounterPopup @onBubbleEvent="onUpdateCounterPopupSingle"
@@ -83,7 +91,7 @@
                         :selectedId="selectedData?.id" :set_quantity="selectedData?.quantity" :stock="selectedData?.travelPrice?.stock"
                         />
                     </div>
-                </div>
+                </div> -->
             </div>
             <div v-if="tipe == 'multi'" class="py-4" :class="[ selectedMulti.length >= 2 ? 'pr-2' : '' ]" style="
                     min-height: 250px;
@@ -91,24 +99,28 @@
                     overflow-y: overlay;
                     overflow-x: hidden;
                 ">
-                <!-- <div class="row">
-                    <span class="col">Customer</span>
-                    <span class="col-auto">{{ selectedMulti.map((item) => item?.badasoUser?.name)[0] }} ({{ selectedMulti.map((item) => item?.badasoUser?.username)[0] }})</span>
-                </div> -->
                 <template v-for="(item, index) in selectedMulti" >
                     <div>
                         <hr>
                         <div class="row">
-                            <span class="col">Customer </span>
+                            <span class="col">Customer</span>
                             <span class="col-auto">{{ item?.badasoUser?.name }} ({{ item?.badasoUser?.username }})</span>
                         </div>
                         <div class="row">
                             <span class="col">UUID </span>
-                            <span class="col-auto">{{ item?.uuid }}</span>
+                            <span class="col-auto">{{ item?.travelPrice?.uuid }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">Indentitas Penumpang </span>
+                            <span class="col-auto">{{ item?.travelReservation?.namePassanger }}, {{ item?.travelReservation?.birthDate }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col">KTP Penumpang </span>
+                            <span class="col-auto">{{ item?.travelReservation?.ktpPassanger }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Label Harga </span>
-                            <span class="col-auto">{{ item?.name }}</span>
+                            <span class="col-auto">{{ item?.travelPrice?.name }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Vendor </span>
@@ -116,36 +128,35 @@
                         </div>
                         <div class="row">
                             <span class="col">Nomor Kursi</span>
-                            <span class="col-auto">({{ item?.codeTicket }}) {{ item?.seatNo }}</span>
+                            <span class="col-auto">({{ item?.travelPrice?.codeTicket }}) {{ item?.travelPrice?.seatNo }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Status Tiket</span>
-                            <span class="col-auto">{{ item?.ticketStatus }}</span>
+                            <span class="col-auto">{{ item?.travelPrice?.ticketStatus }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Jadwal Berangkat</span>
-                            <span class="col-auto">{{ $formatTime(item?.startingTime) }}, {{ item?.startingDate }}</span>
+                            <span class="col-auto">{{ $formatTime(item?.travelPrice?.startingTime) }}, {{ item?.travelPrice?.startingDate }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Lokasi Berangkat</span>
-                            <span class="col-auto">{{ item?.startingTerminal }}, {{ item?.startingLocation }}</span>
+                            <span class="col-auto">{{ item?.travelPrice?.startingTerminal }}, {{ item?.travelPrice?.startingLocation }}</span>
                         </div>
                         <div class="row">
                             <span class="col">Lokasi Tujuan</span>
-                            <span class="col-auto">{{ item?.arrivalTerminal }}, {{ item?.arrivalLocation }}</span>
+                            <span class="col-auto">{{ item?.travelPrice?.arrivalTerminal }}, {{ item?.travelPrice?.arrivalLocation }}</span>
                         </div>
-
                         <div class="row">
                             <span class="col">Harga</span>
                             <span class="col-auto">{{ $rupiah(getTotalAmount(item?.travelPrice)) }}</span>
                         </div>
                         <div class="row">
-                            <span class="col">Total Harga</span>
+                            <span class="col">Total Tagihan</span>
                             <span class="col-auto">
-                                {{ $rupiah(Math.round(getTotalAmount(item?.travelPrice) * item?.quantity)) }}
+                                {{ $rupiah(Math.round(getTotalAmount(item?.travelPrice) * item?.travelPrice?.quantity)) }}
                             </span>
                         </div>
-                        <div class="row">
+                            <!-- <div class="row">
                             <div class="col">
                             <div class="full-width text-center mt-2">Update Quantity</div>
                             <CounterPopup @onBubbleEvent="onUpdateCounterPopup"
@@ -162,21 +173,8 @@
                                 :index="index"
                                 :selectedId="item.id" :set_quantity="item.quantity" :stock="item?.travelPrice?.stock"
                                 />
-
-                            <!-- <CalenderBooked @onBubbleEvent="records = $event"
-                                :selectedData="item"
-                                :id="item?.id"
-                                :limit="limit"
-                                :page="page"
-                                :filter="filter"
-                                :orderField="orderField"
-                                :orderDirection="orderDirection"
-                                :isShowDataRecycle="isShowDataRecycle"
-                                :perPage="perPage"
-                                :currentPage="currentPage"
-                                :date_checkin="item?.dateCheckin" class="mt-2" /> -->
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </template>
             </div>

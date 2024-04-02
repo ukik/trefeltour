@@ -20,8 +20,20 @@
             </slot>
             <div class="py-4">
                 <div class="row">
+                    <span class="col">Customer </span>
+                    <span class="col-auto">{{ selectedData?.badasoUser?.name }} ({{ selectedData?.badasoUser?.username }})</span>
+                </div>
+                <div class="row">
                     <span class="col">UUID </span>
                     <span class="col-auto">{{ selectedData?.uuid }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">Indentitas Penumpang </span>
+                    <span class="col-auto">{{ selectedData?.travelReservation?.namePassanger }}, {{ selectedData?.travelReservation?.birthDate }}</span>
+                </div>
+                <div class="row">
+                    <span class="col">KTP Penumpang </span>
+                    <span class="col-auto">{{ selectedData?.travelReservation?.ktpPassanger }}</span>
                 </div>
                 <div class="row">
                     <span class="col">Label Harga </span>
