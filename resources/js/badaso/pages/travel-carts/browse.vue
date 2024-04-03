@@ -533,8 +533,8 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                            <div :class="[ dataRow.field == 'quantity' ? 'row' : '']" v-else>
-                                <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button>
+                            <div v-else>
+                                <!-- <vs-button v-if="dataRow.field == 'booking'" type="relief" @click=" tipe='single'; selectedData = record; onPopupBooking();">Booking Ini</vs-button> -->
                                 <span v-if="dataRow.field == 'name'">
                                     {{ record.travelPrice?.name }}
                                 </span>
@@ -553,8 +553,8 @@
                                 <span v-else-if="dataRow.field == 'get_final_amount'">
                                     {{ $rupiah(Math.round(getTotalAmount(record?.travelPrice) * record.quantity)) }}
                                 </span>
-                                <span v-else-if="dataRow.field == 'stock'">
-                                    {{ record.travelPrice?.stock }}
+                                <span v-else-if="dataRow.field == 'quantity'">
+                                    {{ record.travelPrice?.quantity }} Penumpang
                                 </span>
                                 <!-- <div class="full-width" v-else-if="dataRow.field == 'quantity'">
                                     <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.travelPrice?.stock" />

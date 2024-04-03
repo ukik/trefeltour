@@ -13,9 +13,16 @@ class TravelBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "travel_bookings";
+
     protected $appends = [''];
 
     public function user()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
+    public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
@@ -26,16 +33,15 @@ class TravelBookings extends Model
         // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
-    public function travelTickets()
+    public function travelStores()
     {
-        return $this->belongsToMany(TravelTickets::class, 'travel_bookings', 'id', 'ticket_id');
-        // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+        return $this->belongsToMany(TravelStores::class, 'travel_bookings', 'id', 'store_id');
     }
 
 
-    public function travelTicket()
+    public function travelStore()
     {
-        return $this->belongsTo(TravelTickets::class,'ticket_id','id');
+        return $this->belongsTo(TravelStores::class,'store_id','id');
     }
 
     public function travelReservation()
@@ -47,6 +53,11 @@ class TravelBookings extends Model
     public function travelPayment()
     {
         return $this->hasOne(TravelPayments::class, 'booking_id', 'id');
+    }
+
+    public function travelPayments()
+    {
+        return $this->hasMany(TravelPayments::class, 'booking_id', 'id');
     }
 
     public function travelPaymentsValidation() {
