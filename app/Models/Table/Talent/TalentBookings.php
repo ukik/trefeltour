@@ -13,36 +13,6 @@ class TalentBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // public function __construct(array $attributes = [])
-    // {
-    //     $this->appends = [
-    //         'user_label',
-    //         'user_column',
-    //     ];
-
-    //     parent::__construct($attributes);
-    // }
-
-    // public function getUserLabelAttribute($value) {
-    //     $user = $this?->badasoUser;
-    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
-    // }
-
-    // public function getUserColumnAttribute($value) {
-    //     $user = $this?->badasoUser;
-    //     return "(<i> $user?->username </i>) $user?->name";
-    // }
-
-    // public function getCustomerLabelAttribute($value) {
-    //     $user = $this?->customer;
-    //     return "Nama ($user?->name) - Username ($user?->username) - Email ($user?->email) - Telpon ($user?->phone)";
-    // }
-
-    // public function getCustomerColumnAttribute($value) {
-    //     $user = $this?->customer;
-    //     return "(<i> $user?->username </i>) $user?->name";
-    // }
-
     protected $table = "talent_bookings";
 
     public function badasoUser()
@@ -83,6 +53,12 @@ class TalentBookings extends Model
     public function talentProfiles()
     {
         return $this->belongsToMany(TalentProfiles::class, 'talent_bookings', 'id', 'profile_id');
+    }
+
+
+    public function talentBookingItems()
+    {
+        return $this->hasMany(TalentBookingsItems::class, 'booking_id', 'id');
     }
 
 

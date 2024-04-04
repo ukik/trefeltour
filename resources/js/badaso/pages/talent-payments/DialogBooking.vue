@@ -43,7 +43,7 @@
                 data: selecteduser
             }" v-if="type=='detail'" slug="talent-bookings"></shared-read-user>
 
-            <shared-table-modal v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-bookings" />
+            <shared-table-modal-payment-booking v-if="type=='select'" @onBubbleEvent="onBubbleEvent" slug="talent-bookings" />
             <div slot="modal-footer"></div>
         </stack-modal>
 

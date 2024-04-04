@@ -28,6 +28,7 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 107,
                 'name' => 'transport_bookings',
                 'slug' => 'transport-bookings',
                 'display_name_singular' => 'Transport Bookings',
@@ -41,13 +42,13 @@ class TransportBookingsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-23T16:53:26.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-23T16:53:26.000000Z',
-                'id' => 107,
+                'updated_at' => '2024-04-03T23:22:00.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_bookings');

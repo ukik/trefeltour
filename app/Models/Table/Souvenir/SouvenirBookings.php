@@ -13,17 +13,6 @@ class SouvenirBookings extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // customer_id
-    // store_id
-    // uuid
-    // description
-    // get_final_amount
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-
     protected $table = "souvenir_bookings";
 
 
@@ -67,4 +56,5 @@ class SouvenirBookings extends Model
     {
         return $this->hasMany(SouvenirPayments::class, 'booking_id', 'id');
     }
+
 }

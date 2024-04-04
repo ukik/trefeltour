@@ -66,7 +66,13 @@ class TalentBookingsController extends Controller
                 'talentProfiles',
                 // 'talentPayments',
                 // 'talentPayment.talentPaymentsValidation',
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'talentBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' orang') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -129,7 +135,13 @@ class TalentBookingsController extends Controller
                 'talentProfiles',
                 // 'talentPayments',
                 // 'talentPayment.talentPaymentsValidation',
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'talentBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' orang') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

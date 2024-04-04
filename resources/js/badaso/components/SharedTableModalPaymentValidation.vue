@@ -5,7 +5,7 @@
     padding: 15px 15px 0px 15px; background: #e5feff;
 ">
 
-    <stack-modal v-if="slug"
+    <!-- <stack-modal v-if="slug"
             :show="show"
             title=""
             @close="show=false"
@@ -29,8 +29,9 @@
         }" :slug="slug"></shared-read-user>
 
         <div slot="modal-footer"></div>
-    </stack-modal>
+    </stack-modal> -->
 
+    <shared-browser-modal ref="SharedBrowserModal" />
     <template v-if="!showMaintenancePage">
       <!-- <badaso-breadcrumb-hover full>
         <template slot="action">
@@ -189,7 +190,12 @@
                     >
 
                         <vs-td v-if="slug" class="crud-generated__button">
-                            <vs-button @click="show=true; selectedData=record;">
+                            <vs-button @click="$refs.SharedBrowserModal.onCall({
+                                    show: true,
+                                    type: 'detail',
+                                    selectedData: record,
+                                    title: 'Detail',
+                                    slug: slug })">
                                 <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                             </vs-button>
                         </vs-td>

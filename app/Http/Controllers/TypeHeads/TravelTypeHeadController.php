@@ -260,9 +260,17 @@ class TravelTypeHeadController extends Controller
             'badasoUsers',
             'travelBookings',
             'travelBooking',
-            'travelReservation',
-            'travelReservations',
-        ])->first();
+            'travelStore',
+            'travelStores',
+            // 'travelReservation',
+            // 'travelReservations',
+        ])
+        ->withCount([
+            'travelBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' tiket') as paidsum")); //->where('status', 'paid');
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

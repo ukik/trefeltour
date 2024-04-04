@@ -168,7 +168,13 @@ class CulinaryTypeHeadController extends Controller
             'culinaryBooking',
             'culinaryStore',
             'culinaryStores',
-        ])->first();
+        ])
+        ->withCount([
+            'culinaryBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' menu') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

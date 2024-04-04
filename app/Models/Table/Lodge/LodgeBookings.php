@@ -67,4 +67,5 @@ class LodgeBookings extends Model
     {
         return $this->hasMany(LodgePayments::class, 'booking_id', 'id');
     }
+
 }

@@ -26,6 +26,10 @@ class TourismBookingsCheckPayments extends Model
         return $this->belongsToMany(BadasoUsers::class, 'tourism_bookings_check_payments', 'id', 'customer_id');
     }
 
+    public function tourismBookingItems()
+    {
+        return $this->hasMany(TourismBookingsItems::class, 'booking_id', 'id');
+    }
 
     public function tourismBooking()
     {

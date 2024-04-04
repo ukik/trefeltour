@@ -184,7 +184,13 @@ class SouvenirTypeHeadController extends Controller
             'souvenirBooking',
             'souvenirStore',
             'souvenirStores',
-        ])->first();
+        ])
+        ->withCount([
+            'souvenirBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' barang') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

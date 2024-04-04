@@ -28,6 +28,7 @@ class TravelBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 114,
                 'name' => 'travel_booking_items',
                 'slug' => 'travel-booking-items',
                 'display_name_singular' => 'Travel Booking Items',
@@ -35,19 +36,19 @@ class TravelBookingItemsCRUDDataTypeAdded extends Seeder
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
-                'controller' => 'App\\Http\\Controllers\\Travels\\TravelBookingsController',
+                'controller' => 'App\\Http\\Controllers\\Travels\\TravelBookingsItemsController',
                 'order_column' => NULL,
                 'order_display_column' => NULL,
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-29T10:51:18.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-29T10:51:18.000000Z',
-                'id' => 114,
+                'updated_at' => '2024-04-03T21:48:49.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_booking_items');

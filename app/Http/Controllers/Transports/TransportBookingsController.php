@@ -66,7 +66,13 @@ class TransportBookingsController extends Controller
                 // 'transportRental.transportPrices',
                 // 'transportRental.transportFacilities',
                 // 'transportRental.transportService',
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'transportBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' mobil') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -131,7 +137,13 @@ class TransportBookingsController extends Controller
                 'transportRental.transportPrices',
                 'transportRental.transportFacilities',
                 'transportRental.transportService',
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'transportBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' mobil') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

@@ -26,6 +26,10 @@ class LodgeBookingsCheckPayments extends Model
         return $this->belongsToMany(BadasoUsers::class, 'lodge_bookings_check_payments', 'id', 'customer_id');
     }
 
+    public function lodgeBookingItems()
+    {
+        return $this->hasMany(LodgeBookingsItems::class, 'booking_id', 'id');
+    }
 
     public function lodgeBooking()
     {

@@ -66,7 +66,13 @@ class LodgeBookingsController extends Controller
                 'lodgePayment',
                 'lodgePayment.lodgePaymentsValidation',
                 'lodgePayments'
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'lodgeBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' kamar') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -134,7 +140,13 @@ class LodgeBookingsController extends Controller
                 'lodgePayment',
                 'lodgePayment.lodgePaymentsValidation',
                 'lodgePayments'
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'lodgeBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' kamar') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

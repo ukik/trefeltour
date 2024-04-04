@@ -71,6 +71,11 @@ class TransportBookings extends Model
         return $this->hasOne(TransportReturns::class, 'booking_id', 'id');
     }
 
+    public function transportBookingItems()
+    {
+        return $this->hasMany(TransportBookingsItems::class, 'booking_id', 'id');
+    }
+
     public function transportPayments()
     {
         return $this->hasMany(TransportPayments::class, 'booking_id', 'id');

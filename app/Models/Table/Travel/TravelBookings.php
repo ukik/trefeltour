@@ -50,6 +50,16 @@ class TravelBookings extends Model
         return $this->belongsTo(TravelReservations::class,'reservation_id','id');
     }
 
+    // public function travelBookingItem()
+    // {
+    //     return $this->hasOne(TravelPayments::class, 'booking_id', 'id');
+    // }
+
+    public function travelBookingItems()
+    {
+        return $this->hasMany(TravelBookingsItems::class, 'booking_id', 'id');
+    }
+
     public function travelPayment()
     {
         return $this->hasOne(TravelPayments::class, 'booking_id', 'id');

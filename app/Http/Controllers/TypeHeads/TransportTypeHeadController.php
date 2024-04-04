@@ -394,7 +394,13 @@ class TransportTypeHeadController extends Controller
             'transportBooking',
             'transportRental',
             'transportRentals',
-        ])->first();
+        ])
+        ->withCount([
+            'transportBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' mobil') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

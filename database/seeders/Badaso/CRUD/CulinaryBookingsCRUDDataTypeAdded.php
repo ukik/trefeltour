@@ -28,6 +28,7 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 93,
                 'name' => 'culinary_bookings',
                 'slug' => 'culinary-bookings',
                 'display_name_singular' => 'Culinary Bookings',
@@ -41,13 +42,13 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-14T07:30:56.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T07:30:56.000000Z',
-                'id' => 93,
+                'updated_at' => '2024-04-03T23:18:41.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_bookings');

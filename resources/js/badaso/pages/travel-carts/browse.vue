@@ -554,7 +554,7 @@
                                     {{ $rupiah(Math.round(getTotalAmount(record?.travelPrice) * record.quantity)) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'quantity'">
-                                    {{ record.travelPrice?.quantity }} Penumpang
+                                    {{ record.travelPrice?.quantity }} Tiket
                                 </span>
                                 <!-- <div class="full-width" v-else-if="dataRow.field == 'quantity'">
                                     <Counter :selectedId="record.id" @onBubbleEvent="onUpdateQuantity" :set_quantity="record.quantity" :stock="record?.travelPrice?.stock" />

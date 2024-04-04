@@ -51,6 +51,11 @@ class TourismBookings extends Model
     }
 
 
+    public function tourismBookingItems()
+    {
+        return $this->hasMany(TourismBookingsItems::class, 'booking_id', 'id');
+    }
+
 
     public function transportPaymentsValidation() {
 

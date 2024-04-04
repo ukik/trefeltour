@@ -43,7 +43,7 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'booking_id',
-                    'type' => 'number',
+                    'type' => 'relation',
                     'display_name' => 'Booking Id',
                     'required' => 0,
                     'browse' => 1,
@@ -52,14 +52,14 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"travel_bookings","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","uuid"]}',
                     'order' => 2,
                 ),
                 2 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'customer_id',
-                    'type' => 'number',
+                    'type' => 'relation',
                     'display_name' => 'Customer Id',
                     'required' => 0,
                     'browse' => 1,
@@ -68,7 +68,7 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
                     'order' => 3,
                 ),
                 3 => 
@@ -163,7 +163,7 @@ class TravelPaymentsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'date',
-                    'type' => 'text',
+                    'type' => 'date',
                     'display_name' => 'Tanggal Pelunasan',
                     'required' => 0,
                     'browse' => 1,

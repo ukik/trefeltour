@@ -13,20 +13,6 @@ class CulinaryBookingsCheckPayments extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // booking_id
-    // payment_id
-    // payment_uuid
-    // id
-    // customer_id
-    // store_id
-    // uuid
-    // description
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-    // get_final_amount
-
     protected $table = "culinary_bookings_check_payments";
 
     public function badasoUser()
@@ -39,6 +25,10 @@ class CulinaryBookingsCheckPayments extends Model
         return $this->belongsToMany(BadasoUsers::class, 'culinary_bookings_check_payments', 'id', 'customer_id');
     }
 
+    public function culinaryBookingItems()
+    {
+        return $this->hasMany(CulinaryBookingsItems::class, 'booking_id', 'id');
+    }
 
     public function culinaryBooking()
     {

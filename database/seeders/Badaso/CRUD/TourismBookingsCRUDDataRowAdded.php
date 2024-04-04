@@ -122,6 +122,22 @@ class TourismBookingsCRUDDataRowAdded extends Seeder
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'quantity_sum',
+                    'type' => 'text',
+                    'display_name' => 'Quantity',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 7,
+                ),
+                7 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Code Table',
@@ -133,9 +149,9 @@ class TourismBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 8,
                 ),
-                7 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -149,9 +165,9 @@ class TourismBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -165,9 +181,9 @@ class TourismBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -181,7 +197,7 @@ class TourismBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
             ));
 

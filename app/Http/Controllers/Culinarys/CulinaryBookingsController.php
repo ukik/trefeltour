@@ -65,7 +65,13 @@ class CulinaryBookingsController extends Controller
                 'culinaryPayment',
                 'culinaryPayment.culinaryPaymentsValidation',
                 'culinaryPayments'
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'culinaryBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' menu') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -132,7 +138,13 @@ class CulinaryBookingsController extends Controller
                 'culinaryPayment',
                 'culinaryPayment.culinaryPaymentsValidation',
                 'culinaryPayments'
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'culinaryBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' menu') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

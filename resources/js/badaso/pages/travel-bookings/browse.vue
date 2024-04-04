@@ -21,9 +21,9 @@
 
             <shared-read-user :response="{
                 data: selectedData
-            }" v-if="type=='detail'" slug="culinary-bookings"></shared-read-user>
+            }" v-if="type=='detail'" slug="travel-bookings"></shared-read-user>
 
-            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="culinary-booking-items" />
+            <shared-table-modal-booking :bookingId="selectedData?.id" v-if="type=='select'" slug="travel-booking-items" />
             <div slot="modal-footer"></div>
         </stack-modal>
 

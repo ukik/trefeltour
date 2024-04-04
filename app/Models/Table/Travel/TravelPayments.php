@@ -17,8 +17,6 @@ class TravelPayments extends Model
         'id',
         'uuid',
         'booking_id',
-        'reservation_id',
-        'ticket_id',
         'customer_id',
         'total_amount',
         'code_transaction',
@@ -58,5 +56,10 @@ class TravelPayments extends Model
     public function travelPaymentsValidation()
     {
         return $this->hasOne(TravelPaymentsValidations::class, 'payment_id', 'id');
+    }
+
+    public function travelPaymentsValidations()
+    {
+        return $this->hasMany(TravelPaymentsValidations::class, 'payment_id', 'id');
     }
 }

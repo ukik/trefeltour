@@ -66,7 +66,13 @@ class TourismBookingsController extends Controller
                 'tourismVenue.tourismPrices',
                 'tourismVenue.tourismFacilities',
                 'tourismVenue.tourismService',
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'tourismBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' lokasi') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -131,7 +137,13 @@ class TourismBookingsController extends Controller
                 'tourismVenue.tourismPrices',
                 'tourismVenue.tourismFacilities',
                 'tourismVenue.tourismService',
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'tourismBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' lokasi') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

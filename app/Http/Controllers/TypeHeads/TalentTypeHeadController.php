@@ -201,7 +201,13 @@ class TalentTypeHeadController extends Controller
             'talentBooking',
             'talentProfile',
             'talentProfiles',
-        ])->first();
+        ])
+        ->withCount([
+            'talentBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' orang') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

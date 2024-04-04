@@ -106,9 +106,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 5 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'name',
-                    'type' => 'text',
-                    'display_name' => 'Name',
+                    'field' => 'store_id',
+                    'type' => 'relation',
+                    'display_name' => 'StoreId',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -116,15 +116,15 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
-                    'relation' => NULL,
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"travel_stores","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 6,
                 ),
                 6 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_price',
-                    'type' => 'number',
-                    'display_name' => 'Get Price',
+                    'field' => 'name',
+                    'type' => 'text',
+                    'display_name' => 'Name',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -138,9 +138,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_discount',
+                    'field' => 'get_price',
                     'type' => 'number',
-                    'display_name' => 'Get Discount',
+                    'display_name' => 'Get Price',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -154,9 +154,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 8 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_cashback',
+                    'field' => 'get_discount',
                     'type' => 'number',
-                    'display_name' => 'Get Cashback',
+                    'display_name' => 'Get Discount',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -170,9 +170,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 9 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_total_amount',
+                    'field' => 'get_cashback',
                     'type' => 'number',
-                    'display_name' => 'Get Total Amount',
+                    'display_name' => 'Get Cashback',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -186,9 +186,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 10 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'get_final_amount',
+                    'field' => 'get_total_amount',
                     'type' => 'number',
-                    'display_name' => 'Get Final Amount',
+                    'display_name' => 'Get Total Amount',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -202,9 +202,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 11 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'description',
-                    'type' => 'text',
-                    'display_name' => 'Description',
+                    'field' => 'get_final_amount',
+                    'type' => 'number',
+                    'display_name' => 'Get Final Amount',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -218,9 +218,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 12 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'code_ticket',
+                    'field' => 'description',
                     'type' => 'text',
-                    'display_name' => 'Code Ticket',
+                    'display_name' => 'Description',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -234,9 +234,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 13 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'seat_no',
+                    'field' => 'code_ticket',
                     'type' => 'text',
-                    'display_name' => 'Seat No',
+                    'display_name' => 'Code Ticket',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -250,9 +250,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'ticket_status',
-                    'type' => 'select',
-                    'display_name' => 'Ticket Status',
+                    'field' => 'seat_no',
+                    'type' => 'text',
+                    'display_name' => 'Seat No',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -266,9 +266,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 15 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'starting_date',
-                    'type' => 'text',
-                    'display_name' => 'Starting Date',
+                    'field' => 'ticket_status',
+                    'type' => 'select',
+                    'display_name' => 'Ticket Status',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -282,9 +282,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 16 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'starting_time',
+                    'field' => 'starting_date',
                     'type' => 'text',
-                    'display_name' => 'Starting Time',
+                    'display_name' => 'Starting Date',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -298,9 +298,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 17 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'starting_location',
+                    'field' => 'starting_time',
                     'type' => 'text',
-                    'display_name' => 'Starting Location',
+                    'display_name' => 'Starting Time',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -314,9 +314,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 18 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'arrival_location',
+                    'field' => 'starting_location',
                     'type' => 'text',
-                    'display_name' => 'Arrival Location',
+                    'display_name' => 'Starting Location',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -330,9 +330,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 19 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'starting_terminal',
+                    'field' => 'arrival_location',
                     'type' => 'text',
-                    'display_name' => 'Starting Terminal',
+                    'display_name' => 'Arrival Location',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -346,9 +346,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 20 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'arrival_terminal',
+                    'field' => 'starting_terminal',
                     'type' => 'text',
-                    'display_name' => 'Arrival Terminal',
+                    'display_name' => 'Starting Terminal',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -362,9 +362,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 21 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'code_table',
+                    'field' => 'arrival_terminal',
                     'type' => 'text',
-                    'display_name' => 'Code Table',
+                    'display_name' => 'Arrival Terminal',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -378,9 +378,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 22 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'created_at',
-                    'type' => 'datetime',
-                    'display_name' => 'Created At',
+                    'field' => 'quantity',
+                    'type' => 'text',
+                    'display_name' => 'Quantity',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -394,9 +394,9 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 23 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'updated_at',
-                    'type' => 'datetime',
-                    'display_name' => 'Updated At',
+                    'field' => 'code_table',
+                    'type' => 'text',
+                    'display_name' => 'Code Table',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -410,6 +410,38 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                 24 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'created_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Created At',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 25,
+                ),
+                25 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'updated_at',
+                    'type' => 'datetime',
+                    'display_name' => 'Updated At',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 26,
+                ),
+                26 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
                     'display_name' => 'Deleted At',
@@ -421,7 +453,7 @@ class TravelBookingItemsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 25,
+                    'order' => 27,
                 ),
             ));
 

@@ -319,6 +319,9 @@
                                         <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
                                     </vs-button> -->
                                 </div>
+                                <span v-else-if="dataRow.field == 'quantity'">
+                                    {{ record?.quantity }} Tiket
+                                </span>
                                 <span v-else>{{
                                 record[
                                     $caseConvert.stringSnakeToCamel(dataRow.field)

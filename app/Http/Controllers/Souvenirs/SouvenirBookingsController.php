@@ -65,7 +65,13 @@ class SouvenirBookingsController extends Controller
                 'souvenirPayment',
                 'souvenirPayment.souvenirPaymentsValidation',
                 'souvenirPayments'
-            ])->orderBy('id','desc');
+            ])
+            ->withCount([
+                'souvenirBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' barang') as paidsum"));
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -132,7 +138,13 @@ class SouvenirBookingsController extends Controller
                 'souvenirPayment',
                 'souvenirPayment.souvenirPaymentsValidation',
                 'souvenirPayments'
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'souvenirBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' barang') as paidsum"));
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

@@ -61,8 +61,14 @@ class TravelBookingsController extends Controller
                 'travelStores',
                 'travelPayment',
                 'travelPayment.travelPaymentsValidation',
-                'travelPayments'
-            ])->orderBy('id','desc');
+                'travelPayments',
+            ])
+            ->withCount([
+                'travelBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' tiket') as paidsum")); //->where('status', 'paid');
+                    }
+                ])
+            ->orderBy('id','desc');
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
@@ -126,7 +132,13 @@ class TravelBookingsController extends Controller
                 'travelPayment',
                 'travelPayment.travelPaymentsValidation',
                 'travelPayments'
-            ])->whereId($request->id)->first();
+            ])
+            ->withCount([
+                'travelBookingItems AS quantity_sum' => function ($query) {
+                        $query->select(DB::raw("CONCAT(SUM(quantity), ' tiket') as paidsum")); //->where('status', 'paid');
+                    }
+                ])
+            ->whereId($request->id)->first();
 
             // add event notification handle
             $table_name = $data_type->name;

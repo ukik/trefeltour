@@ -13,23 +13,6 @@ class TravelBookingsItems extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // uuid
-    // store_id
-    // booking_id
-    // ticket_id
-    // name
-    // get_price
-    // get_discount
-    // get_cashback
-    // get_total_amount
-    // quantity
-    // get_final_amount
-    // description
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
 
     protected $table = "travel_booking_items";
 
@@ -65,14 +48,14 @@ class TravelBookingsItems extends Model
     }
 
 
-    public function travelTicket()
+    public function travelReservation()
     {
-        return $this->belongsTo(TravelTickets::class,'ticket_id','id');
+        return $this->belongsTo(TravelReservations::class,'reservation_id','id');
     }
 
-    public function travelTickets()
+    public function travelReservations()
     {
-        return $this->belongsToMany(TravelTickets::class, 'travel_booking_items', 'id', 'ticket_id');
+        return $this->belongsToMany(TravelReservations::class, 'travel_booking_items', 'id', 'reservation_id');
     }
 
 }

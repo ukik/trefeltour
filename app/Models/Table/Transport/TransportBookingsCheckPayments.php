@@ -26,6 +26,10 @@ class TransportBookingsCheckPayments extends Model
         return $this->belongsToMany(BadasoUsers::class, 'transport_bookings_check_payments', 'id', 'customer_id');
     }
 
+    public function transportBookingItems()
+    {
+        return $this->hasMany(TransportBookingsItems::class, 'booking_id', 'id');
+    }
 
     public function transportBooking()
     {

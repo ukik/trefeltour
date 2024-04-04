@@ -293,6 +293,7 @@ class TravelCartsController extends Controller
                 $validator = Validator::make($data,
                     [
                         '*' => 'required',
+                        'description' => "" ,
                         // 'store_id' => 'required',
                         // susah karena pake softDelete, pakai cara manual saja
                         // 'ticket_id' => 'unique:travel_bookings'
@@ -335,6 +336,16 @@ class TravelCartsController extends Controller
                             'quantity' => $value->quantity,
                             'get_final_amount' => getTotalAmount($value->travelPrice) * $value->quantity,
                             'description' => $value->travelPrice->description,
+
+                            'seat_no' => $value->travelPrice->seat_no,
+                            'ticket_status' => $value->travelPrice->ticket_status,
+                            'starting_date' => $value->travelPrice->starting_date,
+                            'starting_time' => $value->travelPrice->starting_time,
+                            'starting_location' => $value->travelPrice->starting_location,
+                            'arrival_location' => $value->travelPrice->arrival_location,
+                            'starting_terminal' => $value->travelPrice->starting_terminal,
+                            'arrival_terminal' => $value->travelPrice->arrival_terminal,
+
                             'code_table' => 'travel-booking-items',
                             'uuid' => ShortUuid(),
                         ];
@@ -342,6 +353,7 @@ class TravelCartsController extends Controller
                         $validator = Validator::make($items,
                             [
                                 '*' => 'required',
+                                'description' => "",
                             ],
                         );
                         if ($validator->fails()) {

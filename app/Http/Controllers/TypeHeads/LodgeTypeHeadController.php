@@ -297,7 +297,13 @@ class LodgeTypeHeadController extends Controller
             'lodgeBooking',
             'lodgeProfile',
             'lodgeProfiles',
-        ])->first();
+        ])
+        ->withCount([
+            'lodgeBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' kamar') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

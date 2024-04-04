@@ -28,6 +28,7 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 115,
                 'name' => 'travel_payments',
                 'slug' => 'travel-payments',
                 'display_name_singular' => 'Travel Payments',
@@ -41,13 +42,13 @@ class TravelPaymentsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-29T11:32:30.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-29T11:32:30.000000Z',
-                'id' => 115,
+                'updated_at' => '2024-04-03T23:46:25.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_payments');

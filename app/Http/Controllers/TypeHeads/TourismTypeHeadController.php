@@ -262,7 +262,13 @@ class TourismTypeHeadController extends Controller
             'tourismBooking',
             'tourismVenue',
             'tourismVenues',
-        ])->first();
+        ])
+        ->withCount([
+            'tourismBookingItems AS quantity_sum' => function ($query) {
+                    $query->select(DB::raw("CONCAT(SUM(quantity), ' lokasi') as paidsum"));
+                }
+            ])
+        ->first();
         return ApiResponse::onlyEntity($data);
     }
 

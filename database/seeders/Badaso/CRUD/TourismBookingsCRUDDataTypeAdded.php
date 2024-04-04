@@ -48,7 +48,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-21T11:09:34.000000Z',
-                'updated_at' => '2024-03-21T11:37:18.000000Z',
+                'updated_at' => '2024-04-03T23:20:55.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_bookings');

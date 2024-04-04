@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="string", property="bookingItem"), 
@@ -211,6 +211,7 @@
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
+  *                         @OA\Property(type="string", property="quantitySum"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

@@ -27,11 +27,11 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'booking_item',
-                    'type' => 'text',
-                    'display_name' => 'Booking Item',
+                    'type' => 'hidden',
+                    'display_name' => '0',
                     'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
+                    'browse' => 0,
+                    'read' => 0,
                     'edit' => 0,
                     'add' => 0,
                     'delete' => 0,
@@ -138,6 +138,22 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'quantity_sum',
+                    'type' => 'text',
+                    'display_name' => 'Quantity',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 8,
+                ),
+                8 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Code Table',
@@ -149,9 +165,9 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -165,9 +181,9 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -181,9 +197,9 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
-                10 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -197,7 +213,7 @@ class SouvenirBookingsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 12,
                 ),
             ));
 
