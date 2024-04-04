@@ -312,17 +312,18 @@
                         Booking Terpilih
                     </vs-button>
                 </div>
+                <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
             </div>
             <div>
                 <!-- <div v-if="this.$store.getters['badaso/getUser']?.isAdmin" class="alert alert-warning my-3" role="alert">
                     Pilih untuk booking (1 Invoice untuk 1 Customer)
                 </div> -->
 
-              <shared-badaso-table-cart ref="badaso_table_1"
+                <!-- shared-badaso-table-cart pakai @search="onSearch" konsep lama -->
+              <badaso-table ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
                 @onChangePage="onChangePage"
                 @onChangeMaxItems="onChangeMaxItems"
-                @search="onSearch"
                 v-model="selected"
                 pagination
                 :max-items="descriptionItems[0]"
@@ -797,7 +798,7 @@
                     </template>
                   </vs-tr>
                 </template>
-              </shared-badaso-table-cart>
+              </badaso-table>
             </div>
           </vs-card>
         </vs-col>
@@ -942,6 +943,12 @@ export default {
     // Swal.fire("SweetAlert2 is working!");
   },
   methods: {
+    onSearch(val) {
+        this.search = val
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
+    },
     onUpdateCounterPopup({ index, quantity}) {
         console.log('onUpdateCounterPopup', index, quantity, this.selectedMulti)
         let temp = JSON.parse(JSON.stringify(this.selectedMulti))

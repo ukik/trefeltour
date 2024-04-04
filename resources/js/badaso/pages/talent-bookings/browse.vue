@@ -131,6 +131,8 @@
             <vs-card>
               <div slot="header">
                 <h3>{{ dataType.displayNameSingular }}</h3>
+
+              <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
               </div>
               <div>
                 <badaso-table ref="badaso_table_1"
@@ -663,6 +665,7 @@
       isMaintenance: false,
       showMaintenancePage: false,
       isShowDataRecycle: false,
+      search:'',
 
         show: false,
         modalClass: 'modal-fullscreen d-flexX align-items-center',
@@ -696,7 +699,13 @@
       // this.getEntity();
       this.loadIdsOfflineDelete();
     },
-    methods: {
+  methods: {
+    onSearch(val) {
+        this.search = val
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
+    },
       onChangePage(val) {
           this.currentPage = val;
           this.getEntity();

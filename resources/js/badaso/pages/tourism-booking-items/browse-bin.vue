@@ -54,6 +54,8 @@
           <vs-card>
             <div slot="header">
               <h3>{{ dataType.displayNameSingular }}</h3>
+
+              <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
             </div>
             <div>
               <badaso-table

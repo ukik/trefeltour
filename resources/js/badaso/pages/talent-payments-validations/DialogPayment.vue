@@ -91,8 +91,16 @@ export default {
         this.userRole = userRole
 
         if(this.$route.params?.id) {
+            await this.onGet(this.$route.params?.id)
+        } else if (this.$route.query?.id) {
+            await this.onGet(this.$route.query?.id)
+        }
+        this.$closeLoader();
+    },
+    methods: {
+        onGet(val) {
             axios
-                .get(`/api/typehead/talent/dialog_booking_talent_payments_validations?id=` + this.$route.params?.id, {
+                .get(`/api/typehead/talent/dialog_booking_talent_payments_validations?id=` + val, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -110,9 +118,7 @@ export default {
                     this.selecteduser = item;
                     this.users = [item];
                 })
-        }
-    },
-    methods: {
+        },
         onBubbleEvent(response) {
             console.log('onBubbleEvent',event)
             const item = response

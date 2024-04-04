@@ -102,9 +102,12 @@
           </vs-col>
           <vs-col vs-lg="12">
             <vs-card>
-              <div slot="header">
-                <h3>{{ dataType.displayNameSingular }}</h3>
-              </div>
+            <div slot="header">
+              <h3>{{ dataType.displayNameSingular }}</h3>
+
+              <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+
+            </div>
               <div>
                 <badaso-table ref="badaso_table_1"
                   v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
@@ -942,6 +945,7 @@ export default {
     isMaintenance: false,
     showMaintenancePage: false,
     isShowDataRecycle: false,
+    search:'',
 
     lastPage: 0,
     currentPage: 1,
@@ -971,6 +975,12 @@ export default {
     this.loadIdsOfflineDelete();
   },
   methods: {
+    onSearch(val) {
+        this.search = val
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
+    },
     onChangePage(val) {
         this.currentPage = val;
         this.getEntity();
@@ -1044,6 +1054,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
 
+          search: this.search,
           perPage: this.perPage,
           page: this.currentPage
         });
