@@ -52,6 +52,7 @@ class TransportDriversController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportDrivers::with([
+                'badasoUser',
                 'badasoUsers',
                 // 'transportReturns',
                 // 'transportBookings',
@@ -65,6 +66,48 @@ class TransportDriversController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_drivers');
+
+                $user_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $user_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "user_id":
+                        case "is_available":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+            if(request()->available) {
+                $available = request()->available;
+                $data->where('is_available',$available);
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -116,6 +159,7 @@ class TransportDriversController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportDrivers::with([
+                'badasoUser',
                 'badasoUsers',
                 // 'transportReturns',
                 // 'transportBookings',
@@ -131,7 +175,7 @@ class TransportDriversController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
 
-            // $data->customer_selected = DB::table('travel_reservations')->where('customer_id', request()->id)->limit(1)->get();
+            // $data->customer_selected = DB::table('transport_reservations')->where('customer_id', request()->id)->limit(1)->get();
 
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
@@ -171,7 +215,7 @@ class TransportDriversController extends Controller
                     'user_id' => 'required|unique:view_transport_drivers_check_user,user_id,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [
@@ -240,7 +284,7 @@ class TransportDriversController extends Controller
                     'user_id' => 'required|unique:view_transport_drivers_check_user'
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [

@@ -76,12 +76,41 @@ class TalentCartsController extends Controller
                 $data = $data->onlyTrashed();
             }
 
+            // if(request()->search) {
+            //     $search = request()->search;
+            //     $productId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+            //     $priceId = function($q) use ($search) {
+            //         return $q
+            //             ->where('uuid','like','%'.$search.'%')
+            //             ->orWhere('name','like','%'.$search.'%')
+            //             ->orWhere('general_price','like','%'.$search.'%')
+            //             ->orWhere('discount_price','like','%'.$search.'%')
+            //             ->orWhere('cashback_price','like','%'.$search.'%');
+            //     };
+            //     $customerId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+
+            //     $data = $data
+            //         ->orWhere('profile_id','like','%'.$search.'%')
+            //         ->orWhereHas('badasoUser', $customerId)
+            //         ->orWhereHas('talentPrice', $priceId)
+            //         ->orWhereHas('talentSkill', $productId);
+            // }
+
+
             if(request()->search) {
                 $search = request()->search;
-                $productId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $profile_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
-                $priceId = function($q) use ($search) {
+
+                $customer_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -89,15 +118,25 @@ class TalentCartsController extends Controller
                         ->orWhere('discount_price','like','%'.$search.'%')
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $skill_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
 
                 $data = $data
-                    ->orWhere('profile_id','like','%'.$search.'%')
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('talentPrice', $priceId)
-                    ->orWhereHas('talentSkill', $productId);
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('talentProfile', $profile_id)
+                    ->orWhereHas('talentSkill', $skill_id)
+                    ->orWhereHas('talentPrice', $price_id)
+                    ->orWhereHas('badasoUser', $customer_id);
             }
 
             $data = $data->paginate(request()->perPage);
@@ -226,10 +265,10 @@ class TalentCartsController extends Controller
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'venue_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    //     'required', \Illuminate\Validation\Rule::unique('talent_bookings')->ignore($table_entity->id)
                     // ],
                     // 'customer_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    //     'required', \Illuminate\Validation\Rule::unique('talent_bookings')->ignore($table_entity->id)
                     // ],
                 ],
             );

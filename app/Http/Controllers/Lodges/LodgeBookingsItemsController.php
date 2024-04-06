@@ -53,6 +53,8 @@ class LodgeBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \LodgeBookingsItems::with([
+                'badasoUser',
+                'badasoUsers',
                 'lodgeBooking',
                 'lodgeBookings',
 
@@ -77,6 +79,63 @@ class LodgeBookingsItemsController extends Controller
                 $data = $data->where('booking_id', request()['bookingId']);
             }
 
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('lodge_booking_items');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $profile_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $room_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $booking_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('lodgeBooking', $booking_id)
+                    ->orWhereHas('lodgeProfile', $profile_id)
+                    ->orWhereHas('lodgeRoom', $room_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "profile_id":
+                        case "customer_id":
+                        case "booking_id":
+                        case "room_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
             // return SqlWithBinding($data->toSql(), $data->getBindings());
             $data = $data->paginate(request()->perPage);
 
@@ -129,6 +188,9 @@ class LodgeBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \LodgeBookingsItems::with([
+                'badasoUser',
+                'badasoUsers',
+
                 'lodgeBooking',
                 'lodgeBookings',
 

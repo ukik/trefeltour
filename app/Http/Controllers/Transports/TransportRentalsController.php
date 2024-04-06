@@ -53,6 +53,7 @@ class TransportRentalsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportRentals::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportVehicles',
                 'transportVehicle',
@@ -66,6 +67,47 @@ class TransportRentalsController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_rentals');
+
+                $user_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $user_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "user_id":
+                        case "is_available":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+            if(request()->available) {
+                $available = request()->available;
+                $data->where('is_available',$available);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -117,15 +159,16 @@ class TransportRentalsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportRentals::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportVehicles',
                 'transportVehicle',
-                'transportVehicle.transportMaintenance',
-                'transportVehicle.transportBooking',
-                'transportVehicle.transportBooking.transportDriver',
-                'transportVehicle.transportBooking.transportReturn',
-                'transportVehicle.transportBooking.transportPayment',
-                'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
+                // 'transportVehicle.transportMaintenance',
+                // 'transportVehicle.transportBooking',
+                // 'transportVehicle.transportBooking.transportDriver',
+                // 'transportVehicle.transportBooking.transportReturn',
+                // 'transportVehicle.transportBooking.transportPayment',
+                // 'transportVehicle.transportBooking.transportPayment.transportPaymentsValidation',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -181,7 +224,7 @@ class TransportRentalsController extends Controller
                     'user_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                 ],
             );
@@ -257,7 +300,7 @@ class TransportRentalsController extends Controller
                     '*' => 'required',
                     'codepos' => 'max:6',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
+                    // 'ticket_id' => 'unique:transport_bookings'
                 ],
             );
             if ($validator->fails()) {

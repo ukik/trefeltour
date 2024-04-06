@@ -76,12 +76,40 @@ class CulinaryCartsController extends Controller
                 $data = $data->onlyTrashed();
             }
 
+            // if(request()->search) {
+            //     $search = request()->search;
+            //     $productId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+            //     $priceId = function($q) use ($search) {
+            //         return $q
+            //             ->where('uuid','like','%'.$search.'%')
+            //             ->orWhere('name','like','%'.$search.'%')
+            //             ->orWhere('general_price','like','%'.$search.'%')
+            //             ->orWhere('discount_price','like','%'.$search.'%')
+            //             ->orWhere('cashback_price','like','%'.$search.'%');
+            //     };
+            //     $customerId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+
+            //     $data = $data
+            //         ->orWhere('store_id','like','%'.$search.'%')
+            //         ->orWhereHas('badasoUser', $customerId)
+            //         ->orWhereHas('culinaryPrice', $priceId)
+            //         ->orWhereHas('culinaryProduct', $productId);
+            // }
+
             if(request()->search) {
                 $search = request()->search;
-                $productId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
-                $priceId = function($q) use ($search) {
+
+                $customer_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -89,15 +117,25 @@ class CulinaryCartsController extends Controller
                         ->orWhere('discount_price','like','%'.$search.'%')
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $product_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
 
                 $data = $data
-                    ->orWhere('store_id','like','%'.$search.'%')
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('culinaryPrice', $priceId)
-                    ->orWhereHas('culinaryProduct', $productId);
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('culinaryStore', $store_id)
+                    ->orWhereHas('culinaryProduct', $product_id)
+                    ->orWhereHas('culinaryPrice', $price_id)
+                    ->orWhereHas('badasoUser', $customer_id);
             }
 
             $data = $data->paginate(request()->perPage);

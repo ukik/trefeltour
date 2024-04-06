@@ -53,6 +53,7 @@ class CulinaryPaymentsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \CulinaryPayments::with([
+                'badasoUser',
                 'badasoUsers',
                 'culinaryBookings',
                 'culinaryBooking',
@@ -63,24 +64,67 @@ class CulinaryPaymentsController extends Controller
                 $data = $data->onlyTrashed();
             }
 
+            // if(request()->search) {
+            //     $search = request()->search;
+            //     // $productId = function($q) use ($search) {
+            //     //     return $q->where('name','like','%'.$search.'%');
+            //     // };
+            //     $booking = function($q) use ($search) {
+            //         return $q
+            //             ->where('uuid','like','%'.$search.'%');
+            //             // ->orWhere('name','like','%'.$search.'%')
+            //             // ->orWhere('general_price','like','%'.$search.'%')
+            //             // ->orWhere('discount_price','like','%'.$search.'%')
+            //             // ->orWhere('cashback_price','like','%'.$search.'%');
+            //     };
+            //     $customerId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+
+            //     $columns = Schema::getColumnListing('culinary_payments');
+
+            //     foreach ($columns as $value) {
+            //         switch ($value) {
+            //             case "booking_id":
+            //             case "customer_id":
+            //             case "code_table":
+            //             case "created_at":
+            //             case "updated_at":
+            //             case "deleted_at":
+            //                 # code...
+            //                 break;
+            //             default:
+            //                 $data->orWhere($value,'like','%'.$search.'%');
+            //                 break;
+            //         }
+            //     }
+
+            //     $data = $data
+            //         ->orWhereHas('badasoUser', $customerId)
+            //         ->orWhereHas('culinaryBooking', $booking);
+            //         // ->orWhereHas('culinaryProduct', $productId);
+            // }
+
+
+
             if(request()->search) {
                 $search = request()->search;
-                // $productId = function($q) use ($search) {
-                //     return $q->where('name','like','%'.$search.'%');
-                // };
-                $booking = function($q) use ($search) {
+
+                $booking_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%');
-                        // ->orWhere('name','like','%'.$search.'%')
-                        // ->orWhere('general_price','like','%'.$search.'%')
-                        // ->orWhere('discount_price','like','%'.$search.'%')
-                        // ->orWhere('cashback_price','like','%'.$search.'%');
-                };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
                 };
 
-                $columns = Schema::getColumnListing('culinary_payments');
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('culinary_payments');
 
                 foreach ($columns as $value) {
                     switch ($value) {
@@ -99,10 +143,10 @@ class CulinaryPaymentsController extends Controller
                 }
 
                 $data = $data
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('culinaryBooking', $booking);
-                    // ->orWhereHas('culinaryProduct', $productId);
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('culinaryBooking', $booking_id);
             }
+
 
             if(request()->component == 'SharedTableModalPaymentValidation') {
                 $data->where('is_selected', 'false');
@@ -159,6 +203,7 @@ class CulinaryPaymentsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \CulinaryPayments::with([
+                'badasoUser',
                 'badasoUsers',
                 'culinaryBookings',
                 'culinaryBooking',

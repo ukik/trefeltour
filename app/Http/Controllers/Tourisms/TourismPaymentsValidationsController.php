@@ -50,6 +50,7 @@ class TourismPaymentsValidationsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TourismPaymentsValidations::with([
+                'badasoUser',
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',
@@ -59,6 +60,50 @@ class TourismPaymentsValidationsController extends Controller
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('tourism_payments_validations');
+
+                $validator_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $payment_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $validator_id)
+                    ->orWhereHas('tourismPayment', $payment_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "validator_id":
+                        case "payment_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
@@ -105,6 +150,7 @@ class TourismPaymentsValidationsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismPaymentsValidations::with([
+                'badasoUser',
                 'badasoUsers',
                 'tourismPayments',
                 'tourismPayment',

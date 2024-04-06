@@ -53,6 +53,7 @@ class TravelBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TravelBookingsItems::with([
+                'badasoUser',
                 'badasoUsers',
                 'travelBooking',
                 'travelBookings',
@@ -71,6 +72,65 @@ class TravelBookingsItemsController extends Controller
             if(request()['bookingId']) {
                 $data = $data->where('booking_id', request()['bookingId']);
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('travel_booking_items');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $reservation_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name_passanger','like','%'.$search.'%');
+                };
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $booking_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('travelBooking', $booking_id)
+                    ->orWhereHas('travelReservation', $reservation_id)
+                    ->orWhereHas('travelStore', $store_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "customer_id":
+                        case "reservation_id":
+                        case "store_id":
+                        case "booking_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
 
             $data = $data->paginate(request()->perPage);
 

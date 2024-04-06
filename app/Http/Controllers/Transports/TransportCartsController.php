@@ -74,12 +74,46 @@ class TransportCartsController extends Controller
                 $data = $data->onlyTrashed();
             }
 
+            // if(request()->search) {
+            //     $search = request()->search;
+            //     $productId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+            //     $priceId = function($q) use ($search) {
+            //         return $q
+            //             ->where('uuid','like','%'.$search.'%')
+            //             ->orWhere('name','like','%'.$search.'%')
+            //             ->orWhere('general_price','like','%'.$search.'%')
+            //             ->orWhere('discount_price','like','%'.$search.'%')
+            //             ->orWhere('cashback_price','like','%'.$search.'%');
+            //     };
+            //     $customerId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+
+            //     $data = $data
+            //         ->orWhere('rental_id','like','%'.$search.'%')
+            //         ->orWhereHas('badasoUser', $customerId)
+            //         ->orWhereHas('transportPrice', $priceId)
+            //         ->orWhereHas('transportVehicle', $productId);
+            // }
+
             if(request()->search) {
                 $search = request()->search;
-                $productId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $rental_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
-                $priceId = function($q) use ($search) {
+
+                $vehicle_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('model','like','%'.$search.'%');
+                };
+
+                $customer_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -87,16 +121,21 @@ class TransportCartsController extends Controller
                         ->orWhere('discount_price','like','%'.$search.'%')
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
 
                 $data = $data
-                    ->orWhere('rental_id','like','%'.$search.'%')
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('transportPrice', $priceId)
-                    ->orWhereHas('transportVehicle', $productId);
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('transportRental', $rental_id)
+                    ->orWhereHas('transportVehicle', $vehicle_id)
+                    ->orWhereHas('transportPrice', $price_id)
+                    ->orWhereHas('badasoUser', $customer_id);
             }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -293,7 +332,7 @@ class TransportCartsController extends Controller
                         'customer_id' => 'required',
                         'rental_id' => 'required',
                         // susah karena pake softDelete, pakai cara manual saja
-                        // 'ticket_id' => 'unique:travel_bookings'
+                        // 'ticket_id' => 'unique:transport_bookings'
                     ],
                 );
                 if ($validator->fails()) {

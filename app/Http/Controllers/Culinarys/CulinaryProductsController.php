@@ -66,6 +66,44 @@ class CulinaryProductsController extends Controller
             // if(request()['label'] == 'SharedTableModal') {
             //     $data = $data->where('is_available','true');
             // }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('culinary_products');
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('culinaryStore', $store_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "store_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+            if(request()->available) {
+                $available = request()->available;
+                $data->where('is_available',$available);
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

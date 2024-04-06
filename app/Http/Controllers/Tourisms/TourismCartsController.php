@@ -74,12 +74,41 @@ class TourismCartsController extends Controller
                 $data = $data->onlyTrashed();
             }
 
+            // if(request()->search) {
+            //     $search = request()->search;
+            //     $productId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+            //     $priceId = function($q) use ($search) {
+            //         return $q
+            //             ->where('uuid','like','%'.$search.'%')
+            //             ->orWhere('name','like','%'.$search.'%')
+            //             ->orWhere('general_price','like','%'.$search.'%')
+            //             ->orWhere('discount_price','like','%'.$search.'%')
+            //             ->orWhere('cashback_price','like','%'.$search.'%');
+            //     };
+            //     $customerId = function($q) use ($search) {
+            //         return $q->where('name','like','%'.$search.'%');
+            //     };
+
+            //     $data = $data
+            //         ->orWhere('venue_id','like','%'.$search.'%')
+            //         ->orWhereHas('badasoUser', $customerId)
+            //         ->orWhereHas('tourismPrice', $priceId);
+            //         // ->orWhereHas('tourismProduct', $productId);
+            // }
+
+
             if(request()->search) {
                 $search = request()->search;
-                $productId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $venue_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
-                $priceId = function($q) use ($search) {
+
+                $customer_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -87,16 +116,20 @@ class TourismCartsController extends Controller
                         ->orWhere('discount_price','like','%'.$search.'%')
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
 
                 $data = $data
-                    ->orWhere('venue_id','like','%'.$search.'%')
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('tourismPrice', $priceId);
-                    // ->orWhereHas('tourismProduct', $productId);
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('tourismVenue', $venue_id)
+                    ->orWhereHas('tourismPrice', $price_id)
+                    ->orWhereHas('badasoUser', $customer_id);
             }
+
 
             $data = $data->paginate(request()->perPage);
 

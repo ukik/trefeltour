@@ -67,6 +67,47 @@ class TransportMaintenancesController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_maintenances');
+
+                $workshop_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $vehicle_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('model','like','%'.$search.'%');
+                };
+
+                $data
+                    ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $workshop_id)
+                    ->orWhereHas('transportRental', $vehicle_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "workshop_id":
+                        case "vehicle_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -173,7 +214,7 @@ class TransportMaintenancesController extends Controller
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                     'vehicle_id' => [
                         'required',

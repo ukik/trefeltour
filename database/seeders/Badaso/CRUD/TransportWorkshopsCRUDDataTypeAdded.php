@@ -48,7 +48,7 @@ class TransportWorkshopsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-30T15:02:35.000000Z',
-                'updated_at' => '2024-02-01T06:51:18.000000Z',
+                'updated_at' => '2024-04-06T15:26:26.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_workshops');

@@ -52,6 +52,7 @@ class TransportVehiclesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportVehicles::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportRentals',
                 'transportRental',
@@ -68,6 +69,54 @@ class TransportVehiclesController extends Controller
 
             if(request()['rental_id']) {
                 $data = $data->where('rental_id', request()['rental_id']);
+            }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_vehicles');
+
+                $user_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $rental_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $user_id)
+                    ->orWhereHas('transportRental', $rental_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "user_id":
+                        case "rental_id":
+                        case "is_available":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+            if(request()->available) {
+                $available = request()->available;
+                $data->where('is_available',$available);
             }
 
             $data = $data->paginate(request()->perPage);
@@ -121,6 +170,7 @@ class TransportVehiclesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportVehicles::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportRentals',
                 'transportRental',
@@ -183,11 +233,11 @@ class TransportVehiclesController extends Controller
                 [
                     '*' => 'required',
                     'discount_daily_price' => 'max:3',
-                    // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id']
+                    // 'booking_id' => 'unique:transport_payments,booking_id,'.$req['id']
                     'code_stnk' => 'unique:view_transport_vehicles_check_stnk,code_stnk,'.$req['id']
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                 ],
                 [

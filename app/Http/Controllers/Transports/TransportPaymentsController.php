@@ -52,6 +52,7 @@ class TransportPaymentsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportPayments::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportBookings',
                 'transportPaymentsValidations',
@@ -62,10 +63,62 @@ class TransportPaymentsController extends Controller
                 'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
-                'transportDrivers'
+                'transportDriver',
+                'transportDrivers',
             ])->orderBy('id', 'desc');
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
+            }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $driver_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $booking_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_payments');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "driver_id":
+                        case "booking_id":
+                        case "customer_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                            break;
+                    }
+                }
+
+                $data = $data
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('transportDriver', $driver_id)
+                    ->orWhereHas('transportBooking', $booking_id);
             }
 
             if(request()->component == 'SharedTableModalPaymentValidation') {
@@ -123,6 +176,7 @@ class TransportPaymentsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportPayments::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportBookings',
                 'transportPaymentsValidations',
@@ -133,7 +187,8 @@ class TransportPaymentsController extends Controller
                 'transportBooking.transportVehicle',
                 'transportBooking.transportVehicle.transportRental',
                 'transportBooking.transportVehicle.transportMaintenance',
-                'transportDrivers'
+                'transportDriver',
+                'transportDrivers',
             ])->whereId($request->id)->first();
 
             // add event notification handle
@@ -194,7 +249,7 @@ class TransportPaymentsController extends Controller
                     '*' => 'required',
                     'booking_id' => 'unique:transport_payments_unique,booking_id,' . $req['id']
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'booking_id' => 'unique:travel_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('travel_payments')->ignore($req['id'])
+                    // 'booking_id' => 'unique:transport_payments,booking_id,'.$req['id'] //\Illuminate\Validation\Rule::unique('transport_payments')->ignore($req['id'])
                 ],
             );
             if ($validator->fails()) {
@@ -276,7 +331,7 @@ class TransportPaymentsController extends Controller
                     '*' => 'required',
                     'booking_id' => 'unique:transport_payments_unique'
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'booking_id' => 'unique:travel_payments'
+                    // 'booking_id' => 'unique:transport_payments'
                 ],
             );
             if ($validator->fails()) {

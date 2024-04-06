@@ -132,7 +132,15 @@
               <div slot="header">
                 <h3>{{ dataType.displayNameSingular }}</h3>
 
-              <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+              <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
+
+<div class="row">
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
+                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    <div class="col d-flex align-items-end justify-content-end">
+                        <vs-button @click="onClear" color="danger" icon="close"></vs-button>
+                    </div>
+                </div>
               </div>
               <div>
                 <badaso-table ref="badaso_table_1"
@@ -694,6 +702,7 @@
       isMaintenance: false,
       showMaintenancePage: false,
       isShowDataRecycle: false,
+    available: '',
       search:'',
 
         show: false,
@@ -731,6 +740,20 @@
   methods: {
     onSearch(val) {
         this.search = val
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
+    },
+    onClear() {
+        this.search = ''
+        this.available = ''
+        this.selected = []
+        this.selectedMulti = []
+        this.getEntity();
+        this.$refs.SharedSelectAvailable.onClear()
+    },
+    onAvailable(val) {
+        this.available = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -807,6 +830,7 @@
             orderField: this.$caseConvert.snake(this.orderField),
             orderDirection: this.$caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
+          available: this.available,
 
             perPage: this.perPage,
             page: this.currentPage

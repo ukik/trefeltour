@@ -53,6 +53,7 @@ class SouvenirBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \SouvenirBookingsItems::with([
+                'badasoUser',
                 'badasoUsers',
                 'souvenirBooking',
                 'souvenirBookings',
@@ -77,6 +78,64 @@ class SouvenirBookingsItemsController extends Controller
             if(request()['bookingId']) {
                 $data = $data->where('booking_id', request()['bookingId']);
             }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('souvenir_booking_items');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $product_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $booking_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('souvenirBooking', $booking_id)
+                    ->orWhereHas('souvenirStore', $store_id)
+                    ->orWhereHas('souvenirProduct', $product_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "store_id":
+                        case "customer_id":
+                        case "booking_id":
+                        case "product_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -129,6 +188,7 @@ class SouvenirBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \SouvenirBookingsItems::with([
+                'badasoUser',
                 'badasoUsers',
                 'souvenirBooking',
                 'souvenirBookings',

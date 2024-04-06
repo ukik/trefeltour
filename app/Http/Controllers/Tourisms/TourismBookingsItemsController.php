@@ -53,6 +53,7 @@ class TourismBookingsItemsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TourismBookingsItems::with([
+                'badasoUser',
                 'badasoUsers',
                 'tourismBooking',
                 'tourismBookings',
@@ -70,6 +71,55 @@ class TourismBookingsItemsController extends Controller
 
             if(request()['bookingId']) {
                 $data = $data->where('booking_id', request()['bookingId']);
+            }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('tourism_booking_items');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $venue_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $booking_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('tourismBooking', $booking_id)
+                    ->orWhereHas('tourismRental', $venue_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "venue_id":
+                        case "customer_id":
+                        case "booking_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
             }
 
             $data = $data->paginate(request()->perPage);
@@ -123,6 +173,7 @@ class TourismBookingsItemsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismBookingsItems::with([
+                'badasoUser',
                 'badasoUsers',
                 'tourismBooking',
                 'tourismBookings',

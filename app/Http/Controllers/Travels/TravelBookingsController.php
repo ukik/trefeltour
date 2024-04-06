@@ -56,8 +56,6 @@ class TravelBookingsController extends Controller
                 'badasoUsers',
                 'badasoUser',
                 'travelStore',
-                // 'travelStore.travelPrice',
-                // 'travelStore.travelPrices',
                 'travelStores',
                 'travelPayment',
                 'travelPayment.travelPaymentsValidation',
@@ -72,6 +70,50 @@ class TravelBookingsController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('travel_bookings');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('travelStore', $store_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "customer_id":
+                        case "store_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

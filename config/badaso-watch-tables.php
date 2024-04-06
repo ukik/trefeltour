@@ -129,6 +129,6 @@ return [
     'travel_prices',
     'travel_reservations',
     'travel_stores',
-    'travel_tickets',
+    'travel_tickets___',
     'travel_tickets_old',
 ];

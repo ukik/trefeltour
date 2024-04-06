@@ -53,6 +53,7 @@ class TravelPaymentsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TravelPayments::with([
+                'badasoUser',
                 'badasoUsers',
                 'travelBookings',
                 'travelBooking',
@@ -65,22 +66,22 @@ class TravelPaymentsController extends Controller
 
             if(request()->search) {
                 $search = request()->search;
-                // $ticketId = function($q) use ($search) {
-                //     return $q->where('name','like','%'.$search.'%');
-                // };
-                $booking = function($q) use ($search) {
+
+                $booking_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%');
-                        // ->orWhere('name','like','%'.$search.'%')
-                        // ->orWhere('general_price','like','%'.$search.'%')
-                        // ->orWhere('discount_price','like','%'.$search.'%')
-                        // ->orWhere('cashback_price','like','%'.$search.'%');
-                };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
                 };
 
-                $columns = Schema::getColumnListing('travel_payments');
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('travel_payments');
 
                 foreach ($columns as $value) {
                     switch ($value) {
@@ -99,8 +100,8 @@ class TravelPaymentsController extends Controller
                 }
 
                 $data = $data
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('travelBooking', $booking);
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('travelBooking', $booking_id);
                     // ->orWhereHas('travelTicket', $ticketId);
             }
 

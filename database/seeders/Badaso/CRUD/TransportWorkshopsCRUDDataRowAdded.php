@@ -414,6 +414,22 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 19 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'is_available',
+                    'type' => 'switch',
+                    'display_name' => 'IsAvailable',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 20,
+                ),
+                20 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Nama Tabel',
@@ -425,9 +441,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 20,
+                    'order' => 21,
                 ),
-                20 => 
+                21 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -441,9 +457,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 21,
+                    'order' => 22,
                 ),
-                21 => 
+                22 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -457,9 +473,9 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 22,
+                    'order' => 23,
                 ),
-                22 => 
+                23 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -473,7 +489,7 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 23,
+                    'order' => 24,
                 ),
             ));
 

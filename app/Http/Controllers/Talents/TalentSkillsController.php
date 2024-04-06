@@ -63,6 +63,39 @@ class TalentSkillsController extends Controller
             // if(request()['label'] == 'SharedTableModal') {
             //     $data = $data->where('is_available','true');
             // }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('talent_skills');
+
+                $profile_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('talentProfile', $profile_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "profile_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

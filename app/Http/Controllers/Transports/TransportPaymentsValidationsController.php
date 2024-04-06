@@ -50,6 +50,7 @@ class TransportPaymentsValidationsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportPaymentsValidations::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
@@ -63,6 +64,50 @@ class TransportPaymentsValidationsController extends Controller
             if (request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_payments_validations');
+
+                $validator_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $payment_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $validator_id)
+                    ->orWhereHas('transportPayment', $payment_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "validator_id":
+                        case "payment_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
@@ -109,6 +154,7 @@ class TransportPaymentsValidationsController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportPaymentsValidations::with([
+                'badasoUser',
                 'badasoUsers',
                 'transportPayments',
                 'transportPayment',
@@ -124,7 +170,7 @@ class TransportPaymentsValidationsController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
 
-            // $data->customer_selected = DB::table('travel_reservations')->where('customer_id', request()->id)->limit(1)->get();
+            // $data->customer_selected = DB::table('transport_reservations')->where('customer_id', request()->id)->limit(1)->get();
 
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
@@ -169,7 +215,7 @@ class TransportPaymentsValidationsController extends Controller
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'payment_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_payments_validations')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_payments_validations')->ignore($req['id'])
                     // ],
                 ],
             );
@@ -241,7 +287,7 @@ class TransportPaymentsValidationsController extends Controller
                 [
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'payment_id' => 'unique:travel_payments_validations'
+                    // 'payment_id' => 'unique:transport_payments_validations'
                 ],
             );
             if ($validator->fails()) {

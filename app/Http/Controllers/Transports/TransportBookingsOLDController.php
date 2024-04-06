@@ -200,7 +200,7 @@ class TransportBookingsOLDController extends Controller
                     'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
+                    //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
                     // ],
                 ],
             );
@@ -285,7 +285,7 @@ class TransportBookingsOLDController extends Controller
                     // 'driver_id' => 'required',
                     // 'vehicle_id' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
-                    // 'ticket_id' => 'unique:travel_bookings'
+                    // 'ticket_id' => 'unique:transport_bookings'
                 ],
             );
             if ($validator->fails()) {

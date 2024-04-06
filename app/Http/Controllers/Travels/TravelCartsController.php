@@ -58,9 +58,6 @@ class TravelCartsController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TravelCarts::with([
-                // 'travelStore.travelBooking.badasoUsers',
-                // 'travelStore.travelBooking.badasoUser',
-                // 'travelStore.travelBookings',
                 'badasoUsers',
                 'badasoUser',
                 'travelPrice',
@@ -77,10 +74,20 @@ class TravelCartsController extends Controller
 
             if(request()->search) {
                 $search = request()->search;
-                // $ticketId = function($q) use ($search) {
-                //     return $q->where('name','like','%'.$search.'%');
-                // };
-                $priceId = function($q) use ($search) {
+
+                $reservation_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name_passanger','like','%'.$search.'%');
+                };
+
+                $store_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $customer_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -88,15 +95,19 @@ class TravelCartsController extends Controller
                         ->orWhere('discount_price','like','%'.$search.'%')
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
-                $customerId = function($q) use ($search) {
-                    return $q->where('name','like','%'.$search.'%');
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
                 };
 
                 $data = $data
-                    ->orWhere('store_id','like','%'.$search.'%')
-                    ->orWhereHas('badasoUser', $customerId)
-                    ->orWhereHas('travelPrice', $priceId);
-                    // ->orWhereHas('travelTicket', $ticketId);
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('travelReservation', $reservation_id)
+                    ->orWhereHas('travelStore', $store_id)
+                    ->orWhereHas('travelPrice', $price_id)
+                    ->orWhereHas('badasoUser', $customer_id);
             }
 
             $data = $data->paginate(request()->perPage);

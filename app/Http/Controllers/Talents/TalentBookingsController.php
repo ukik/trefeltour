@@ -76,6 +76,58 @@ class TalentBookingsController extends Controller
             if(request()['showSoftDelete'] == 'true') {
                 $data = $data->onlyTrashed();
             }
+
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('talent_bookings');
+
+                $customer_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
+                };
+
+                $profile_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $price_id = function($q) use ($search) {
+                    return $q
+                        ->where('uuid','like','%'.$search.'%')
+                        ->orWhere('name','like','%'.$search.'%');
+                };
+
+                $data
+                    // ->orWhere('id','like','%'.$search.'%')
+                    ->orWhereHas('badasoUser', $customer_id)
+                    ->orWhereHas('talentPrice', $price_id)
+                    ->orWhereHas('talentProfile', $profile_id);
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "customer_id":
+                        case "price_id":
+                        case "profile_id":
+                        case "code_table":
+                        case "created_at":
+                        case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
+
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -202,10 +254,10 @@ class TalentBookingsController extends Controller
                     '*' => 'required',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'venue_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    //     'required', \Illuminate\Validation\Rule::unique('talent_bookings')->ignore($table_entity->id)
                     // ],
                     // 'customer_id' => [
-                    //     'required', \Illuminate\Validation\Rule::unique('tourism_bookings')->ignore($table_entity->id)
+                    //     'required', \Illuminate\Validation\Rule::unique('talent_bookings')->ignore($table_entity->id)
                     // ],
                 ],
             );
