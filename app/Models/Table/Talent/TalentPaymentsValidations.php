@@ -19,6 +19,11 @@ class TalentPaymentsValidations extends Model
         return $this->belongsTo(BadasoUsers::class,'validator_id','id');
     }
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'validator_id','id');
+    }
+
     public function badasoUsers()
     {
         return $this->belongsToMany(BadasoUsers::class, 'talent_payments_validations', 'id', 'validator_id');

@@ -109,7 +109,7 @@ class CulinaryCartsController extends Controller
                         ->orWhere('name','like','%'.$search.'%');
                 };
 
-                $customer_id = function($q) use ($search) {
+                $price_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -118,10 +118,12 @@ class CulinaryCartsController extends Controller
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
 
-                $price_id = function($q) use ($search) {
+                $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%');
+                        ->where('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
                 };
 
                 $product_id = function($q) use ($search) {

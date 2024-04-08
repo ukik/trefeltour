@@ -108,9 +108,12 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" />
+                    <shared-select-souvenir-product-category ref="SharedSelectSouvenirProductCategory" @onBubbleEvent="onSelect('category',$event)" class="col-auto" />
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    </div>
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -956,12 +959,13 @@
       isMaintenance: false,
       showMaintenancePage: false,
       isShowDataRecycle: false,
+    category: '',
     available: '',
       search:'',
 
       lastPage: 0,
       currentPage: 1,
-      perPage: 5
+      perPage: 25
     }),
     watch: {
       $route: {
@@ -995,14 +999,16 @@
     },
     onClear() {
         this.search = ''
+        this.category = ''
         this.available = ''
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectAvailable?.onClear()
+        this.$refs?.SharedSelectSouvenirProductCategory?.onClear()
     },
-    onAvailable(val) {
-        this.available = val
+    onSelect(field,val) {
+        this[field] = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -1079,8 +1085,10 @@
             orderField: this.$caseConvert.snake(this.orderField),
             orderDirection: this.$caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
+          category: this.category,
           available: this.available,
 
+          search: this.search,
             perPage: this.perPage,
             page: this.currentPage
           });

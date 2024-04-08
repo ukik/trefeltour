@@ -28,11 +28,10 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 44,
                 'name' => 'transport_vehicles',
                 'slug' => 'transport-vehicles',
-                'display_name_singular' => 'Transport Kendaraan',
-                'display_name_plural' => 'Transport Kendaraan',
+                'display_name_singular' => 'Transport Vehicles',
+                'display_name_plural' => 'Transport Vehicles',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -42,13 +41,13 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-01-31T08:38:52.000000Z',
-                'updated_at' => '2024-02-09T11:16:13.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-04-07T14:26:19.000000Z',
+                'created_at' => '2024-04-07T14:26:19.000000Z',
+                'id' => 118,
             ));
 
             Badaso::model('Permission')->generateFor('transport_vehicles');
@@ -64,7 +63,7 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Kendaraan',
+                    'title' => 'Transport Vehicles',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +75,7 @@ class TransportVehiclesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-vehicles';
-                $menu_item->title = 'Transport Kendaraan';
+                $menu_item->title = 'Transport Vehicles';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

@@ -75,15 +75,15 @@ class LodgeRoomsController extends Controller
 
                 $data
                     // ->orWhere('id','like','%'.$search.'%')
-                    ->orWhereHas('lodgeStore', $profile_id);
+                    ->orWhereHas('lodgeProfile', $profile_id);
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "profile_id":
-                        case "is_available":
+                        // case "profile_id":
+                        // case "is_available":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -94,9 +94,20 @@ class LodgeRoomsController extends Controller
 
             }
 
+
             if(request()->available) {
                 $available = request()->available;
                 $data->where('is_available',$available);
+            }
+
+            if(request()->category) {
+                $category = request()->category;
+                $data->where('category','like','%'.$category.'%');
+            }
+
+            if(request()->facility) {
+                $facility = request()->facility;
+                $data->where('facility','like','%'.$facility.'%');
             }
 
             $data = $data->paginate(request()->perPage);

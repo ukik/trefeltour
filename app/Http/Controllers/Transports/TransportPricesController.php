@@ -87,11 +87,11 @@ class TransportPricesController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "rental_id":
-                        case "vehicle_id":
+                        // case "rental_id":
+                        // case "vehicle_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;

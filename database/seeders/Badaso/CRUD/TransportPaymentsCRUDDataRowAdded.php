@@ -286,6 +286,22 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                 14 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'is_selected',
+                    'type' => 'text',
+                    'display_name' => 'Proses Pembayaran',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 15,
+                ),
+                15 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Nama Tabel',
@@ -297,9 +313,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -313,9 +329,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -329,9 +345,9 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
-                17 => 
+                18 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -339,22 +355,6 @@ class TransportPaymentsCRUDDataRowAdded extends Seeder
                     'display_name' => 'Dihapus Pada',
                     'required' => 0,
                     'browse' => 0,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 18,
-                ),
-                18 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'is_selected',
-                    'type' => 'select',
-                    'display_name' => 'IsSelected',
-                    'required' => 0,
-                    'browse' => 1,
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,

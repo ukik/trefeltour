@@ -110,7 +110,7 @@ class TalentCartsController extends Controller
                         ->orWhere('name','like','%'.$search.'%');
                 };
 
-                $customer_id = function($q) use ($search) {
+                $price_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -119,10 +119,12 @@ class TalentCartsController extends Controller
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
 
-                $price_id = function($q) use ($search) {
+                $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%');
+                        ->where('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
                 };
 
                 $skill_id = function($q) use ($search) {
@@ -137,6 +139,18 @@ class TalentCartsController extends Controller
                     ->orWhereHas('talentSkill', $skill_id)
                     ->orWhereHas('talentPrice', $price_id)
                     ->orWhereHas('badasoUser', $customer_id);
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('talent_carts');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "code_table":
+                        case "deleted_at":
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
             }
 
             $data = $data->paginate(request()->perPage);

@@ -93,11 +93,12 @@ class TransportMaintenancesController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "workshop_id":
-                        case "vehicle_id":
+                        // case "workshop_id":
+                        // case "vehicle_id":
+                        // case "is_maintenance":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -106,6 +107,11 @@ class TransportMaintenancesController extends Controller
                     }
                 }
 
+            }
+
+            if(request()->is_maintenance) {
+                $is_maintenance = request()->is_maintenance;
+                $data->where('is_maintenance',$is_maintenance);
             }
 
             $data = $data->paginate(request()->perPage);

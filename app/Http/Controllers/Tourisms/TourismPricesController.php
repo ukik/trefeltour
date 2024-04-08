@@ -77,10 +77,10 @@ class TourismPricesController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "venue_id":
+                        // case "venue_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -91,6 +91,10 @@ class TourismPricesController extends Controller
 
             }
 
+            if(request()->type_price) {
+                $type_price = request()->type_price;
+                $data->where('type_price','like','%'.$type_price.'%');
+            }
 
             $data = $data->paginate(request()->perPage);
 

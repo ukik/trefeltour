@@ -84,10 +84,10 @@ class SouvenirProductsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "store_id":
+                        // case "store_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -101,6 +101,11 @@ class SouvenirProductsController extends Controller
             if(request()->available) {
                 $available = request()->available;
                 $data->where('is_available',$available);
+            }
+
+            if(request()->category) {
+                $category = request()->category;
+                $data->where('category',$category);
             }
 
             $data = $data->paginate(request()->perPage);

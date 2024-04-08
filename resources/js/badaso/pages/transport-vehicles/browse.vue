@@ -108,9 +108,14 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" />
+                    <shared-select-transport-vehicle-category ref="SharedSelectTransportVehicleCategory" @onBubbleEvent="onSelect('category',$event)" class="col-auto" />
+                    <shared-select-transport-vehicle-fuel-type ref="SharedSelectTransportVehicleFuelType" @onBubbleEvent="onSelect('fuel_type',$event)" class="col-auto" />
+                    <shared-select-transport-vehicle-slot-passanger ref="SharedSelectTransportVehicleSlotPassanger" @onBubbleEvent="onSelect('slot_passanger',$event)" class="col-auto" />
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    </div>
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -953,11 +958,14 @@ export default {
     showMaintenancePage: false,
     isShowDataRecycle: false,
     available: '',
+    category: '',
+    fuel_type: '',
+    slot_passanger: '',
     search:'',
 
     lastPage: 0,
     currentPage: 1,
-    perPage: 5
+    perPage: 25
   }),
   watch: {
     $route: {
@@ -992,13 +1000,19 @@ export default {
     onClear() {
         this.search = ''
         this.available = ''
+        this.category = ''
+        this.fuel_type = ''
+        this.slot_passanger = ''
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectAvailable?.onClear()
+        this.$refs?.SharedSelectTransportVehicleCategory?.onClear()
+        this.$refs?.SharedSelectTransportVehicleFuelType?.onClear()
+        this.$refs?.SharedSelectTransportVehicleSlotPassanger?.onClear()
     },
-    onAvailable(val) {
-        this.available = val
+    onSelect(field, val) {
+        this[field] = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -1076,6 +1090,9 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
           available: this.available,
+          category: this.category,
+          fuel_type: this.fuel_type,
+          slot_passanger: this.slot_passanger,
 
           search: this.search,
           perPage: this.perPage,

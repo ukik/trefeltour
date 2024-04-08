@@ -113,7 +113,7 @@ class TransportCartsController extends Controller
                         ->orWhere('model','like','%'.$search.'%');
                 };
 
-                $customer_id = function($q) use ($search) {
+                $price_id = function($q) use ($search) {
                     return $q
                         ->where('uuid','like','%'.$search.'%')
                         ->orWhere('name','like','%'.$search.'%')
@@ -122,10 +122,12 @@ class TransportCartsController extends Controller
                         ->orWhere('cashback_price','like','%'.$search.'%');
                 };
 
-                $price_id = function($q) use ($search) {
+                $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%');
+                        ->where('name','like','%'.$search.'%')
+                        ->orWhere('username','like','%'.$search.'%')
+                        ->orWhere('email','like','%'.$search.'%')
+                        ->orWhere('phone','like','%'.$search.'%');
                 };
 
                 $data = $data
@@ -134,6 +136,19 @@ class TransportCartsController extends Controller
                     ->orWhereHas('transportVehicle', $vehicle_id)
                     ->orWhereHas('transportPrice', $price_id)
                     ->orWhereHas('badasoUser', $customer_id);
+
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('transport_carts');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        case "code_table":
+                        case "deleted_at":
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
+                }
             }
 
 

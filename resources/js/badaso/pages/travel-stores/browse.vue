@@ -108,12 +108,11 @@
                 <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
-                        <vs-button @click="onClear" color="danger" icon="close"></vs-button>
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="SharedSelectAvailable" class="col-auto" />
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
                     </div>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -958,7 +957,7 @@ export default {
 
     lastPage: 0,
     currentPage: 1,
-    perPage: 5
+    perPage: 25
   }),
   watch: {
     $route: {
@@ -996,9 +995,9 @@ export default {
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectAvailable?.onClear()
     },
-    onAvailable(val) {
+    SharedSelectAvailable(val) {
         this.available = val
         this.selected = []
         this.selectedMulti = []

@@ -77,11 +77,11 @@ class LodgeStaffsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "profile_id":
-                        case "is_available":
+                        // case "profile_id":
+                        // case "is_available":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;

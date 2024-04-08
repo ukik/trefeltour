@@ -86,11 +86,12 @@ class TravelPaymentsValidationsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "validator_id":
-                        case "payment_id":
+                        // case "validator_id":
+                        // case "payment_id":
+                        // case "is_valid":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -99,6 +100,11 @@ class TravelPaymentsValidationsController extends Controller
                     }
                 }
 
+            }
+
+            if(request()->valid) {
+                $valid = request()->valid;
+                $data->where('is_valid',$valid);
             }
 
             $data = $data->paginate(request()->perPage);

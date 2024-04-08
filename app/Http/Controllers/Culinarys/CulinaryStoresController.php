@@ -70,8 +70,7 @@ class CulinaryStoresController extends Controller
 
                 $user_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%')
+                        ->where('name','like','%'.$search.'%')
                         ->orWhere('username','like','%'.$search.'%')
                         ->orWhere('email','like','%'.$search.'%')
                         ->orWhere('phone','like','%'.$search.'%');
@@ -83,11 +82,11 @@ class CulinaryStoresController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "user_id":
-                        case "is_available":
+                        // case "user_id":
+                        // case "is_available":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -101,6 +100,11 @@ class CulinaryStoresController extends Controller
             if(request()->available) {
                 $available = request()->available;
                 $data->where('is_available',$available);
+            }
+
+            if(request()->category) {
+                $category = request()->category;
+                $data->where('category',$category);
             }
 
             $data = $data->paginate(request()->perPage);

@@ -108,9 +108,15 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" />
+                    <shared-select-lodge-profile-rating ref="SharedSelectLodgeProfileRating" @onBubbleEvent="onSelect('rating',$event)" class="col-auto" />
+                    <shared-select-lodge-profile-type ref="SharedSelectLodgeProfileType" @onBubbleEvent="onSelect('types',$event)" class="col-auto" />
+                    <shared-select-lodge-profile-service ref="SharedSelectLodgeProfileService" @onBubbleEvent="onSelect('services',$event)" class="col-auto" />
+
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    </div>
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -302,18 +308,29 @@
                             "
                             class="crud-generated__item--select-multiple"
                           >
-                            <p
-                              v-for="(selected, indexSelected) in stringToArray(
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              )"
-                              :key="indexSelected"
-                            >
-                              {{
-                                bindSelection(dataRow.details.items, selected)
-                              }}
-                            </p>
+                                <!-- <p
+                                v-for="(selected, indexSelected) in stringToArray(
+                                    record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                    ]
+                                )"
+                                :key="indexSelected"
+                                >
+                                {{
+                                    bindSelection(dataRow.details.items, selected)
+                                }}
+                                </p> -->
+
+                                <ol class="ml-2" style="width:100px;">
+                                    <li v-for="(selected, indexSelected) in stringToArray(
+                                    record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                    ]
+                                )"
+                                :key="indexSelected">
+                                        <span>{{ bindSelection(dataRow.details.items, selected) }}</span>
+                                    </li>
+                                </ol>
                           </div>
                           <div v-else-if="dataRow.type == 'color_picker'">
                             <div
@@ -962,11 +979,14 @@ export default {
     showMaintenancePage: false,
     isShowDataRecycle: false,
     available: '',
+    rating: '',
+    types: '',
+    services: '',
     search:'',
 
     lastPage: 0,
     currentPage: 1,
-    perPage: 5
+    perPage: 25
   }),
   watch: {
     $route: {
@@ -1001,13 +1021,19 @@ export default {
     onClear() {
         this.search = ''
         this.available = ''
+        this.rating = ''
+        this.types = ''
+        this.services = ''
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectAvailable?.onClear()
+        this.$refs?.SharedSelectLodgeProfileRating?.onClear()
+        this.$refs?.SharedSelectLodgeProfileType?.onClear()
+        this.$refs?.SharedSelectLodgeProfileService?.onClear()
     },
-    onAvailable(val) {
-        this.available = val
+    onSelect(field,val) {
+        this[field] = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -1085,6 +1111,9 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
           available: this.available,
+          rating: this.rating,
+          types: this.types,
+          services: this.services,
 
           search: this.search,
           perPage: this.perPage,

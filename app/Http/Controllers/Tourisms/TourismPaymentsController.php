@@ -116,8 +116,7 @@ class TourismPaymentsController extends Controller
 
                 $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%')
+                        ->where('name','like','%'.$search.'%')
                         ->orWhere('username','like','%'.$search.'%')
                         ->orWhere('email','like','%'.$search.'%')
                         ->orWhere('phone','like','%'.$search.'%');
@@ -127,11 +126,11 @@ class TourismPaymentsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "booking_id":
-                        case "customer_id":
+                        // case "booking_id":
+                        // case "customer_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -146,6 +145,20 @@ class TourismPaymentsController extends Controller
                     ->orWhereHas('tourismBooking', $booking_id);
             }
 
+            if(request()->method) {
+                $method = request()->method;
+                $data->where('method',$method);
+            }
+
+            if(request()->status) {
+                $status = request()->status;
+                $data->where('status',$status);
+            }
+
+            if(request()->is_selected) {
+                $is_selected = request()->is_selected;
+                $data->where('is_selected',$is_selected);
+            }
 
             if(request()->component == 'SharedTableModalPaymentValidation') {
                 $data->where('is_selected', 'false');

@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-vehicles",
-  *      operationId="browseTransportKendaraan",
+  *      operationId="browseTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Browse Transport Kendaraan",
-  *      description="Returns list of Transport Kendaraan",
+  *      summary="Browse Transport Vehicles",
+  *      description="Returns list of Transport Vehicles",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-vehicles/read?slug=transport-vehicles&id={id}",
-  *      operationId="readTransportKendaraan",
+  *      operationId="readTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Get Transport Kendaraan based on id",
-  *      description="Returns Transport Kendaraan based on id",
+  *      summary="Get Transport Vehicles based on id",
+  *      description="Returns Transport Vehicles based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-vehicles/add",
-  *      operationId="addTransportKendaraan",
+  *      operationId="addTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Insert new Transport Kendaraan",
-  *      description="Insert new Transport Kendaraan into database",
+  *      summary="Insert new Transport Vehicles",
+  *      description="Insert new Transport Vehicles into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-vehicles/edit",
-  *      operationId="editTransportKendaraan",
+  *      operationId="editTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Edit an existing Transport Kendaraan",
-  *      description="Edit an existing Transport Kendaraan",
+  *      summary="Edit an existing Transport Vehicles",
+  *      description="Edit an existing Transport Vehicles",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-vehicles/delete",
-  *      operationId="deleteTransportKendaraan",
+  *      operationId="deleteTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Delete one record of Transport Kendaraan",
-  *      description="Delete one record of Transport Kendaraan",
+  *      summary="Delete one record of Transport Vehicles",
+  *      description="Delete one record of Transport Vehicles",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-vehicles/delete-multiple",
-  *      operationId="deleteMultipleTransportKendaraan",
+  *      operationId="deleteMultipleTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Delete multiple record of Transport Kendaraan",
-  *      description="Delete multiple record of Transport Kendaraan",
+  *      summary="Delete multiple record of Transport Vehicles",
+  *      description="Delete multiple record of Transport Vehicles",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-vehicles/sort",
-  *      operationId="sortTransportKendaraan",
+  *      operationId="sortTransportVehicles",
   *      tags={"transport-vehicles"},
-  *      summary="Sort existing Transport Kendaraan",
-  *      description="Sort existing Transport Kendaraan",
+  *      summary="Sort existing Transport Vehicles",
+  *      description="Sort existing Transport Vehicles",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,17 +201,15 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "userId":"123"}, {"id":"123", "rentalId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "dailyPrice":"123", "discountDailyPrice":"123", "cashbackDailyPrice":"123", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "userId":"123"}},
+  *                     example={{"id":"123", "rentalId":"", "userId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "rentalId":"", "userId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="rentalId"), 
+  *                         @OA\Property(type="string", property="userId"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="model"), 
   *                         @OA\Property(type="string", property="brand"), 
-  *                         @OA\Property(type="integer", property="dailyPrice"), 
-  *                         @OA\Property(type="integer", property="discountDailyPrice"), 
-  *                         @OA\Property(type="integer", property="cashbackDailyPrice"), 
   *                         @OA\Property(type="string", property="category"), 
   *                         @OA\Property(type="string", property="fuelType"), 
   *                         @OA\Property(type="string", property="dateProduction"), 
@@ -222,8 +220,7 @@
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"), 
-  *                         @OA\Property(type="integer", property="userId"),
+  *                         @OA\Property(type="string", property="deletedAt"),
   *                     ),
   *                ),
   *             )

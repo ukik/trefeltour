@@ -108,9 +108,13 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <!-- <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" /> -->
+                    <shared-select-culinary-product-category ref="SharedSelectCulinaryProductCategory" @onBubbleEvent="onSelect('category',$event)" class="col-auto" />
+
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    </div>
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -950,11 +954,12 @@
       showMaintenancePage: false,
       isShowDataRecycle: false,
     available: '',
+    category: '',
       search:'',
 
       lastPage: 0,
       currentPage: 1,
-      perPage: 5
+      perPage: 25
     }),
     watch: {
       $route: {
@@ -989,13 +994,15 @@
     onClear() {
         this.search = ''
         this.available = ''
+        this.category = ''
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectAvailable?.onClear()
+        this.$refs?.SharedSelectCulinaryProductCategory?.onClear()
     },
-    onAvailable(val) {
-        this.available = val
+    onSelect(field,val) {
+        this[field] = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -1073,7 +1080,9 @@
             orderDirection: this.$caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
           available: this.available,
+          category: this.category,
 
+            search: this.search,
             perPage: this.perPage,
             page: this.currentPage
           });

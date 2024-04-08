@@ -85,15 +85,16 @@ class TourismServicesController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "venue_id":
+                        // case "venue_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
-                        default:
+                        // default:
+                        case "created_at":
+                        case "updated_at":
                             $data->orWhere($value,'like','%'.$search.'%');
+                            break;
                     }
                 }
 

@@ -78,8 +78,7 @@ class TransportVehiclesController extends Controller
 
                 $user_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%')
+                        ->where('name','like','%'.$search.'%')
                         ->orWhere('username','like','%'.$search.'%')
                         ->orWhere('email','like','%'.$search.'%')
                         ->orWhere('phone','like','%'.$search.'%');
@@ -98,12 +97,15 @@ class TransportVehiclesController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "user_id":
-                        case "rental_id":
-                        case "is_available":
+                        // case "user_id":
+                        // case "rental_id":
+                        // case "is_available":
+                        // case "category":
+                        // case "fuel_type":
+                        // case "slot_passanger":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -117,6 +119,21 @@ class TransportVehiclesController extends Controller
             if(request()->available) {
                 $available = request()->available;
                 $data->where('is_available',$available);
+            }
+
+            if(request()->category) {
+                $category = request()->category;
+                $data->where('category',$category);
+            }
+
+            if(request()->fuel_type) {
+                $fuel_type = request()->fuel_type;
+                $data->where('fuel_type',$fuel_type);
+            }
+
+            if(request()->slot_passanger) {
+                $slot_passanger = request()->slot_passanger;
+                $data->where('slot_passanger',$slot_passanger);
             }
 
             $data = $data->paginate(request()->perPage);

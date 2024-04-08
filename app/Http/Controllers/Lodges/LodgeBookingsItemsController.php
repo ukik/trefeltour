@@ -87,8 +87,7 @@ class LodgeBookingsItemsController extends Controller
 
                 $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%')
+                        ->where('name','like','%'.$search.'%')
                         ->orWhere('username','like','%'.$search.'%')
                         ->orWhere('email','like','%'.$search.'%')
                         ->orWhere('phone','like','%'.$search.'%');
@@ -120,13 +119,13 @@ class LodgeBookingsItemsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "profile_id":
-                        case "customer_id":
-                        case "booking_id":
-                        case "room_id":
+                        // case "profile_id":
+                        // case "customer_id":
+                        // case "booking_id":
+                        // case "room_id":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;

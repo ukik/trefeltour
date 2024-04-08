@@ -79,8 +79,7 @@ class TravelReservationsController extends Controller
 
                 $customer_id = function($q) use ($search) {
                     return $q
-                        ->where('uuid','like','%'.$search.'%')
-                        ->orWhere('name','like','%'.$search.'%')
+                        ->where('name','like','%'.$search.'%')
                         ->orWhere('username','like','%'.$search.'%')
                         ->orWhere('email','like','%'.$search.'%')
                         ->orWhere('phone','like','%'.$search.'%');
@@ -92,11 +91,13 @@ class TravelReservationsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "customer_id":
-                        case "is_reserved":
+                        // case "customer_id":
+                        // case "is_reserved":
+                        // case "category":
+                        // case "ticket_status":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -107,9 +108,17 @@ class TravelReservationsController extends Controller
 
             }
 
-            if(request()->available) {
-                $available = request()->available;
-                $data->where('is_reserved',$available);
+            if(request()->reserved) {
+                $reserved = request()->reserved;
+                $data->where('is_reserved',$reserved);
+            }
+            if(request()->category) {
+                $category = request()->category;
+                $data->where('category',$category);
+            }
+            if(request()->ticket_status) {
+                $ticket_status = request()->ticket_status;
+                $data->where('ticket_status',$ticket_status);
             }
 
 

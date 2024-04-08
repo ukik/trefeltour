@@ -39,6 +39,11 @@ class TalentPayments extends Model
         return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+    public function badasoUser()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function badasoUsers()
     {
         return $this->belongsToMany(BadasoUsers::class, 'talent_payments', 'id', 'customer_id');

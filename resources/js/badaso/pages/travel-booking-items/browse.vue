@@ -109,9 +109,11 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onAvailable" class="col-auto" />
-                    <vs-input class="col-auto d-flex align-items-end" icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    <div class="col d-flex align-items-end justify-content-end">
+                    <shared-select-travel-status ref="SharedSelectTravelStatus" @onBubbleEvent="SharedSelectTravelStatus" class="col-auto" />
+                    <div class="col pr-0 d-flex align-items-end">
+                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
+                    </div>
+                    <div class="col-auto d-flex align-items-end justify-content-end">
                         <vs-button @click="onClear" color="danger" icon="close"></vs-button>
                     </div>
                 </div>
@@ -436,7 +438,7 @@
       isMaintenance: false,
       showMaintenancePage: false,
       isShowDataRecycle: false,
-    available: '',
+      status: '',
       search:'',
 
         show: false,
@@ -446,7 +448,7 @@
 
       lastPage: 0,
       currentPage: 1,
-      perPage: 5
+      perPage: 25
     }),
     watch: {
       $route: {
@@ -480,14 +482,14 @@
     },
     onClear() {
         this.search = ''
-        this.available = ''
+        this.status = ''
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs.SharedSelectAvailable.onClear()
+        this.$refs?.SharedSelectTravelStatus?.onClear()
     },
-    onAvailable(val) {
-        this.available = val
+    SharedSelectTravelStatus(val) {
+        this.status = val
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
@@ -564,8 +566,9 @@
             orderField: this.$caseConvert.snake(this.orderField),
             orderDirection: this.$caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
-          available: this.available,
+            status: this.status,
 
+            search: this.search,
             perPage: this.perPage,
             page: this.currentPage
           });

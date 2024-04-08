@@ -28,6 +28,7 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 56,
                 'name' => 'tourism_payments',
                 'slug' => 'tourism-payments',
                 'display_name_singular' => 'Wisata Pembayaran',
@@ -41,13 +42,13 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-02-12T18:03:20.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-12T18:03:20.000000Z',
-                'id' => 56,
+                'updated_at' => '2024-04-07T21:55:12.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_payments');

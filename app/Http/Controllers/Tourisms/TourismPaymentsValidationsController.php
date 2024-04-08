@@ -88,11 +88,12 @@ class TourismPaymentsValidationsController extends Controller
 
                 foreach ($columns as $value) {
                     switch ($value) {
-                        case "validator_id":
-                        case "payment_id":
+                        // case "validator_id":
+                        // case "payment_id":
+                        // case "is_valid":
                         case "code_table":
-                        case "created_at":
-                        case "updated_at":
+                        //case "created_at":
+                        //case "updated_at":
                         case "deleted_at":
                             # code...
                             break;
@@ -103,7 +104,12 @@ class TourismPaymentsValidationsController extends Controller
 
             }
 
+            if(request()->valid) {
+                $valid = request()->valid;
+                $data->where('is_valid',$valid);
+            }
 
+            // return SqlWithBinding($data->toSql(), $data->getBindings());
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
