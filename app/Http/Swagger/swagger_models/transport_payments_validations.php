@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-payments-validations",
-  *      operationId="browseTravelPembayaranValidasi",
+  *      operationId="browseRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Browse Travel Pembayaran Validasi",
-  *      description="Returns list of Travel Pembayaran Validasi",
+  *      summary="Browse Rental Pembayaran Validasi",
+  *      description="Returns list of Rental Pembayaran Validasi",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-payments-validations/read?slug=transport-payments-validations&id={id}",
-  *      operationId="readTravelPembayaranValidasi",
+  *      operationId="readRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Get Travel Pembayaran Validasi based on id",
-  *      description="Returns Travel Pembayaran Validasi based on id",
+  *      summary="Get Rental Pembayaran Validasi based on id",
+  *      description="Returns Rental Pembayaran Validasi based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-payments-validations/add",
-  *      operationId="addTravelPembayaranValidasi",
+  *      operationId="addRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Insert new Travel Pembayaran Validasi",
-  *      description="Insert new Travel Pembayaran Validasi into database",
+  *      summary="Insert new Rental Pembayaran Validasi",
+  *      description="Insert new Rental Pembayaran Validasi into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-payments-validations/edit",
-  *      operationId="editTravelPembayaranValidasi",
+  *      operationId="editRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Edit an existing Travel Pembayaran Validasi",
-  *      description="Edit an existing Travel Pembayaran Validasi",
+  *      summary="Edit an existing Rental Pembayaran Validasi",
+  *      description="Edit an existing Rental Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-payments-validations/delete",
-  *      operationId="deleteTravelPembayaranValidasi",
+  *      operationId="deleteRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Delete one record of Travel Pembayaran Validasi",
-  *      description="Delete one record of Travel Pembayaran Validasi",
+  *      summary="Delete one record of Rental Pembayaran Validasi",
+  *      description="Delete one record of Rental Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-payments-validations/delete-multiple",
-  *      operationId="deleteMultipleTravelPembayaranValidasi",
+  *      operationId="deleteMultipleRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Delete multiple record of Travel Pembayaran Validasi",
-  *      description="Delete multiple record of Travel Pembayaran Validasi",
+  *      summary="Delete multiple record of Rental Pembayaran Validasi",
+  *      description="Delete multiple record of Rental Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-payments-validations/sort",
-  *      operationId="sortTravelPembayaranValidasi",
+  *      operationId="sortRentalPembayaranValidasi",
   *      tags={"transport-payments-validations"},
-  *      summary="Sort existing Travel Pembayaran Validasi",
-  *      description="Sort existing Travel Pembayaran Validasi",
+  *      summary="Sort existing Rental Pembayaran Validasi",
+  *      description="Sort existing Rental Pembayaran Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "validatorId":"", "paymentId":"", "uuid":"Abc", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "validatorId":"", "paymentId":"", "uuid":"Abc", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "validatorId":"", "paymentId":"", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "validatorId":"", "paymentId":"", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="validatorId"), 
   *                         @OA\Property(type="string", property="paymentId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="isValid"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 

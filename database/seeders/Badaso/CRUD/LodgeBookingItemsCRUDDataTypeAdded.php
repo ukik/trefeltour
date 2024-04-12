@@ -28,10 +28,11 @@ class LodgeBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 83,
                 'name' => 'lodge_booking_items',
                 'slug' => 'lodge-booking-items',
-                'display_name_singular' => 'Lodge Booking Items',
-                'display_name_plural' => 'Lodge Booking Items',
+                'display_name_singular' => 'Hotel Booking Item',
+                'display_name_plural' => 'Hotel Booking Item',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class LodgeBookingItemsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-03T13:44:15.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:44:15.000000Z',
-                'id' => 83,
+                'updated_at' => '2024-04-11T00:28:27.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_booking_items');
@@ -63,7 +64,7 @@ class LodgeBookingItemsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Lodge Booking Items',
+                    'title' => 'Hotel Booking Item',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class LodgeBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/lodge-booking-items';
-                $menu_item->title = 'Lodge Booking Items';
+                $menu_item->title = 'Hotel Booking Item';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

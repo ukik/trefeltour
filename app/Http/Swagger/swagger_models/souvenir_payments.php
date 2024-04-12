@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-payments",
-  *      operationId="browseSouvenirPayments",
+  *      operationId="browseSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Browse Souvenir Payments",
-  *      description="Returns list of Souvenir Payments",
+  *      summary="Browse Suvenir Pembayaran",
+  *      description="Returns list of Suvenir Pembayaran",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-payments/read?slug=souvenir-payments&id={id}",
-  *      operationId="readSouvenirPayments",
+  *      operationId="readSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Get Souvenir Payments based on id",
-  *      description="Returns Souvenir Payments based on id",
+  *      summary="Get Suvenir Pembayaran based on id",
+  *      description="Returns Suvenir Pembayaran based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-payments/add",
-  *      operationId="addSouvenirPayments",
+  *      operationId="addSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Insert new Souvenir Payments",
-  *      description="Insert new Souvenir Payments into database",
+  *      summary="Insert new Suvenir Pembayaran",
+  *      description="Insert new Suvenir Pembayaran into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-payments/edit",
-  *      operationId="editSouvenirPayments",
+  *      operationId="editSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Edit an existing Souvenir Payments",
-  *      description="Edit an existing Souvenir Payments",
+  *      summary="Edit an existing Suvenir Pembayaran",
+  *      description="Edit an existing Suvenir Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-payments/delete",
-  *      operationId="deleteSouvenirPayments",
+  *      operationId="deleteSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Delete one record of Souvenir Payments",
-  *      description="Delete one record of Souvenir Payments",
+  *      summary="Delete one record of Suvenir Pembayaran",
+  *      description="Delete one record of Suvenir Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-payments/delete-multiple",
-  *      operationId="deleteMultipleSouvenirPayments",
+  *      operationId="deleteMultipleSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Delete multiple record of Souvenir Payments",
-  *      description="Delete multiple record of Souvenir Payments",
+  *      summary="Delete multiple record of Suvenir Pembayaran",
+  *      description="Delete multiple record of Suvenir Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-payments/sort",
-  *      operationId="sortSouvenirPayments",
+  *      operationId="sortSuvenirPembayaran",
   *      tags={"souvenir-payments"},
-  *      summary="Sort existing Souvenir Payments",
-  *      description="Sort existing Souvenir Payments",
+  *      summary="Sort existing Suvenir Pembayaran",
+  *      description="Sort existing Suvenir Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="string", property="codeTransaction"), 
   *                         @OA\Property(type="string", property="method"), 
@@ -215,6 +215,7 @@
   *                         @OA\Property(type="string", property="status"), 
   *                         @OA\Property(type="string", property="receipt"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="isSelected"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

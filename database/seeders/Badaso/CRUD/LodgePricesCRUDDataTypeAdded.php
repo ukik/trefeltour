@@ -31,8 +31,8 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 'id' => 87,
                 'name' => 'lodge_prices',
                 'slug' => 'lodge-prices',
-                'display_name_singular' => 'Akomodasi Harga',
-                'display_name_plural' => 'Akomodasi Harga',
+                'display_name_singular' => 'Hotel Harga',
+                'display_name_plural' => 'Hotel Harga',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-05T07:56:39.000000Z',
-                'updated_at' => '2024-03-08T17:19:10.000000Z',
+                'updated_at' => '2024-04-11T00:30:35.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_prices');
@@ -64,7 +64,7 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Akomodasi Harga',
+                    'title' => 'Hotel Harga',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/lodge-prices';
-                $menu_item->title = 'Akomodasi Harga';
+                $menu_item->title = 'Hotel Harga';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

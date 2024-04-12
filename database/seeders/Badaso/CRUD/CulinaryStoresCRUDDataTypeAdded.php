@@ -31,8 +31,8 @@ class CulinaryStoresCRUDDataTypeAdded extends Seeder
                 'id' => 89,
                 'name' => 'culinary_stores',
                 'slug' => 'culinary-stores',
-                'display_name_singular' => 'Culinary Stores',
-                'display_name_plural' => 'Culinary Stores',
+                'display_name_singular' => 'Kuliner Toko',
+                'display_name_plural' => 'Kuliner Toko',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class CulinaryStoresCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-13T13:15:50.000000Z',
-                'updated_at' => '2024-03-15T08:39:04.000000Z',
+                'updated_at' => '2024-04-11T01:57:12.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_stores');
@@ -64,7 +64,7 @@ class CulinaryStoresCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Culinary Stores',
+                    'title' => 'Kuliner Toko',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class CulinaryStoresCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/culinary-stores';
-                $menu_item->title = 'Culinary Stores';
+                $menu_item->title = 'Kuliner Toko';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

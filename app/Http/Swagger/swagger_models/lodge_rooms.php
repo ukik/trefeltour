@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-rooms",
-  *      operationId="browseLodgeRooms",
+  *      operationId="browseHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Browse Lodge Rooms",
-  *      description="Returns list of Lodge Rooms",
+  *      summary="Browse Hotel Kamar",
+  *      description="Returns list of Hotel Kamar",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-rooms/read?slug=lodge-rooms&id={id}",
-  *      operationId="readLodgeRooms",
+  *      operationId="readHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Get Lodge Rooms based on id",
-  *      description="Returns Lodge Rooms based on id",
+  *      summary="Get Hotel Kamar based on id",
+  *      description="Returns Hotel Kamar based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-rooms/add",
-  *      operationId="addLodgeRooms",
+  *      operationId="addHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Insert new Lodge Rooms",
-  *      description="Insert new Lodge Rooms into database",
+  *      summary="Insert new Hotel Kamar",
+  *      description="Insert new Hotel Kamar into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "number":"123", "image":"Abc", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "quota":"123", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-rooms/edit",
-  *      operationId="editLodgeRooms",
+  *      operationId="editHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Edit an existing Lodge Rooms",
-  *      description="Edit an existing Lodge Rooms",
+  *      summary="Edit an existing Hotel Kamar",
+  *      description="Edit an existing Hotel Kamar",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc"},
+  *                     example={"name":"Abc", "number":"123", "image":"Abc", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "quota":"123", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-rooms/delete",
-  *      operationId="deleteLodgeRooms",
+  *      operationId="deleteHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Delete one record of Lodge Rooms",
-  *      description="Delete one record of Lodge Rooms",
+  *      summary="Delete one record of Hotel Kamar",
+  *      description="Delete one record of Hotel Kamar",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-rooms/delete-multiple",
-  *      operationId="deleteMultipleLodgeRooms",
+  *      operationId="deleteMultipleHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Delete multiple record of Lodge Rooms",
-  *      description="Delete multiple record of Lodge Rooms",
+  *      summary="Delete multiple record of Hotel Kamar",
+  *      description="Delete multiple record of Hotel Kamar",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-rooms/sort",
-  *      operationId="sortLodgeRooms",
+  *      operationId="sortHotelKamar",
   *      tags={"lodge-rooms"},
-  *      summary="Sort existing Lodge Rooms",
-  *      description="Sort existing Lodge Rooms",
+  *      summary="Sort existing Hotel Kamar",
+  *      description="Sort existing Hotel Kamar",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,24 +201,26 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "profileId":"", "image":"Abc", "name":"Abc", "number":"123", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "name":"Abc", "number":"123", "image":"Abc", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "quota":"123", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isUsed":"Abc"}, {"id":"123", "uuid":"Abc", "profileId":"", "name":"Abc", "number":"123", "image":"Abc", "description":"Abc", "capacity":"123", "category":"Abc", "facility":"Abc", "quota":"123", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isUsed":"Abc"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="profileId"), 
-  *                         @OA\Property(type="string", property="image"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="number"), 
+  *                         @OA\Property(type="string", property="image"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="capacity"), 
   *                         @OA\Property(type="string", property="category"), 
   *                         @OA\Property(type="string", property="facility"), 
+  *                         @OA\Property(type="integer", property="quota"), 
   *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"),
+  *                         @OA\Property(type="string", property="deletedAt"), 
+  *                         @OA\Property(type="string", property="isUsed"),
   *                     ),
   *                ),
   *             )

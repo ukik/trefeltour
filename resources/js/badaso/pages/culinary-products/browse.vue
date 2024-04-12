@@ -108,7 +108,7 @@
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
 <div class="row">
-                    <!-- <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" /> -->
+                    <shared-select-available ref="SharedSelectAvailable" @onBubbleEvent="onSelect('available',$event)" class="col-auto" />
                     <shared-select-culinary-product-category ref="SharedSelectCulinaryProductCategory" @onBubbleEvent="onSelect('category',$event)" class="col-auto" />
 
                     <div class="col pr-0 d-flex align-items-end">

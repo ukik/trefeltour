@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-booking-items",
-  *      operationId="browseTravelBookingItems",
+  *      operationId="browseTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Browse Travel Booking Items",
-  *      description="Returns list of Travel Booking Items",
+  *      summary="Browse Travel Booking Item",
+  *      description="Returns list of Travel Booking Item",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-booking-items/read?slug=travel-booking-items&id={id}",
-  *      operationId="readTravelBookingItems",
+  *      operationId="readTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Get Travel Booking Items based on id",
-  *      description="Returns Travel Booking Items based on id",
+  *      summary="Get Travel Booking Item based on id",
+  *      description="Returns Travel Booking Item based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/travel-booking-items/add",
-  *      operationId="addTravelBookingItems",
+  *      operationId="addTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Insert new Travel Booking Items",
-  *      description="Insert new Travel Booking Items into database",
+  *      summary="Insert new Travel Booking Item",
+  *      description="Insert new Travel Booking Item into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-booking-items/edit",
-  *      operationId="editTravelBookingItems",
+  *      operationId="editTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Edit an existing Travel Booking Items",
-  *      description="Edit an existing Travel Booking Items",
+  *      summary="Edit an existing Travel Booking Item",
+  *      description="Edit an existing Travel Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-booking-items/delete",
-  *      operationId="deleteTravelBookingItems",
+  *      operationId="deleteTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Delete one record of Travel Booking Items",
-  *      description="Delete one record of Travel Booking Items",
+  *      summary="Delete one record of Travel Booking Item",
+  *      description="Delete one record of Travel Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-booking-items/delete-multiple",
-  *      operationId="deleteMultipleTravelBookingItems",
+  *      operationId="deleteMultipleTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Delete multiple record of Travel Booking Items",
-  *      description="Delete multiple record of Travel Booking Items",
+  *      summary="Delete multiple record of Travel Booking Item",
+  *      description="Delete multiple record of Travel Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-booking-items/sort",
-  *      operationId="sortTravelBookingItems",
+  *      operationId="sortTravelBookingItem",
   *      tags={"travel-booking-items"},
-  *      summary="Sort existing Travel Booking Items",
-  *      description="Sort existing Travel Booking Items",
+  *      summary="Sort existing Travel Booking Item",
+  *      description="Sort existing Travel Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,20 +201,21 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "bookingId":"", "storeId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getFinalAmount":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "quantity":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "bookingId":"", "storeId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "getFinalAmount":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "quantity":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"Abc", "getFinalAmount":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"Abc", "getFinalAmount":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="reservationId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="getPrice"), 
   *                         @OA\Property(type="integer", property="getDiscount"), 
   *                         @OA\Property(type="integer", property="getCashback"), 
   *                         @OA\Property(type="integer", property="getTotalAmount"), 
+  *                         @OA\Property(type="string", property="quantity"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="string", property="codeTicket"), 
@@ -226,7 +227,6 @@
   *                         @OA\Property(type="string", property="arrivalLocation"), 
   *                         @OA\Property(type="string", property="startingTerminal"), 
   *                         @OA\Property(type="string", property="arrivalTerminal"), 
-  *                         @OA\Property(type="string", property="quantity"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

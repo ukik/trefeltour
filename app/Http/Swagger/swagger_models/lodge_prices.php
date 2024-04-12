@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-prices",
-  *      operationId="browseAkomodasiHarga",
+  *      operationId="browseHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Browse Akomodasi Harga",
-  *      description="Returns list of Akomodasi Harga",
+  *      summary="Browse Hotel Harga",
+  *      description="Returns list of Hotel Harga",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-prices/read?slug=lodge-prices&id={id}",
-  *      operationId="readAkomodasiHarga",
+  *      operationId="readHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Get Akomodasi Harga based on id",
-  *      description="Returns Akomodasi Harga based on id",
+  *      summary="Get Hotel Harga based on id",
+  *      description="Returns Hotel Harga based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-prices/add",
-  *      operationId="addAkomodasiHarga",
+  *      operationId="addHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Insert new Akomodasi Harga",
-  *      description="Insert new Akomodasi Harga into database",
+  *      summary="Insert new Hotel Harga",
+  *      description="Insert new Hotel Harga into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-prices/edit",
-  *      operationId="editAkomodasiHarga",
+  *      operationId="editHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Edit an existing Akomodasi Harga",
-  *      description="Edit an existing Akomodasi Harga",
+  *      summary="Edit an existing Hotel Harga",
+  *      description="Edit an existing Hotel Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-prices/delete",
-  *      operationId="deleteAkomodasiHarga",
+  *      operationId="deleteHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Delete one record of Akomodasi Harga",
-  *      description="Delete one record of Akomodasi Harga",
+  *      summary="Delete one record of Hotel Harga",
+  *      description="Delete one record of Hotel Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-prices/delete-multiple",
-  *      operationId="deleteMultipleAkomodasiHarga",
+  *      operationId="deleteMultipleHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Delete multiple record of Akomodasi Harga",
-  *      description="Delete multiple record of Akomodasi Harga",
+  *      summary="Delete multiple record of Hotel Harga",
+  *      description="Delete multiple record of Hotel Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-prices/sort",
-  *      operationId="sortAkomodasiHarga",
+  *      operationId="sortHotelHarga",
   *      tags={"lodge-prices"},
-  *      summary="Sort existing Akomodasi Harga",
-  *      description="Sort existing Akomodasi Harga",
+  *      summary="Sort existing Hotel Harga",
+  *      description="Sort existing Hotel Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "roomId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isAvailable":"Abc", "calenderDisabled":"Abc", "calenderAvailable":"Abc", "calenderCategory":"Abc"}, {"id":"123", "uuid":"Abc", "profileId":"", "roomId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isAvailable":"Abc", "calenderDisabled":"Abc", "calenderAvailable":"Abc", "calenderCategory":"Abc"}},
+  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "roomId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "calenderDisabled":"Abc", "calenderAvailable":"Abc", "calenderCategory":"Abc"}, {"id":"123", "uuid":"Abc", "profileId":"", "roomId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "calenderDisabled":"Abc", "calenderAvailable":"Abc", "calenderCategory":"Abc"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -214,11 +214,11 @@
   *                         @OA\Property(type="integer", property="cashbackPrice"), 
   *                         @OA\Property(type="integer", property="stock"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
   *                         @OA\Property(type="string", property="deletedAt"), 
-  *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="calenderDisabled"), 
   *                         @OA\Property(type="string", property="calenderAvailable"), 
   *                         @OA\Property(type="string", property="calenderCategory"),

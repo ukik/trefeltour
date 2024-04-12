@@ -31,8 +31,8 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
                 'id' => 95,
                 'name' => 'culinary_payments',
                 'slug' => 'culinary-payments',
-                'display_name_singular' => 'Culinary Payments',
-                'display_name_plural' => 'Culinary Payments',
+                'display_name_singular' => 'Kuliner Pembayaran',
+                'display_name_plural' => 'Kuliner Pembayaran',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T08:11:33.000000Z',
-                'updated_at' => '2024-03-16T07:21:46.000000Z',
+                'updated_at' => '2024-04-11T04:46:19.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_payments');
@@ -64,7 +64,7 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Culinary Payments',
+                    'title' => 'Kuliner Pembayaran',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class CulinaryPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/culinary-payments';
-                $menu_item->title = 'Culinary Payments';
+                $menu_item->title = 'Kuliner Pembayaran';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

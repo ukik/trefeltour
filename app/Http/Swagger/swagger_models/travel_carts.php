@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-carts",
-  *      operationId="browseTravelCarts",
+  *      operationId="browseTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Browse Travel Carts",
-  *      description="Returns list of Travel Carts",
+  *      summary="Browse Travel Keranjang",
+  *      description="Returns list of Travel Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-carts/read?slug=travel-carts&id={id}",
-  *      operationId="readTravelCarts",
+  *      operationId="readTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Get Travel Carts based on id",
-  *      description="Returns Travel Carts based on id",
+  *      summary="Get Travel Keranjang based on id",
+  *      description="Returns Travel Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/travel-carts/add",
-  *      operationId="addTravelCarts",
+  *      operationId="addTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Insert new Travel Carts",
-  *      description="Insert new Travel Carts into database",
+  *      summary="Insert new Travel Keranjang",
+  *      description="Insert new Travel Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123"},
+  *                     example={},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-carts/edit",
-  *      operationId="editTravelCarts",
+  *      operationId="editTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Edit an existing Travel Carts",
-  *      description="Edit an existing Travel Carts",
+  *      summary="Edit an existing Travel Keranjang",
+  *      description="Edit an existing Travel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123"},
+  *                     example={},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-carts/delete",
-  *      operationId="deleteTravelCarts",
+  *      operationId="deleteTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Delete one record of Travel Carts",
-  *      description="Delete one record of Travel Carts",
+  *      summary="Delete one record of Travel Keranjang",
+  *      description="Delete one record of Travel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-carts/delete-multiple",
-  *      operationId="deleteMultipleTravelCarts",
+  *      operationId="deleteMultipleTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Delete multiple record of Travel Carts",
-  *      description="Delete multiple record of Travel Carts",
+  *      summary="Delete multiple record of Travel Keranjang",
+  *      description="Delete multiple record of Travel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-carts/sort",
-  *      operationId="sortTravelCarts",
+  *      operationId="sortTravelKeranjang",
   *      tags={"travel-carts"},
-  *      summary="Sort existing Travel Carts",
-  *      description="Sort existing Travel Carts",
+  *      summary="Sort existing Travel Keranjang",
+  *      description="Sort existing Travel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

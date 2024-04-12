@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-carts",
-  *      operationId="browseSouvenirCarts",
+  *      operationId="browseSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Browse Souvenir Carts",
-  *      description="Returns list of Souvenir Carts",
+  *      summary="Browse Suvenir Keranjang",
+  *      description="Returns list of Suvenir Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-carts/read?slug=souvenir-carts&id={id}",
-  *      operationId="readSouvenirCarts",
+  *      operationId="readSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Get Souvenir Carts based on id",
-  *      description="Returns Souvenir Carts based on id",
+  *      summary="Get Suvenir Keranjang based on id",
+  *      description="Returns Suvenir Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-carts/add",
-  *      operationId="addSouvenirCarts",
+  *      operationId="addSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Insert new Souvenir Carts",
-  *      description="Insert new Souvenir Carts into database",
+  *      summary="Insert new Suvenir Keranjang",
+  *      description="Insert new Suvenir Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-carts/edit",
-  *      operationId="editSouvenirCarts",
+  *      operationId="editSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Edit an existing Souvenir Carts",
-  *      description="Edit an existing Souvenir Carts",
+  *      summary="Edit an existing Suvenir Keranjang",
+  *      description="Edit an existing Suvenir Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-carts/delete",
-  *      operationId="deleteSouvenirCarts",
+  *      operationId="deleteSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Delete one record of Souvenir Carts",
-  *      description="Delete one record of Souvenir Carts",
+  *      summary="Delete one record of Suvenir Keranjang",
+  *      description="Delete one record of Suvenir Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-carts/delete-multiple",
-  *      operationId="deleteMultipleSouvenirCarts",
+  *      operationId="deleteMultipleSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Delete multiple record of Souvenir Carts",
-  *      description="Delete multiple record of Souvenir Carts",
+  *      summary="Delete multiple record of Suvenir Keranjang",
+  *      description="Delete multiple record of Suvenir Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-carts/sort",
-  *      operationId="sortSouvenirCarts",
+  *      operationId="sortSuvenirKeranjang",
   *      tags={"souvenir-carts"},
-  *      summary="Sort existing Souvenir Carts",
-  *      description="Sort existing Souvenir Carts",
+  *      summary="Sort existing Suvenir Keranjang",
+  *      description="Sort existing Suvenir Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "storeId":"", "productId":"", "priceId":"", "customerId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "stock":"Abc", "getFinalAmount":"123", "booking":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "storeId":"", "productId":"", "priceId":"", "customerId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "stock":"Abc", "getFinalAmount":"123", "booking":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "storeId":"", "productId":"", "customerId":"", "priceId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "stock":"Abc", "getFinalAmount":"123", "booking":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "storeId":"", "productId":"", "customerId":"", "priceId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "stock":"Abc", "getFinalAmount":"123", "booking":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="productId"), 
-  *                         @OA\Property(type="string", property="priceId"), 
   *                         @OA\Property(type="string", property="customerId"), 
+  *                         @OA\Property(type="string", property="priceId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="getPrice"), 
   *                         @OA\Property(type="integer", property="getDiscount"), 

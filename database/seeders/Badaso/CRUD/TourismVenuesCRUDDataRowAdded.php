@@ -28,7 +28,7 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'ID',
+                    'display_name' => 'No',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -42,9 +42,9 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
-                    'type' => 'number',
-                    'display_name' => 'Admin',
+                    'field' => 'uuid',
+                    'type' => 'text',
+                    'display_name' => 'UUID',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -58,9 +58,9 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                 2 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'uuid',
-                    'type' => 'text',
-                    'display_name' => 'UUID',
+                    'field' => 'user_id',
+                    'type' => 'number',
+                    'display_name' => 'Akun Vendor',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -72,6 +72,22 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'order' => 3,
                 ),
                 3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'name',
+                    'type' => 'text',
+                    'display_name' => 'Nama Wisata',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 4,
+                ),
+                4 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'day_open',
@@ -87,39 +103,39 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "sunday",
-"value": "sunday"
+"label": "minggu",
+"value": "minggu"
 },
 {
-"label": "monday",
-"value": "monday"
+"label": "senin",
+"value": "senin"
 },
 {
-"label": "tuesday",
-"value": "tuesday"
+"label": "selasa",
+"value": "selasa"
 },
 {
-"label": "wednesday",
-"value": "wednesday"
+"label": "rabu",
+"value": "rabu"
 },
 {
-"label": "thursday",
-"value": "thursday"
+"label": "kamis",
+"value": "kamis"
 },
 {
-"label": "friday",
-"value": "friday"
+"label": "jumat",
+"value": "jumat"
 },
 {
-"label": "saturday",
-"value": "saturday"
+"label": "sabtu",
+"value": "sabtu"
 }
 ]
 }',
                     'relation' => NULL,
-                    'order' => 4,
+                    'order' => 5,
                 ),
-                4 => 
+                5 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'day_close',
@@ -135,39 +151,39 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "sunday",
-"value": "sunday"
+"label": "minggu",
+"value": "minggu"
 },
 {
-"label": "monday",
-"value": "monday"
+"label": "senin",
+"value": "senin"
 },
 {
-"label": "tuesday",
-"value": "tuesday"
+"label": "selasa",
+"value": "selasa"
 },
 {
-"label": "wednesday",
-"value": "wednesday"
+"label": "rabu",
+"value": "rabu"
 },
 {
-"label": "thursday",
-"value": "thursday"
+"label": "kamis",
+"value": "kamis"
 },
 {
-"label": "friday",
-"value": "friday"
+"label": "jumat",
+"value": "jumat"
 },
 {
-"label": "saturday",
-"value": "saturday"
+"label": "sabtu",
+"value": "sabtu"
 }
 ]
 }',
                     'relation' => NULL,
-                    'order' => 5,
+                    'order' => 6,
                 ),
-                5 => 
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'time_open',
@@ -181,30 +197,14 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 6,
-                ),
-                6 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'time_close',
-                    'type' => 'time',
-                    'display_name' => 'Jam Tutup',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 1,
-                    'add' => 1,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
                     'order' => 7,
                 ),
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'name',
-                    'type' => 'text',
-                    'display_name' => 'Nama Wisata',
+                    'field' => 'time_close',
+                    'type' => 'time',
+                    'display_name' => 'Jam Tutup',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -236,7 +236,7 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'phone',
                     'type' => 'text',
-                    'display_name' => 'Telpon',
+                    'display_name' => 'Telepon',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -252,7 +252,7 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'location',
                     'type' => 'url',
-                    'display_name' => 'Peta Lokasi',
+                    'display_name' => 'Google Map',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -267,8 +267,8 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
-                    'type' => 'upload_image',
-                    'display_name' => 'Gambar',
+                    'type' => 'upload_image_multiple',
+                    'display_name' => 'Gambar Destinasi',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -468,7 +468,7 @@ class TourismVenuesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
                     'type' => 'switch',
-                    'display_name' => 'Wisata Aktif',
+                    'display_name' => 'Available',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,

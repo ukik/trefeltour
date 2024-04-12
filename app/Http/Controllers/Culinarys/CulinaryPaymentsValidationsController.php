@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Culinarys;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use CulinaryBookings;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -295,6 +296,9 @@ class CulinaryPaymentsValidationsController extends Controller
             $stored_data = \CulinaryPaymentsValidations::insert($data);
 
             $temp->update(['is_selected' => 'true']);
+
+            // Booking Condition
+            if($req['is_valid'] === 'true') CulinaryBookings::where('id', $temp->booking_id)->update(['condition' => 'lunas']);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

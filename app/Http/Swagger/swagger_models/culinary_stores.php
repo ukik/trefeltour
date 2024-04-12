@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-stores",
-  *      operationId="browseCulinaryStores",
+  *      operationId="browseKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Browse Culinary Stores",
-  *      description="Returns list of Culinary Stores",
+  *      summary="Browse Kuliner Toko",
+  *      description="Returns list of Kuliner Toko",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-stores/read?slug=culinary-stores&id={id}",
-  *      operationId="readCulinaryStores",
+  *      operationId="readKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Get Culinary Stores based on id",
-  *      description="Returns Culinary Stores based on id",
+  *      summary="Get Kuliner Toko based on id",
+  *      description="Returns Kuliner Toko based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-stores/add",
-  *      operationId="addCulinaryStores",
+  *      operationId="addKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Insert new Culinary Stores",
-  *      description="Insert new Culinary Stores into database",
+  *      summary="Insert new Kuliner Toko",
+  *      description="Insert new Kuliner Toko into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-stores/edit",
-  *      operationId="editCulinaryStores",
+  *      operationId="editKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Edit an existing Culinary Stores",
-  *      description="Edit an existing Culinary Stores",
+  *      summary="Edit an existing Kuliner Toko",
+  *      description="Edit an existing Kuliner Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-stores/delete",
-  *      operationId="deleteCulinaryStores",
+  *      operationId="deleteKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Delete one record of Culinary Stores",
-  *      description="Delete one record of Culinary Stores",
+  *      summary="Delete one record of Kuliner Toko",
+  *      description="Delete one record of Kuliner Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-stores/delete-multiple",
-  *      operationId="deleteMultipleCulinaryStores",
+  *      operationId="deleteMultipleKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Delete multiple record of Culinary Stores",
-  *      description="Delete multiple record of Culinary Stores",
+  *      summary="Delete multiple record of Kuliner Toko",
+  *      description="Delete multiple record of Kuliner Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-stores/sort",
-  *      operationId="sortCulinaryStores",
+  *      operationId="sortKulinerToko",
   *      tags={"culinary-stores"},
-  *      summary="Sort existing Culinary Stores",
-  *      description="Sort existing Culinary Stores",
+  *      summary="Sort existing Kuliner Toko",
+  *      description="Sort existing Kuliner Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

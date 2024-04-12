@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-booking-items",
-  *      operationId="browseTalentBookingItems",
+  *      operationId="browseTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Browse Talent Booking Items",
-  *      description="Returns list of Talent Booking Items",
+  *      summary="Browse Talent Booking Item",
+  *      description="Returns list of Talent Booking Item",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-booking-items/read?slug=talent-booking-items&id={id}",
-  *      operationId="readTalentBookingItems",
+  *      operationId="readTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Get Talent Booking Items based on id",
-  *      description="Returns Talent Booking Items based on id",
+  *      summary="Get Talent Booking Item based on id",
+  *      description="Returns Talent Booking Item based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/talent-booking-items/add",
-  *      operationId="addTalentBookingItems",
+  *      operationId="addTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Insert new Talent Booking Items",
-  *      description="Insert new Talent Booking Items into database",
+  *      summary="Insert new Talent Booking Item",
+  *      description="Insert new Talent Booking Item into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-booking-items/edit",
-  *      operationId="editTalentBookingItems",
+  *      operationId="editTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Edit an existing Talent Booking Items",
-  *      description="Edit an existing Talent Booking Items",
+  *      summary="Edit an existing Talent Booking Item",
+  *      description="Edit an existing Talent Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-booking-items/delete",
-  *      operationId="deleteTalentBookingItems",
+  *      operationId="deleteTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Delete one record of Talent Booking Items",
-  *      description="Delete one record of Talent Booking Items",
+  *      summary="Delete one record of Talent Booking Item",
+  *      description="Delete one record of Talent Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-booking-items/delete-multiple",
-  *      operationId="deleteMultipleTalentBookingItems",
+  *      operationId="deleteMultipleTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Delete multiple record of Talent Booking Items",
-  *      description="Delete multiple record of Talent Booking Items",
+  *      summary="Delete multiple record of Talent Booking Item",
+  *      description="Delete multiple record of Talent Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-booking-items/sort",
-  *      operationId="sortTalentBookingItems",
+  *      operationId="sortTalentBookingItem",
   *      tags={"talent-booking-items"},
-  *      summary="Sort existing Talent Booking Items",
-  *      description="Sort existing Talent Booking Items",
+  *      summary="Sort existing Talent Booking Item",
+  *      description="Sort existing Talent Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "profileId":"", "customerId":"", "bookingId":"", "skillId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "profileId":"", "customerId":"", "bookingId":"", "skillId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "profileId":"", "customerId":"", "skillId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "profileId":"", "customerId":"", "skillId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="profileId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="skillId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="getPrice"), 

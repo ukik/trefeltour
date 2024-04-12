@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-products",
-  *      operationId="browseCulinaryProducts",
+  *      operationId="browseKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Browse Culinary Products",
-  *      description="Returns list of Culinary Products",
+  *      summary="Browse Kuliner Menu",
+  *      description="Returns list of Kuliner Menu",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-products/read?slug=culinary-products&id={id}",
-  *      operationId="readCulinaryProducts",
+  *      operationId="readKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Get Culinary Products based on id",
-  *      description="Returns Culinary Products based on id",
+  *      summary="Get Kuliner Menu based on id",
+  *      description="Returns Kuliner Menu based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-products/add",
-  *      operationId="addCulinaryProducts",
+  *      operationId="addKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Insert new Culinary Products",
-  *      description="Insert new Culinary Products into database",
+  *      summary="Insert new Kuliner Menu",
+  *      description="Insert new Kuliner Menu into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-products/edit",
-  *      operationId="editCulinaryProducts",
+  *      operationId="editKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Edit an existing Culinary Products",
-  *      description="Edit an existing Culinary Products",
+  *      summary="Edit an existing Kuliner Menu",
+  *      description="Edit an existing Kuliner Menu",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-products/delete",
-  *      operationId="deleteCulinaryProducts",
+  *      operationId="deleteKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Delete one record of Culinary Products",
-  *      description="Delete one record of Culinary Products",
+  *      summary="Delete one record of Kuliner Menu",
+  *      description="Delete one record of Kuliner Menu",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-products/delete-multiple",
-  *      operationId="deleteMultipleCulinaryProducts",
+  *      operationId="deleteMultipleKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Delete multiple record of Culinary Products",
-  *      description="Delete multiple record of Culinary Products",
+  *      summary="Delete multiple record of Kuliner Menu",
+  *      description="Delete multiple record of Kuliner Menu",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-products/sort",
-  *      operationId="sortCulinaryProducts",
+  *      operationId="sortKulinerMenu",
   *      tags={"culinary-products"},
-  *      summary="Sort existing Culinary Products",
-  *      description="Sort existing Culinary Products",
+  *      summary="Sort existing Kuliner Menu",
+  *      description="Sort existing Kuliner Menu",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,12 +201,12 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "storeId":"", "uuid":"Abc", "name":"Abc", "category":"Abc", "others":"Abc", "description":"Abc", "image":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "storeId":"", "uuid":"Abc", "name":"Abc", "category":"Abc", "others":"Abc", "description":"Abc", "image":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "storeId":"", "name":"Abc", "category":"Abc", "others":"Abc", "description":"Abc", "image":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "storeId":"", "name":"Abc", "category":"Abc", "others":"Abc", "description":"Abc", "image":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="string", property="category"), 
   *                         @OA\Property(type="string", property="others"), 

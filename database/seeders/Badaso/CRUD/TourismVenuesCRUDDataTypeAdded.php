@@ -31,8 +31,8 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 'id' => 55,
                 'name' => 'tourism_venues',
                 'slug' => 'tourism-venues',
-                'display_name_singular' => 'Wisata Tempat',
-                'display_name_plural' => 'Wisata Tempat',
+                'display_name_singular' => 'Wisata Vendor',
+                'display_name_plural' => 'Wisata Vendor',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-11T07:07:18.000000Z',
-                'updated_at' => '2024-02-11T10:24:37.000000Z',
+                'updated_at' => '2024-04-10T06:27:48.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_venues');
@@ -64,7 +64,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Wisata Tempat',
+                    'title' => 'Wisata Vendor',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/tourism-venues';
-                $menu_item->title = 'Wisata Tempat';
+                $menu_item->title = 'Wisata Vendor';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

@@ -31,8 +31,8 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'id' => 42,
                 'name' => 'transport_payments_validations',
                 'slug' => 'transport-payments-validations',
-                'display_name_singular' => 'Travel Pembayaran Validasi',
-                'display_name_plural' => 'Travel Pembayaran Validasi',
+                'display_name_singular' => 'Rental Pembayaran Validasi',
+                'display_name_plural' => 'Rental Pembayaran Validasi',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T04:11:21.000000Z',
-                'updated_at' => '2024-02-12T18:41:12.000000Z',
+                'updated_at' => '2024-04-10T15:22:01.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_payments_validations');
@@ -64,7 +64,7 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Pembayaran Validasi',
+                    'title' => 'Rental Pembayaran Validasi',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-payments-validations';
-                $menu_item->title = 'Travel Pembayaran Validasi';
+                $menu_item->title = 'Rental Pembayaran Validasi';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

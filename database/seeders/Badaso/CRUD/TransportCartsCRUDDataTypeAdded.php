@@ -28,10 +28,11 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 108,
                 'name' => 'transport_carts',
                 'slug' => 'transport-carts',
-                'display_name_singular' => 'Transport Carts',
-                'display_name_plural' => 'Transport Carts',
+                'display_name_singular' => 'Rental Keranjang',
+                'display_name_plural' => 'Rental Keranjang',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-25T17:34:12.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-25T17:34:12.000000Z',
-                'id' => 108,
+                'updated_at' => '2024-04-10T15:23:11.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_carts');
@@ -63,7 +64,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Carts',
+                    'title' => 'Rental Keranjang',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-carts';
-                $menu_item->title = 'Transport Carts';
+                $menu_item->title = 'Rental Keranjang';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

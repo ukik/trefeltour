@@ -28,10 +28,11 @@ class TourismBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 100,
                 'name' => 'tourism_booking_items',
                 'slug' => 'tourism-booking-items',
-                'display_name_singular' => 'Tourism Booking Items',
-                'display_name_plural' => 'Tourism Booking Items',
+                'display_name_singular' => 'Wisata Booking Item',
+                'display_name_plural' => 'Wisata Booking Item',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class TourismBookingItemsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-21T14:28:27.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-21T14:28:27.000000Z',
-                'id' => 100,
+                'updated_at' => '2024-04-10T16:51:11.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_booking_items');
@@ -63,7 +64,7 @@ class TourismBookingItemsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Tourism Booking Items',
+                    'title' => 'Wisata Booking Item',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class TourismBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/tourism-booking-items';
-                $menu_item->title = 'Tourism Booking Items';
+                $menu_item->title = 'Wisata Booking Item';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

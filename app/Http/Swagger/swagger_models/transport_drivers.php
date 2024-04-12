@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-drivers",
-  *      operationId="browseTransportSupir",
+  *      operationId="browseRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Browse Transport Supir",
-  *      description="Returns list of Transport Supir",
+  *      summary="Browse Rental Supir",
+  *      description="Returns list of Rental Supir",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-drivers/read?slug=transport-drivers&id={id}",
-  *      operationId="readTransportSupir",
+  *      operationId="readRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Get Transport Supir based on id",
-  *      description="Returns Transport Supir based on id",
+  *      summary="Get Rental Supir based on id",
+  *      description="Returns Rental Supir based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-drivers/add",
-  *      operationId="addTransportSupir",
+  *      operationId="addRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Insert new Transport Supir",
-  *      description="Insert new Transport Supir into database",
+  *      summary="Insert new Rental Supir",
+  *      description="Insert new Rental Supir into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "isAvailable":"Abc", "description":"Abc"},
+  *                     example={"name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "description":"Abc", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-drivers/edit",
-  *      operationId="editTransportSupir",
+  *      operationId="editRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Edit an existing Transport Supir",
-  *      description="Edit an existing Transport Supir",
+  *      summary="Edit an existing Rental Supir",
+  *      description="Edit an existing Rental Supir",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "isAvailable":"Abc", "description":"Abc"},
+  *                     example={"name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "description":"Abc", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-drivers/delete",
-  *      operationId="deleteTransportSupir",
+  *      operationId="deleteRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Delete one record of Transport Supir",
-  *      description="Delete one record of Transport Supir",
+  *      summary="Delete one record of Rental Supir",
+  *      description="Delete one record of Rental Supir",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-drivers/delete-multiple",
-  *      operationId="deleteMultipleTransportSupir",
+  *      operationId="deleteMultipleRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Delete multiple record of Transport Supir",
-  *      description="Delete multiple record of Transport Supir",
+  *      summary="Delete multiple record of Rental Supir",
+  *      description="Delete multiple record of Rental Supir",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-drivers/sort",
-  *      operationId="sortTransportSupir",
+  *      operationId="sortRentalSupir",
   *      tags={"transport-drivers"},
-  *      summary="Sort existing Transport Supir",
-  *      description="Sort existing Transport Supir",
+  *      summary="Sort existing Rental Supir",
+  *      description="Sort existing Rental Supir",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "isAvailable":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "isAvailable":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "description":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "dailyPrice":"123", "yearExp":"Abc", "isReserved":"Abc", "description":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -211,8 +211,8 @@
   *                         @OA\Property(type="integer", property="dailyPrice"), 
   *                         @OA\Property(type="string", property="yearExp"), 
   *                         @OA\Property(type="string", property="isReserved"), 
-  *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="isAvailable"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

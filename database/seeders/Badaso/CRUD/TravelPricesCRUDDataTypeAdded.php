@@ -31,8 +31,8 @@ class TravelPricesCRUDDataTypeAdded extends Seeder
                 'id' => 110,
                 'name' => 'travel_prices',
                 'slug' => 'travel-prices',
-                'display_name_singular' => 'Travel Prices',
-                'display_name_plural' => 'Travel Prices',
+                'display_name_singular' => 'Travel Harga Tiket',
+                'display_name_plural' => 'Travel Harga Tiket',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TravelPricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-28T19:26:07.000000Z',
-                'updated_at' => '2024-03-31T16:24:39.000000Z',
+                'updated_at' => '2024-04-10T15:16:46.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_prices');
@@ -64,7 +64,7 @@ class TravelPricesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Prices',
+                    'title' => 'Travel Harga Tiket',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TravelPricesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/travel-prices';
-                $menu_item->title = 'Travel Prices';
+                $menu_item->title = 'Travel Harga Tiket';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

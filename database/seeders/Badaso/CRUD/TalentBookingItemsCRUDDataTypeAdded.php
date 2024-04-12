@@ -28,10 +28,11 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 102,
                 'name' => 'talent_booking_items',
                 'slug' => 'talent-booking-items',
-                'display_name_singular' => 'Talent Booking Items',
-                'display_name_plural' => 'Talent Booking Items',
+                'display_name_singular' => 'Talent Booking Item',
+                'display_name_plural' => 'Talent Booking Item',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-22T16:48:04.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-22T16:48:04.000000Z',
-                'id' => 102,
+                'updated_at' => '2024-04-10T15:52:35.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_booking_items');
@@ -63,7 +64,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Talent Booking Items',
+                    'title' => 'Talent Booking Item',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/talent-booking-items';
-                $menu_item->title = 'Talent Booking Items';
+                $menu_item->title = 'Talent Booking Item';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

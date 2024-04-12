@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-staffs",
-  *      operationId="browseLodgeStaffs",
+  *      operationId="browseHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Browse Lodge Staffs",
-  *      description="Returns list of Lodge Staffs",
+  *      summary="Browse Hotel Staff",
+  *      description="Returns list of Hotel Staff",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-staffs/read?slug=lodge-staffs&id={id}",
-  *      operationId="readLodgeStaffs",
+  *      operationId="readHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Get Lodge Staffs based on id",
-  *      description="Returns Lodge Staffs based on id",
+  *      summary="Get Hotel Staff based on id",
+  *      description="Returns Hotel Staff based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-staffs/add",
-  *      operationId="addLodgeStaffs",
+  *      operationId="addHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Insert new Lodge Staffs",
-  *      description="Insert new Lodge Staffs into database",
+  *      summary="Insert new Hotel Staff",
+  *      description="Insert new Hotel Staff into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-staffs/edit",
-  *      operationId="editLodgeStaffs",
+  *      operationId="editHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Edit an existing Lodge Staffs",
-  *      description="Edit an existing Lodge Staffs",
+  *      summary="Edit an existing Hotel Staff",
+  *      description="Edit an existing Hotel Staff",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-staffs/delete",
-  *      operationId="deleteLodgeStaffs",
+  *      operationId="deleteHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Delete one record of Lodge Staffs",
-  *      description="Delete one record of Lodge Staffs",
+  *      summary="Delete one record of Hotel Staff",
+  *      description="Delete one record of Hotel Staff",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-staffs/delete-multiple",
-  *      operationId="deleteMultipleLodgeStaffs",
+  *      operationId="deleteMultipleHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Delete multiple record of Lodge Staffs",
-  *      description="Delete multiple record of Lodge Staffs",
+  *      summary="Delete multiple record of Hotel Staff",
+  *      description="Delete multiple record of Hotel Staff",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-staffs/sort",
-  *      operationId="sortLodgeStaffs",
+  *      operationId="sortHotelStaff",
   *      tags={"lodge-staffs"},
-  *      summary="Sort existing Lodge Staffs",
-  *      description="Sort existing Lodge Staffs",
+  *      summary="Sort existing Hotel Staff",
+  *      description="Sort existing Hotel Staff",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

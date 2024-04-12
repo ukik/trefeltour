@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-prices",
-  *      operationId="browseCulinaryPrices",
+  *      operationId="browseKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Browse Culinary Prices",
-  *      description="Returns list of Culinary Prices",
+  *      summary="Browse Kuliner Harga",
+  *      description="Returns list of Kuliner Harga",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-prices/read?slug=culinary-prices&id={id}",
-  *      operationId="readCulinaryPrices",
+  *      operationId="readKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Get Culinary Prices based on id",
-  *      description="Returns Culinary Prices based on id",
+  *      summary="Get Kuliner Harga based on id",
+  *      description="Returns Kuliner Harga based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-prices/add",
-  *      operationId="addCulinaryPrices",
+  *      operationId="addKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Insert new Culinary Prices",
-  *      description="Insert new Culinary Prices into database",
+  *      summary="Insert new Kuliner Harga",
+  *      description="Insert new Kuliner Harga into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-prices/edit",
-  *      operationId="editCulinaryPrices",
+  *      operationId="editKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Edit an existing Culinary Prices",
-  *      description="Edit an existing Culinary Prices",
+  *      summary="Edit an existing Kuliner Harga",
+  *      description="Edit an existing Kuliner Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-prices/delete",
-  *      operationId="deleteCulinaryPrices",
+  *      operationId="deleteKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Delete one record of Culinary Prices",
-  *      description="Delete one record of Culinary Prices",
+  *      summary="Delete one record of Kuliner Harga",
+  *      description="Delete one record of Kuliner Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-prices/delete-multiple",
-  *      operationId="deleteMultipleCulinaryPrices",
+  *      operationId="deleteMultipleKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Delete multiple record of Culinary Prices",
-  *      description="Delete multiple record of Culinary Prices",
+  *      summary="Delete multiple record of Kuliner Harga",
+  *      description="Delete multiple record of Kuliner Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-prices/sort",
-  *      operationId="sortCulinaryPrices",
+  *      operationId="sortKulinerHarga",
   *      tags={"culinary-prices"},
-  *      summary="Sort existing Culinary Prices",
-  *      description="Sort existing Culinary Prices",
+  *      summary="Sort existing Kuliner Harga",
+  *      description="Sort existing Kuliner Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

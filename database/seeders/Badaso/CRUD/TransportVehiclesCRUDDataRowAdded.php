@@ -28,7 +28,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'Id',
+                    'display_name' => 'No',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -42,41 +42,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'rental_id',
-                    'type' => 'relation',
-                    'display_name' => 'Rental Id',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_rentals","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
-                    'type' => 'relation',
-                    'display_name' => 'User Id',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
-                    'order' => 3,
-                ),
-                3 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
-                    'display_name' => 'Uuid',
+                    'display_name' => 'UUID',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -85,6 +53,38 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
+                    'order' => 2,
+                ),
+                2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'rental_id',
+                    'type' => 'relation',
+                    'display_name' => 'Vendor',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"transport_rentals","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
+                    'order' => 3,
+                ),
+                3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'user_id',
+                    'type' => 'relation',
+                    'display_name' => 'Akun Pemilik Mobil',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","username"]}',
                     'order' => 4,
                 ),
                 4 => 
@@ -124,7 +124,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'category',
                     'type' => 'select',
-                    'display_name' => 'Category',
+                    'display_name' => 'Kategori',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -135,8 +135,8 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "car",
-"value": "car"
+"label": "mobil",
+"value": "mobil"
 },
 {
 "label": "motor",
@@ -147,15 +147,15 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
 "value": "bus"
 },
 {
-"label": "truck",
-"value": "truck"
+"label": "truk",
+"value": "truk"
 },
 {
 "label": "pickup",
 "value": "pickup"
 },
 {
-"label": "others",
+"label": "lainnya",
 "value": "others"
 }
 ]
@@ -168,7 +168,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'fuel_type',
                     'type' => 'select',
-                    'display_name' => 'Fuel Type',
+                    'display_name' => 'Bahan Bakar',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -179,23 +179,23 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "gasoline",
-"value": "gasoline"
+"label": "bensin",
+"value": "bensin"
 },
 {
 "label": "solar",
 "value": "solar"
 },
 {
-"label": "electric",
-"value": "electric"
+"label": "listrik",
+"value": "listrik"
 },
 {
 "label": "hidrogen",
 "value": "hidrogen"
 },
 {
-"label": "others",
+"label": "lainnya",
 "value": "others"
 }
 ]
@@ -208,7 +208,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'date_production',
                     'type' => 'text',
-                    'display_name' => 'Date Production',
+                    'display_name' => 'Tahun Produksi',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -224,7 +224,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'color',
                     'type' => 'text',
-                    'display_name' => 'Color',
+                    'display_name' => 'Warna',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -240,7 +240,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'code_stnk',
                     'type' => 'text',
-                    'display_name' => 'Code Stnk',
+                    'display_name' => 'Nomor Stnk',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -256,7 +256,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'slot_passanger',
                     'type' => 'select',
-                    'display_name' => 'Slot Passanger',
+                    'display_name' => 'Slot Penumpang',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -316,7 +316,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
                     'type' => 'switch',
-                    'display_name' => 'Is Available',
+                    'display_name' => 'Available',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -332,7 +332,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
-                    'display_name' => 'Code Table',
+                    'display_name' => 'Nama Tabel',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,
@@ -348,7 +348,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
                     'type' => 'datetime',
-                    'display_name' => 'Created At',
+                    'display_name' => 'Dibuat Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -364,7 +364,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
                     'type' => 'datetime',
-                    'display_name' => 'Updated At',
+                    'display_name' => 'Diubah Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -380,7 +380,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
-                    'display_name' => 'Deleted At',
+                    'display_name' => 'Dihapus Pada',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,

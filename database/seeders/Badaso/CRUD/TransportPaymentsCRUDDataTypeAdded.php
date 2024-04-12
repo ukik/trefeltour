@@ -28,11 +28,11 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 41,
+                'id' => 119,
                 'name' => 'transport_payments',
                 'slug' => 'transport-payments',
-                'display_name_singular' => 'Transport Pembayaran',
-                'display_name_plural' => 'Transport Pembayaran',
+                'display_name_singular' => 'Rental Pembayaran',
+                'display_name_plural' => 'Rental Pembayaran',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -47,8 +47,8 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 'details' => NULL,
                 'notification' => '[]',
                 'is_soft_delete' => 1,
-                'created_at' => '2024-01-31T03:52:56.000000Z',
-                'updated_at' => '2024-04-07T21:54:34.000000Z',
+                'created_at' => '2024-04-10T02:39:11.000000Z',
+                'updated_at' => '2024-04-10T15:22:15.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_payments');
@@ -64,7 +64,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Pembayaran',
+                    'title' => 'Rental Pembayaran',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-payments';
-                $menu_item->title = 'Transport Pembayaran';
+                $menu_item->title = 'Rental Pembayaran';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

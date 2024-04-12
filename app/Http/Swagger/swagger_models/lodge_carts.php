@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-carts",
-  *      operationId="browseLodgeCarts",
+  *      operationId="browseHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Browse Lodge Carts",
-  *      description="Returns list of Lodge Carts",
+  *      summary="Browse Hotel Keranjang",
+  *      description="Returns list of Hotel Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-carts/read?slug=lodge-carts&id={id}",
-  *      operationId="readLodgeCarts",
+  *      operationId="readHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Get Lodge Carts based on id",
-  *      description="Returns Lodge Carts based on id",
+  *      summary="Get Hotel Keranjang based on id",
+  *      description="Returns Hotel Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-carts/add",
-  *      operationId="addLodgeCarts",
+  *      operationId="addHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Insert new Lodge Carts",
-  *      description="Insert new Lodge Carts into database",
+  *      summary="Insert new Hotel Keranjang",
+  *      description="Insert new Hotel Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-carts/edit",
-  *      operationId="editLodgeCarts",
+  *      operationId="editHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Edit an existing Lodge Carts",
-  *      description="Edit an existing Lodge Carts",
+  *      summary="Edit an existing Hotel Keranjang",
+  *      description="Edit an existing Hotel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-carts/delete",
-  *      operationId="deleteLodgeCarts",
+  *      operationId="deleteHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Delete one record of Lodge Carts",
-  *      description="Delete one record of Lodge Carts",
+  *      summary="Delete one record of Hotel Keranjang",
+  *      description="Delete one record of Hotel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-carts/delete-multiple",
-  *      operationId="deleteMultipleLodgeCarts",
+  *      operationId="deleteMultipleHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Delete multiple record of Lodge Carts",
-  *      description="Delete multiple record of Lodge Carts",
+  *      summary="Delete multiple record of Hotel Keranjang",
+  *      description="Delete multiple record of Hotel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-carts/sort",
-  *      operationId="sortLodgeCarts",
+  *      operationId="sortHotelKeranjang",
   *      tags={"lodge-carts"},
-  *      summary="Sort existing Lodge Carts",
-  *      description="Sort existing Lodge Carts",
+  *      summary="Sort existing Hotel Keranjang",
+  *      description="Sort existing Hotel Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "booking":"Abc", "customerId":"", "profileId":"", "roomId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "dateCheckout":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "booking":"Abc", "customerId":"", "profileId":"", "roomId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "dateCheckout":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "booking":"Abc", "customerId":"", "profileId":"", "roomId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "dateCheckout":"Abc", "quantity":"123", "getFinalAmount":"Abc", "uiDateRange":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "booking":"Abc", "customerId":"", "profileId":"", "roomId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "dateCheckout":"Abc", "quantity":"123", "getFinalAmount":"Abc", "uiDateRange":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -217,9 +217,9 @@
   *                         @OA\Property(type="string", property="getTotalAmount"), 
   *                         @OA\Property(type="string", property="dateCheckin"), 
   *                         @OA\Property(type="string", property="dateCheckout"), 
-  *                         @OA\Property(type="string", property="uiDateRange"), 
   *                         @OA\Property(type="integer", property="quantity"), 
   *                         @OA\Property(type="string", property="getFinalAmount"), 
+  *                         @OA\Property(type="string", property="uiDateRange"), 
   *                         @OA\Property(type="string", property="stock"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 

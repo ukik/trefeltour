@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-bookings",
-  *      operationId="browseTourismBookings",
+  *      operationId="browseWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Browse Tourism Bookings",
-  *      description="Returns list of Tourism Bookings",
+  *      summary="Browse Wisata Booking",
+  *      description="Returns list of Wisata Booking",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-bookings/read?slug=tourism-bookings&id={id}",
-  *      operationId="readTourismBookings",
+  *      operationId="readWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Get Tourism Bookings based on id",
-  *      description="Returns Tourism Bookings based on id",
+  *      summary="Get Wisata Booking based on id",
+  *      description="Returns Wisata Booking based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/tourism-bookings/add",
-  *      operationId="addTourismBookings",
+  *      operationId="addWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Insert new Tourism Bookings",
-  *      description="Insert new Tourism Bookings into database",
+  *      summary="Insert new Wisata Booking",
+  *      description="Insert new Wisata Booking into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-bookings/edit",
-  *      operationId="editTourismBookings",
+  *      operationId="editWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Edit an existing Tourism Bookings",
-  *      description="Edit an existing Tourism Bookings",
+  *      summary="Edit an existing Wisata Booking",
+  *      description="Edit an existing Wisata Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-bookings/delete",
-  *      operationId="deleteTourismBookings",
+  *      operationId="deleteWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Delete one record of Tourism Bookings",
-  *      description="Delete one record of Tourism Bookings",
+  *      summary="Delete one record of Wisata Booking",
+  *      description="Delete one record of Wisata Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-bookings/delete-multiple",
-  *      operationId="deleteMultipleTourismBookings",
+  *      operationId="deleteMultipleWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Delete multiple record of Tourism Bookings",
-  *      description="Delete multiple record of Tourism Bookings",
+  *      summary="Delete multiple record of Wisata Booking",
+  *      description="Delete multiple record of Wisata Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-bookings/sort",
-  *      operationId="sortTourismBookings",
+  *      operationId="sortWisataBooking",
   *      tags={"tourism-bookings"},
-  *      summary="Sort existing Tourism Bookings",
-  *      description="Sort existing Tourism Bookings",
+  *      summary="Sort existing Wisata Booking",
+  *      description="Sort existing Wisata Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,16 +201,17 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "venueId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "venueId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "customerId":"", "venueId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "customerId":"", "venueId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="venueId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="quantitySum"), 
+  *                         @OA\Property(type="string", property="condition"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

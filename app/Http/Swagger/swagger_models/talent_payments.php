@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="string", property="codeTransaction"), 
   *                         @OA\Property(type="string", property="method"), 
@@ -215,6 +215,7 @@
   *                         @OA\Property(type="string", property="status"), 
   *                         @OA\Property(type="string", property="receipt"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="isSelected"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

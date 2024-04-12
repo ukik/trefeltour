@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-profiles",
-  *      operationId="browseLodgeProfiles",
+  *      operationId="browseHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Browse Lodge Profiles",
-  *      description="Returns list of Lodge Profiles",
+  *      summary="Browse Hotel Profile",
+  *      description="Returns list of Hotel Profile",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-profiles/read?slug=lodge-profiles&id={id}",
-  *      operationId="readLodgeProfiles",
+  *      operationId="readHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Get Lodge Profiles based on id",
-  *      description="Returns Lodge Profiles based on id",
+  *      summary="Get Hotel Profile based on id",
+  *      description="Returns Hotel Profile based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-profiles/add",
-  *      operationId="addLodgeProfiles",
+  *      operationId="addHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Insert new Lodge Profiles",
-  *      description="Insert new Lodge Profiles into database",
+  *      summary="Insert new Hotel Profile",
+  *      description="Insert new Hotel Profile into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-profiles/edit",
-  *      operationId="editLodgeProfiles",
+  *      operationId="editHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Edit an existing Lodge Profiles",
-  *      description="Edit an existing Lodge Profiles",
+  *      summary="Edit an existing Hotel Profile",
+  *      description="Edit an existing Hotel Profile",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-profiles/delete",
-  *      operationId="deleteLodgeProfiles",
+  *      operationId="deleteHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Delete one record of Lodge Profiles",
-  *      description="Delete one record of Lodge Profiles",
+  *      summary="Delete one record of Hotel Profile",
+  *      description="Delete one record of Hotel Profile",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-profiles/delete-multiple",
-  *      operationId="deleteMultipleLodgeProfiles",
+  *      operationId="deleteMultipleHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Delete multiple record of Lodge Profiles",
-  *      description="Delete multiple record of Lodge Profiles",
+  *      summary="Delete multiple record of Hotel Profile",
+  *      description="Delete multiple record of Hotel Profile",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-profiles/sort",
-  *      operationId="sortLodgeProfiles",
+  *      operationId="sortHotelProfile",
   *      tags={"lodge-profiles"},
-  *      summary="Sort existing Lodge Profiles",
-  *      description="Sort existing Lodge Profiles",
+  *      summary="Sort existing Hotel Profile",
+  *      description="Sort existing Hotel Profile",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,12 +201,12 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "userId":"", "uuid":"Abc", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "userId":"", "name":"Abc", "email":"Abc", "phone":"Abc", "location":"Abc", "image":"Abc", "address":"Abc", "codepos":"123", "city":"Abc", "country":"Abc", "policy":"Abc", "description":"Abc", "rating":"Abc", "types":"Abc", "services":"Abc", "checkinTime":"Abc", "checkoutTime":"Abc", "additionalPolicy":"Abc", "lateCheckoutPrice":"123", "shuttleToAirportPrice":"123", "additionalBreakfastPrice":"123", "isCleanAccomodation":"Abc", "isBreakfast":"Abc", "isPet":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="string", property="userId"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="userId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="string", property="email"), 
   *                         @OA\Property(type="string", property="phone"), 

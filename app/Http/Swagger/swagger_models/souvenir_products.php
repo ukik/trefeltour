@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-products",
-  *      operationId="browseSouvenirProducts",
+  *      operationId="browseSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Browse Souvenir Products",
-  *      description="Returns list of Souvenir Products",
+  *      summary="Browse Suvenir Produk",
+  *      description="Returns list of Suvenir Produk",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-products/read?slug=souvenir-products&id={id}",
-  *      operationId="readSouvenirProducts",
+  *      operationId="readSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Get Souvenir Products based on id",
-  *      description="Returns Souvenir Products based on id",
+  *      summary="Get Suvenir Produk based on id",
+  *      description="Returns Suvenir Produk based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-products/add",
-  *      operationId="addSouvenirProducts",
+  *      operationId="addSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Insert new Souvenir Products",
-  *      description="Insert new Souvenir Products into database",
+  *      summary="Insert new Suvenir Produk",
+  *      description="Insert new Suvenir Produk into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-products/edit",
-  *      operationId="editSouvenirProducts",
+  *      operationId="editSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Edit an existing Souvenir Products",
-  *      description="Edit an existing Souvenir Products",
+  *      summary="Edit an existing Suvenir Produk",
+  *      description="Edit an existing Suvenir Produk",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-products/delete",
-  *      operationId="deleteSouvenirProducts",
+  *      operationId="deleteSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Delete one record of Souvenir Products",
-  *      description="Delete one record of Souvenir Products",
+  *      summary="Delete one record of Suvenir Produk",
+  *      description="Delete one record of Suvenir Produk",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-products/delete-multiple",
-  *      operationId="deleteMultipleSouvenirProducts",
+  *      operationId="deleteMultipleSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Delete multiple record of Souvenir Products",
-  *      description="Delete multiple record of Souvenir Products",
+  *      summary="Delete multiple record of Suvenir Produk",
+  *      description="Delete multiple record of Suvenir Produk",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-products/sort",
-  *      operationId="sortSouvenirProducts",
+  *      operationId="sortSuvenirProduk",
   *      tags={"souvenir-products"},
-  *      summary="Sort existing Souvenir Products",
-  *      description="Sort existing Souvenir Products",
+  *      summary="Sort existing Suvenir Produk",
+  *      description="Sort existing Suvenir Produk",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

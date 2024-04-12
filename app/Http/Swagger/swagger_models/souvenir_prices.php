@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-prices",
-  *      operationId="browseSouvenirPrices",
+  *      operationId="browseSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Browse Souvenir Prices",
-  *      description="Returns list of Souvenir Prices",
+  *      summary="Browse Suvenir Harga",
+  *      description="Returns list of Suvenir Harga",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-prices/read?slug=souvenir-prices&id={id}",
-  *      operationId="readSouvenirPrices",
+  *      operationId="readSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Get Souvenir Prices based on id",
-  *      description="Returns Souvenir Prices based on id",
+  *      summary="Get Suvenir Harga based on id",
+  *      description="Returns Suvenir Harga based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-prices/add",
-  *      operationId="addSouvenirPrices",
+  *      operationId="addSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Insert new Souvenir Prices",
-  *      description="Insert new Souvenir Prices into database",
+  *      summary="Insert new Suvenir Harga",
+  *      description="Insert new Suvenir Harga into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-prices/edit",
-  *      operationId="editSouvenirPrices",
+  *      operationId="editSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Edit an existing Souvenir Prices",
-  *      description="Edit an existing Souvenir Prices",
+  *      summary="Edit an existing Suvenir Harga",
+  *      description="Edit an existing Suvenir Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-prices/delete",
-  *      operationId="deleteSouvenirPrices",
+  *      operationId="deleteSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Delete one record of Souvenir Prices",
-  *      description="Delete one record of Souvenir Prices",
+  *      summary="Delete one record of Suvenir Harga",
+  *      description="Delete one record of Suvenir Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-prices/delete-multiple",
-  *      operationId="deleteMultipleSouvenirPrices",
+  *      operationId="deleteMultipleSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Delete multiple record of Souvenir Prices",
-  *      description="Delete multiple record of Souvenir Prices",
+  *      summary="Delete multiple record of Suvenir Harga",
+  *      description="Delete multiple record of Suvenir Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-prices/sort",
-  *      operationId="sortSouvenirPrices",
+  *      operationId="sortSuvenirHarga",
   *      tags={"souvenir-prices"},
-  *      summary="Sort existing Souvenir Prices",
-  *      description="Sort existing Souvenir Prices",
+  *      summary="Sort existing Suvenir Harga",
+  *      description="Sort existing Suvenir Harga",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

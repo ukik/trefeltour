@@ -31,8 +31,8 @@ class TravelStoresCRUDDataTypeAdded extends Seeder
                 'id' => 109,
                 'name' => 'travel_stores',
                 'slug' => 'travel-stores',
-                'display_name_singular' => 'Travel Stores',
-                'display_name_plural' => 'Travel Stores',
+                'display_name_singular' => 'Travel Vendor',
+                'display_name_plural' => 'Travel Vendor',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TravelStoresCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-28T16:52:47.000000Z',
-                'updated_at' => '2024-03-29T18:07:20.000000Z',
+                'updated_at' => '2024-04-11T09:53:15.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_stores');
@@ -64,7 +64,7 @@ class TravelStoresCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Travel Stores',
+                    'title' => 'Travel Vendor',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TravelStoresCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/travel-stores';
-                $menu_item->title = 'Travel Stores';
+                $menu_item->title = 'Travel Vendor';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

@@ -31,8 +31,8 @@ class TransportWorkshopsCRUDDataTypeAdded extends Seeder
                 'id' => 35,
                 'name' => 'transport_workshops',
                 'slug' => 'transport-workshops',
-                'display_name_singular' => 'Transport Bengkel',
-                'display_name_plural' => 'Transport Bengkel',
+                'display_name_singular' => 'Rental Bengkel',
+                'display_name_plural' => 'Rental Bengkel',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TransportWorkshopsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-30T15:02:35.000000Z',
-                'updated_at' => '2024-04-06T15:26:26.000000Z',
+                'updated_at' => '2024-04-10T06:06:19.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_workshops');
@@ -64,7 +64,7 @@ class TransportWorkshopsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Bengkel',
+                    'title' => 'Rental Bengkel',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportWorkshopsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-workshops';
-                $menu_item->title = 'Transport Bengkel';
+                $menu_item->title = 'Rental Bengkel';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

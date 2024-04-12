@@ -31,8 +31,8 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 'id' => 40,
                 'name' => 'transport_drivers',
                 'slug' => 'transport-drivers',
-                'display_name_singular' => 'Transport Supir',
-                'display_name_plural' => 'Transport Supir',
+                'display_name_singular' => 'Rental Supir',
+                'display_name_plural' => 'Rental Supir',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T03:27:15.000000Z',
-                'updated_at' => '2024-03-26T23:59:42.000000Z',
+                'updated_at' => '2024-04-10T15:22:23.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_drivers');
@@ -64,7 +64,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Supir',
+                    'title' => 'Rental Supir',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-drivers';
-                $menu_item->title = 'Transport Supir';
+                $menu_item->title = 'Rental Supir';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

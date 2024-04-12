@@ -31,8 +31,8 @@ class SouvenirPaymentsCRUDDataTypeAdded extends Seeder
                 'id' => 75,
                 'name' => 'souvenir_payments',
                 'slug' => 'souvenir-payments',
-                'display_name_singular' => 'Souvenir Payments',
-                'display_name_plural' => 'Souvenir Payments',
+                'display_name_singular' => 'Suvenir Pembayaran',
+                'display_name_plural' => 'Suvenir Pembayaran',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class SouvenirPaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:41:45.000000Z',
-                'updated_at' => '2024-02-28T16:27:02.000000Z',
+                'updated_at' => '2024-04-10T16:43:12.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_payments');
@@ -64,7 +64,7 @@ class SouvenirPaymentsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Souvenir Payments',
+                    'title' => 'Suvenir Pembayaran',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class SouvenirPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/souvenir-payments';
-                $menu_item->title = 'Souvenir Payments';
+                $menu_item->title = 'Suvenir Pembayaran';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

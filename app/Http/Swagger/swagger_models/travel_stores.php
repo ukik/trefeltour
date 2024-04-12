@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-stores",
-  *      operationId="browseTravelStores",
+  *      operationId="browseTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Browse Travel Stores",
-  *      description="Returns list of Travel Stores",
+  *      summary="Browse Travel Vendor",
+  *      description="Returns list of Travel Vendor",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-stores/read?slug=travel-stores&id={id}",
-  *      operationId="readTravelStores",
+  *      operationId="readTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Get Travel Stores based on id",
-  *      description="Returns Travel Stores based on id",
+  *      summary="Get Travel Vendor based on id",
+  *      description="Returns Travel Vendor based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/travel-stores/add",
-  *      operationId="addTravelStores",
+  *      operationId="addTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Insert new Travel Stores",
-  *      description="Insert new Travel Stores into database",
+  *      summary="Insert new Travel Vendor",
+  *      description="Insert new Travel Vendor into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-stores/edit",
-  *      operationId="editTravelStores",
+  *      operationId="editTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Edit an existing Travel Stores",
-  *      description="Edit an existing Travel Stores",
+  *      summary="Edit an existing Travel Vendor",
+  *      description="Edit an existing Travel Vendor",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-stores/delete",
-  *      operationId="deleteTravelStores",
+  *      operationId="deleteTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Delete one record of Travel Stores",
-  *      description="Delete one record of Travel Stores",
+  *      summary="Delete one record of Travel Vendor",
+  *      description="Delete one record of Travel Vendor",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-stores/delete-multiple",
-  *      operationId="deleteMultipleTravelStores",
+  *      operationId="deleteMultipleTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Delete multiple record of Travel Stores",
-  *      description="Delete multiple record of Travel Stores",
+  *      summary="Delete multiple record of Travel Vendor",
+  *      description="Delete multiple record of Travel Vendor",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-stores/sort",
-  *      operationId="sortTravelStores",
+  *      operationId="sortTravelVendor",
   *      tags={"travel-stores"},
-  *      summary="Sort existing Travel Stores",
-  *      description="Sort existing Travel Stores",
+  *      summary="Sort existing Travel Vendor",
+  *      description="Sort existing Travel Vendor",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

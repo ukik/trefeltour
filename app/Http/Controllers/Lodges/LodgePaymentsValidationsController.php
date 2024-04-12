@@ -13,6 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
+use LodgeBookings;
 use LodgePaymentsValidations;
 
 class LodgePaymentsValidationsController extends Controller
@@ -293,6 +294,9 @@ class LodgePaymentsValidationsController extends Controller
             $stored_data = \LodgePaymentsValidations::insert($data);
 
             $temp->update(['is_selected' => 'true']);
+
+            // Booking Condition
+            if($req['is_valid'] === 'true') LodgeBookings::where('id', $temp->booking_id)->update(['condition' => 'lunas']);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

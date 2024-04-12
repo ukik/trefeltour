@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-booking-items",
-  *      operationId="browseCulinaryBookingItems",
+  *      operationId="browseKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Browse Culinary Booking Items",
-  *      description="Returns list of Culinary Booking Items",
+  *      summary="Browse Kuliner Booking Item",
+  *      description="Returns list of Kuliner Booking Item",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-booking-items/read?slug=culinary-booking-items&id={id}",
-  *      operationId="readCulinaryBookingItems",
+  *      operationId="readKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Get Culinary Booking Items based on id",
-  *      description="Returns Culinary Booking Items based on id",
+  *      summary="Get Kuliner Booking Item based on id",
+  *      description="Returns Kuliner Booking Item based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-booking-items/add",
-  *      operationId="addCulinaryBookingItems",
+  *      operationId="addKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Insert new Culinary Booking Items",
-  *      description="Insert new Culinary Booking Items into database",
+  *      summary="Insert new Kuliner Booking Item",
+  *      description="Insert new Kuliner Booking Item into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-booking-items/edit",
-  *      operationId="editCulinaryBookingItems",
+  *      operationId="editKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Edit an existing Culinary Booking Items",
-  *      description="Edit an existing Culinary Booking Items",
+  *      summary="Edit an existing Kuliner Booking Item",
+  *      description="Edit an existing Kuliner Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-booking-items/delete",
-  *      operationId="deleteCulinaryBookingItems",
+  *      operationId="deleteKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Delete one record of Culinary Booking Items",
-  *      description="Delete one record of Culinary Booking Items",
+  *      summary="Delete one record of Kuliner Booking Item",
+  *      description="Delete one record of Kuliner Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-booking-items/delete-multiple",
-  *      operationId="deleteMultipleCulinaryBookingItems",
+  *      operationId="deleteMultipleKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Delete multiple record of Culinary Booking Items",
-  *      description="Delete multiple record of Culinary Booking Items",
+  *      summary="Delete multiple record of Kuliner Booking Item",
+  *      description="Delete multiple record of Kuliner Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-booking-items/sort",
-  *      operationId="sortCulinaryBookingItems",
+  *      operationId="sortKulinerBookingItem",
   *      tags={"culinary-booking-items"},
-  *      summary="Sort existing Culinary Booking Items",
-  *      description="Sort existing Culinary Booking Items",
+  *      summary="Sort existing Kuliner Booking Item",
+  *      description="Sort existing Kuliner Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,11 +201,12 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "storeId":"", "bookingId":"", "productId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "storeId":"", "bookingId":"", "productId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "customerId":"", "storeId":"", "bookingId":"", "productId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "customerId":"", "storeId":"", "bookingId":"", "productId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="productId"), 

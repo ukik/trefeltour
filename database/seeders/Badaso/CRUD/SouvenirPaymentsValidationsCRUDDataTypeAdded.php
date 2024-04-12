@@ -28,10 +28,11 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 76,
                 'name' => 'souvenir_payments_validations',
                 'slug' => 'souvenir-payments-validations',
-                'display_name_singular' => 'Souvenir Payments Validations',
-                'display_name_plural' => 'Souvenir Payments Validations',
+                'display_name_singular' => 'Suvenir Payments Validasi',
+                'display_name_plural' => 'Suvenir Payments Validasi',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-02-22T13:43:48.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:43:48.000000Z',
-                'id' => 76,
+                'updated_at' => '2024-04-10T16:35:24.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_payments_validations');
@@ -63,7 +64,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Souvenir Payments Validations',
+                    'title' => 'Suvenir Payments Validasi',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/souvenir-payments-validations';
-                $menu_item->title = 'Souvenir Payments Validations';
+                $menu_item->title = 'Suvenir Payments Validasi';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

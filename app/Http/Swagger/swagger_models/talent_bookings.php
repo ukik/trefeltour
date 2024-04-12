@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-bookings",
-  *      operationId="browseTalentBookings",
+  *      operationId="browseTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Browse Talent Bookings",
-  *      description="Returns list of Talent Bookings",
+  *      summary="Browse Talent Booking",
+  *      description="Returns list of Talent Booking",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-bookings/read?slug=talent-bookings&id={id}",
-  *      operationId="readTalentBookings",
+  *      operationId="readTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Get Talent Bookings based on id",
-  *      description="Returns Talent Bookings based on id",
+  *      summary="Get Talent Booking based on id",
+  *      description="Returns Talent Booking based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/talent-bookings/add",
-  *      operationId="addTalentBookings",
+  *      operationId="addTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Insert new Talent Bookings",
-  *      description="Insert new Talent Bookings into database",
+  *      summary="Insert new Talent Booking",
+  *      description="Insert new Talent Booking into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-bookings/edit",
-  *      operationId="editTalentBookings",
+  *      operationId="editTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Edit an existing Talent Bookings",
-  *      description="Edit an existing Talent Bookings",
+  *      summary="Edit an existing Talent Booking",
+  *      description="Edit an existing Talent Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-bookings/delete",
-  *      operationId="deleteTalentBookings",
+  *      operationId="deleteTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Delete one record of Talent Bookings",
-  *      description="Delete one record of Talent Bookings",
+  *      summary="Delete one record of Talent Booking",
+  *      description="Delete one record of Talent Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-bookings/delete-multiple",
-  *      operationId="deleteMultipleTalentBookings",
+  *      operationId="deleteMultipleTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Delete multiple record of Talent Bookings",
-  *      description="Delete multiple record of Talent Bookings",
+  *      summary="Delete multiple record of Talent Booking",
+  *      description="Delete multiple record of Talent Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-bookings/sort",
-  *      operationId="sortTalentBookings",
+  *      operationId="sortTalentBooking",
   *      tags={"talent-bookings"},
-  *      summary="Sort existing Talent Bookings",
-  *      description="Sort existing Talent Bookings",
+  *      summary="Sort existing Talent Booking",
+  *      description="Sort existing Talent Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,17 +201,18 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "profileId":"", "priceId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "profileId":"", "priceId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "customerId":"", "profileId":"", "priceId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "customerId":"", "profileId":"", "priceId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="profileId"), 
   *                         @OA\Property(type="string", property="priceId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="quantitySum"), 
+  *                         @OA\Property(type="string", property="condition"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

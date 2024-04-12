@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-booking-items",
-  *      operationId="browseTransportBookingItems",
+  *      operationId="browseRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Browse Transport Booking Items",
-  *      description="Returns list of Transport Booking Items",
+  *      summary="Browse Rental Booking Item",
+  *      description="Returns list of Rental Booking Item",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-booking-items/read?slug=transport-booking-items&id={id}",
-  *      operationId="readTransportBookingItems",
+  *      operationId="readRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Get Transport Booking Items based on id",
-  *      description="Returns Transport Booking Items based on id",
+  *      summary="Get Rental Booking Item based on id",
+  *      description="Returns Rental Booking Item based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-booking-items/add",
-  *      operationId="addTransportBookingItems",
+  *      operationId="addRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Insert new Transport Booking Items",
-  *      description="Insert new Transport Booking Items into database",
+  *      summary="Insert new Rental Booking Item",
+  *      description="Insert new Rental Booking Item into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-booking-items/edit",
-  *      operationId="editTransportBookingItems",
+  *      operationId="editRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Edit an existing Transport Booking Items",
-  *      description="Edit an existing Transport Booking Items",
+  *      summary="Edit an existing Rental Booking Item",
+  *      description="Edit an existing Rental Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-booking-items/delete",
-  *      operationId="deleteTransportBookingItems",
+  *      operationId="deleteRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Delete one record of Transport Booking Items",
-  *      description="Delete one record of Transport Booking Items",
+  *      summary="Delete one record of Rental Booking Item",
+  *      description="Delete one record of Rental Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-booking-items/delete-multiple",
-  *      operationId="deleteMultipleTransportBookingItems",
+  *      operationId="deleteMultipleRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Delete multiple record of Transport Booking Items",
-  *      description="Delete multiple record of Transport Booking Items",
+  *      summary="Delete multiple record of Rental Booking Item",
+  *      description="Delete multiple record of Rental Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-booking-items/sort",
-  *      operationId="sortTransportBookingItems",
+  *      operationId="sortRentalBookingItem",
   *      tags={"transport-booking-items"},
-  *      summary="Sort existing Transport Booking Items",
-  *      description="Sort existing Transport Booking Items",
+  *      summary="Sort existing Rental Booking Item",
+  *      description="Sort existing Rental Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "rentalId":"", "customerId":"", "bookingId":"", "vehicleId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "dateCheckin":"Abc", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "rentalId":"", "customerId":"", "bookingId":"", "vehicleId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "dateCheckin":"Abc", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "rentalId":"", "customerId":"", "vehicleId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "dateCheckin":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "rentalId":"", "customerId":"", "vehicleId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "dateCheckin":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="rentalId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="vehicleId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="getPrice"), 
@@ -216,8 +216,8 @@
   *                         @OA\Property(type="integer", property="getCashback"), 
   *                         @OA\Property(type="integer", property="getTotalAmount"), 
   *                         @OA\Property(type="integer", property="quantity"), 
-  *                         @OA\Property(type="string", property="dateCheckin"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
+  *                         @OA\Property(type="string", property="dateCheckin"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 

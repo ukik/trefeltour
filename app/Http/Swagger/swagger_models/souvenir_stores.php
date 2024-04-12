@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-stores",
-  *      operationId="browseSouvenirStores",
+  *      operationId="browseSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Browse Souvenir Stores",
-  *      description="Returns list of Souvenir Stores",
+  *      summary="Browse Suvenir Toko",
+  *      description="Returns list of Suvenir Toko",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-stores/read?slug=souvenir-stores&id={id}",
-  *      operationId="readSouvenirStores",
+  *      operationId="readSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Get Souvenir Stores based on id",
-  *      description="Returns Souvenir Stores based on id",
+  *      summary="Get Suvenir Toko based on id",
+  *      description="Returns Suvenir Toko based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-stores/add",
-  *      operationId="addSouvenirStores",
+  *      operationId="addSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Insert new Souvenir Stores",
-  *      description="Insert new Souvenir Stores into database",
+  *      summary="Insert new Suvenir Toko",
+  *      description="Insert new Suvenir Toko into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-stores/edit",
-  *      operationId="editSouvenirStores",
+  *      operationId="editSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Edit an existing Souvenir Stores",
-  *      description="Edit an existing Souvenir Stores",
+  *      summary="Edit an existing Suvenir Toko",
+  *      description="Edit an existing Suvenir Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-stores/delete",
-  *      operationId="deleteSouvenirStores",
+  *      operationId="deleteSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Delete one record of Souvenir Stores",
-  *      description="Delete one record of Souvenir Stores",
+  *      summary="Delete one record of Suvenir Toko",
+  *      description="Delete one record of Suvenir Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-stores/delete-multiple",
-  *      operationId="deleteMultipleSouvenirStores",
+  *      operationId="deleteMultipleSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Delete multiple record of Souvenir Stores",
-  *      description="Delete multiple record of Souvenir Stores",
+  *      summary="Delete multiple record of Suvenir Toko",
+  *      description="Delete multiple record of Suvenir Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-stores/sort",
-  *      operationId="sortSouvenirStores",
+  *      operationId="sortSuvenirToko",
   *      tags={"souvenir-stores"},
-  *      summary="Sort existing Souvenir Stores",
-  *      description="Sort existing Souvenir Stores",
+  *      summary="Sort existing Suvenir Toko",
+  *      description="Sort existing Suvenir Toko",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

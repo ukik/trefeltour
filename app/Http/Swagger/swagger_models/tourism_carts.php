@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-carts",
-  *      operationId="browseTourismCarts",
+  *      operationId="browseWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Browse Tourism Carts",
-  *      description="Returns list of Tourism Carts",
+  *      summary="Browse Wisata Keranjang",
+  *      description="Returns list of Wisata Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-carts/read?slug=tourism-carts&id={id}",
-  *      operationId="readTourismCarts",
+  *      operationId="readWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Get Tourism Carts based on id",
-  *      description="Returns Tourism Carts based on id",
+  *      summary="Get Wisata Keranjang based on id",
+  *      description="Returns Wisata Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/tourism-carts/add",
-  *      operationId="addTourismCarts",
+  *      operationId="addWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Insert new Tourism Carts",
-  *      description="Insert new Tourism Carts into database",
+  *      summary="Insert new Wisata Keranjang",
+  *      description="Insert new Wisata Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc"},
+  *                     example={"quantity":"123", "getFinalAmount":"Abc"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-carts/edit",
-  *      operationId="editTourismCarts",
+  *      operationId="editWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Edit an existing Tourism Carts",
-  *      description="Edit an existing Tourism Carts",
+  *      summary="Edit an existing Wisata Keranjang",
+  *      description="Edit an existing Wisata Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc"},
+  *                     example={"quantity":"123", "getFinalAmount":"Abc"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-carts/delete",
-  *      operationId="deleteTourismCarts",
+  *      operationId="deleteWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Delete one record of Tourism Carts",
-  *      description="Delete one record of Tourism Carts",
+  *      summary="Delete one record of Wisata Keranjang",
+  *      description="Delete one record of Wisata Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-carts/delete-multiple",
-  *      operationId="deleteMultipleTourismCarts",
+  *      operationId="deleteMultipleWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Delete multiple record of Tourism Carts",
-  *      description="Delete multiple record of Tourism Carts",
+  *      summary="Delete multiple record of Wisata Keranjang",
+  *      description="Delete multiple record of Wisata Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-carts/sort",
-  *      operationId="sortTourismCarts",
+  *      operationId="sortWisataKeranjang",
   *      tags={"tourism-carts"},
-  *      summary="Sort existing Tourism Carts",
-  *      description="Sort existing Tourism Carts",
+  *      summary="Sort existing Wisata Keranjang",
+  *      description="Sort existing Wisata Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "venueId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "venueId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "getFinalAmount":"Abc", "stock":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "customerId":"", "venueId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "stock":"Abc", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "venueId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "quantity":"123", "stock":"Abc", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -214,8 +214,8 @@
   *                         @OA\Property(type="string", property="getCashback"), 
   *                         @OA\Property(type="string", property="getTotalAmount"), 
   *                         @OA\Property(type="integer", property="quantity"), 
-  *                         @OA\Property(type="string", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="stock"), 
+  *                         @OA\Property(type="string", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

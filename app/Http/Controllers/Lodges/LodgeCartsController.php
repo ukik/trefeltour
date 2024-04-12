@@ -411,7 +411,7 @@ class LodgeCartsController extends Controller
             // HAPUS CARTS
             \LodgeCarts::with([
                 'lodgePrice',
-            ])->whereIn('id', $ids)->delete();
+            ])->whereIn('id', $ids)->delete(); // pakai ini agar tidak konflik unique di database
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

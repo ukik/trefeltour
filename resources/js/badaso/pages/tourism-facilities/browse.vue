@@ -1009,7 +1009,7 @@ export default {
         this.selected = []
         this.selectedMulti = []
         this.getEntity();
-        this.$refs?.SharedSelectAvailable?.onClear()
+        this.$refs?.SharedSelectTourismFacilitiesCategory?.onClear()
     },
     onSelect(field,val) {
         this[field] = val

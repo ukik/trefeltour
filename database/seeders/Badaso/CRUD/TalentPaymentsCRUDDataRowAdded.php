@@ -28,7 +28,7 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'ID',
+                    'display_name' => 'No',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -42,38 +42,6 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'booking_id',
-                    'type' => 'relation',
-                    'display_name' => 'Pilih Booking',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_bookings","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","uuid"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'customer_id',
-                    'type' => 'relation',
-                    'display_name' => 'Pilih Customer',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
-                    'order' => 3,
-                ),
-                3 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
                     'display_name' => 'UUID',
@@ -85,6 +53,38 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
+                    'order' => 2,
+                ),
+                2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'booking_id',
+                    'type' => 'relation',
+                'display_name' => 'Booking (UUID)',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"talent_bookings","destination_table_column":"id","destination_table_display_column":"uuid","destination_table_display_more_column":["id","uuid"]}',
+                    'order' => 3,
+                ),
+                3 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'customer_id',
+                    'type' => 'relation',
+                    'display_name' => 'Customer',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name"]}',
                     'order' => 4,
                 ),
                 4 => 
@@ -92,7 +92,7 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'total_amount',
                     'type' => 'number',
-                'display_name' => 'Total Tagihan Talent (Rp)',
+                'display_name' => 'Total Price (Rp) - Jasa',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -238,6 +238,22 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                 11 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'is_selected',
+                    'type' => 'text',
+                    'display_name' => 'Proses Pembayaran',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 12,
+                ),
+                12 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Nama Tabel',
@@ -249,9 +265,9 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 13,
                 ),
-                12 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -265,9 +281,9 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 14,
                 ),
-                13 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -281,9 +297,9 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 15,
                 ),
-                14 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -297,7 +313,7 @@ class TalentPaymentsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
             ));
 

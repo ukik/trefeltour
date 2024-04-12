@@ -28,10 +28,11 @@ class CulinaryBookingItemsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 94,
                 'name' => 'culinary_booking_items',
                 'slug' => 'culinary-booking-items',
-                'display_name_singular' => 'Culinary Booking Items',
-                'display_name_plural' => 'Culinary Booking Items',
+                'display_name_singular' => 'Kuliner Booking Item',
+                'display_name_plural' => 'Kuliner Booking Item',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class CulinaryBookingItemsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-14T07:53:57.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T07:53:57.000000Z',
-                'id' => 94,
+                'updated_at' => '2024-04-11T06:38:25.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_booking_items');
@@ -63,7 +64,7 @@ class CulinaryBookingItemsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Culinary Booking Items',
+                    'title' => 'Kuliner Booking Item',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class CulinaryBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/culinary-booking-items';
-                $menu_item->title = 'Culinary Booking Items';
+                $menu_item->title = 'Kuliner Booking Item';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

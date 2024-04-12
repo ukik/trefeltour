@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-vehicles",
-  *      operationId="browseTransportVehicles",
+  *      operationId="browseRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Browse Transport Vehicles",
-  *      description="Returns list of Transport Vehicles",
+  *      summary="Browse Rental Kendaraan",
+  *      description="Returns list of Rental Kendaraan",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-vehicles/read?slug=transport-vehicles&id={id}",
-  *      operationId="readTransportVehicles",
+  *      operationId="readRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Get Transport Vehicles based on id",
-  *      description="Returns Transport Vehicles based on id",
+  *      summary="Get Rental Kendaraan based on id",
+  *      description="Returns Rental Kendaraan based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-vehicles/add",
-  *      operationId="addTransportVehicles",
+  *      operationId="addRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Insert new Transport Vehicles",
-  *      description="Insert new Transport Vehicles into database",
+  *      summary="Insert new Rental Kendaraan",
+  *      description="Insert new Rental Kendaraan into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-vehicles/edit",
-  *      operationId="editTransportVehicles",
+  *      operationId="editRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Edit an existing Transport Vehicles",
-  *      description="Edit an existing Transport Vehicles",
+  *      summary="Edit an existing Rental Kendaraan",
+  *      description="Edit an existing Rental Kendaraan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-vehicles/delete",
-  *      operationId="deleteTransportVehicles",
+  *      operationId="deleteRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Delete one record of Transport Vehicles",
-  *      description="Delete one record of Transport Vehicles",
+  *      summary="Delete one record of Rental Kendaraan",
+  *      description="Delete one record of Rental Kendaraan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-vehicles/delete-multiple",
-  *      operationId="deleteMultipleTransportVehicles",
+  *      operationId="deleteMultipleRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Delete multiple record of Transport Vehicles",
-  *      description="Delete multiple record of Transport Vehicles",
+  *      summary="Delete multiple record of Rental Kendaraan",
+  *      description="Delete multiple record of Rental Kendaraan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-vehicles/sort",
-  *      operationId="sortTransportVehicles",
+  *      operationId="sortRentalKendaraan",
   *      tags={"transport-vehicles"},
-  *      summary="Sort existing Transport Vehicles",
-  *      description="Sort existing Transport Vehicles",
+  *      summary="Sort existing Rental Kendaraan",
+  *      description="Sort existing Rental Kendaraan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "rentalId":"", "userId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "rentalId":"", "userId":"", "uuid":"Abc", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="rentalId"), 
   *                         @OA\Property(type="string", property="userId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="model"), 
   *                         @OA\Property(type="string", property="brand"), 
   *                         @OA\Property(type="string", property="category"), 

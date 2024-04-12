@@ -28,10 +28,11 @@ class CulinaryPaymentsValidationsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 96,
                 'name' => 'culinary_payments_validations',
                 'slug' => 'culinary-payments-validations',
-                'display_name_singular' => 'Culinary Payments Validations',
-                'display_name_plural' => 'Culinary Payments Validations',
+                'display_name_singular' => 'Kuliner Pembayaran Validasi',
+                'display_name_plural' => 'Kuliner Pembayaran Validasi',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class CulinaryPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-14T08:41:58.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T08:41:58.000000Z',
-                'id' => 96,
+                'updated_at' => '2024-04-11T04:38:28.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_payments_validations');
@@ -63,7 +64,7 @@ class CulinaryPaymentsValidationsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Culinary Payments Validations',
+                    'title' => 'Kuliner Pembayaran Validasi',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class CulinaryPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/culinary-payments-validations';
-                $menu_item->title = 'Culinary Payments Validations';
+                $menu_item->title = 'Kuliner Pembayaran Validasi';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

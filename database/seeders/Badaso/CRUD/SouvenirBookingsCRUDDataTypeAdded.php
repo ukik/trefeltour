@@ -31,8 +31,8 @@ class SouvenirBookingsCRUDDataTypeAdded extends Seeder
                 'id' => 73,
                 'name' => 'souvenir_bookings',
                 'slug' => 'souvenir-bookings',
-                'display_name_singular' => 'Souvenir Bookings',
-                'display_name_plural' => 'Souvenir Bookings',
+                'display_name_singular' => 'Suvenir Booking',
+                'display_name_plural' => 'Suvenir Booking',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class SouvenirBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:27:51.000000Z',
-                'updated_at' => '2024-04-03T23:34:27.000000Z',
+                'updated_at' => '2024-04-11T10:19:49.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_bookings');
@@ -64,7 +64,7 @@ class SouvenirBookingsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Souvenir Bookings',
+                    'title' => 'Suvenir Booking',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class SouvenirBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/souvenir-bookings';
-                $menu_item->title = 'Souvenir Bookings';
+                $menu_item->title = 'Suvenir Booking';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

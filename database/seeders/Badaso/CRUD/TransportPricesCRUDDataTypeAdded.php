@@ -31,8 +31,8 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 'id' => 105,
                 'name' => 'transport_prices',
                 'slug' => 'transport-prices',
-                'display_name_singular' => 'Transport Prices',
-                'display_name_plural' => 'Transport Prices',
+                'display_name_singular' => 'Rental Harga Sewa',
+                'display_name_plural' => 'Rental Harga Sewa',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-23T16:22:07.000000Z',
-                'updated_at' => '2024-03-23T21:24:58.000000Z',
+                'updated_at' => '2024-04-10T15:21:45.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_prices');
@@ -64,7 +64,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Prices',
+                    'title' => 'Rental Harga Sewa',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-prices';
-                $menu_item->title = 'Transport Prices';
+                $menu_item->title = 'Rental Harga Sewa';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

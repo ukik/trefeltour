@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-payments",
-  *      operationId="browseTravelPayments",
+  *      operationId="browseTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Browse Travel Payments",
-  *      description="Returns list of Travel Payments",
+  *      summary="Browse Travel Pembayaran",
+  *      description="Returns list of Travel Pembayaran",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-payments/read?slug=travel-payments&id={id}",
-  *      operationId="readTravelPayments",
+  *      operationId="readTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Get Travel Payments based on id",
-  *      description="Returns Travel Payments based on id",
+  *      summary="Get Travel Pembayaran based on id",
+  *      description="Returns Travel Pembayaran based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/travel-payments/add",
-  *      operationId="addTravelPayments",
+  *      operationId="addTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Insert new Travel Payments",
-  *      description="Insert new Travel Payments into database",
+  *      summary="Insert new Travel Pembayaran",
+  *      description="Insert new Travel Pembayaran into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-payments/edit",
-  *      operationId="editTravelPayments",
+  *      operationId="editTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Edit an existing Travel Payments",
-  *      description="Edit an existing Travel Payments",
+  *      summary="Edit an existing Travel Pembayaran",
+  *      description="Edit an existing Travel Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-payments/delete",
-  *      operationId="deleteTravelPayments",
+  *      operationId="deleteTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Delete one record of Travel Payments",
-  *      description="Delete one record of Travel Payments",
+  *      summary="Delete one record of Travel Pembayaran",
+  *      description="Delete one record of Travel Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-payments/delete-multiple",
-  *      operationId="deleteMultipleTravelPayments",
+  *      operationId="deleteMultipleTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Delete multiple record of Travel Payments",
-  *      description="Delete multiple record of Travel Payments",
+  *      summary="Delete multiple record of Travel Pembayaran",
+  *      description="Delete multiple record of Travel Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-payments/sort",
-  *      operationId="sortTravelPayments",
+  *      operationId="sortTravelPembayaran",
   *      tags={"travel-payments"},
-  *      summary="Sort existing Travel Payments",
-  *      description="Sort existing Travel Payments",
+  *      summary="Sort existing Travel Pembayaran",
+  *      description="Sort existing Travel Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "bookingId":"", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="string", property="codeTransaction"), 
   *                         @OA\Property(type="string", property="method"), 

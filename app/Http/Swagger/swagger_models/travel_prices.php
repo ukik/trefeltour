@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-prices",
-  *      operationId="browseTravelPrices",
+  *      operationId="browseTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Browse Travel Prices",
-  *      description="Returns list of Travel Prices",
+  *      summary="Browse Travel Harga Tiket",
+  *      description="Returns list of Travel Harga Tiket",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/travel-prices/read?slug=travel-prices&id={id}",
-  *      operationId="readTravelPrices",
+  *      operationId="readTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Get Travel Prices based on id",
-  *      description="Returns Travel Prices based on id",
+  *      summary="Get Travel Harga Tiket based on id",
+  *      description="Returns Travel Harga Tiket based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/travel-prices/add",
-  *      operationId="addTravelPrices",
+  *      operationId="addTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Insert new Travel Prices",
-  *      description="Insert new Travel Prices into database",
+  *      summary="Insert new Travel Harga Tiket",
+  *      description="Insert new Travel Harga Tiket into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-prices/edit",
-  *      operationId="editTravelPrices",
+  *      operationId="editTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Edit an existing Travel Prices",
-  *      description="Edit an existing Travel Prices",
+  *      summary="Edit an existing Travel Harga Tiket",
+  *      description="Edit an existing Travel Harga Tiket",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-prices/delete",
-  *      operationId="deleteTravelPrices",
+  *      operationId="deleteTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Delete one record of Travel Prices",
-  *      description="Delete one record of Travel Prices",
+  *      summary="Delete one record of Travel Harga Tiket",
+  *      description="Delete one record of Travel Harga Tiket",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/travel-prices/delete-multiple",
-  *      operationId="deleteMultipleTravelPrices",
+  *      operationId="deleteMultipleTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Delete multiple record of Travel Prices",
-  *      description="Delete multiple record of Travel Prices",
+  *      summary="Delete multiple record of Travel Harga Tiket",
+  *      description="Delete multiple record of Travel Harga Tiket",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/travel-prices/sort",
-  *      operationId="sortTravelPrices",
+  *      operationId="sortTravelHargaTiket",
   *      tags={"travel-prices"},
-  *      summary="Sort existing Travel Prices",
-  *      description="Sort existing Travel Prices",
+  *      summary="Sort existing Travel Harga Tiket",
+  *      description="Sort existing Travel Harga Tiket",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "image":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "image":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "image":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "quantity":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "reservationId":"", "customerId":"", "storeId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "description":"Abc", "codeTicket":"Abc", "seatNo":"Abc", "image":"Abc", "ticketStatus":"Abc", "startingDate":"Abc", "startingTime":"Abc", "startingLocation":"Abc", "arrivalLocation":"Abc", "startingTerminal":"Abc", "arrivalTerminal":"Abc", "quantity":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -224,6 +224,7 @@
   *                         @OA\Property(type="string", property="arrivalLocation"), 
   *                         @OA\Property(type="string", property="startingTerminal"), 
   *                         @OA\Property(type="string", property="arrivalTerminal"), 
+  *                         @OA\Property(type="string", property="quantity"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

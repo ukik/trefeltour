@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-bookings",
-  *      operationId="browseSouvenirBookings",
+  *      operationId="browseSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Browse Souvenir Bookings",
-  *      description="Returns list of Souvenir Bookings",
+  *      summary="Browse Suvenir Booking",
+  *      description="Returns list of Suvenir Booking",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-bookings/read?slug=souvenir-bookings&id={id}",
-  *      operationId="readSouvenirBookings",
+  *      operationId="readSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Get Souvenir Bookings based on id",
-  *      description="Returns Souvenir Bookings based on id",
+  *      summary="Get Suvenir Booking based on id",
+  *      description="Returns Suvenir Booking based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-bookings/add",
-  *      operationId="addSouvenirBookings",
+  *      operationId="addSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Insert new Souvenir Bookings",
-  *      description="Insert new Souvenir Bookings into database",
+  *      summary="Insert new Suvenir Booking",
+  *      description="Insert new Suvenir Booking into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"uuid":"Abc", "description":"Abc", "getFinalAmount":"123"},
+  *                     example={},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-bookings/edit",
-  *      operationId="editSouvenirBookings",
+  *      operationId="editSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Edit an existing Souvenir Bookings",
-  *      description="Edit an existing Souvenir Bookings",
+  *      summary="Edit an existing Suvenir Booking",
+  *      description="Edit an existing Suvenir Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"uuid":"Abc", "description":"Abc", "getFinalAmount":"123"},
+  *                     example={},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-bookings/delete",
-  *      operationId="deleteSouvenirBookings",
+  *      operationId="deleteSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Delete one record of Souvenir Bookings",
-  *      description="Delete one record of Souvenir Bookings",
+  *      summary="Delete one record of Suvenir Booking",
+  *      description="Delete one record of Suvenir Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-bookings/delete-multiple",
-  *      operationId="deleteMultipleSouvenirBookings",
+  *      operationId="deleteMultipleSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Delete multiple record of Souvenir Bookings",
-  *      description="Delete multiple record of Souvenir Bookings",
+  *      summary="Delete multiple record of Suvenir Booking",
+  *      description="Delete multiple record of Suvenir Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-bookings/sort",
-  *      operationId="sortSouvenirBookings",
+  *      operationId="sortSuvenirBooking",
   *      tags={"souvenir-bookings"},
-  *      summary="Sort existing Souvenir Bookings",
-  *      description="Sort existing Souvenir Bookings",
+  *      summary="Sort existing Suvenir Booking",
+  *      description="Sort existing Suvenir Booking",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,17 +201,18 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"bookingItem":"Abc", "id":"123", "customerId":"", "storeId":"", "uuid":"Abc", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"bookingItem":"Abc", "id":"123", "uuid":"Abc", "customerId":"", "storeId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"bookingItem":"Abc", "id":"123", "uuid":"Abc", "customerId":"", "storeId":"", "description":"Abc", "getFinalAmount":"123", "quantitySum":"Abc", "condition":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="string", property="bookingItem"), 
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="storeId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="description"), 
   *                         @OA\Property(type="integer", property="getFinalAmount"), 
   *                         @OA\Property(type="string", property="quantitySum"), 
+  *                         @OA\Property(type="string", property="condition"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

@@ -28,7 +28,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'ID',
+                    'display_name' => 'No',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -60,7 +60,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'profile_id',
                     'type' => 'relation',
-                    'display_name' => 'Pilih Talent',
+                    'display_name' => 'Talent',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -102,10 +102,6 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'details' => '{
 "size": 12,
 "items": [
-{
-"label": "Documentary",
-"value": "documentary"
-},
 {
 "label": "Guide",
 "value": "guide"
@@ -200,7 +196,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'year_exp',
                     'type' => 'date',
-                    'display_name' => 'Berpengalaman Sejak',
+                    'display_name' => 'Pengalaman Sejak',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -216,7 +212,7 @@ class TalentSkillsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
                     'type' => 'switch',
-                    'display_name' => 'Tersedia',
+                    'display_name' => 'Available',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,

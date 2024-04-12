@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-prices",
-  *      operationId="browseTransportPrices",
+  *      operationId="browseRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Browse Transport Prices",
-  *      description="Returns list of Transport Prices",
+  *      summary="Browse Rental Harga Sewa",
+  *      description="Returns list of Rental Harga Sewa",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-prices/read?slug=transport-prices&id={id}",
-  *      operationId="readTransportPrices",
+  *      operationId="readRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Get Transport Prices based on id",
-  *      description="Returns Transport Prices based on id",
+  *      summary="Get Rental Harga Sewa based on id",
+  *      description="Returns Rental Harga Sewa based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-prices/add",
-  *      operationId="addTransportPrices",
+  *      operationId="addRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Insert new Transport Prices",
-  *      description="Insert new Transport Prices into database",
+  *      summary="Insert new Rental Harga Sewa",
+  *      description="Insert new Rental Harga Sewa into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-prices/edit",
-  *      operationId="editTransportPrices",
+  *      operationId="editRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Edit an existing Transport Prices",
-  *      description="Edit an existing Transport Prices",
+  *      summary="Edit an existing Rental Harga Sewa",
+  *      description="Edit an existing Rental Harga Sewa",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-prices/delete",
-  *      operationId="deleteTransportPrices",
+  *      operationId="deleteRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Delete one record of Transport Prices",
-  *      description="Delete one record of Transport Prices",
+  *      summary="Delete one record of Rental Harga Sewa",
+  *      description="Delete one record of Rental Harga Sewa",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-prices/delete-multiple",
-  *      operationId="deleteMultipleTransportPrices",
+  *      operationId="deleteMultipleRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Delete multiple record of Transport Prices",
-  *      description="Delete multiple record of Transport Prices",
+  *      summary="Delete multiple record of Rental Harga Sewa",
+  *      description="Delete multiple record of Rental Harga Sewa",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-prices/sort",
-  *      operationId="sortTransportPrices",
+  *      operationId="sortRentalHargaSewa",
   *      tags={"transport-prices"},
-  *      summary="Sort existing Transport Prices",
-  *      description="Sort existing Transport Prices",
+  *      summary="Sort existing Rental Harga Sewa",
+  *      description="Sort existing Rental Harga Sewa",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

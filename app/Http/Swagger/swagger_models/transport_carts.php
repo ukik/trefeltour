@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-carts",
-  *      operationId="browseTransportCarts",
+  *      operationId="browseRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Browse Transport Carts",
-  *      description="Returns list of Transport Carts",
+  *      summary="Browse Rental Keranjang",
+  *      description="Returns list of Rental Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-carts/read?slug=transport-carts&id={id}",
-  *      operationId="readTransportCarts",
+  *      operationId="readRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Get Transport Carts based on id",
-  *      description="Returns Transport Carts based on id",
+  *      summary="Get Rental Keranjang based on id",
+  *      description="Returns Rental Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-carts/add",
-  *      operationId="addTransportCarts",
+  *      operationId="addRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Insert new Transport Carts",
-  *      description="Insert new Transport Carts into database",
+  *      summary="Insert new Rental Keranjang",
+  *      description="Insert new Rental Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-carts/edit",
-  *      operationId="editTransportCarts",
+  *      operationId="editRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Edit an existing Transport Carts",
-  *      description="Edit an existing Transport Carts",
+  *      summary="Edit an existing Rental Keranjang",
+  *      description="Edit an existing Rental Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-carts/delete",
-  *      operationId="deleteTransportCarts",
+  *      operationId="deleteRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Delete one record of Transport Carts",
-  *      description="Delete one record of Transport Carts",
+  *      summary="Delete one record of Rental Keranjang",
+  *      description="Delete one record of Rental Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-carts/delete-multiple",
-  *      operationId="deleteMultipleTransportCarts",
+  *      operationId="deleteMultipleRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Delete multiple record of Transport Carts",
-  *      description="Delete multiple record of Transport Carts",
+  *      summary="Delete multiple record of Rental Keranjang",
+  *      description="Delete multiple record of Rental Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-carts/sort",
-  *      operationId="sortTransportCarts",
+  *      operationId="sortRentalKeranjang",
   *      tags={"transport-carts"},
-  *      summary="Sort existing Transport Carts",
-  *      description="Sort existing Transport Carts",
+  *      summary="Sort existing Rental Keranjang",
+  *      description="Sort existing Rental Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "dateCheckin":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "dateCheckin":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "customerId":"", "rentalId":"", "vehicleId":"", "priceId":"", "name":"Abc", "getPrice":"Abc", "getDiscount":"Abc", "getCashback":"Abc", "getTotalAmount":"Abc", "uiDateRange":"Abc", "quantity":"123", "getFinalAmount":"Abc", "dateCheckin":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -214,10 +214,10 @@
   *                         @OA\Property(type="string", property="getDiscount"), 
   *                         @OA\Property(type="string", property="getCashback"), 
   *                         @OA\Property(type="string", property="getTotalAmount"), 
-  *                         @OA\Property(type="string", property="dateCheckin"), 
   *                         @OA\Property(type="string", property="uiDateRange"), 
   *                         @OA\Property(type="integer", property="quantity"), 
   *                         @OA\Property(type="string", property="getFinalAmount"), 
+  *                         @OA\Property(type="string", property="dateCheckin"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 

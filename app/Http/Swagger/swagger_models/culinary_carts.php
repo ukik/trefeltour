@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-carts",
-  *      operationId="browseCulinaryCarts",
+  *      operationId="browseKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Browse Culinary Carts",
-  *      description="Returns list of Culinary Carts",
+  *      summary="Browse Kuliner Keranjang",
+  *      description="Returns list of Kuliner Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-carts/read?slug=culinary-carts&id={id}",
-  *      operationId="readCulinaryCarts",
+  *      operationId="readKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Get Culinary Carts based on id",
-  *      description="Returns Culinary Carts based on id",
+  *      summary="Get Kuliner Keranjang based on id",
+  *      description="Returns Kuliner Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-carts/add",
-  *      operationId="addCulinaryCarts",
+  *      operationId="addKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Insert new Culinary Carts",
-  *      description="Insert new Culinary Carts into database",
+  *      summary="Insert new Kuliner Keranjang",
+  *      description="Insert new Kuliner Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-carts/edit",
-  *      operationId="editCulinaryCarts",
+  *      operationId="editKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Edit an existing Culinary Carts",
-  *      description="Edit an existing Culinary Carts",
+  *      summary="Edit an existing Kuliner Keranjang",
+  *      description="Edit an existing Kuliner Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-carts/delete",
-  *      operationId="deleteCulinaryCarts",
+  *      operationId="deleteKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Delete one record of Culinary Carts",
-  *      description="Delete one record of Culinary Carts",
+  *      summary="Delete one record of Kuliner Keranjang",
+  *      description="Delete one record of Kuliner Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-carts/delete-multiple",
-  *      operationId="deleteMultipleCulinaryCarts",
+  *      operationId="deleteMultipleKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Delete multiple record of Culinary Carts",
-  *      description="Delete multiple record of Culinary Carts",
+  *      summary="Delete multiple record of Kuliner Keranjang",
+  *      description="Delete multiple record of Kuliner Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-carts/sort",
-  *      operationId="sortCulinaryCarts",
+  *      operationId="sortKulinerKeranjang",
   *      tags={"culinary-carts"},
-  *      summary="Sort existing Culinary Carts",
-  *      description="Sort existing Culinary Carts",
+  *      summary="Sort existing Kuliner Keranjang",
+  *      description="Sort existing Kuliner Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

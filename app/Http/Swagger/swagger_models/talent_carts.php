@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-carts",
-  *      operationId="browseTalentCarts",
+  *      operationId="browseTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Browse Talent Carts",
-  *      description="Returns list of Talent Carts",
+  *      summary="Browse Talent Keranjang",
+  *      description="Returns list of Talent Keranjang",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/talent-carts/read?slug=talent-carts&id={id}",
-  *      operationId="readTalentCarts",
+  *      operationId="readTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Get Talent Carts based on id",
-  *      description="Returns Talent Carts based on id",
+  *      summary="Get Talent Keranjang based on id",
+  *      description="Returns Talent Keranjang based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/talent-carts/add",
-  *      operationId="addTalentCarts",
+  *      operationId="addTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Insert new Talent Carts",
-  *      description="Insert new Talent Carts into database",
+  *      summary="Insert new Talent Keranjang",
+  *      description="Insert new Talent Keranjang into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "quantity":"123"},
+  *                     example={"quantity":"123"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-carts/edit",
-  *      operationId="editTalentCarts",
+  *      operationId="editTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Edit an existing Talent Carts",
-  *      description="Edit an existing Talent Carts",
+  *      summary="Edit an existing Talent Keranjang",
+  *      description="Edit an existing Talent Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "quantity":"123"},
+  *                     example={"quantity":"123"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-carts/delete",
-  *      operationId="deleteTalentCarts",
+  *      operationId="deleteTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Delete one record of Talent Carts",
-  *      description="Delete one record of Talent Carts",
+  *      summary="Delete one record of Talent Keranjang",
+  *      description="Delete one record of Talent Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/talent-carts/delete-multiple",
-  *      operationId="deleteMultipleTalentCarts",
+  *      operationId="deleteMultipleTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Delete multiple record of Talent Carts",
-  *      description="Delete multiple record of Talent Carts",
+  *      summary="Delete multiple record of Talent Keranjang",
+  *      description="Delete multiple record of Talent Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/talent-carts/sort",
-  *      operationId="sortTalentCarts",
+  *      operationId="sortTalentKeranjang",
   *      tags={"talent-carts"},
-  *      summary="Sort existing Talent Carts",
-  *      description="Sort existing Talent Carts",
+  *      summary="Sort existing Talent Keranjang",
+  *      description="Sort existing Talent Keranjang",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

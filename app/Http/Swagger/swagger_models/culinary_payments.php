@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-payments",
-  *      operationId="browseCulinaryPayments",
+  *      operationId="browseKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Browse Culinary Payments",
-  *      description="Returns list of Culinary Payments",
+  *      summary="Browse Kuliner Pembayaran",
+  *      description="Returns list of Kuliner Pembayaran",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/culinary-payments/read?slug=culinary-payments&id={id}",
-  *      operationId="readCulinaryPayments",
+  *      operationId="readKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Get Culinary Payments based on id",
-  *      description="Returns Culinary Payments based on id",
+  *      summary="Get Kuliner Pembayaran based on id",
+  *      description="Returns Kuliner Pembayaran based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/culinary-payments/add",
-  *      operationId="addCulinaryPayments",
+  *      operationId="addKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Insert new Culinary Payments",
-  *      description="Insert new Culinary Payments into database",
+  *      summary="Insert new Kuliner Pembayaran",
+  *      description="Insert new Kuliner Pembayaran into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-payments/edit",
-  *      operationId="editCulinaryPayments",
+  *      operationId="editKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Edit an existing Culinary Payments",
-  *      description="Edit an existing Culinary Payments",
+  *      summary="Edit an existing Kuliner Pembayaran",
+  *      description="Edit an existing Kuliner Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
+  *                     example={"codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc"},
   *                ),
   *             )
   *         )
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-payments/delete",
-  *      operationId="deleteCulinaryPayments",
+  *      operationId="deleteKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Delete one record of Culinary Payments",
-  *      description="Delete one record of Culinary Payments",
+  *      summary="Delete one record of Kuliner Pembayaran",
+  *      description="Delete one record of Kuliner Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/culinary-payments/delete-multiple",
-  *      operationId="deleteMultipleCulinaryPayments",
+  *      operationId="deleteMultipleKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Delete multiple record of Culinary Payments",
-  *      description="Delete multiple record of Culinary Payments",
+  *      summary="Delete multiple record of Kuliner Pembayaran",
+  *      description="Delete multiple record of Kuliner Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/culinary-payments/sort",
-  *      operationId="sortCulinaryPayments",
+  *      operationId="sortKulinerPembayaran",
   *      tags={"culinary-payments"},
-  *      summary="Sort existing Culinary Payments",
-  *      description="Sort existing Culinary Payments",
+  *      summary="Sort existing Kuliner Pembayaran",
+  *      description="Sort existing Kuliner Pembayaran",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "bookingId":"123", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isSelected":"Abc"}, {"id":"123", "bookingId":"123", "customerId":"", "uuid":"Abc", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z", "isSelected":"Abc"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "totalAmount":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="integer", property="bookingId"), 
-  *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
+  *                         @OA\Property(type="string", property="customerId"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="string", property="codeTransaction"), 
   *                         @OA\Property(type="string", property="method"), 
@@ -215,11 +215,11 @@
   *                         @OA\Property(type="string", property="status"), 
   *                         @OA\Property(type="string", property="receipt"), 
   *                         @OA\Property(type="string", property="description"), 
+  *                         @OA\Property(type="string", property="isSelected"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 
   *                         @OA\Property(type="string", property="updatedAt"), 
-  *                         @OA\Property(type="string", property="deletedAt"), 
-  *                         @OA\Property(type="string", property="isSelected"),
+  *                         @OA\Property(type="string", property="deletedAt"),
   *                     ),
   *                ),
   *             )

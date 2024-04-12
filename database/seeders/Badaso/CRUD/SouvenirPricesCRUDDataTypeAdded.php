@@ -28,10 +28,11 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 101,
                 'name' => 'souvenir_prices',
                 'slug' => 'souvenir-prices',
-                'display_name_singular' => 'Souvenir Prices',
-                'display_name_plural' => 'Souvenir Prices',
+                'display_name_singular' => 'Suvenir Harga',
+                'display_name_plural' => 'Suvenir Harga',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-22T11:06:45.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-22T11:06:45.000000Z',
-                'id' => 101,
+                'updated_at' => '2024-04-10T16:32:34.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_prices');
@@ -63,7 +64,7 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Souvenir Prices',
+                    'title' => 'Suvenir Harga',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class SouvenirPricesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/souvenir-prices';
-                $menu_item->title = 'Souvenir Prices';
+                $menu_item->title = 'Suvenir Harga';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

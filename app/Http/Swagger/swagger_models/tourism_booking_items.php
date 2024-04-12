@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-booking-items",
-  *      operationId="browseTourismBookingItems",
+  *      operationId="browseWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Browse Tourism Booking Items",
-  *      description="Returns list of Tourism Booking Items",
+  *      summary="Browse Wisata Booking Item",
+  *      description="Returns list of Wisata Booking Item",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/tourism-booking-items/read?slug=tourism-booking-items&id={id}",
-  *      operationId="readTourismBookingItems",
+  *      operationId="readWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Get Tourism Booking Items based on id",
-  *      description="Returns Tourism Booking Items based on id",
+  *      summary="Get Wisata Booking Item based on id",
+  *      description="Returns Wisata Booking Item based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/tourism-booking-items/add",
-  *      operationId="addTourismBookingItems",
+  *      operationId="addWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Insert new Tourism Booking Items",
-  *      description="Insert new Tourism Booking Items into database",
+  *      summary="Insert new Wisata Booking Item",
+  *      description="Insert new Wisata Booking Item into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-booking-items/edit",
-  *      operationId="editTourismBookingItems",
+  *      operationId="editWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Edit an existing Tourism Booking Items",
-  *      description="Edit an existing Tourism Booking Items",
+  *      summary="Edit an existing Wisata Booking Item",
+  *      description="Edit an existing Wisata Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-booking-items/delete",
-  *      operationId="deleteTourismBookingItems",
+  *      operationId="deleteWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Delete one record of Tourism Booking Items",
-  *      description="Delete one record of Tourism Booking Items",
+  *      summary="Delete one record of Wisata Booking Item",
+  *      description="Delete one record of Wisata Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/tourism-booking-items/delete-multiple",
-  *      operationId="deleteMultipleTourismBookingItems",
+  *      operationId="deleteMultipleWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Delete multiple record of Tourism Booking Items",
-  *      description="Delete multiple record of Tourism Booking Items",
+  *      summary="Delete multiple record of Wisata Booking Item",
+  *      description="Delete multiple record of Wisata Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/tourism-booking-items/sort",
-  *      operationId="sortTourismBookingItems",
+  *      operationId="sortWisataBookingItem",
   *      tags={"tourism-booking-items"},
-  *      summary="Sort existing Tourism Booking Items",
-  *      description="Sort existing Tourism Booking Items",
+  *      summary="Sort existing Wisata Booking Item",
+  *      description="Sort existing Wisata Booking Item",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "venueId":"", "customerId":"", "bookingId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "venueId":"", "customerId":"", "bookingId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "venueId":"", "customerId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "venueId":"", "customerId":"", "name":"Abc", "getPrice":"123", "getDiscount":"123", "getCashback":"123", "getTotalAmount":"123", "quantity":"123", "getFinalAmount":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="venueId"), 
   *                         @OA\Property(type="string", property="customerId"), 
-  *                         @OA\Property(type="string", property="bookingId"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="getPrice"), 
   *                         @OA\Property(type="integer", property="getDiscount"), 

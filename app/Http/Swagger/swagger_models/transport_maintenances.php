@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-maintenances",
-  *      operationId="browseTransportPerbaikan",
+  *      operationId="browseRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Browse Transport Perbaikan",
-  *      description="Returns list of Transport Perbaikan",
+  *      summary="Browse Rental Perawatan",
+  *      description="Returns list of Rental Perawatan",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/transport-maintenances/read?slug=transport-maintenances&id={id}",
-  *      operationId="readTransportPerbaikan",
+  *      operationId="readRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Get Transport Perbaikan based on id",
-  *      description="Returns Transport Perbaikan based on id",
+  *      summary="Get Rental Perawatan based on id",
+  *      description="Returns Rental Perawatan based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/transport-maintenances/add",
-  *      operationId="addTransportPerbaikan",
+  *      operationId="addRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Insert new Transport Perbaikan",
-  *      description="Insert new Transport Perbaikan into database",
+  *      summary="Insert new Rental Perawatan",
+  *      description="Insert new Rental Perawatan into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-maintenances/edit",
-  *      operationId="editTransportPerbaikan",
+  *      operationId="editRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Edit an existing Transport Perbaikan",
-  *      description="Edit an existing Transport Perbaikan",
+  *      summary="Edit an existing Rental Perawatan",
+  *      description="Edit an existing Rental Perawatan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-maintenances/delete",
-  *      operationId="deleteTransportPerbaikan",
+  *      operationId="deleteRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Delete one record of Transport Perbaikan",
-  *      description="Delete one record of Transport Perbaikan",
+  *      summary="Delete one record of Rental Perawatan",
+  *      description="Delete one record of Rental Perawatan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/transport-maintenances/delete-multiple",
-  *      operationId="deleteMultipleTransportPerbaikan",
+  *      operationId="deleteMultipleRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Delete multiple record of Transport Perbaikan",
-  *      description="Delete multiple record of Transport Perbaikan",
+  *      summary="Delete multiple record of Rental Perawatan",
+  *      description="Delete multiple record of Rental Perawatan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/transport-maintenances/sort",
-  *      operationId="sortTransportPerbaikan",
+  *      operationId="sortRentalPerawatan",
   *      tags={"transport-maintenances"},
-  *      summary="Sort existing Transport Perbaikan",
-  *      description="Sort existing Transport Perbaikan",
+  *      summary="Sort existing Rental Perawatan",
+  *      description="Sort existing Rental Perawatan",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "workshopId":"", "vehicleId":"", "uuid":"Abc", "maintenanceDate":"Abc", "fee":"123", "isMaintenance":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "workshopId":"", "vehicleId":"", "uuid":"Abc", "maintenanceDate":"Abc", "fee":"123", "isMaintenance":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "workshopId":"", "vehicleId":"", "maintenanceDate":"Abc", "fee":"123", "isMaintenance":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "workshopId":"", "vehicleId":"", "maintenanceDate":"Abc", "fee":"123", "isMaintenance":"Abc", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="workshopId"), 
   *                         @OA\Property(type="string", property="vehicleId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="maintenanceDate"), 
   *                         @OA\Property(type="integer", property="fee"), 
   *                         @OA\Property(type="string", property="isMaintenance"), 

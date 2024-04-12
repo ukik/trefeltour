@@ -201,12 +201,12 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "venueId":"", "uuid":"Abc", "isToilet":"Abc", "isBathroom":"Abc", "isMushola":"Abc", "isRestArea":"Abc", "isBar":"Abc", "isCulinary":"Abc", "isSouvenir":"Abc", "isPark":"Abc", "isWifi":"Abc", "isSecurity":"Abc", "isMedic":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "venueId":"", "uuid":"Abc", "isToilet":"Abc", "isBathroom":"Abc", "isMushola":"Abc", "isRestArea":"Abc", "isBar":"Abc", "isCulinary":"Abc", "isSouvenir":"Abc", "isPark":"Abc", "isWifi":"Abc", "isSecurity":"Abc", "isMedic":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "venueId":"", "isToilet":"Abc", "isBathroom":"Abc", "isMushola":"Abc", "isRestArea":"Abc", "isBar":"Abc", "isCulinary":"Abc", "isSouvenir":"Abc", "isPark":"Abc", "isWifi":"Abc", "isSecurity":"Abc", "isMedic":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "venueId":"", "isToilet":"Abc", "isBathroom":"Abc", "isMushola":"Abc", "isRestArea":"Abc", "isBar":"Abc", "isCulinary":"Abc", "isSouvenir":"Abc", "isPark":"Abc", "isWifi":"Abc", "isSecurity":"Abc", "isMedic":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
-  *                         @OA\Property(type="string", property="venueId"), 
   *                         @OA\Property(type="string", property="uuid"), 
+  *                         @OA\Property(type="string", property="venueId"), 
   *                         @OA\Property(type="string", property="isToilet"), 
   *                         @OA\Property(type="string", property="isBathroom"), 
   *                         @OA\Property(type="string", property="isMushola"), 

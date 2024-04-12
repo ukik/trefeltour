@@ -31,8 +31,8 @@ class CulinaryPricesCRUDDataTypeAdded extends Seeder
                 'id' => 91,
                 'name' => 'culinary_prices',
                 'slug' => 'culinary-prices',
-                'display_name_singular' => 'Culinary Prices',
-                'display_name_plural' => 'Culinary Prices',
+                'display_name_singular' => 'Kuliner Harga',
+                'display_name_plural' => 'Kuliner Harga',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class CulinaryPricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T05:45:09.000000Z',
-                'updated_at' => '2024-03-15T12:13:52.000000Z',
+                'updated_at' => '2024-04-11T02:10:14.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_prices');
@@ -64,7 +64,7 @@ class CulinaryPricesCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Culinary Prices',
+                    'title' => 'Kuliner Harga',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class CulinaryPricesCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/culinary-prices';
-                $menu_item->title = 'Culinary Prices';
+                $menu_item->title = 'Kuliner Harga';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

@@ -28,7 +28,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'id',
                     'type' => 'number',
-                    'display_name' => 'Id',
+                    'display_name' => 'No',
                     'required' => 1,
                     'browse' => 1,
                     'read' => 1,
@@ -42,25 +42,9 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'store_id',
-                    'type' => 'relation',
-                    'display_name' => 'Store Id',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"culinary_stores","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","uuid","name"]}',
-                    'order' => 2,
-                ),
-                2 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
-                    'display_name' => 'Uuid',
+                    'display_name' => 'UUID',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -69,6 +53,22 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
+                    'order' => 2,
+                ),
+                2 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'store_id',
+                    'type' => 'relation',
+                    'display_name' => 'Toko',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"culinary_stores","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","uuid","name"]}',
                     'order' => 3,
                 ),
                 3 => 
@@ -76,7 +76,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'name',
                     'type' => 'text',
-                    'display_name' => 'Name',
+                    'display_name' => 'Nama Menu',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -92,7 +92,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'category',
                     'type' => 'select',
-                    'display_name' => 'Category',
+                    'display_name' => 'Kategori',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -103,16 +103,16 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
 "size": 12,
 "items": [
 {
-"label": "food",
-"value": "food"
+"label": "makanan",
+"value": "makanan"
 },
 {
-"label": "drink",
-"value": "drink"
+"label": "minuman",
+"value": "minuman"
 },
 {
-"label": "snack",
-"value": "snack"
+"label": "camilan",
+"value": "camilan"
 },
 {
 "label": "condiment",
@@ -120,7 +120,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
 },
 {
 "label": "lainnya",
-"value": "lainnya"
+"value": "others"
 }
 ]
 }',
@@ -132,7 +132,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'others',
                     'type' => 'text',
-                    'display_name' => 'Others',
+                    'display_name' => 'Lainnya',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -148,7 +148,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'description',
                     'type' => 'textarea',
-                    'display_name' => 'Description',
+                    'display_name' => 'Deskripsi',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -164,7 +164,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
                     'type' => 'upload_image_multiple',
-                    'display_name' => 'Image',
+                    'display_name' => 'Gambar Menu',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -180,7 +180,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
                     'type' => 'switch',
-                    'display_name' => 'Is Available',
+                    'display_name' => 'Available',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -196,7 +196,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
-                    'display_name' => 'Code Table',
+                    'display_name' => 'Nama Tabel',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,
@@ -212,7 +212,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
                     'type' => 'datetime',
-                    'display_name' => 'Created At',
+                    'display_name' => 'Dibuat Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -228,7 +228,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
                     'type' => 'datetime',
-                    'display_name' => 'Updated At',
+                    'display_name' => 'Diubah Pada',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -244,7 +244,7 @@ class CulinaryProductsCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
-                    'display_name' => 'Deleted At',
+                    'display_name' => 'Dihapus Pada',
                     'required' => 0,
                     'browse' => 0,
                     'read' => 1,

@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-facility",
-  *      operationId="browseLodgeFacility",
+  *      operationId="browseHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Browse Lodge Facility",
-  *      description="Returns list of Lodge Facility",
+  *      summary="Browse Hotel Fasilitas",
+  *      description="Returns list of Hotel Fasilitas",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/lodge-facility/read?slug=lodge-facility&id={id}",
-  *      operationId="readLodgeFacility",
+  *      operationId="readHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Get Lodge Facility based on id",
-  *      description="Returns Lodge Facility based on id",
+  *      summary="Get Hotel Fasilitas based on id",
+  *      description="Returns Hotel Fasilitas based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/lodge-facility/add",
-  *      operationId="addLodgeFacility",
+  *      operationId="addHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Insert new Lodge Facility",
-  *      description="Insert new Lodge Facility into database",
+  *      summary="Insert new Hotel Fasilitas",
+  *      description="Insert new Hotel Fasilitas into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-facility/edit",
-  *      operationId="editLodgeFacility",
+  *      operationId="editHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Edit an existing Lodge Facility",
-  *      description="Edit an existing Lodge Facility",
+  *      summary="Edit an existing Hotel Fasilitas",
+  *      description="Edit an existing Hotel Fasilitas",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-facility/delete",
-  *      operationId="deleteLodgeFacility",
+  *      operationId="deleteHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Delete one record of Lodge Facility",
-  *      description="Delete one record of Lodge Facility",
+  *      summary="Delete one record of Hotel Fasilitas",
+  *      description="Delete one record of Hotel Fasilitas",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/lodge-facility/delete-multiple",
-  *      operationId="deleteMultipleLodgeFacility",
+  *      operationId="deleteMultipleHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Delete multiple record of Lodge Facility",
-  *      description="Delete multiple record of Lodge Facility",
+  *      summary="Delete multiple record of Hotel Fasilitas",
+  *      description="Delete multiple record of Hotel Fasilitas",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/lodge-facility/sort",
-  *      operationId="sortLodgeFacility",
+  *      operationId="sortHotelFasilitas",
   *      tags={"lodge-facility"},
-  *      summary="Sort existing Lodge Facility",
-  *      description="Sort existing Lodge Facility",
+  *      summary="Sort existing Hotel Fasilitas",
+  *      description="Sort existing Hotel Fasilitas",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",

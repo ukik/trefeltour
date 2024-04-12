@@ -28,10 +28,11 @@ class TourismCartsCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 98,
                 'name' => 'tourism_carts',
                 'slug' => 'tourism-carts',
-                'display_name_singular' => 'Tourism Carts',
-                'display_name_plural' => 'Tourism Carts',
+                'display_name_singular' => 'Wisata Keranjang',
+                'display_name_plural' => 'Wisata Keranjang',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -41,13 +42,13 @@ class TourismCartsCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-03-19T23:19:08.000000Z',
+                'is_soft_delete' => false,
                 'created_at' => '2024-03-19T23:19:08.000000Z',
-                'id' => 98,
+                'updated_at' => '2024-04-11T11:16:57.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_carts');
@@ -63,7 +64,7 @@ class TourismCartsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Tourism Carts',
+                    'title' => 'Wisata Keranjang',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -75,7 +76,7 @@ class TourismCartsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/tourism-carts';
-                $menu_item->title = 'Tourism Carts';
+                $menu_item->title = 'Wisata Keranjang';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

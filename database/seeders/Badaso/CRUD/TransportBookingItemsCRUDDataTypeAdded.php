@@ -31,8 +31,8 @@ class TransportBookingItemsCRUDDataTypeAdded extends Seeder
                 'id' => 106,
                 'name' => 'transport_booking_items',
                 'slug' => 'transport-booking-items',
-                'display_name_singular' => 'Transport Booking Items',
-                'display_name_plural' => 'Transport Booking Items',
+                'display_name_singular' => 'Rental Booking Item',
+                'display_name_plural' => 'Rental Booking Item',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class TransportBookingItemsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-23T16:43:13.000000Z',
-                'updated_at' => '2024-03-26T11:02:56.000000Z',
+                'updated_at' => '2024-04-10T15:23:02.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_booking_items');
@@ -64,7 +64,7 @@ class TransportBookingItemsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Transport Booking Items',
+                    'title' => 'Rental Booking Item',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class TransportBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/transport-booking-items';
-                $menu_item->title = 'Transport Booking Items';
+                $menu_item->title = 'Rental Booking Item';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

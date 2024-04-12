@@ -3,10 +3,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-payments-validations",
-  *      operationId="browseSouvenirPaymentsValidations",
+  *      operationId="browseSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Browse Souvenir Payments Validations",
-  *      description="Returns list of Souvenir Payments Validations",
+  *      summary="Browse Suvenir Payments Validasi",
+  *      description="Returns list of Suvenir Payments Validasi",
   *      @OA\Response(response=200, description="Successful operation"),
   *      @OA\Response(response=400, description="Bad request"),
   *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,10 +21,10 @@
 /**
   * @OA\Get(
   *      path="/v1/entities/souvenir-payments-validations/read?slug=souvenir-payments-validations&id={id}",
-  *      operationId="readSouvenirPaymentsValidations",
+  *      operationId="readSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Get Souvenir Payments Validations based on id",
-  *      description="Returns Souvenir Payments Validations based on id",
+  *      summary="Get Suvenir Payments Validasi based on id",
+  *      description="Returns Suvenir Payments Validasi based on id",
   *      @OA\Parameter(
   *          name="id",
   *          required=true,
@@ -47,10 +47,10 @@
 /**
   * @OA\Post(
   *      path="/v1/entities/souvenir-payments-validations/add",
-  *      operationId="addSouvenirPaymentsValidations",
+  *      operationId="addSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Insert new Souvenir Payments Validations",
-  *      description="Insert new Souvenir Payments Validations into database",
+  *      summary="Insert new Suvenir Payments Validasi",
+  *      description="Insert new Suvenir Payments Validasi into database",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -77,10 +77,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-payments-validations/edit",
-  *      operationId="editSouvenirPaymentsValidations",
+  *      operationId="editSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Edit an existing Souvenir Payments Validations",
-  *      description="Edit an existing Souvenir Payments Validations",
+  *      summary="Edit an existing Suvenir Payments Validasi",
+  *      description="Edit an existing Suvenir Payments Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -107,10 +107,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-payments-validations/delete",
-  *      operationId="deleteSouvenirPaymentsValidations",
+  *      operationId="deleteSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Delete one record of Souvenir Payments Validations",
-  *      description="Delete one record of Souvenir Payments Validations",
+  *      summary="Delete one record of Suvenir Payments Validasi",
+  *      description="Delete one record of Suvenir Payments Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -146,10 +146,10 @@
 /**
   * @OA\Delete(
   *      path="/v1/entities/souvenir-payments-validations/delete-multiple",
-  *      operationId="deleteMultipleSouvenirPaymentsValidations",
+  *      operationId="deleteMultipleSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Delete multiple record of Souvenir Payments Validations",
-  *      description="Delete multiple record of Souvenir Payments Validations",
+  *      summary="Delete multiple record of Suvenir Payments Validasi",
+  *      description="Delete multiple record of Suvenir Payments Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -185,10 +185,10 @@
 /**
   * @OA\Put(
   *      path="/v1/entities/souvenir-payments-validations/sort",
-  *      operationId="sortSouvenirPaymentsValidations",
+  *      operationId="sortSuvenirPaymentsValidasi",
   *      tags={"souvenir-payments-validations"},
-  *      summary="Sort existing Souvenir Payments Validations",
-  *      description="Sort existing Souvenir Payments Validations",
+  *      summary="Sort existing Suvenir Payments Validasi",
+  *      description="Sort existing Suvenir Payments Validasi",
   *      @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -201,13 +201,13 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "validatorId":"", "paymentId":"", "uuid":"Abc", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "validatorId":"", "paymentId":"", "uuid":"Abc", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "validatorId":"", "paymentId":"", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "validatorId":"", "paymentId":"", "isValid":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
+  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="validatorId"), 
   *                         @OA\Property(type="string", property="paymentId"), 
-  *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="isValid"), 
   *                         @OA\Property(type="string", property="codeTable"), 
   *                         @OA\Property(type="string", property="createdAt"), 

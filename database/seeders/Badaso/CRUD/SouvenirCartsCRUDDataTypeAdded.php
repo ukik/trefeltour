@@ -31,8 +31,8 @@ class SouvenirCartsCRUDDataTypeAdded extends Seeder
                 'id' => 72,
                 'name' => 'souvenir_carts',
                 'slug' => 'souvenir-carts',
-                'display_name_singular' => 'Souvenir Carts',
-                'display_name_plural' => 'Souvenir Carts',
+                'display_name_singular' => 'Suvenir Keranjang',
+                'display_name_plural' => 'Suvenir Keranjang',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -46,9 +46,9 @@ class SouvenirCartsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
+                'is_soft_delete' => false,
                 'created_at' => '2024-02-22T13:25:11.000000Z',
-                'updated_at' => '2024-03-14T06:43:25.000000Z',
+                'updated_at' => '2024-04-11T11:16:33.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_carts');
@@ -64,7 +64,7 @@ class SouvenirCartsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Souvenir Carts',
+                    'title' => 'Suvenir Keranjang',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class SouvenirCartsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/souvenir-carts';
-                $menu_item->title = 'Souvenir Carts';
+                $menu_item->title = 'Suvenir Keranjang';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

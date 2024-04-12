@@ -13,6 +13,7 @@ use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
 use Illuminate\Support\Facades\Auth;
+use TravelBookings;
 use TravelPaymentsValidations;
 
 class TravelPaymentsValidationsOLDController extends Controller
@@ -244,6 +245,9 @@ class TravelPaymentsValidationsOLDController extends Controller
             $stored_data = \TravelPaymentsValidations::insert($data);
 
             $temp->update(['is_selected' => 'true']);
+
+            // Booking Condition
+            if($req['is_valid'] === 'true') TravelBookings::where('id', $temp->booking_id)->update(['condition' => 'lunas']);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)

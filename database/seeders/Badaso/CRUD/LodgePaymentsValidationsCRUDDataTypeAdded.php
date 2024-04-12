@@ -31,8 +31,8 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'id' => 85,
                 'name' => 'lodge_payments_validations',
                 'slug' => 'lodge-payments-validations',
-                'display_name_singular' => 'Lodge Payments Validations',
-                'display_name_plural' => 'Lodge Payments Validations',
+                'display_name_singular' => 'Hotel Pembayaran Validasi',
+                'display_name_plural' => 'Hotel Pembayaran Validasi',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -46,9 +46,9 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
+                'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:56:01.000000Z',
-                'updated_at' => '2024-03-12T16:31:03.000000Z',
+                'updated_at' => '2024-04-10T22:59:59.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments_validations');
@@ -64,7 +64,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Lodge Payments Validations',
+                    'title' => 'Hotel Pembayaran Validasi',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/lodge-payments-validations';
-                $menu_item->title = 'Lodge Payments Validations';
+                $menu_item->title = 'Hotel Pembayaran Validasi';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;

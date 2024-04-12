@@ -31,8 +31,8 @@ class LodgeStaffsCRUDDataTypeAdded extends Seeder
                 'id' => 79,
                 'name' => 'lodge_staffs',
                 'slug' => 'lodge-staffs',
-                'display_name_singular' => 'Lodge Staffs',
-                'display_name_plural' => 'Lodge Staffs',
+                'display_name_singular' => 'Hotel Staff',
+                'display_name_plural' => 'Hotel Staff',
                 'icon' => NULL,
                 'model_name' => NULL,
                 'policy_name' => NULL,
@@ -48,7 +48,7 @@ class LodgeStaffsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-02T13:28:20.000000Z',
-                'updated_at' => '2024-03-04T09:31:42.000000Z',
+                'updated_at' => '2024-04-10T17:23:39.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_staffs');
@@ -64,7 +64,7 @@ class LodgeStaffsCRUDDataTypeAdded extends Seeder
 
             if (!is_null($menu_item)) {
                 $menu_item->fill([
-                    'title' => 'Lodge Staffs',
+                    'title' => 'Hotel Staff',
                     'target' => '_self',
                     'icon_class' => '',
                     'color' => null,
@@ -76,7 +76,7 @@ class LodgeStaffsCRUDDataTypeAdded extends Seeder
                 $menu_item = new MenuItem();
                 $menu_item->menu_id = $menu->id;
                 $menu_item->url = '/general/lodge-staffs';
-                $menu_item->title = 'Lodge Staffs';
+                $menu_item->title = 'Hotel Staff';
                 $menu_item->target = '_self';
                 $menu_item->icon_class = '';
                 $menu_item->color = null;
