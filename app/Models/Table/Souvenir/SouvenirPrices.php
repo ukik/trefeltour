@@ -50,4 +50,13 @@ class SouvenirPrices extends Model
     }
 
 
+    public function souvenirCart()
+    {
+        return $this->hasOne(SouvenirCarts::class, 'price_id', 'id');
+    }
+
+    public function souvenirCarts()
+    {
+        return $this->hasMany(SouvenirCarts::class, 'price_id', 'id');
+    }
 }

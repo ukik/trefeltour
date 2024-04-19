@@ -214,7 +214,7 @@ class TransportVehiclesController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -299,7 +299,7 @@ class TransportVehiclesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -379,10 +379,11 @@ class TransportVehiclesController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TransportBookings::where('vehicle_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TransportVehicles::where('id', $value)->with([
+            'transportPrice',
+            'transportMaintenance',
+        ])->first();
+        if($check->transportPrice || $check->transportMaintenance) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -505,10 +506,15 @@ class TransportVehiclesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportVehicles::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportBooking')->get();
+            $filters = TransportVehicles::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'transportPrice',
+                'transportMaintenance',
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportBooking == null) {
+                if($value->transportPrice == null && $value->transportMaintenance == null) {
                     array_push($temp, $value['id']);
                 }
             }

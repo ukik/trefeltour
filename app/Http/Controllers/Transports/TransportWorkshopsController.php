@@ -207,7 +207,7 @@ class TransportWorkshopsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -293,7 +293,7 @@ class TransportWorkshopsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -373,8 +373,8 @@ class TransportWorkshopsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TransportMaintenances::where('workshop_id', $value)->where('is_maintenance','true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TransportWorkshops::where('id', $value)->with(['transportVehicle'])->first();
+        if($check->transportVehicle) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -461,7 +461,7 @@ class TransportWorkshopsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([

@@ -178,7 +178,7 @@ class SouvenirPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data']['id'];
         $check = SouvenirPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -249,7 +249,7 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -321,7 +321,7 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
         $check = SouvenirPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -412,7 +412,7 @@ class SouvenirPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([

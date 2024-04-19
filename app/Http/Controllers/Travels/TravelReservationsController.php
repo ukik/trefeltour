@@ -376,10 +376,8 @@ class TravelReservationsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TravelPrices::where('reservation_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TravelReservations::where('id', $value)->with(['travelPrice'])->first();
+        if($check->travelPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -501,10 +499,10 @@ class TravelReservationsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelReservations::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelTicket')->get();
+            $filters = TravelReservations::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelPrice')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->travelTicket == null) {
+                if($value->travelPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

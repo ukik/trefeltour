@@ -29,6 +29,17 @@ class TravelReservations extends Model
         // return $this->belongsTo(BadasoUsers::class,'customer_id','id');
     }
 
+
+    public function travelPrice()
+    {
+        return $this->hasOne(TravelPrices::class, 'reservation_id', 'id');
+    }
+
+    public function travelPrices()
+    {
+        return $this->hasMany(TravelPrices::class, 'reservation_id', 'id');
+    }
+
     // public function travelTicket()
     // {
     //     return $this->hasOne(TravelTickets::class, 'reservation_id', 'id');

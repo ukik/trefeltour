@@ -51,4 +51,15 @@ class TransportDrivers extends Model
         return $this->hasOne(TransportBookings::class, 'driver_id', 'id');
     }
 
+
+    public function transportPayment()
+    {
+        return $this->hasMany(TransportPayments::class, 'driver_id', 'id');
+    }
+
+    public function transportPayments()
+    {
+        return $this->hasOne(TransportPayments::class, 'driver_id', 'id');
+    }
+
 }

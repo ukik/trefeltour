@@ -25,4 +25,13 @@ class TourismPrices extends Model
         return $this->belongsToMany(TourismVenues::class, 'tourism_prices', 'id', 'venue_id');
     }
 
+    public function tourismCart()
+    {
+        return $this->hasOne(TourismCarts::class, 'price_id', 'id');
+    }
+
+    public function tourismCarts()
+    {
+        return $this->hasMany(TourismCarts::class, 'price_id', 'id');
+    }
 }

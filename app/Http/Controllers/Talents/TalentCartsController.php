@@ -234,7 +234,7 @@ class TalentCartsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data']['id'];
         $check = \TalentPayments::where('booking_id', $value)->first();
@@ -327,7 +327,7 @@ class TalentCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -542,12 +542,7 @@ class TalentCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
-
-        $value = request()['data'][0]['value'];
-        $check = TalentCarts::where('id', $value)->with(['talentPayment'])->first();
-        if($check->talentPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
-
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -634,7 +629,7 @@ class TalentCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -668,19 +663,6 @@ class TalentCartsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
-
-
-            // ADDITIONAL BULK DELETE
-            // -------------------------------------------- //
-            $filters = TalentCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPayment')->get();
-            $temp = [];
-            foreach ($filters as $value) {
-                if($value->talentPayment == null) {
-                    array_push($temp, $value['id']);
-                }
-            }
-            $id_list = $temp;
-            // -------------------------------------------- //
 
 
             foreach ($id_list as $id) {

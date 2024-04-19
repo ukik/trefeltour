@@ -233,7 +233,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -445,7 +445,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -575,12 +575,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
-
-        $value = request()['data'][0]['value'];
-        $check = SouvenirCarts::where('id', $value)->with(['souvenirPayment'])->first();
-        if($check->souvenirPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
-
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -667,7 +662,7 @@ class SouvenirCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -701,20 +696,6 @@ class SouvenirCartsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
-
-
-            // ADDITIONAL BULK DELETE
-            // -------------------------------------------- //
-            $filters = SouvenirCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPayment')->get();
-            $temp = [];
-            foreach ($filters as $value) {
-                if($value->souvenirPayment == null) {
-                    array_push($temp, $value['id']);
-                }
-            }
-            $id_list = $temp;
-            // -------------------------------------------- //
-
 
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;

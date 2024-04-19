@@ -174,7 +174,7 @@ class CulinaryPricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
 
@@ -247,7 +247,7 @@ class CulinaryPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
 
@@ -319,11 +319,11 @@ class CulinaryPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryPrices::where('id', $value)->with(['culinaryBooking'])->first();
-        if($check->culinaryBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = CulinaryPrices::where('id', $value)->with(['culinaryCart'])->first();
+        if($check->culinaryCart) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -410,7 +410,7 @@ class CulinaryPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -448,10 +448,10 @@ class CulinaryPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryBooking')->get();
+            $filters = CulinaryPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryCart')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinaryBooking == null) {
+                if($value->culinaryCart == null) {
                     array_push($temp, $value['id']);
                 }
             }

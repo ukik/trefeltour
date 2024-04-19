@@ -49,5 +49,14 @@ class CulinaryPrices extends Model
         return $this->belongsToMany(CulinaryProducts::class, 'culinary_prices', 'id', 'product_id');
     }
 
+    public function culinaryCart()
+    {
+        return $this->hasOne(CulinaryCarts::class, 'price_id', 'id');
+    }
+
+    public function culinaryCarts()
+    {
+        return $this->hasMany(CulinaryCarts::class, 'price_id', 'id');
+    }
 
 }

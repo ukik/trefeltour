@@ -177,7 +177,7 @@ class TransportPricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -249,7 +249,7 @@ class TransportPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -320,11 +320,11 @@ class TransportPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
-        $check = TransportPrices::where('id', $value)->with(['transportBooking'])->first();
-        if($check->transportBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TransportPrices::where('id', $value)->with(['transportCart'])->first();
+        if($check->transportCart) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -411,7 +411,7 @@ class TransportPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -449,10 +449,10 @@ class TransportPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportBooking')->get();
+            $filters = TransportPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportCart')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportBooking == null) {
+                if($value->transportCart == null) {
                     array_push($temp, $value['id']);
                 }
             }

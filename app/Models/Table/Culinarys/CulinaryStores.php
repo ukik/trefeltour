@@ -44,4 +44,14 @@ class CulinaryStores extends Model
     {
         return $this->hasMany(CulinaryProducts::class, 'store_id', 'id');
     }
+
+    public function culinaryPrice()
+    {
+        return $this->hasOne(CulinaryPrices::class, 'store_id', 'id');
+    }
+
+    public function culinaryPrices()
+    {
+        return $this->hasMany(CulinaryPrices::class, 'store_id', 'id');
+    }
 }

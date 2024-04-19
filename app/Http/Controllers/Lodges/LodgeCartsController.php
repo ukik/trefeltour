@@ -226,7 +226,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -436,12 +436,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
-
-        $value = request()['data'][0]['value'];
-        $check = LodgeCarts::where('id', $value)->with(['lodgePayment'])->first();
-        if($check->lodgePayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
-
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -528,7 +523,7 @@ class LodgeCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -562,19 +557,6 @@ class LodgeCartsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
-
-
-            // ADDITIONAL BULK DELETE
-            // -------------------------------------------- //
-            $filters = LodgeCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgePayment')->get();
-            $temp = [];
-            foreach ($filters as $value) {
-                if($value->lodgePayment == null) {
-                    array_push($temp, $value['id']);
-                }
-            }
-            $id_list = $temp;
-            // -------------------------------------------- //
 
 
             foreach ($id_list as $id) {

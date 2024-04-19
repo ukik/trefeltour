@@ -89,38 +89,82 @@ class CulinaryTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
-        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+        isAddOrUpdateToCart();
 
-        $data = CulinaryPrices::where('id', request()->price_id)->first();
+        DB::beginTransaction();
 
-        $quantity = request()->quantity;
+        try {
+            // get slug by route name and get data type in table
+            //$slug = getSlug($request);
 
-        $carts = CulinaryCarts::query()
-            ->where('customer_id', request()->customer_id)
-            ->where('price_id', request()->price_id)
-            ->first();
+            $data_type = getDataType('culinary-prices'); // nama table
 
-        CulinaryCarts::updateOrCreate([
-                'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
-                'price_id' => $data->id,
-            ],
-            [
-                'customer_id' => request()->customer_id,
-                'store_id' => $data->store_id,
-                'product_id' => $data->product_id,
-                'price_id' => $data->id,
-                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
-                'code_table' => "culinary-carts",
-                'uuid' => $carts?->uuid ?: ShortUuid(),
-            ]
-        );
+            if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+
+            $data = CulinaryPrices::where('id', request()->price_id)->first();
+
+            $quantity = request()->quantity;
+
+            $carts = CulinaryCarts::query()
+                ->where('customer_id', request()->customer_id)
+                ->where('price_id', request()->price_id)
+                ->first();
+
+            $carts = CulinaryCarts::updateOrCreate([
+                    'customer_id' => request()->customer_id,
+                    'store_id' => $data->store_id,
+                    'product_id' => $data->product_id,
+                    'price_id' => $data->id,
+                ],
+                [
+                    'customer_id' => request()->customer_id,
+                    'store_id' => $data->store_id,
+                    'product_id' => $data->product_id,
+                    'price_id' => $data->id,
+                    'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
+                    'code_table' => "culinary-carts",
+                    'uuid' => $carts?->uuid ?: ShortUuid(),
+                ]
+            );
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [$carts]])
+                ->log($data_type->display_name_singular.' has been created');
+
+            DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
+            return ApiResponse::onlyEntity([$carts]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
 
         // return request();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     function update_to_cart(Request $request) {
+
+        isAddOrUpdateToCart();
+
+
         // return request();
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
 

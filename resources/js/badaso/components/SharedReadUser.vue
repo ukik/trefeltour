@@ -85,7 +85,7 @@
                                 <vs-col
                                     vs-lg="4"
                                     vs-sm="12"
-                                    v-for="(val, index) in JSON.parse(
+                                    v-for="(val, index) in $parseJsonChecker(
                                     record[
                                         $caseConvert.stringSnakeToCamel(dataRow.field)
                                     ]

@@ -199,7 +199,7 @@ class LodgeProfilesController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
 
@@ -288,7 +288,7 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
 
@@ -367,11 +367,15 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
-        $check = LodgeProfiles::where('id', $value)->with(['lodgeRoom','lodgePrice'])->first();
-        if($check->lodgeRoom || $check->lodgePrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = LodgeProfiles::where('id', $value)->with([
+            'lodgeBooking',
+            'lodgeRoom',
+            'lodgePrice'
+        ])->first();
+        if($check->lodgeRoom || $check->lodgePrice || $check->lodgeBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -458,7 +462,7 @@ class LodgeProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -496,10 +500,14 @@ class LodgeProfilesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = LodgeProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with(['lodgeRoom','lodgePrice'])->get();
+            $filters = LodgeProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with([
+                'lodgeBooking',
+                'lodgeRoom',
+                'lodgePrice'
+            ])->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->lodgeRoom == null && $value->lodgePrice == null) {
+                if($value->lodgeRoom == null && $value->lodgePrice == null && $value->lodgeBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

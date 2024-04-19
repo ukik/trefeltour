@@ -181,7 +181,7 @@ class TourismServicesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
 
@@ -264,7 +264,7 @@ class TourismServicesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
 
@@ -346,12 +346,17 @@ class TourismServicesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
+
+        // $value = request()['data'][0]['value'];
+        // $venue_id = \TourismServices::where('id', $value)->value('venue_id');
+        // $check = \TourismVenues::where('id', $venue_id)->first();
+        // if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         $value = request()['data'][0]['value'];
-        $venue_id = \TourismServices::where('id', $value)->value('venue_id');
-        $check = \TourismVenues::where('id', $venue_id)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismServices::where('id', $value)->with(['tourismPrice'])->first();
+        if($check->tourismPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -438,7 +443,7 @@ class TourismServicesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
             $request->validate([
@@ -476,10 +481,10 @@ class TourismServicesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TourismServices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismVenue')->get();
+            $filters = TourismServices::whereIn('id', explode(",",request()['data'][0]['value']))->with('tourismPrice')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->tourismVenue == null) {
+                if($value->tourismPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

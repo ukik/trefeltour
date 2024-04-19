@@ -183,7 +183,7 @@ class SouvenirStoresController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
 
@@ -262,7 +262,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
 
@@ -332,11 +332,15 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirStores::where('id', $value)->with(['souvenirSkill','souvenirPrice'])->first();
-        if($check->souvenirSkill || $check->souvenirPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirStores::where('id', $value)->with([
+            'souvenirBooking',
+            'souvenirProduct',
+            'souvenirPrice'
+        ])->first();
+        if($check->souvenirProduct || $check->souvenirPrice || $check->souvenirBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -423,7 +427,7 @@ class SouvenirStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -461,10 +465,16 @@ class SouvenirStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['souvenirSkill','souvenirPrice'])->get();
+            $filters = SouvenirStores::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'souvenirBooking',
+                'souvenirProduct',
+                'souvenirPrice'
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->souvenirSkill == null && $value->souvenirPrice == null) {
+                if($value->souvenirPrice == null && $value->souvenirProduct == null && $value->souvenirBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

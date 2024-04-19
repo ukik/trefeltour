@@ -188,7 +188,7 @@ class TransportRentalsController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -265,7 +265,7 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -334,13 +334,15 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
-        $check = TransportVehicles::where('rental_id', $value)->first();
-        if($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TransportRentals::where('id', $value)->with([
+            'transportBooking',
+            'transportVehicle',
+            'transportPrice'
+        ])->first();
+        if($check->transportPrice || $check->transportVehicle || $check->transportBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -427,7 +429,7 @@ class TransportRentalsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -463,12 +465,19 @@ class TransportRentalsController extends Controller
             $id_list = explode(',', $ids);
 
 
+
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportRentals::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportVehicle')->get();
+            $filters = TransportRentals::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'transportBooking',
+                'transportVehicle',
+                'transportPrice'
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->transportVehicle == null) {
+                if($value->transportPrice == null && $value->transportVehicle == null && $value->transportBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

@@ -221,7 +221,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
         $check = SouvenirBookingsItems::where('id', $value)->with(['souvenirPayment'])->first();
@@ -313,7 +313,7 @@ class SouvenirBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([

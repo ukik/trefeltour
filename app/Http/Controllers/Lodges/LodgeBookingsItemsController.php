@@ -222,7 +222,7 @@ class LodgeBookingsItemsController extends Controller
     //     // return $slug = $this->getSlug($request);
     //     DB::beginTransaction();
 
-    //     isOnlyAdminLodge();
+    //     //isOnlyAdminLodge();
 
     //     $value = request()['data']['id'];
     //     $check = \LodgePayments::where('booking_id', $value)->first();
@@ -314,7 +314,7 @@ class LodgeBookingsItemsController extends Controller
     // {
     //     DB::beginTransaction();
 
-    //     isOnlyAdminLodge();
+    //     //isOnlyAdminLodge();
 
     //     try {
 
@@ -391,7 +391,7 @@ class LodgeBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
         $check = LodgeBookingsItems::where('id', $value)->with(['lodgePayment'])->first();
@@ -483,7 +483,7 @@ class LodgeBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([

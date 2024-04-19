@@ -389,7 +389,7 @@ class TourismPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
         $check = TourismPayments::where('id', $value)->with(['tourismPaymentsValidation'])->first();

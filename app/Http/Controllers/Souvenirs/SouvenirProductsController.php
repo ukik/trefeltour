@@ -185,7 +185,7 @@ class SouvenirProductsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
 
@@ -260,7 +260,7 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
 
@@ -330,11 +330,11 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
-        $check = SouvenirProducts::where('id', $value)->with(['souvenirBooking'])->first();
-        if($check->souvenirBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = SouvenirProducts::where('id', $value)->with(['souvenirPrice'])->first();
+        if($check->souvenirPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -421,7 +421,7 @@ class SouvenirProductsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([
@@ -459,10 +459,10 @@ class SouvenirProductsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = SouvenirProducts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirBooking')->get();
+            $filters = SouvenirProducts::whereIn('id', explode(",",request()['data'][0]['value']))->with('souvenirPrice')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->souvenirBooking == null) {
+                if($value->souvenirPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

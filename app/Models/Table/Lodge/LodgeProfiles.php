@@ -13,36 +13,6 @@ class LodgeProfiles extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // id
-    // user_id
-    // uuid
-    // name
-    // email
-    // phone
-    // location
-    // image
-    // address
-    // codepos
-    // city
-    // country
-    // policy
-    // description
-    // rating
-    // checkin_time
-    // checkout_time
-    // additional_policy
-    // shuttle_to_airport_price
-    // additional_breakfast_price
-    // late_checkout_price
-    // is_clean_accomodation
-    // is_breakfast
-    // is_pet
-    // is_available
-    // code_table
-    // created_at
-    // updated_at
-    // deleted_at
-
     protected $table = "lodge_profiles";
 
     public function badasoUser()
@@ -86,4 +56,23 @@ class LodgeProfiles extends Model
         return $this->hasMany(LodgeStaffs::class, 'profile_id', 'id');
     }
 
+    public function lodgeFacility()
+    {
+        return $this->hasOne(LodgeFacility::class, 'profile_id', 'id');
+    }
+
+    public function lodgeFacilitys()
+    {
+        return $this->hasMany(LodgeFacility::class, 'profile_id', 'id');
+    }
+
+    public function lodgePrice()
+    {
+        return $this->hasOne(LodgePrices::class, 'profile_id', 'id');
+    }
+
+    public function lodgePrices()
+    {
+        return $this->hasMany(LodgePrices::class, 'profile_id', 'id');
+    }
 }

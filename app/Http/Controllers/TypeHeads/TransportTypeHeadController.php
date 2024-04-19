@@ -147,6 +147,8 @@ class TransportTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
+        isAddOrUpdateToCart();
+
         DB::beginTransaction();
 
         try {
@@ -193,7 +195,7 @@ class TransportTypeHeadController extends Controller
                 ->where('price_id', request()->price_id)
                 ->first();
 
-            $TransportCarts = TransportCarts::updateOrCreate([
+            $carts = TransportCarts::updateOrCreate([
                     'customer_id' => request()->customer_id,
                     'rental_id' => $data->rental_id,
                     'vehicle_id' => $data->vehicle_id,
@@ -246,7 +248,7 @@ class TransportTypeHeadController extends Controller
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$TransportCarts]])
+                ->withProperties(['attributes' => [$carts]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -255,7 +257,7 @@ class TransportTypeHeadController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity([$TransportCarts]);
+            return ApiResponse::onlyEntity([$carts]);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -265,6 +267,9 @@ class TransportTypeHeadController extends Controller
 
 
     function update_to_cart(Request $request) {
+
+
+        isAddOrUpdateToCart();
 
         DB::beginTransaction();
 

@@ -359,7 +359,7 @@ class TalentPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
         $check = TalentPayments::where('id', $value)->with(['talentPaymentsValidation'])->first();

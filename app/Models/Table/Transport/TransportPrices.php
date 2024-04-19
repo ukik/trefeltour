@@ -36,4 +36,13 @@ class TransportPrices extends Model
     }
 
 
+    public function transportCart()
+    {
+        return $this->hasOne(TransportCarts::class, 'price_id', 'id');
+    }
+
+    public function transportCarts()
+    {
+        return $this->hasMany(TransportCarts::class, 'price_id', 'id');
+    }
 }

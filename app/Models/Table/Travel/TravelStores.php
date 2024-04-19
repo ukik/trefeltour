@@ -36,13 +36,23 @@ class TravelStores extends Model
         return $this->hasMany(TravelBookings::class, 'store_id', 'id');
     }
 
-    public function travelTicket()
+    public function travelPrice()
     {
-        return $this->hasOne(TravelTickets::class, 'store_id', 'id');
+        return $this->hasOne(TravelPrices::class, 'store_id', 'id');
     }
 
-    public function travelTickets()
+    public function travelPrices()
     {
-        return $this->hasMany(TravelTickets::class, 'store_id', 'id');
+        return $this->hasMany(TravelPrices::class, 'store_id', 'id');
     }
+
+    // public function travelTicket()
+    // {
+    //     return $this->hasOne(TravelTickets::class, 'store_id', 'id');
+    // }
+
+    // public function travelTickets()
+    // {
+    //     return $this->hasMany(TravelTickets::class, 'store_id', 'id');
+    // }
 }

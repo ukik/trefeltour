@@ -221,7 +221,7 @@ class CulinaryCartsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data']['id'];
         $check = \CulinaryPayments::where('booking_id', $value)->first();
@@ -314,7 +314,7 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -524,12 +524,7 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
-
-        $value = request()['data'][0]['value'];
-        $check = CulinaryCarts::where('id', $value)->with(['culinaryPayment'])->first();
-        if($check->culinaryPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
-
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -616,7 +611,7 @@ class CulinaryCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -650,20 +645,6 @@ class CulinaryCartsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
-
-
-            // ADDITIONAL BULK DELETE
-            // -------------------------------------------- //
-            $filters = CulinaryCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('culinaryPayment')->get();
-            $temp = [];
-            foreach ($filters as $value) {
-                if($value->culinaryPayment == null) {
-                    array_push($temp, $value['id']);
-                }
-            }
-            $id_list = $temp;
-            // -------------------------------------------- //
-
 
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;

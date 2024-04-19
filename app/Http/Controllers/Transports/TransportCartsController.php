@@ -229,7 +229,7 @@ class TransportCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         function getTotalAmount($value) {
             //console.log('getTotalAmount', value)
@@ -519,12 +519,7 @@ class TransportCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
-
-        $value = request()['data'][0]['value'];
-        $check = TransportCarts::where('id', $value)->with(['transportPayment'])->first();
-        if($check->transportPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
-
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -611,7 +606,7 @@ class TransportCartsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -645,19 +640,6 @@ class TransportCartsController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);
-
-
-            // ADDITIONAL BULK DELETE
-            // -------------------------------------------- //
-            $filters = TransportCarts::whereIn('id', explode(",",request()['data'][0]['value']))->with('transportPayment')->get();
-            $temp = [];
-            foreach ($filters as $value) {
-                if($value->transportPayment == null) {
-                    array_push($temp, $value['id']);
-                }
-            }
-            $id_list = $temp;
-            // -------------------------------------------- //
 
 
             foreach ($id_list as $id) {

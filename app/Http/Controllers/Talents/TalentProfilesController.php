@@ -183,7 +183,7 @@ class TalentProfilesController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
 
@@ -262,7 +262,7 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
 
@@ -331,11 +331,15 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TalentProfiles::where('id', $value)->with(['talentSkill','talentPrice'])->first();
-        if($check->talentSkill || $check->talentPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentProfiles::where('id', $value)->with([
+            'talentBooking',
+            'talentSkill',
+            'talentPrice'
+        ])->first();
+        if($check->talentPrice || $check->talentSkill || $check->talentBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -422,7 +426,7 @@ class TalentProfilesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -460,16 +464,21 @@ class TalentProfilesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentProfiles::whereIn('id', explode(",",request()['data'][0]['value']))->with(['talentSkill','talentPrice'])->get();
+            $filters = TalentProfiles::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'talentBooking',
+                'talentSkill',
+                'talentPrice'
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentSkill == null && $value->talentPrice == null) {
+                if($value->talentPrice == null && $value->talentSkill == null && $value->talentBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }
             $id_list = $temp;
             // -------------------------------------------- //
-
 
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;

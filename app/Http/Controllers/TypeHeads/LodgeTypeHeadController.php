@@ -123,6 +123,8 @@ class LodgeTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
+        isAddOrUpdateToCart();
+
         DB::beginTransaction();
 
         try {
@@ -166,7 +168,7 @@ class LodgeTypeHeadController extends Controller
                 ->where('price_id', request()->price_id)
                 ->first();
 
-            $LodgeCarts = LodgeCarts::updateOrCreate([
+            $carts = LodgeCarts::updateOrCreate([
                     'customer_id' => request()->customer_id,
                     'profile_id' => $data->profile_id,
                     'room_id' => $data->room_id,
@@ -218,7 +220,7 @@ class LodgeTypeHeadController extends Controller
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$LodgeCarts]])
+                ->withProperties(['attributes' => [$carts]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -227,7 +229,7 @@ class LodgeTypeHeadController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity([$LodgeCarts]);
+            return ApiResponse::onlyEntity([$carts]);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -236,6 +238,9 @@ class LodgeTypeHeadController extends Controller
     }
 
     function update_to_cart(Request $request) {
+
+
+        isAddOrUpdateToCart();
 
         // return (request()->dateCheckIn);
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");

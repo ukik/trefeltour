@@ -205,7 +205,7 @@ class SouvenirBookingsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data']['id'];
         $check = \SouvenirPayments::where('booking_id', $value)->first();
@@ -293,7 +293,7 @@ class SouvenirBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
 
@@ -366,7 +366,7 @@ class SouvenirBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
         $check = SouvenirBookings::where('id', $value)->with(['souvenirPayment'])->first();
@@ -458,7 +458,7 @@ class SouvenirBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         try {
             $request->validate([

@@ -223,7 +223,7 @@ class TransportBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         $value = request()['data'][0]['value'];
         $check = TransportBookingsItems::where('id', $value)->with(['transportPayment'])->first();
@@ -315,7 +315,7 @@ class TransportBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([

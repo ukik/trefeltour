@@ -174,7 +174,7 @@ class LodgePricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
 
@@ -245,7 +245,7 @@ class LodgePricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
 
@@ -315,11 +315,11 @@ class LodgePricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
-        $check = LodgePrices::where('id', $value)->with(['lodgeBooking'])->first();
-        if($check->lodgeBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = LodgePrices::where('id', $value)->with(['lodgeCart'])->first();
+        if($check->lodgeCart) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -406,7 +406,7 @@ class LodgePricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([
@@ -444,15 +444,16 @@ class LodgePricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = LodgePrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgeBooking')->get();
+            $filters = LodgePrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgeCart')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->lodgeBooking == null) {
+                if($value->lodgeCart == null) {
                     array_push($temp, $value['id']);
                 }
             }
             $id_list = $temp;
             // -------------------------------------------- //
+
 
 
             foreach ($id_list as $id) {

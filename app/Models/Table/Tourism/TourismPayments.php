@@ -68,4 +68,15 @@ class TourismPayments extends Model
     {
         return $this->hasOne(TourismPaymentsValidations::class, 'payment_id', 'id');
     }
+
+
+    public function tourismPayment()
+    {
+        return $this->hasOne(TourismPayments::class, 'booking_id', 'id');
+    }
+
+    public function tourismPayments()
+    {
+        return $this->hasMany(TourismPayments::class, 'booking_id', 'id');
+    }
 }

@@ -205,7 +205,7 @@ class TourismBookingsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         $value = request()['data']['id'];
         $check = \TourismPayments::where('booking_id', $value)->first();
@@ -293,7 +293,7 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
 
@@ -367,11 +367,11 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
-        $check = TourismPayments::where('booking_id', $value)->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TourismPayments::where('id', $value)->with(['tourismPayment'])->first();
+        if($check->tourismPayment) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -458,7 +458,7 @@ class TourismBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
             $request->validate([

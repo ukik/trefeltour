@@ -391,7 +391,7 @@ class CulinaryPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
         $check = CulinaryPayments::where('id', $value)->with(['culinaryPaymentsValidation'])->first();

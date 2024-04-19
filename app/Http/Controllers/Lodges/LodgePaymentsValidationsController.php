@@ -178,7 +178,7 @@ class LodgePaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data']['id'];
         $check = LodgePaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -249,7 +249,7 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -321,7 +321,7 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
         $check = LodgePaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -412,7 +412,7 @@ class LodgePaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         try {
             $request->validate([

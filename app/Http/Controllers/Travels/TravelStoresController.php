@@ -181,7 +181,7 @@ class TravelStoresController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
 
@@ -260,7 +260,7 @@ class TravelStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
 
@@ -333,11 +333,14 @@ class TravelStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         $value = request()['data'][0]['value'];
-        $check = TravelStores::where('id', $value)->with(['travelSkill','travelPrice'])->first();
-        if($check->travelSkill || $check->travelPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TravelStores::where('id', $value)->with([
+            'travelBooking',
+            'travelPrice'
+        ])->first();
+        if($check->travelPrice || $check->travelBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -424,7 +427,7 @@ class TravelStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
             $request->validate([
@@ -462,10 +465,15 @@ class TravelStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['travelSkill','travelPrice'])->get();
+            $filters = TravelStores::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'travelBooking',
+                'travelPrice'
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->travelSkill == null && $value->travelPrice == null) {
+                if($value->travelBooking == null && $value->travelPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

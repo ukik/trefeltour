@@ -391,7 +391,7 @@ class LodgePaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminLodge();
+        //isOnlyAdminLodge();
 
         $value = request()['data'][0]['value'];
         $check = LodgePayments::where('id', $value)->with(['lodgePaymentsValidation'])->first();

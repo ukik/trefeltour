@@ -209,7 +209,7 @@ class TalentBookingsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data']['id'];
         $check = \TalentPayments::where('booking_id', $value)->first();
@@ -300,7 +300,7 @@ class TalentBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
 
@@ -376,7 +376,7 @@ class TalentBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
         $check = TalentBookings::where('id', $value)->with(['talentPayment'])->first();
@@ -468,7 +468,7 @@ class TalentBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([

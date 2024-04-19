@@ -387,7 +387,7 @@ class SouvenirPaymentsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminSouvenir();
+        //isOnlyAdminSouvenir();
 
         $value = request()['data'][0]['value'];
         $check = SouvenirPayments::where('id', $value)->with(['souvenirPaymentsValidation'])->first();

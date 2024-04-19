@@ -192,7 +192,7 @@ class TalentPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data']['id'];
         $check = TalentPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -263,7 +263,7 @@ class TalentPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -335,7 +335,7 @@ class TalentPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
         $check = TalentPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -426,7 +426,7 @@ class TalentPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([

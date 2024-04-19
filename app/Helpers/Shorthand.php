@@ -233,6 +233,133 @@ if (!function_exists('isAdminCulinary')) {
 }
 
 
+
+
+function getRoleFilter($label) {
+    if(Auth::check()) {
+        foreach (Auth::user()->roles as $value) {
+            return ($value->name == $label) ? true : false;
+        }
+    } else {
+        return ApiResponse::unauthorized();
+    }
+}
+
+
+if (!function_exists('isTopCeo')) {
+    function isTopCeo(){
+        return getRoleFilter('top_ceo');
+    }
+}
+if (!function_exists('isTopCfo')) {
+    function isTopCfo(){
+        return getRoleFilter('top_cfo');
+    }
+}
+if (!function_exists('isTopCmo')) {
+    function isTopCmo(){
+        return getRoleFilter('top_cmo');
+    }
+}
+if (!function_exists('isClientCompany')) {
+    function isClientCompany(){
+        return getRoleFilter('client_company');
+    }
+}
+if (!function_exists('isClientRetail')) {
+    function isClientRetail(){
+        return getRoleFilter('client_retail');
+    }
+}
+if (!function_exists('isClientAffiliate')) {
+    function isClientAffiliate(){
+        return getRoleFilter('client_affiliate');
+    }
+}
+if (!function_exists('isStaffAdmin')) {
+    function isStaffAdmin(){
+        return getRoleFilter('staff_admin');
+    }
+}
+if (!function_exists('isStaffFinance')) {
+    function isStaffFinance(){
+        return getRoleFilter('staff_finance');
+    }
+}
+if (!function_exists('isStaffSupervisor')) {
+    function isStaffSupervisor(){
+        return getRoleFilter('staff_supervisor');
+    }
+}
+if (!function_exists('isStaffEvent')) {
+    function isStaffEvent(){
+        return getRoleFilter('staff_event');
+    }
+}
+
+
+if (!function_exists('isAddOrUpdateToCart')) {
+    function isAddOrUpdateToCart(){
+        if(Auth::check()) {
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'client_affiliate':
+                    case 'client_retail':
+                    case 'client_company':
+                    case 'staff_admin':
+                        return true;
+                    default:
+                        return ApiResponse::failed('Maaf akses terbatas');
+                }
+            }
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+if (!function_exists('isRoleName')) {
+    function isRoleName(){
+        if(Auth::check()) {
+            foreach (Auth::user()->roles as $key => $value) {
+                return $value->name;
+            }
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (!function_exists('isOnlyAdminTravel')) {
     function isOnlyAdminTravel(){
         if(!isAdminTravel()) return ApiResponse::failed('Maaf harus dari admin');

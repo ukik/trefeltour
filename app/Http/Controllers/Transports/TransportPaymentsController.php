@@ -388,10 +388,8 @@ class TransportPaymentsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TransportPaymentsValidations::where('payment_id', $value)->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        $check = TransportPayments::where('id', $value)->with(['transportPaymentsValidation'])->first();
+        if($check->transportPaymentsValidation) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([

@@ -189,7 +189,7 @@ class TransportPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
         $value = request()['data']['id'];
         $check = TransportPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
         if ($check && !isAdminTransport()) {
@@ -261,7 +261,7 @@ class TransportPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -333,12 +333,11 @@ class TransportPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
+
         $value = request()['data'][0]['value'];
         $check = TransportPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
-        if ($check) {
-            return ApiResponse::failed("Tidak bisa dihapus, data ini sudah digunakan");
-        }
+        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -425,7 +424,7 @@ class TransportPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -469,6 +468,7 @@ class TransportPaymentsValidationsController extends Controller
             }
             $id_list = $temp;
             // -------------------------------------------- //
+
 
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;

@@ -146,7 +146,7 @@ class TourismPricesOLDController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
 
@@ -210,7 +210,7 @@ class TourismPricesOLDController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
 
@@ -272,7 +272,7 @@ class TourismPricesOLDController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         $value = request()['data'][0]['value'];
         $venue_id = \TourismPrices::where('id', $value)->value('venue_id');
@@ -364,7 +364,7 @@ class TourismPricesOLDController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTourism();
+        //isOnlyAdminTourism();
 
         try {
             $request->validate([

@@ -328,8 +328,8 @@ class LodgeRoomsController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = LodgeRooms::where('id', $value)->where('is_reserved', 'true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data sedang digunakan");
+        $check = LodgeRooms::where('id', $value)->with(['lodgePrice'])->first();
+        if($check->lodgePrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -452,10 +452,12 @@ class LodgeRoomsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = LodgeRooms::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_reserved','false')->get();
+            $filters = LodgeRooms::whereIn('id', explode(",",request()['data'][0]['value']))->with('lodgePrice')->get();
             $temp = [];
             foreach ($filters as $value) {
-                array_push($temp, $value['id']);
+                if($value->lodgePrice == null) {
+                    array_push($temp, $value['id']);
+                }
             }
             $id_list = $temp;
             // -------------------------------------------- //

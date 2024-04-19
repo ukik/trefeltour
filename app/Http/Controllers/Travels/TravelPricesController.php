@@ -196,7 +196,7 @@ class TravelPricesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
 
@@ -280,7 +280,7 @@ class TravelPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
 
@@ -365,11 +365,11 @@ class TravelPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         $value = request()['data'][0]['value'];
-        $check = TravelPrices::where('id', $value)->with(['travelBooking'])->first();
-        if($check->travelBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TravelPrices::where('id', $value)->with(['travelCart'])->first();
+        if($check->travelCart) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -456,7 +456,7 @@ class TravelPricesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
             $request->validate([
@@ -494,10 +494,10 @@ class TravelPricesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TravelPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelBooking')->get();
+            $filters = TravelPrices::whereIn('id', explode(",",request()['data'][0]['value']))->with('travelCart')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->travelBooking == null) {
+                if($value->travelCart == null) {
                     array_push($temp, $value['id']);
                 }
             }

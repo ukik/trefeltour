@@ -180,7 +180,7 @@ class CulinaryPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data']['id'];
         $check = CulinaryPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -251,7 +251,7 @@ class CulinaryPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -323,7 +323,7 @@ class CulinaryPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
         $check = CulinaryPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -414,7 +414,7 @@ class CulinaryPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([

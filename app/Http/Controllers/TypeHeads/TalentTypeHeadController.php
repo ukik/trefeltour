@@ -118,39 +118,68 @@ class TalentTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
+        isAddOrUpdateToCart();
 
-        if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
+        DB::beginTransaction();
 
-        $data = TalentPrices::where('id', request()->price_id)->first();
+        try {
+            // get slug by route name and get data type in table
+            //$slug = getSlug($request);
 
-        $quantity = request()->quantity;
+            $data_type = getDataType('talent-prices'); // nama table
 
-        $carts = TalentCarts::query()
-            ->where('customer_id', request()->customer_id)
-            ->where('price_id', request()->price_id)
-            ->first();
+            if(!request()->customer_id) return ApiResponse::failed("Customer wajib diisi");
 
-        TalentCarts::updateOrCreate([
-                'customer_id' => request()->customer_id,
-                'profile_id' => $data->profile_id,
-                'skill_id' => $data->skill_id,
-                'price_id' => $data->id,
-            ],
-            [
-                'customer_id' => request()->customer_id,
-                'profile_id' => $data->profile_id,
-                'skill_id' => $data->skill_id,
-                'price_id' => $data->id,
-                'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
-                'code_table' => "talent-carts",
-                'uuid' => $carts?->uuid ?: ShortUuid(),
-            ]
-        );
+            $data = TalentPrices::where('id', request()->price_id)->first();
 
+            $quantity = request()->quantity;
+
+            $carts = TalentCarts::query()
+                ->where('customer_id', request()->customer_id)
+                ->where('price_id', request()->price_id)
+                ->first();
+
+            $carts = TalentCarts::updateOrCreate([
+                    'customer_id' => request()->customer_id,
+                    'profile_id' => $data->profile_id,
+                    'skill_id' => $data->skill_id,
+                    'price_id' => $data->id,
+                ],
+                [
+                    'customer_id' => request()->customer_id,
+                    'profile_id' => $data->profile_id,
+                    'skill_id' => $data->skill_id,
+                    'price_id' => $data->id,
+                    'quantity' => !$carts?->quantity ? $quantity : DB::raw("quantity + $quantity"), //DB::raw("quantity + $quantity"),
+                    'code_table' => "talent-carts",
+                    'uuid' => $carts?->uuid ?: ShortUuid(),
+                ]
+            );
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [$carts]])
+                ->log($data_type->display_name_singular.' has been created');
+
+            DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
+            return ApiResponse::onlyEntity([$carts]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
         // return request();
     }
 
     function update_to_cart(Request $request) {
+
+        isAddOrUpdateToCart();
+
         // return request();
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
 

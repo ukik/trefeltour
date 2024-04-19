@@ -178,7 +178,7 @@ class TravelPaymentsValidationsController extends Controller
 
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         $value = request()['data']['id'];
         $check = TravelPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -249,7 +249,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         // UNIQUE + SoftDelete
         // cukup CREATE aja karena di edit tidak bisa di edit relationship
@@ -321,7 +321,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         $value = request()['data'][0]['value'];
         $check = TravelPaymentsValidations::where('id', $value)->where('is_valid', 'true')->first();
@@ -412,7 +412,7 @@ class TravelPaymentsValidationsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
             $request->validate([

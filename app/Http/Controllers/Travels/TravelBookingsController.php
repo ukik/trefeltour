@@ -195,7 +195,7 @@ class TravelBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         $value = request()['data'][0]['value'];
         $check = TravelBookings::where('id', $value)->with(['travelPayment'])->first();
@@ -287,7 +287,7 @@ class TravelBookingsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTravel();
+        //isOnlyAdminTravel();
 
         try {
             $request->validate([

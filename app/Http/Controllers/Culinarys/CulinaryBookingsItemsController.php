@@ -220,7 +220,7 @@ class CulinaryBookingsItemsController extends Controller
     //     // return $slug = $this->getSlug($request);
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     //isOnlyAdminCulinary();
 
     //     $value = request()['data']['id'];
     //     $check = \CulinaryPayments::where('booking_id', $value)->first();
@@ -312,7 +312,7 @@ class CulinaryBookingsItemsController extends Controller
     // {
     //     DB::beginTransaction();
 
-    //     isOnlyAdminCulinary();
+    //     //isOnlyAdminCulinary();
 
     //     try {
 
@@ -389,7 +389,7 @@ class CulinaryBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
         $check = CulinaryBookingsItems::where('id', $value)->with(['culinaryPayment'])->first();
@@ -481,7 +481,7 @@ class CulinaryBookingsItemsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([

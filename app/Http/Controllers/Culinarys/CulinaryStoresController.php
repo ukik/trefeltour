@@ -184,7 +184,7 @@ class CulinaryStoresController extends Controller
         //     return ApiResponse::failed("Tidak bisa diubah kecuali oleh admin, data ini sudah digunakan");
         // }
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
 
@@ -264,7 +264,7 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
 
@@ -334,11 +334,15 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         $value = request()['data'][0]['value'];
-        $check = CulinaryStores::where('id', $value)->with(['culinarySkill','culinaryPrice'])->first();
-        if($check->culinarySkill || $check->culinaryPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = CulinaryStores::where('id', $value)->with([
+            'culinaryBooking',
+            'culinaryProduct',
+            'culinaryPrice'
+        ])->first();
+        if($check->culinaryProduct || $check->culinaryPrice || $check->culinaryBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -425,7 +429,7 @@ class CulinaryStoresController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminCulinary();
+        //isOnlyAdminCulinary();
 
         try {
             $request->validate([
@@ -463,10 +467,16 @@ class CulinaryStoresController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = CulinaryStores::whereIn('id', explode(",",request()['data'][0]['value']))->with(['culinarySkill','culinaryPrice'])->get();
+            $filters = CulinaryStores::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'culinaryBooking',
+                'culinaryProduct',
+                'culinaryPrice'
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->culinarySkill == null && $value->culinaryPrice == null) {
+                if($value->culinaryPrice == null && $value->culinaryProduct == null && $value->culinaryBooking == null) {
                     array_push($temp, $value['id']);
                 }
             }

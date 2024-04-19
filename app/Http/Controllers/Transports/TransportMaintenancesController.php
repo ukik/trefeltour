@@ -193,7 +193,7 @@ class TransportMaintenancesController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -273,7 +273,7 @@ class TransportMaintenancesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
 
@@ -343,8 +343,11 @@ class TransportMaintenancesController extends Controller
         DB::beginTransaction();
 
         $value = request()['data'][0]['value'];
-        $check = TransportMaintenances::where('id', $value)->where('is_maintenance','true')->first();
-        if($check) return ApiResponse::failed("Tidak bisa dihapus, data ini sedang perbaikan");
+        $check = TransportMaintenances::where('id', $value)->with([
+            'transportVehicle',
+        ])->first();
+        if($check->transportVehicle) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+
 
         try {
             $request->validate([
@@ -431,7 +434,7 @@ class TransportMaintenancesController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTransport();
+        //isOnlyAdminTransport();
 
         try {
             $request->validate([
@@ -469,10 +472,16 @@ class TransportMaintenancesController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TransportMaintenances::whereIn('id', explode(",",request()['data'][0]['value']))->where('is_maintenance','false')->get();
+            $filters = TransportMaintenances::whereIn('id', explode(",",request()['data'][0]['value']))
+            ->with([
+                'transportVehicle',
+            ])
+            ->get();
             $temp = [];
             foreach ($filters as $value) {
-                array_push($temp, $value['id']);
+                if($value->transportVehicle == null) {
+                    array_push($temp, $value['id']);
+                }
             }
             $id_list = $temp;
             // -------------------------------------------- //

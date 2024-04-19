@@ -74,4 +74,15 @@ class TalentPrices extends Model
     {
         return $this->hasMany(TalentBookings::class, 'skill_id', 'id');
     }
+
+
+    public function talentCart()
+    {
+        return $this->hasOne(TalentCarts::class, 'price_id', 'id');
+    }
+
+    public function talentCarts()
+    {
+        return $this->hasMany(TalentCarts::class, 'price_id', 'id');
+    }
 }

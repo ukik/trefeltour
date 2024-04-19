@@ -175,7 +175,7 @@ class TalentSkillsController extends Controller
         // return $slug = $this->getSlug($request);
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
 
@@ -252,7 +252,7 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
 
@@ -324,11 +324,11 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         $value = request()['data'][0]['value'];
-        $check = TalentSkills::where('id', $value)->with(['talentBooking'])->first();
-        if($check->talentBooking) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
+        $check = TalentSkills::where('id', $value)->with(['talentPrice'])->first();
+        if($check->talentPrice) return ApiResponse::failed("Tidak bisa dihapus, data ini digunakan");
 
         try {
             $request->validate([
@@ -415,7 +415,7 @@ class TalentSkillsController extends Controller
     {
         DB::beginTransaction();
 
-        isOnlyAdminTalent();
+        //isOnlyAdminTalent();
 
         try {
             $request->validate([
@@ -453,10 +453,10 @@ class TalentSkillsController extends Controller
 
             // ADDITIONAL BULK DELETE
             // -------------------------------------------- //
-            $filters = TalentSkills::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentBooking')->get();
+            $filters = TalentSkills::whereIn('id', explode(",",request()['data'][0]['value']))->with('talentPrice')->get();
             $temp = [];
             foreach ($filters as $value) {
-                if($value->talentBooking == null) {
+                if($value->talentPrice == null) {
                     array_push($temp, $value['id']);
                 }
             }

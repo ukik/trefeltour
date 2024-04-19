@@ -129,6 +129,8 @@ class TravelTypeHeadController extends Controller
 
     function add_to_cart(Request $request) {
 
+        isAddOrUpdateToCart();
+
         DB::beginTransaction();
 
         try {
@@ -148,7 +150,7 @@ class TravelTypeHeadController extends Controller
 
             if($carts) return ApiResponse::failed("Data ini sudah di keranjang");
 
-            $TravelCarts = TravelCarts::updateOrCreate([
+            $carts = TravelCarts::updateOrCreate([
                     'customer_id' => request()->customer_id,
                     'reservation_id' => $data->reservation_id,
                     'store_id' => $data->store_id,
@@ -199,7 +201,7 @@ class TravelTypeHeadController extends Controller
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => [$TravelCarts]])
+                ->withProperties(['attributes' => [$carts]])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -208,7 +210,7 @@ class TravelTypeHeadController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::onlyEntity([$TravelCarts]);
+            return ApiResponse::onlyEntity([$carts]);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -218,6 +220,9 @@ class TravelTypeHeadController extends Controller
 
 
     function update_to_cart(Request $request) {
+
+        isAddOrUpdateToCart();
+
         // return request();
         if(!request()->quantity) return ApiResponse::failed("Customer wajib diisi");
 
