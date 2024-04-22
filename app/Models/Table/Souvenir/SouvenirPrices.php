@@ -29,6 +29,11 @@ class SouvenirPrices extends Model
 
     protected $table = "souvenir_prices";
 
+    public function customer()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function souvenirStore()
     {
         return $this->belongsTo(SouvenirStores::class,'store_id','id');

@@ -121,6 +121,12 @@ class TourismBookingsItemsController extends Controller
 
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -171,7 +177,15 @@ class TourismBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TourismBookingsItems::with([
+            $data = \TourismBookingsItems::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'tourismBooking',

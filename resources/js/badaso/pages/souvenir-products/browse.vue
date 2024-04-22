@@ -332,11 +332,14 @@
                               displayRelationData(record, dataRow)
                             }}</span>
                               <div v-else>
-                                  {{
-                                      record[
-                                      $caseConvert.stringSnakeToCamel(dataRow.field)
-                                      ]
-                                  }}
+                                    <chip-available v-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
+                                    <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                    </span>
                               </div>
                           </template>
                         </vs-td>

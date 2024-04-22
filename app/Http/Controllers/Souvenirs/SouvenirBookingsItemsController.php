@@ -135,6 +135,12 @@ class SouvenirBookingsItemsController extends Controller
 
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -186,7 +192,15 @@ class SouvenirBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \SouvenirBookingsItems::with([
+            $data = \SouvenirBookingsItems::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'souvenirBooking',

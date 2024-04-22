@@ -2,6 +2,24 @@
     "size": 12,
     "items": [
         {
+            "label": "private",
+            "value": "private"
+        },
+        {
+            "label": "public",
+            "value": "public"
+        },
+        {
+            "label": "partner",
+            "value": "partner"
+        }
+    ]
+}
+
+{
+    "size": 12,
+    "items": [
+        {
             "label": "plane",
             "value": "plane"
         },

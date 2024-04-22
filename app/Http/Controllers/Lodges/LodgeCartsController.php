@@ -149,6 +149,13 @@ class LodgeCartsController extends Controller
                 }
             }
 
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -199,7 +206,15 @@ class LodgeCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \LodgeCarts::with([
+            $data = \LodgeCarts::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUsers',
                 'badasoUser',
 

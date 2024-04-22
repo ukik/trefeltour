@@ -109,6 +109,12 @@ class CulinaryPaymentsValidationsController extends Controller
                 $data->where('is_valid',$valid);
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
@@ -154,7 +160,15 @@ class CulinaryPaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryPaymentsValidations::with([
+            $data = \CulinaryPaymentsValidations::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'culinaryPayments',

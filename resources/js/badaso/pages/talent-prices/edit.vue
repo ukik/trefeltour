@@ -15,6 +15,7 @@
               </h3>
 
               <DialogProduct @onBubbleEvent="updateTypeHead($event)" />
+              <DialogCustomer v-show="condition === 'private'" ref="DialogCustomer" @onBubbleEvent="updateTypeHeadCustomer($event)" />
 
             </div>
             <vs-row>
@@ -266,7 +267,9 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-checkbox>
-                  <badaso-select
+
+
+                  <badaso-select @onChange="onChangeSelect($event,dataRow.field)"
                     v-if="dataRow.type == 'select'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -277,6 +280,22 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
+
+                  <badaso-select
+                    v-if="dataRow.type == 'select_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select>
+
+
+
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
                     :label="dataRow.displayName"
@@ -442,11 +461,12 @@
 import * as _ from "lodash";
 
 import DialogProduct from './DialogProduct.vue'
+import DialogCustomer from './DialogCustomer.vue';
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogProduct
+    DialogProduct,DialogCustomer
   },
   name: "CrudGeneratedEdit",
   data: () => ({
@@ -460,6 +480,9 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    condition: '',
+    customer_id: null,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
@@ -497,6 +520,15 @@ export default {
                     if(el.field == 'is_available' && key == 'isAvailable') {
                         el.value = isVal
                     }
+
+                    if(el.field == 'condition' && key == 'condition') {
+                        this.condition = this.record[key];
+                        el.type = 'select_readonly'
+                    }
+
+                    if(el.field == 'customer_id' && key == 'customerId') {
+                        this.customer_id = this.record[key];
+                    }
                 }
             }
         });
@@ -517,9 +549,16 @@ export default {
 
         console.log('dataType', this.dataType.dataRows)
 
+        this.$refs.DialogCustomer.selecteduser = this.record?.customer
+        this.$refs.DialogCustomer.users = [this.record?.customer]
+        this.$refs.DialogCustomer.$refs.typeahead.inputValue = `Nama (${this.record?.customer.name}) Email (${this.record?.customer.email}) Telp (${this.record?.customer.phone})`;
 
   },
   methods: {
+    onChangeSelect(val,field) {
+        console.log('onChangeSelect', val, field)
+        if(field === 'condition') this.condition = val
+    },
     updateTypeHead(value) {
 
         console.log('updateTypeHead', value, this.dataType.dataRows)
@@ -538,7 +577,33 @@ export default {
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
+    updateTypeHeadCustomer(value) {
+        console.log('updateTypeHeadCustomer', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'customer_id') {
+                el.value = value ? value?.id : '';
+                this.customer_id = el.value
+            }
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
     submitForm() {
+        if(!this.customer_id && this.condition === 'private') {
+            this.$vs.notify({
+                title: "Warning",
+                text: "Customer wajib diisi",
+                color: "danger",
+            });
+            return
+        }
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {

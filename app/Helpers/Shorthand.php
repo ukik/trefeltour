@@ -320,6 +320,24 @@ if (!function_exists('isAddOrUpdateToCart')) {
 
 
 
+if (!function_exists('isClientOnly')) {
+    function isClientOnly(){
+        if(Auth::check()) {
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'client_affiliate':
+                    case 'client_retail':
+                    case 'client_company':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 
 
 
@@ -337,6 +355,15 @@ if (!function_exists('isRoleName')) {
     }
 }
 
+if (!function_exists('authID')) {
+    function authID(){
+        if(Auth::check()) {
+            return Auth::user()->id;
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 
 
 

@@ -51,6 +51,7 @@ class TalentPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TalentPrices::with([
+                'customer',
                 'talentSkills',
                 'talentProfiles',
                 'talentProfile.badasoUsers',
@@ -153,6 +154,7 @@ class TalentPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TalentPrices::with([
+                'customer',
                 'talentSkills',
                 'talentProfiles',
                 'talentProfile.badasoUsers',
@@ -191,6 +193,8 @@ class TalentPricesController extends Controller
 
                 'profile_id' => $table_entity->profile_id,
                 'skill_id' => $table_entity->skill_id,
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -206,6 +210,8 @@ class TalentPricesController extends Controller
                 [
                     'profile_id' => 'required',
                     'skill_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -265,6 +271,8 @@ class TalentPricesController extends Controller
 
                 'profile_id' => $profile_id,
                 'skill_id' => $req['skill_id'],
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -280,6 +288,8 @@ class TalentPricesController extends Controller
                 [
                     'profile_id' => 'required',
                     'skill_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

@@ -48,7 +48,7 @@ class TravelCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-28T20:15:28.000000Z',
-                'updated_at' => '2024-04-11T11:17:04.000000Z',
+                'updated_at' => '2024-04-22T09:01:33.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_carts');

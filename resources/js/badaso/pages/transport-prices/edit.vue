@@ -16,6 +16,7 @@
 
               <DialogRental @onHapus="rental_id = null; vehicle_id = null" @onBubbleEvent="rental_id = null; vehicle_id = null; updateTypeHeadRental($event)" />
               <DialogVehicle :rental_id="rental_id" @onHapus="vehicle_id = null" v-show="rental_id" @onBubbleEvent="updateTypeHeadVehicle($event)" />
+              <DialogCustomer v-show="condition === 'private'" ref="DialogCustomer" @onBubbleEvent="updateTypeHeadCustomer($event)" />
 
             </div>
             <vs-row>
@@ -267,7 +268,8 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-checkbox>
-                  <badaso-select
+
+                  <badaso-select @onChange="onChangeSelect($event,dataRow.field)"
                     v-if="dataRow.type == 'select'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -278,6 +280,21 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-select>
+
+                  <badaso-select
+                    v-if="dataRow.type == 'select_readonly'"
+                    :style="'pointer-events:none;'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select>
+
+
                   <badaso-select-multiple
                     v-if="dataRow.type == 'select_multiple'"
                     :label="dataRow.displayName"
@@ -444,11 +461,12 @@ import * as _ from "lodash";
 
 import DialogVehicle from './DialogVehicle.vue'
 import DialogRental from './DialogRental.vue'
+import DialogCustomer from './DialogCustomer.vue';
 
 export default {
   name: "CrudGeneratedEdit",
   components: {
-    DialogVehicle, DialogRental
+    DialogVehicle, DialogRental,DialogCustomer
   },
   data: () => ({
     isValid: true,
@@ -461,6 +479,9 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    condition: '',
+    customer_id: null,
 
     rental_id: null,
     vehilce_id: null,
@@ -501,6 +522,15 @@ export default {
                     if(el.field == 'is_available' && key == 'isAvailable') {
                         el.value = isVal
                     }
+
+                    if(el.field == 'condition' && key == 'condition') {
+                        this.condition = this.record[key];
+                        el.type = 'select_readonly'
+                    }
+
+                    if(el.field == 'customer_id' && key == 'customerId') {
+                        this.customer_id = this.record[key];
+                    }
                 }
             }
         });
@@ -521,9 +551,16 @@ export default {
 
         console.log('dataType', this.dataType.dataRows)
 
+        this.$refs.DialogCustomer.selecteduser = this.record?.customer
+        this.$refs.DialogCustomer.users = [this.record?.customer]
+        this.$refs.DialogCustomer.$refs.typeahead.inputValue = `Nama (${this.record?.customer.name}) Email (${this.record?.customer.email}) Telp (${this.record?.customer.phone})`;
 
   },
   methods: {
+    onChangeSelect(val,field) {
+        console.log('onChangeSelect', val, field)
+        if(field === 'condition') this.condition = val
+    },
     updateTypeHeadRental(value) {
 
         console.log('updateTypeHeadRental', value, this.dataType.dataRows)
@@ -562,7 +599,33 @@ export default {
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
+    updateTypeHeadCustomer(value) {
+        console.log('updateTypeHeadCustomer', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'customer_id') {
+                el.value = value ? value?.id : '';
+                this.customer_id = el.value
+            }
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
     submitForm() {
+        if(!this.customer_id && this.condition === 'private') {
+            this.$vs.notify({
+                title: "Warning",
+                text: "Customer wajib diisi",
+                color: "danger",
+            });
+            return
+        }
 
         if(!this.rental_id) return this.$vs.notify({
             title: this.$t("alert.danger"),

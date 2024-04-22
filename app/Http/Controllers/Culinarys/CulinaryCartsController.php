@@ -140,6 +140,12 @@ class CulinaryCartsController extends Controller
                     ->orWhereHas('badasoUser', $customer_id);
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -190,7 +196,15 @@ class CulinaryCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryCarts::with([
+            $data = \CulinaryCarts::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 // 'culinaryStore.culinaryBooking.badasoUsers',
                 // 'culinaryStore.culinaryBooking.badasoUser',
                 // 'culinaryStore.culinaryBookings',

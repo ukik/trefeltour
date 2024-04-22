@@ -121,6 +121,12 @@ class TransportBookingsController extends Controller
 
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -172,7 +178,15 @@ class TransportBookingsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportBookings::with([
+            $data = \TransportBookings::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
 

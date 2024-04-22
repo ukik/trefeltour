@@ -126,6 +126,14 @@ class TravelPaymentsController extends Controller
                 $data->where('is_selected', 'false');
             }
 
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -176,7 +184,15 @@ class TravelPaymentsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelPayments::with([
+            $data = \TravelPayments::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUsers',
                 'travelBookings',
                 'travelBooking',

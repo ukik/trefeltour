@@ -35,6 +35,11 @@ class TalentPrices extends Model
 
     protected $table = "talent_prices";
 
+    public function customer()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function badasoUser()
     {
         return $this->belongsTo(BadasoUsers::class,'profile_id','id');

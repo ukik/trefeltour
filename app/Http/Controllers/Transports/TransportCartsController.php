@@ -151,6 +151,12 @@ class TransportCartsController extends Controller
                 }
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -202,7 +208,15 @@ class TransportCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TransportCarts::with([
+            $data = \TransportCarts::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUsers',
                 'badasoUser',
 

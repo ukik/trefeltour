@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'badaso_menu_items_backup',
     'badaso_users',
     'branches',
     'buffet_bookings',

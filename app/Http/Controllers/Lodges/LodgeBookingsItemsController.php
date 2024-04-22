@@ -135,6 +135,15 @@ class LodgeBookingsItemsController extends Controller
                 }
 
             }
+
+
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             // return SqlWithBinding($data->toSql(), $data->getBindings());
             $data = $data->paginate(request()->perPage);
 
@@ -186,7 +195,15 @@ class LodgeBookingsItemsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \LodgeBookingsItems::with([
+            $data = \LodgeBookingsItems::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
 

@@ -145,6 +145,12 @@ class TourismCartsController extends Controller
                 }
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -196,7 +202,15 @@ class TourismCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TourismCarts::with([
+            $data = \TourismCarts::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 // 'tourismVenue.tourismBooking.badasoUsers',
                 // 'tourismVenue.tourismBooking.badasoUser',
                 // 'tourismVenue.tourismBookings',

@@ -117,6 +117,12 @@ class CulinaryBookingsController extends Controller
 
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -167,7 +173,15 @@ class CulinaryBookingsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \CulinaryBookings::with([
+            $data = \CulinaryBookings::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUsers',
                 'badasoUser',
                 'culinaryStore.culinaryProduct',

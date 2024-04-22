@@ -153,6 +153,14 @@ class SouvenirCartsController extends Controller
                 }
             }
 
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);
@@ -203,7 +211,15 @@ class SouvenirCartsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \SouvenirCarts::with([
+            $data = \SouvenirCarts::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 // 'souvenirStore.souvenirBooking.badasoUsers',
                 // 'souvenirStore.souvenirBooking.badasoUser',
                 // 'souvenirStore.souvenirBookings',

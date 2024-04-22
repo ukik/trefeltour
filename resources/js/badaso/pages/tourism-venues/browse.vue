@@ -345,11 +345,16 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                          <span v-else>{{
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }}</span>
+                              <div v-else>
+                                    <chip-available v-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
+                                    <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                    </span>
+                              </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">

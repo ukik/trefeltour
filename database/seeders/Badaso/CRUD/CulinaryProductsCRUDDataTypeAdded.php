@@ -48,7 +48,7 @@ class CulinaryProductsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T05:31:47.000000Z',
-                'updated_at' => '2024-04-11T02:01:00.000000Z',
+                'updated_at' => '2024-04-22T06:23:17.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_products');

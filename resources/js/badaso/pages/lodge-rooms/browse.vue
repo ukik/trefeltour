@@ -319,8 +319,16 @@
                                     bindSelection(dataRow.details.items, selected)
                                 }}
                                 </p> -->
-
-                                <ol class="ml-2" style="width:100px;">
+                                <template v-for="(selected, indexSelected) in stringToArray(
+                                    record[
+                                    $caseConvert.stringSnakeToCamel(dataRow.field)
+                                    ]
+                                )">
+                                    <vs-chip color="primary">
+                                        {{ bindSelection(dataRow.details.items, selected) }}
+                                    </vs-chip>
+                                </template>
+                                <!-- <ol class="ml-2" style="width:100px;">
                                     <li v-for="(selected, indexSelected) in stringToArray(
                                     record[
                                     $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -329,7 +337,7 @@
                                 :key="indexSelected">
                                         <span>{{ bindSelection(dataRow.details.items, selected) }}</span>
                                     </li>
-                                </ol>
+                                </ol> -->
 
                           </div>
                           <div v-else-if="dataRow.type == 'color_picker'">
@@ -350,13 +358,16 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                            <div v-else>
-                                {{
-                                    record[
-                                    $caseConvert.stringSnakeToCamel(dataRow.field)
-                                    ]
-                                }}
-                            </div>
+                              <div v-else>
+                                    <chip-available v-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
+                                    <span v-else>
+                                    {{
+                                        record[
+                                        $caseConvert.stringSnakeToCamel(dataRow.field)
+                                        ]
+                                    }}
+                                    </span>
+                              </div>
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">

@@ -51,6 +51,7 @@ class TransportPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TransportPrices::with([
+                'customer',
                 'transportRental',
                 'transportRentals',
                 // 'transportRental.badasoUsers',
@@ -154,6 +155,7 @@ class TransportPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TransportPrices::with([
+                'customer',
                 'transportRental',
                 'transportRentals',
                 // 'transportRental.badasoUsers',
@@ -192,6 +194,8 @@ class TransportPricesController extends Controller
 
                 'rental_id' => $table_entity->rental_id,
                 'vehicle_id' => $table_entity->vehicle_id,
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -206,6 +210,8 @@ class TransportPricesController extends Controller
                 [
                     'rental_id' => 'required',
                     'vehicle_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])
@@ -265,6 +271,8 @@ class TransportPricesController extends Controller
 
                 'rental_id' => $rental_id,
                 'vehicle_id' => $req['vehicle_id'],
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
@@ -279,6 +287,8 @@ class TransportPricesController extends Controller
                 [
                     'rental_id' => 'required',
                     'vehicle_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('transport_bookings')->ignore($req['id'])

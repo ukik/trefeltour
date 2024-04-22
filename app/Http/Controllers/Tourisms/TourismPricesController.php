@@ -51,6 +51,7 @@ class TourismPricesController extends Controller
             // $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             $data = \TourismPrices::with([
+                'customer',
                 'tourismVenues',
                 'tourismVenue.badasoUsers',
                 'tourismVenue.badasoUser',
@@ -147,6 +148,7 @@ class TourismPricesController extends Controller
 
             // $data = $this->getDataDetail($slug, $request->id);
             $data = \TourismPrices::with([
+                'customer',
                 'tourismVenues',
                 'tourismVenue.badasoUsers',
                 'tourismVenue.badasoUser',
@@ -181,6 +183,8 @@ class TourismPricesController extends Controller
             $data = [
 
                 'venue_id' => $table_entity->venue_id,
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'type_price' => $req['type_price'],
                 'general_price' => $req['general_price'],
@@ -196,6 +200,8 @@ class TourismPricesController extends Controller
             $validator = Validator::make($data,
                 [
                     'venue_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])
@@ -254,6 +260,8 @@ class TourismPricesController extends Controller
             $data = [
 
                 'venue_id' => $venue_id,
+                'customer_id' => $req['customer_id'],
+                'condition' => $req['condition'],
                 'name' => $req['name'],
                 'type_price' => $req['type_price'],
                 'general_price' => $req['general_price'],
@@ -269,6 +277,8 @@ class TourismPricesController extends Controller
             $validator = Validator::make($data,
                 [
                     'venue_id' => 'required',
+                    '*' => 'required',
+                    'customer_id' => $req['condition'] === 'private' ? 'required' : '',
                     // susah karena pake softDelete, pakai cara manual saja
                     // 'ticket_id' => [
                     //     'required', \Illuminate\Validation\Rule::unique('travel_bookings')->ignore($req['id'])

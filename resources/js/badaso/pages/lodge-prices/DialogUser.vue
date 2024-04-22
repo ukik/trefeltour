@@ -5,7 +5,7 @@
         <!-- {{ userRole !== 'admin-lodge' }} xxxxxxxxxxxxxx -->
         <label class="badaso-text__label col-12 p-1">Pilih Customer</label>
 
-        <div v-if="!$route.params?.id" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
+        <div v-if="condition !== 'private'" @click="type='select';show = true" class="btn btn-danger col-auto mr-0">
             <vs-icon icon="table_chart" style="font-size: 18px;" class=""></vs-icon>
         </div>
 
@@ -87,7 +87,18 @@ export default {
             this.$emit('onBubbleEvent', val)
         },
     },
+    props: {
+        selectedCustomer:null,
+        condition:null,
+    },
     async mounted() { this.$openLoader();
+        console.log('MOUNTED selectedCustomer', this.selectedCustomer, this.condition)
+        if(this.condition === 'private') {
+            this.$refs.typeahead.inputValue = `Nama (${this.selectedCustomer?.name}) Telp (${this.selectedCustomer?.phone})`;
+            this.selecteduser = this.selectedCustomer;
+            this.users = [this.selectedCustomer];
+        }
+
         console.log('this.$route',this.$route)
         const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
         this.userRole = userRole

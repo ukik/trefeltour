@@ -48,7 +48,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:53:40.000000Z',
-                'updated_at' => '2024-04-10T23:08:40.000000Z',
+                'updated_at' => '2024-04-22T06:32:31.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments');

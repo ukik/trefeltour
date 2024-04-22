@@ -15,6 +15,11 @@ class TourismPrices extends Model
 
     protected $table = "tourism_prices";
 
+    public function customer()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function tourismVenue()
     {
         return $this->belongsTo(TourismVenues::class,'venue_id','id');

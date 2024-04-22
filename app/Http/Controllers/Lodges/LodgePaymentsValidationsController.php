@@ -108,6 +108,12 @@ class LodgePaymentsValidationsController extends Controller
                 $data->where('is_valid',$valid);
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
@@ -153,7 +159,15 @@ class LodgePaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \LodgePaymentsValidations::with([
+            $data = \LodgePaymentsValidations::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUsers',
                 'lodgePayments',
                 'lodgePayment',

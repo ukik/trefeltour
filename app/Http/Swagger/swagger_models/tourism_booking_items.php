@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"getPrice":"123"},
+  *                     example={},
   *                 ),
   *             )
   *         )

@@ -110,6 +110,13 @@ class TourismPaymentsValidationsController extends Controller
                 $data->where('is_valid',$valid);
             }
 
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             // return SqlWithBinding($data->toSql(), $data->getBindings());
             $data = $data->paginate(request()->perPage);
 
@@ -156,7 +163,15 @@ class TourismPaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TourismPaymentsValidations::with([
+            $data = \TourismPaymentsValidations::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'tourismPayments',

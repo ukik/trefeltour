@@ -15,6 +15,7 @@
               </h3>
 
               <DialogProduct @onBubbleEvent="updateTypeHead($event)" />
+              <DialogCustomer v-if="condition === 'private'" @onBubbleEvent="updateTypeHeadCustomer($event)" />
 
             </div>
             <vs-row>
@@ -266,7 +267,8 @@
                     "
                     :items="dataRow.details.items ? dataRow.details.items : []"
                   ></badaso-checkbox>
-                  <badaso-select
+
+                  <badaso-select @onChange="onChangeSelect($event,dataRow.field)"
                     v-if="dataRow.type == 'select'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
@@ -423,11 +425,12 @@
 
 <script>
 import DialogProduct from './DialogProduct.vue'
+import DialogCustomer from './DialogCustomer.vue';
 
 export default {
   name: "CrudGeneratedAdd",
   components: {
-    DialogProduct
+    DialogProduct, DialogCustomer
   },
   data: () => ({
     isValid: true,
@@ -440,6 +443,9 @@ export default {
     userId: "",
     userRole: "",
     isAdmin: false,
+
+    condition: '',
+    customer_id: null,
   }),
     async mounted() { this.$openLoader();
         const { userId, userRole, isAdmin } = await this.$store.getters["custom/getAUTH"]; // this.$authUtil.getAuth(this.$api)
@@ -484,6 +490,10 @@ export default {
         console.log('dataType', this.dataType.dataRows)
   },
   methods: {
+    onChangeSelect(val,field) {
+        console.log('onChangeSelect', val, field)
+        if(field === 'condition') this.condition = val
+    },
     updateTypeHead(value) {
         console.log('updateTypeHead', value, this.dataType.dataRows)
 
@@ -501,7 +511,34 @@ export default {
         this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
 
     },
+    updateTypeHeadCustomer(value) {
+        console.log('updateTypeHeadCustomer', value, this.dataType.dataRows)
+
+        if(this.dataType?.dataRows == undefined) return
+
+        let temp = JSON.parse(JSON.stringify(this.dataType.dataRows));
+
+        temp.forEach(el => {
+
+            if(el.field == 'customer_id') {
+                el.value = value ? value?.id : '';
+                this.customer_id = el.value
+            }
+        });
+
+        this.dataType.dataRows = JSON.parse(JSON.stringify(temp));
+
+    },
     submitForm() {
+        if(!this.customer_id && this.condition === 'private') {
+            this.$vs.notify({
+                title: "Warning",
+                text: "Customer wajib diisi",
+                color: "danger",
+            });
+            return
+        }
+
       this.errors = {};
       this.isValid = true;
 
@@ -516,7 +553,6 @@ export default {
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;
         }
-
       }
 
       // validate values in data rows must not equals 0

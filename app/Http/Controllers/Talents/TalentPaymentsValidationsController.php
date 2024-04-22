@@ -115,6 +115,12 @@ class TalentPaymentsValidationsController extends Controller
                 $data->where('is_valid',$valid);
             }
 
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
             $data = $data->paginate(request()->perPage);
 
             return ApiResponse::onlyEntity($data);
@@ -160,7 +166,15 @@ class TalentPaymentsValidationsController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TalentPaymentsValidations::with([
+            $data = \TalentPaymentsValidations::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'talentPayments',

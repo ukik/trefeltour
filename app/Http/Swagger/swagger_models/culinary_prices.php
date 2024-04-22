@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
+  *                     example={"condition":"Abc", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
+  *                     example={"condition":"Abc", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,13 +201,15 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "customerId":"Abc", "condition":"Abc", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "storeId":"", "productId":"", "customerId":"Abc", "condition":"Abc", "name":"Abc", "generalPrice":"123", "discountPrice":"123", "cashbackPrice":"123", "stock":"123", "description":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
   *                         @OA\Property(type="string", property="storeId"), 
   *                         @OA\Property(type="string", property="productId"), 
+  *                         @OA\Property(type="string", property="customerId"), 
+  *                         @OA\Property(type="string", property="condition"), 
   *                         @OA\Property(type="string", property="name"), 
   *                         @OA\Property(type="integer", property="generalPrice"), 
   *                         @OA\Property(type="integer", property="discountPrice"), 

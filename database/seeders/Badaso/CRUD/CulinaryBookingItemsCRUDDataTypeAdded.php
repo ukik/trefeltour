@@ -48,7 +48,7 @@ class CulinaryBookingItemsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T07:53:57.000000Z',
-                'updated_at' => '2024-04-11T06:38:25.000000Z',
+                'updated_at' => '2024-04-22T06:14:16.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_booking_items');

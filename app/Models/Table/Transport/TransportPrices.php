@@ -15,6 +15,11 @@ class TransportPrices extends Model
 
     protected $table = "transport_prices";
 
+    public function customer()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function transportRental()
     {
         return $this->belongsTo(TransportRentals::class,'vehicle_id','id');

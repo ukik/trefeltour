@@ -34,7 +34,7 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 1,
@@ -50,7 +50,7 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
                     'order' => 2,
@@ -66,7 +66,7 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => '{"relation_type":"belongs_to","destination_table":"culinary_stores","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","uuid"]}',
                     'order' => 3,
@@ -82,12 +82,60 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => '{"relation_type":"belongs_to","destination_table":"culinary_products","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","uuid"]}',
                     'order' => 4,
                 ),
                 4 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'customer_id',
+                    'type' => 'text',
+                    'display_name' => 'Customer',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => 1,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 5,
+                ),
+                5 => 
+                array (
+                    'data_type_id' => $data_type->id,
+                    'field' => 'condition',
+                    'type' => 'select',
+                    'display_name' => 'Condition',
+                    'required' => 0,
+                    'browse' => 1,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 1,
+                    'details' => '{
+"size": 12,
+"items": [
+{
+"label": "private",
+"value": "private"
+},
+{
+"label": "public",
+"value": "public"
+},
+{
+"label": "partner",
+"value": "partner"
+}
+]
+}',
+                    'relation' => NULL,
+                    'order' => 6,
+                ),
+                6 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'name',
@@ -101,9 +149,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 5,
+                    'order' => 7,
                 ),
-                5 => 
+                7 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'general_price',
@@ -117,9 +165,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 6,
+                    'order' => 8,
                 ),
-                6 => 
+                8 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'discount_price',
@@ -133,9 +181,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 7,
+                    'order' => 9,
                 ),
-                7 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'cashback_price',
@@ -149,9 +197,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 10,
                 ),
-                8 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'stock',
@@ -165,9 +213,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 11,
                 ),
-                9 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'description',
@@ -181,9 +229,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 12,
                 ),
-                10 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -197,9 +245,9 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 13,
                 ),
-                11 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -210,12 +258,12 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 14,
                 ),
-                12 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -226,12 +274,12 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 15,
                 ),
-                13 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -242,10 +290,10 @@ class CulinaryPricesCRUDDataRowAdded extends Seeder
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 0,
+                    'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 16,
                 ),
             ));
 

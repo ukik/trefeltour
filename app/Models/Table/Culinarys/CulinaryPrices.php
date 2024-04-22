@@ -29,6 +29,11 @@ class CulinaryPrices extends Model
 
     protected $table = "culinary_prices";
 
+    public function customer()
+    {
+        return $this->belongsTo(BadasoUsers::class,'customer_id','id');
+    }
+
     public function culinaryStore()
     {
         return $this->belongsTo(CulinaryStores::class,'store_id','id');
