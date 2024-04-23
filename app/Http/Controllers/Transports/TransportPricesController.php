@@ -103,6 +103,20 @@ class TransportPricesController extends Controller
 
             }
 
+            $data->where('condition','public');
+
+            if(isClientCompany()) {
+                $data->orWhere('condition','private')->orWhere('customer_id',authID());
+            }
+
+            if(isClientAffiliate()) {
+                $data->orWhere('condition','partner')->orWhere('customer_id',authID());
+            }
+
+            if(isClientRetail()) {
+                $data->orWhere('customer_id',authID());
+            }
+
 
             $data = $data->paginate(request()->perPage);
 

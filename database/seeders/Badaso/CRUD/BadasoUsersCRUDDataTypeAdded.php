@@ -48,7 +48,7 @@ class BadasoUsersCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-10T07:22:22.000000Z',
-                'updated_at' => '2024-02-12T07:25:17.000000Z',
+                'updated_at' => '2024-04-23T10:14:20.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('badaso_users');

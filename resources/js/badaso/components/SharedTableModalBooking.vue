@@ -137,6 +137,23 @@
             <!-- <div slot="header">
               <h3>{{ dataType.displayNameSingular }}</h3>
             </div> -->
+            <div slot="header">
+              <div class="row">
+                <div class="col pr-0 d-flex align-items-end">
+                  <vs-input
+                    icon-after="true"
+                    label-placeholder="icon-after"
+                    icon="search"
+                    placeholder="Pencarian Data"
+                    v-model="search"
+                    @input="onSearch($event)"
+                  />
+                </div>
+                <div class="col-auto d-flex align-items-end justify-content-end">
+                  <vs-button @click="onClear" color="danger" icon="close"></vs-button>
+                </div>
+              </div>
+            </div>
             <div>
               <shared-badaso-table ref="badaso_table_1"
                 v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
@@ -476,6 +493,7 @@ export default {
     isMaintenance: false,
     showMaintenancePage: false,
     isShowDataRecycle: false,
+    search:'',
 
     show: false,
     modalClass: 'modal-xl d-flex align-items-center',
@@ -509,6 +527,15 @@ export default {
     this.loadIdsOfflineDelete();
   },
   methods: {
+    onSearch(val) {
+      this.search = val;
+      this.getEntity();
+    },
+    onClear() {
+      this.search = "";
+      this.getEntity();
+      this.$refs?.SharedSelectAvailable?.onClear();
+    },
     onChangePage(val) {
         this.currentPage = val;
         this.getEntity();
@@ -582,6 +609,7 @@ export default {
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
+          search: this.search,
 
           bookingId: this.bookingId,
           perPage: this.perPage,

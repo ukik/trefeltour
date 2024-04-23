@@ -244,7 +244,7 @@
                   $t('crudGenerated.footer.descriptionConnector')
                 "
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
+                :multiple='$store.getters["custom/isAdmin"]'
               >
                 <template slot="thead">
                     <vs-th></vs-th>
@@ -448,12 +448,14 @@
                             </span>
 
                             <!-- <vs-button v-if="dataRow.field == 'add_cart'" type="relief" @click="show = true; selectedData = record;">Pilih</vs-button> -->
+                            <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
+                                {{ record?.customer?.username }}
+                            </span>
                             <span v-else>
-                                {{
-                                record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                            }}</span>
+                              {{
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              }}</span
+                            >
                           </div>
                         </template>
                       </vs-td>
@@ -539,7 +541,7 @@
                               }}
                             </badaso-dropdown-item>
 
-                            <hr class="m-0 my-1">
+                            <!-- <hr class="m-0 my-1"> -->
 
 
                             <!-- ADDITIONAL -->
@@ -610,7 +612,7 @@
                               Detail Pembayaran Validasi
                             </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -674,7 +676,7 @@
                               icon="visibility"
                             >
                               Detail Wahana ({{ item1.name }})
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
 

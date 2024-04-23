@@ -2,6 +2,21 @@
     "size": 12,
     "items": [
         {
+            "label": "man",
+            "value": "man"
+        },
+        {
+            "label": "woman",
+            "value": "woman"
+        }
+    ]
+}
+
+
+{
+    "size": 12,
+    "items": [
+        {
             "label": "private",
             "value": "private"
         },

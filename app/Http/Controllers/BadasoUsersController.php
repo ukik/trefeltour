@@ -59,19 +59,50 @@ class BadasoUsersController extends Controller
                 $data = $data->onlyTrashed();
             }
 
-            if(request()['label'] == 'validator') {
-                switch ($this->isRole) {
-                    case 'administrator':
-                    case 'admin':
-                        $data = $data->whereHas('userRole.role', function($q) {
-                            return $q->where('name','admin')->orWhere('name','administrator');
-                        });
-                        break;
-                    default:
-                        return ApiResponse::failed("Hanya Admin");
-                        break;
+            // if(request()['label'] == 'validator') {
+            //     switch ($this->isRole) {
+            //         case 'administrator':
+            //         case 'admin':
+            //             $data = $data->whereHas('userRole.role', function($q) {
+            //                 return $q->where('name','admin')->orWhere('name','administrator');
+            //             });
+            //             break;
+            //         default:
+            //             return ApiResponse::failed("Hanya Admin");
+            //             break;
+            //     }
+            // }
+
+            if(request()->search) {
+                $search = request()->search;
+
+                $columns = \Illuminate\Support\Facades\Schema::getColumnListing('badaso_users');
+
+                foreach ($columns as $value) {
+                    switch ($value) {
+                        // name
+                        // username
+                        // email
+                        // additional_info
+                        // gender
+                        // avatar
+                        // phone
+                        // address
+                        case "email_verified_at":
+                        case "password":
+                        //case "created_at":
+                        //case "updated_at":
+                        case "deleted_at":
+                            # code...
+                            break;
+                        default:
+                            $data->orWhere($value,'like','%'.$search.'%');
+                    }
                 }
+
             }
+
+            if(isClientOnly()) $data->where('id',authID());
 
             $data = $data->paginate(request()->perPage);
 
@@ -125,7 +156,11 @@ class BadasoUsersController extends Controller
             // return $request->id;
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \BadasoUsers::with([
+            $data = \BadasoUsers::query();
+
+            if(isClientOnly()) $data->where('id',authID());
+
+            $data = $data->with([
             ])->whereId($request->id)->first();
 
             // add event notification handle

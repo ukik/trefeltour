@@ -316,7 +316,7 @@
                   $t('crudGenerated.footer.descriptionConnector')
                 "
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
+                :multiple="true"
               >
                 <template slot="thead">
                     <vs-th></vs-th>
@@ -639,7 +639,7 @@
                               }}
                             </badaso-dropdown-item>
 
-                            <hr class="m-0 my-1">
+                            <!-- <hr class="m-0 my-1"> -->
 
 
                             <!-- ADDITIONAL -->
@@ -732,7 +732,7 @@
                               Detail Layanan
                             </badaso-dropdown-item> -->
 
-                            <badaso-dropdown-item v-for="(item1, index1) in data[index]?.talentSkills" :key="1+index1"
+                            <!-- <badaso-dropdown-item v-for="(item1, index1) in data[index]?.talentSkills" :key="1+index1"
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -774,7 +774,7 @@
                               icon="visibility"
                             >
                               Detail Harga: {{ item2.uuid }}
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
 

@@ -137,7 +137,7 @@
                   $t('crudGenerated.footer.descriptionConnector')
                 "
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
+                :multiple='$store.getters["custom/isAdmin"]'
               >
                 <template slot="thead">
                     <vs-th></vs-th>
@@ -420,11 +420,11 @@
                               }}
                             </badaso-dropdown-item>
 
-                            <hr class="m-0 my-1">
+                            <!-- <hr class="m-0 my-1"> -->
 
 
                             <!-- ADDITIONAL -->
-
+<!--
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
@@ -535,7 +535,7 @@
                               icon="visibility"
                             >
                               Detail Harga: {{ item2.name }}
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
 

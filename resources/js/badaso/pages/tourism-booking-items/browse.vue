@@ -135,7 +135,7 @@
                     $t('crudGenerated.footer.descriptionConnector')
                   "
                   :description-body="$t('crudGenerated.footer.descriptionBody')"
-                  multiple
+                  :multiple='$store.getters["custom/isAdmin"]'
                 >
                   <template slot="thead">
                       <vs-th></vs-th>

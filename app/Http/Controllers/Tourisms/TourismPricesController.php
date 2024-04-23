@@ -97,6 +97,22 @@ class TourismPricesController extends Controller
                 $data->where('type_price','like','%'.$type_price.'%');
             }
 
+
+            $data->where('condition','public');
+
+            if(isClientCompany()) {
+                $data->orWhere('condition','private')->orWhere('customer_id',authID());
+            }
+
+            if(isClientAffiliate()) {
+                $data->orWhere('condition','partner')->orWhere('customer_id',authID());
+            }
+
+            if(isClientRetail()) {
+                $data->orWhere('customer_id',authID());
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

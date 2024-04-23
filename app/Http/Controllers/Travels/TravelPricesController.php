@@ -120,6 +120,12 @@ class TravelPricesController extends Controller
                 $data->where('ticket_status',$ticket_status);
             }
 
+
+            if(isClientCompany() || isClientAffiliate() || isClientRetail()) {
+                $data->where('customer_id',authID());
+            }
+
+
             $data = $data->paginate(request()->perPage);
 
             // $encode = json_encode($paginate);

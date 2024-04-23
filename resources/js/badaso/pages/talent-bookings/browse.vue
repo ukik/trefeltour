@@ -462,9 +462,9 @@
                                 }}
                               </badaso-dropdown-item>
 
-                              <hr class="m-0 my-1">
+                              <!-- <hr class="m-0 my-1"> -->
 
-                            <badaso-dropdown-item
+                            <!-- <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
                                 params: {
@@ -575,7 +575,7 @@
                               icon="visibility"
                             >
                               Detail Harga: {{ item2.name }}
-                            </badaso-dropdown-item>
+                            </badaso-dropdown-item> -->
 
 
                             </vs-dropdown-menu>

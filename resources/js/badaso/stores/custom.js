@@ -9,9 +9,29 @@ export default {
         userId: null,
         userRole: null,
         isAdmin: null,
-        isAdminTransport: null,
+        isClientOnly: null,
+        // isAdminTransport: null,
     },
     LOADING_AUTH: false,
+  },
+  getters: {
+    // Add the `getField` getter to the
+    // `getters` of your Vuex store instance.
+    getField,
+
+    INIT_AUTH: (state) => {
+      return state.INIT_AUTH;
+    },
+    getAUTH: (state) => {
+      return state.AUTH;
+    },
+    isClientOnly: (state) => {
+        return state.AUTH.isClientOnly
+    },
+    isAdmin: (state) => {
+        return state.AUTH.isAdmin
+    }
+
   },
   mutations: {
     // Add the `updateField` mutation to the
@@ -56,21 +76,24 @@ export default {
                 userId: null,
                 userRole: null,
                 isAdmin: null,
-                isAdminTransport: null,
+                isClientOnly: null,
+                // isAdminTransport: null,
             })
 
             return {
                 userId: null,
                 userRole: null,
                 isAdmin: null,
-                isAdminTransport: null,
+                isClientOnly: null,
+                // isAdminTransport: null,
             }
         }
         // this.userId = response_user.data.user.id;
 
         let userRole = null;
         let isAdmin = null;
-        let isAdminTransport = null
+        let isClientOnly = null;
+        // let isAdminTransport = null
         for (let role of response_user?.data?.user?.roles) {
             switch (role.name) {
                 // case 'customer':
@@ -79,17 +102,30 @@ export default {
                 //     break;
                 case 'administrator':
                 case 'admin':
+                case 'staff_admin':
+                case 'staff_finance':
+                case 'staff_supervisor':
+                case 'staff_event':
+                case 'top_ceo':
+                case 'top_cfo':
+                case 'top_cmo':
                     isAdmin = true;
                     break;
-                case 'administrator':
-                case 'admin':
-                case 'admin-transport':
-                    isAdmin = true;
-                    isAdminTransport = true;
+                // case 'administrator':
+                // case 'admin':
+                // case 'admin-transport':
+                //     isAdmin = true;
+                //     // isAdminTransport = true;
+                //     break;
+                case 'client_retail':
+                case 'client_affiliate':
+                case 'client_company':
+                    isAdmin = false
+                    isClientOnly = true;
                     break;
                 default:
                     isAdmin = false
-                    isAdminTransport = false;
+                    // isAdminTransport = false;
                     break
             }
             userRole = role.name
@@ -99,27 +135,17 @@ export default {
             userId: response_user?.data?.user?.id,
             userRole,
             isAdmin,
-            isAdminTransport,
+            isClientOnly,
+            // isAdminTransport,
         })
         return {
             userId: response_user?.data?.user?.id,
             userRole,
             isAdmin,
-            isAdminTransport,
+            isClientOnly,
+            // isAdminTransport,
         }
     }
-  },
-  getters: {
-    // Add the `getField` getter to the
-    // `getters` of your Vuex store instance.
-    getField,
-
-    INIT_AUTH: (state) => {
-      return state.INIT_AUTH;
-    },
-    getAUTH: (state) => {
-      return state.AUTH;
-    },
   },
   plugins: [createPersistedState()],
 };

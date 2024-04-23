@@ -42,44 +42,65 @@
                         {{ dataRow.displayName }}
                       </td>
                       <td class="badaso-table__value">
-                        <img
-                          v-if="dataRow.type == 'upload_image'"
-                          :src="
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          "
-                          width="100%"
-                          alt=""
-                        />
+                        <vs-row v-if="dataRow.type == 'upload_image'">
+                          <common-light-box
+                            :images="[
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)],
+                            ]"
+                            ref="lightbox"
+                          />
+
+                          <vs-col vs-lg="4" vs-sm="12">
+                            <div class="badaso-upload-image-multiple__preview">
+                              <img
+                                @click="
+                                  onLightBox();
+                                  $refs.lightbox[0].showMultiple();
+                                "
+                                class="badaso-upload-image-multiple__preview-image"
+                                :src="
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                                "
+                                width="100%"
+                                alt=""
+                              />
+                            </div>
+                          </vs-col>
+                        </vs-row>
                         <div
                           v-else-if="dataRow.type == 'upload_image_multiple'"
                           class="crud-generated__item--upload-image-multiple"
                         >
-                          <!-- <img
-                            v-for="(image, indexImage) in stringToArray(
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            )"
-                            :key="indexImage"
-                            :src="image"
-                            width="100%"
-                            alt=""
-                            class="crud-generated__item--image"
-                          /> -->
-                            <img
-                            v-for="(image, indexImage) in JSON.parse(
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            )"
-                            :key="indexImage"
-                            :src="image"
-                            width="100%"
-                            alt=""
-                            class="crud-generated__item--image"
+                          <common-light-box
+                            :images="
+                              $parseJsonChecker(
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              )
+                            "
+                            ref="lightbox"
                           />
+                          <vs-row>
+                            <vs-col
+                              vs-lg="4"
+                              vs-sm="12"
+                              v-for="(val, index) in $parseJsonChecker(
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              )"
+                              :key="index"
+                            >
+                              <div class="badaso-upload-image-multiple__preview">
+                                <img
+                                  @click="
+                                    onLightBox();
+                                    $refs.lightbox[0].index = index;
+                                    $refs.lightbox[0].showMultiple();
+                                  "
+                                  :src="val"
+                                  class="badaso-upload-image-multiple__preview-image"
+                                />
+                              </div>
+                            </vs-col>
+                          </vs-row>
                         </div>
                         <span
                           v-else-if="dataRow.type == 'editor'"

@@ -85,7 +85,7 @@
                   $t('crudGenerated.footer.descriptionConnector')
                 "
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
+                :multiple="true"
               >
                 <template slot="thead">
                   <vs-th

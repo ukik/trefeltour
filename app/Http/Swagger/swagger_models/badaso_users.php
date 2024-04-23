@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"name":"Abc", "username":"Abc", "email":"Abc", "password":"Abc"},
+  *                     example={"name":"Abc", "email":"Abc", "password":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={},
+  *                     example={"name":"Abc", "additionalInfo":"Abc", "gender":"Abc", "avatar":"Abc", "phone":"Abc", "address":"Abc"},
   *                ),
   *             )
   *         )

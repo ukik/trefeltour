@@ -273,7 +273,7 @@
                 :description-title="$t('crudGenerated.footer.descriptionTitle')"
                 :description-connector="$t('crudGenerated.footer.descriptionConnector')"
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                multiple
+                :multiple='$store.getters["custom/isAdmin"]'
               >
                 <template slot="thead">
                   <vs-th></vs-th>
@@ -453,9 +453,14 @@
                               v-if="dataRow.field == 'is_available'"
                               :is_available="record.isAvailable"
                             ></chip-available>
-                            <span v-else>
-                              {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
+                            <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
+                                {{ record?.customer?.username }}
                             </span>
+                            <span v-else>
+                              {{
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              }}</span
+                            >
                           </div>
 
                           <!-- <vs-button v-if="dataRow.field == 'add_cart'" type="relief" @click="show = true; selectedData = record;">Pilih</vs-button> -->
