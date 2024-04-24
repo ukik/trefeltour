@@ -331,18 +331,27 @@
                               displayRelationData(record, dataRow)
                             }}</span>
                             <div v-else>
-                                <div v-if="dataRow.field == 'booking_item'" >
-                                    <!-- <vs-button @click=" type='select'; selectedData = record; show=true;">
-                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                                    </vs-button> -->
-                                </div>
-                                <span v-else>{{
-                                record[
-                                    $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                                }}</span>
-
-                            </div>
+                            <span v-if="dataRow.field == 'get_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_discount'">
+                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_cashback'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_total_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_final_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else>
+                              {{
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              }}</span
+                            >
+                          </div>
                           </template>
                         </vs-td>
 

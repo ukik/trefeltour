@@ -325,24 +325,35 @@
                             <span v-else-if="dataRow.type == 'relation'">{{
                               displayRelationData(record, dataRow)
                             }}</span>
+
                             <div v-else>
-                                <div v-if="dataRow.field == 'booking_item'" >
-                                    <!-- <vs-button @click=" type='select'; selectedData = record; show=true;">
-                                        <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                                    </vs-button> -->
-                                </div>
-                                <ol class="ml-2" style="width:100px;" v-else-if="dataRow.field == 'date_checkin'">
+                            <span v-if="dataRow.field == 'get_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_discount'">
+                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_cashback'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_total_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_final_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <ol class="ml-2" style="width:100px;" v-else-if="dataRow.field == 'date_checkin'">
                                    <li v-for="item in JSON.parse(record.dateCheckin)?.map(e => e.id)">
                                         <span>{{ item }}</span>
                                     </li>
                                 </ol>
-                                <span v-else>{{
-                                record[
-                                    $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                                }}</span>
+                            <span v-else>
+                              {{
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                              }}</span
+                            >
+                          </div>
 
-                            </div>
                           </template>
                         </vs-td>
 

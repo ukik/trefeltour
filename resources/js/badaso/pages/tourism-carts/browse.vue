@@ -534,7 +534,7 @@
                                     {{ $rupiah(record.tourismPrice?.generalPrice) }}
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_discount'">
-                                    {{ record.tourismPrice?.discountPrice }}
+                                    {{ record.tourismPrice?.discountPrice }}%
                                 </span>
                                 <span v-else-if="dataRow.field == 'get_cashback'">
                                     {{ $rupiah(record.tourismPrice?.cashbackPrice) }}

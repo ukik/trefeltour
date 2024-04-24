@@ -212,7 +212,7 @@ class LodgePricesController extends Controller
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
                 'description' => $req['description'],
-
+                'stock' => $req['stock'],
                 'code_table' => ($slug),
                 'uuid' => $table_entity->uuid ?: ShortUuid(),
             ];
@@ -286,6 +286,7 @@ class LodgePricesController extends Controller
                 'general_price' => $req['general_price'],
                 'discount_price' => $req['discount_price'],
                 'cashback_price' => $req['cashback_price'],
+                'stock' => $req['stock'],
                 'description' => $req['description'],
 
                 'code_table' => ($slug),

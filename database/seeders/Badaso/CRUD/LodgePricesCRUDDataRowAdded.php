@@ -44,7 +44,7 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'uuid',
                     'type' => 'text',
-                    'display_name' => 'UUID',
+                    'display_name' => 'Uuid',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,
@@ -84,14 +84,14 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 1,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"lodge_rooms","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","uuid","name"]}',
+                    'relation' => '{"relation_type":"belongs_to","destination_table":"lodge_rooms","destination_table_column":"id","destination_table_display_column":"name","destination_table_display_more_column":["id","name","uuid"]}',
                     'order' => 4,
                 ),
                 4 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'customer_id',
-                    'type' => 'text',
+                    'type' => 'number',
                     'display_name' => 'Customer',
                     'required' => 0,
                     'browse' => 1,
@@ -234,22 +234,6 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                 12 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_available',
-                    'type' => 'switch',
-                    'display_name' => 'Available',
-                    'required' => 0,
-                    'browse' => 1,
-                    'read' => 1,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 13,
-                ),
-                13 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'code_table',
                     'type' => 'text',
                     'display_name' => 'Nama Tabel',
@@ -261,9 +245,9 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 13,
                 ),
-                14 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -277,107 +261,39 @@ class LodgePricesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 14,
                 ),
-                15 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
                     'type' => 'datetime',
                     'display_name' => 'Diubah Pada',
                     'required' => 0,
-                    'browse' => 1,
+                    'browse' => 0,
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 15,
                 ),
-                16 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
                     'type' => 'datetime',
                     'display_name' => 'Dihapus Pada',
                     'required' => 0,
-                    'browse' => 0,
+                    'browse' => 1,
                     'read' => 1,
                     'edit' => 0,
                     'add' => 0,
-                    'delete' => 1,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 17,
-                ),
-                17 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'calender_disabled',
-                    'type' => 'hidden',
-                    'display_name' => 'Calender Disabled',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 18,
-                ),
-                18 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'calender_available',
-                    'type' => 'hidden',
-                    'display_name' => 'Calender Available',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 19,
-                ),
-                19 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'calender_category',
-                    'type' => 'hidden',
-                    'display_name' => 'CalenderCategory',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{
-"size": 12,
-"items": [
-{
-"label": "General",
-"value": "general"
-},
-{
-"label": "Custom",
-"value": "custom"
-},
-{
-"label": "Weekend",
-"value": "weekend"
-},
-{
-"label": "Weekday",
-"value": "weekday"
-}
-]
-}',
-                    'relation' => NULL,
-                    'order' => 20,
+                    'order' => 16,
                 ),
             ));
 

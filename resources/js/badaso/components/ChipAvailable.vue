@@ -1,13 +1,14 @@
 <template>
     <div>
-        <vs-chip v-if="is_available" color="success">
+        <vs-chip v-if="is_available === 'true'" color="success">
             <vs-icon class="mr-2" icon="done" size="14px" color="white"></vs-icon>
             Tersedia
         </vs-chip>
-        <vs-chip v-else-if="!is_available" color="danger">
+        <vs-chip v-else-if="is_available === 'false'" color="danger">
             <vs-icon class="mr-2" icon="close" size="14px" color="white"></vs-icon>
-            Tidak Tersedia
+            Tidak
         </vs-chip>
+        <span v-else>{{ is_available }}</span>
     </div>
 </template>
 

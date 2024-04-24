@@ -48,7 +48,7 @@ class TalentCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-16T18:19:37.000000Z',
-                'updated_at' => '2024-04-22T07:21:14.000000Z',
+                'updated_at' => '2024-04-24T13:28:00.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_carts');

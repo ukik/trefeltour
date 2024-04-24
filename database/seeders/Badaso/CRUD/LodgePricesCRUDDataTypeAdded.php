@@ -28,7 +28,6 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 87,
                 'name' => 'lodge_prices',
                 'slug' => 'lodge-prices',
                 'display_name_singular' => 'Hotel Harga',
@@ -42,13 +41,13 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-03-05T07:56:39.000000Z',
-                'updated_at' => '2024-04-22T09:32:01.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-04-24T11:05:12.000000Z',
+                'created_at' => '2024-04-24T11:05:12.000000Z',
+                'id' => 120,
             ));
 
             Badaso::model('Permission')->generateFor('lodge_prices');

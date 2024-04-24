@@ -201,14 +201,14 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"123", "customerId":"123", "driverId":"123", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"123", "customerId":"123", "driverId":"123", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "driverId":"", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "bookingId":"", "customerId":"", "driverId":"", "totalAmount":"123", "totalAmountDriver":"123", "totalAmountAll":"123", "codeTransaction":"Abc", "method":"Abc", "date":"Abc", "status":"Abc", "receipt":"Abc", "description":"Abc", "isSelected":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
   *                         @OA\Property(type="string", property="uuid"), 
-  *                         @OA\Property(type="integer", property="bookingId"), 
-  *                         @OA\Property(type="integer", property="customerId"), 
-  *                         @OA\Property(type="integer", property="driverId"), 
+  *                         @OA\Property(type="string", property="bookingId"), 
+  *                         @OA\Property(type="string", property="customerId"), 
+  *                         @OA\Property(type="string", property="driverId"), 
   *                         @OA\Property(type="integer", property="totalAmount"), 
   *                         @OA\Property(type="integer", property="totalAmountDriver"), 
   *                         @OA\Property(type="integer", property="totalAmountAll"), 

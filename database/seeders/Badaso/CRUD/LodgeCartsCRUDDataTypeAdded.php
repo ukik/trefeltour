@@ -48,7 +48,7 @@ class LodgeCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-05T16:44:03.000000Z',
-                'updated_at' => '2024-04-22T06:28:51.000000Z',
+                'updated_at' => '2024-04-24T13:31:03.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_carts');

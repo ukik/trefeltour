@@ -204,6 +204,47 @@
                       <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
                         {{ record?.customer?.username }}
                       </span>
+
+                            <span v-if="dataRow.field == 'get_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_discount'">
+                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_cashback'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_total_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'get_final_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+
+                            <span v-if="dataRow.field == 'get_final_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+
+                            <chip-available v-else-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
+                            <chip-payment-selected v-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
+                            <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
+                            <span v-else-if="dataRow.field == 'total_amount'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+
+                            <span v-if="dataRow.field == 'general_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'discount_price'">
+                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
+                            </span>
+                            <span v-else-if="dataRow.field == 'cashback_price'">
+                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                            </span>
+                            <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
+                                {{ record?.customer?.username }}
+                            </span>
+
                       <span v-else>
                         {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
                       </span>

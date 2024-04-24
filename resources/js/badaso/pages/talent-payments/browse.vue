@@ -334,6 +334,9 @@
                               <div v-else>
                                     <chip-payment-selected v-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
                                     <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
+                                    <span v-else-if="dataRow.field == 'total_amount'">
+                                        {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                                    </span>
                                     <span v-else>
                                     {{
                                         record[

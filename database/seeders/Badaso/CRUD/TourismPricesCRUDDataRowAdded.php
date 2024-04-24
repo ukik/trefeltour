@@ -124,7 +124,7 @@ class TourismPricesCRUDDataRowAdded extends Seeder
                     'data_type_id' => $data_type->id,
                     'field' => 'name',
                     'type' => 'text',
-                    'display_name' => 'Name',
+                    'display_name' => 'Label Harga',
                     'required' => 0,
                     'browse' => 1,
                     'read' => 1,

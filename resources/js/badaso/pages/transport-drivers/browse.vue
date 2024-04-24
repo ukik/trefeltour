@@ -313,6 +313,10 @@
                           }}</span>
                               <div v-else>
                                     <chip-available v-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
+                                    <chip-reserved v-else-if="dataRow.field == 'is_reserved'" :is_reserved="record.isReserved"></chip-reserved>
+                                    <span v-else-if="dataRow.field == 'daily_price'">
+                                        {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
+                                    </span>
                                     <span v-else>
                                     {{
                                         record[
