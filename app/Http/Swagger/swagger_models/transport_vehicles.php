@@ -58,7 +58,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "image":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                 ),
   *             )
   *         )
@@ -88,7 +88,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="object",
-  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
+  *                     example={"model":"Abc", "brand":"Abc", "category":"Abc", "image":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc"},
   *                ),
   *             )
   *         )
@@ -201,7 +201,7 @@
   *                 @OA\Property(
   *                     property="data",
   *                     type="array",
-  *                     example={{"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
+  *                     example={{"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "image":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}, {"id":"123", "uuid":"Abc", "rentalId":"", "userId":"", "model":"Abc", "brand":"Abc", "category":"Abc", "image":"Abc", "fuelType":"Abc", "dateProduction":"Abc", "color":"Abc", "codeStnk":"Abc", "slotPassanger":"Abc", "isAvailable":"Abc", "codeTable":"Abc", "createdAt":"2021-01-01T00:00:00.000Z", "updatedAt":"2021-01-01T00:00:00.000Z", "deletedAt":"2021-01-01T00:00:00.000Z"}},
   *                     @OA\Items(
   *                         type="object",
   *                         @OA\Property(type="integer", property="id"), 
@@ -211,6 +211,7 @@
   *                         @OA\Property(type="string", property="model"), 
   *                         @OA\Property(type="string", property="brand"), 
   *                         @OA\Property(type="string", property="category"), 
+  *                         @OA\Property(type="string", property="image"), 
   *                         @OA\Property(type="string", property="fuelType"), 
   *                         @OA\Property(type="string", property="dateProduction"), 
   *                         @OA\Property(type="string", property="color"), 

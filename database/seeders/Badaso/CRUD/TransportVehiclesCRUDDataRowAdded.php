@@ -166,6 +166,22 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                 7 => 
                 array (
                     'data_type_id' => $data_type->id,
+                    'field' => 'image',
+                    'type' => 'upload_image_multiple',
+                    'display_name' => 'Image',
+                    'required' => 0,
+                    'browse' => 0,
+                    'read' => 1,
+                    'edit' => 1,
+                    'add' => 1,
+                    'delete' => 0,
+                    'details' => '{}',
+                    'relation' => NULL,
+                    'order' => 8,
+                ),
+                8 => 
+                array (
+                    'data_type_id' => $data_type->id,
                     'field' => 'fuel_type',
                     'type' => 'select',
                     'display_name' => 'Bahan Bakar',
@@ -201,9 +217,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 8,
+                    'order' => 9,
                 ),
-                8 => 
+                9 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'date_production',
@@ -217,9 +233,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 9,
+                    'order' => 10,
                 ),
-                9 => 
+                10 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'color',
@@ -233,9 +249,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 10,
+                    'order' => 11,
                 ),
-                10 => 
+                11 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_stnk',
@@ -249,9 +265,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 11,
+                    'order' => 12,
                 ),
-                11 => 
+                12 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'slot_passanger',
@@ -309,9 +325,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
 ]
 }',
                     'relation' => NULL,
-                    'order' => 12,
+                    'order' => 13,
                 ),
-                12 => 
+                13 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'is_available',
@@ -325,9 +341,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 13,
+                    'order' => 14,
                 ),
-                13 => 
+                14 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -341,9 +357,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 14,
+                    'order' => 15,
                 ),
-                14 => 
+                15 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -357,9 +373,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 15,
+                    'order' => 16,
                 ),
-                15 => 
+                16 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -373,9 +389,9 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 16,
+                    'order' => 17,
                 ),
-                16 => 
+                17 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -389,7 +405,7 @@ class TransportVehiclesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 17,
+                    'order' => 18,
                 ),
             ));
 

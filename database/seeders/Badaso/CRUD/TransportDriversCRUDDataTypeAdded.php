@@ -33,7 +33,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-drivers',
                 'display_name_singular' => 'Rental Supir',
                 'display_name_plural' => 'Rental Supir',
-                'icon' => NULL,
+                'icon' => 'assignment_ind',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportDriversController',
@@ -48,7 +48,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T03:27:15.000000Z',
-                'updated_at' => '2024-04-22T08:44:33.000000Z',
+                'updated_at' => '2024-04-25T08:07:07.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_drivers');
@@ -66,7 +66,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Supir',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'assignment_ind',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_drivers',
@@ -78,7 +78,7 @@ class TransportDriversCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-drivers';
                 $menu_item->title = 'Rental Supir';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'assignment_ind';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_drivers';

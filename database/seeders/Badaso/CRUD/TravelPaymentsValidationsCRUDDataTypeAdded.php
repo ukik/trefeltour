@@ -33,7 +33,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'slug' => 'travel-payments-validations',
                 'display_name_singular' => 'Travel Pembayaran Validasi',
                 'display_name_plural' => 'Travel Pembayaran Validasi',
-                'icon' => NULL,
+                'icon' => 'card_membership',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Travels\\TravelPaymentsValidationsController',
@@ -48,7 +48,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-29T12:06:03.000000Z',
-                'updated_at' => '2024-04-22T09:04:03.000000Z',
+                'updated_at' => '2024-04-25T08:04:29.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_payments_validations');
@@ -66,7 +66,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Travel Pembayaran Validasi',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'card_membership',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_travel_payments_validations',
@@ -78,7 +78,7 @@ class TravelPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/travel-payments-validations';
                 $menu_item->title = 'Travel Pembayaran Validasi';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'card_membership';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_travel_payments_validations';

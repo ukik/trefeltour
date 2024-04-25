@@ -33,7 +33,7 @@ class TalentCartsCRUDDataTypeAdded extends Seeder
                 'slug' => 'talent-carts',
                 'display_name_singular' => 'Talent Keranjang',
                 'display_name_plural' => 'Talent Keranjang',
-                'icon' => NULL,
+                'icon' => 'shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Talents\\TalentCartsController',
@@ -48,7 +48,7 @@ class TalentCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-16T18:19:37.000000Z',
-                'updated_at' => '2024-04-24T13:28:00.000000Z',
+                'updated_at' => '2024-04-25T09:29:49.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_carts');
@@ -66,7 +66,7 @@ class TalentCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Talent Keranjang',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_talent_carts',
@@ -78,7 +78,7 @@ class TalentCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/talent-carts';
                 $menu_item->title = 'Talent Keranjang';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_talent_carts';

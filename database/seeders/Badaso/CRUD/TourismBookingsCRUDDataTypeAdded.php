@@ -33,7 +33,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 'slug' => 'tourism-bookings',
                 'display_name_singular' => 'Wisata Booking',
                 'display_name_plural' => 'Wisata Booking',
-                'icon' => NULL,
+                'icon' => 'local_mall',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Tourisms\\TourismBookingsController',
@@ -48,7 +48,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-21T11:09:34.000000Z',
-                'updated_at' => '2024-04-22T08:23:55.000000Z',
+                'updated_at' => '2024-04-25T08:17:27.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_bookings');
@@ -66,7 +66,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Wisata Booking',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'local_mall',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_tourism_bookings',
@@ -78,7 +78,7 @@ class TourismBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/tourism-bookings';
                 $menu_item->title = 'Wisata Booking';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'local_mall';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_tourism_bookings';

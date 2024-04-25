@@ -33,7 +33,7 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
                 'slug' => 'culinary-bookings',
                 'display_name_singular' => 'Kuliner Booking',
                 'display_name_plural' => 'Kuliner Booking',
-                'icon' => NULL,
+                'icon' => 'local_mall',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Culinarys\\CulinaryBookingsController',
@@ -48,7 +48,7 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-14T07:30:56.000000Z',
-                'updated_at' => '2024-04-22T06:16:13.000000Z',
+                'updated_at' => '2024-04-25T08:41:10.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_bookings');
@@ -66,7 +66,7 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Kuliner Booking',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'local_mall',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_culinary_bookings',
@@ -78,7 +78,7 @@ class CulinaryBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/culinary-bookings';
                 $menu_item->title = 'Kuliner Booking';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'local_mall';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_culinary_bookings';

@@ -33,7 +33,7 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-maintenances',
                 'display_name_singular' => 'Rental Perawatan',
                 'display_name_plural' => 'Rental Perawatan',
-                'icon' => NULL,
+                'icon' => 'build',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportMaintenancesController',
@@ -48,7 +48,7 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T01:56:52.000000Z',
-                'updated_at' => '2024-04-10T06:17:49.000000Z',
+                'updated_at' => '2024-04-25T08:07:28.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_maintenances');
@@ -66,7 +66,7 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Perawatan',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'build',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_maintenances',
@@ -78,7 +78,7 @@ class TransportMaintenancesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-maintenances';
                 $menu_item->title = 'Rental Perawatan';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'build';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_maintenances';

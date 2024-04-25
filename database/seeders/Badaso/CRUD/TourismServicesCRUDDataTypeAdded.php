@@ -33,7 +33,7 @@ class TourismServicesCRUDDataTypeAdded extends Seeder
                 'slug' => 'tourism-services',
                 'display_name_singular' => 'Wisata Layanan',
                 'display_name_plural' => 'Wisata Layanan',
-                'icon' => NULL,
+                'icon' => 'hot_tub',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Tourisms\\TourismServicesController',
@@ -48,7 +48,7 @@ class TourismServicesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-08T05:31:52.000000Z',
-                'updated_at' => '2024-04-22T08:30:12.000000Z',
+                'updated_at' => '2024-04-25T08:17:54.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_services');
@@ -66,7 +66,7 @@ class TourismServicesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Wisata Layanan',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'hot_tub',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_tourism_services',
@@ -78,7 +78,7 @@ class TourismServicesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/tourism-services';
                 $menu_item->title = 'Wisata Layanan';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'hot_tub';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_tourism_services';

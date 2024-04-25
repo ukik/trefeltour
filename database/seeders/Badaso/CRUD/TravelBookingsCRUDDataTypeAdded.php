@@ -33,7 +33,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 'slug' => 'travel-bookings',
                 'display_name_singular' => 'Travel Booking',
                 'display_name_plural' => 'Travel Booking',
-                'icon' => NULL,
+                'icon' => 'local_mall',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Travels\\TravelBookingsController',
@@ -48,7 +48,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-04-02T23:21:22.000000Z',
-                'updated_at' => '2024-04-22T09:00:21.000000Z',
+                'updated_at' => '2024-04-25T09:45:23.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_bookings');
@@ -66,7 +66,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Travel Booking',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'local_mall',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_travel_bookings',
@@ -78,7 +78,7 @@ class TravelBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/travel-bookings';
                 $menu_item->title = 'Travel Booking';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'local_mall';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_travel_bookings';

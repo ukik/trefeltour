@@ -33,7 +33,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-payments',
                 'display_name_singular' => 'Rental Pembayaran',
                 'display_name_plural' => 'Rental Pembayaran',
-                'icon' => NULL,
+                'icon' => 'credit_card',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportPaymentsController',
@@ -48,7 +48,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-04-10T02:39:11.000000Z',
-                'updated_at' => '2024-04-24T12:18:42.000000Z',
+                'updated_at' => '2024-04-25T09:48:09.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_payments');
@@ -66,7 +66,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Pembayaran',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'credit_card',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_payments',
@@ -78,7 +78,7 @@ class TransportPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-payments';
                 $menu_item->title = 'Rental Pembayaran';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'credit_card';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_payments';

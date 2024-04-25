@@ -33,7 +33,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-prices',
                 'display_name_singular' => 'Rental Harga Sewa',
                 'display_name_plural' => 'Rental Harga Sewa',
-                'icon' => NULL,
+                'icon' => 'add_shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportPricesController',
@@ -48,7 +48,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-23T16:22:07.000000Z',
-                'updated_at' => '2024-04-22T09:36:40.000000Z',
+                'updated_at' => '2024-04-25T08:08:53.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_prices');
@@ -66,7 +66,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Harga Sewa',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'add_shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_prices',
@@ -78,7 +78,7 @@ class TransportPricesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-prices';
                 $menu_item->title = 'Rental Harga Sewa';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'add_shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_prices';

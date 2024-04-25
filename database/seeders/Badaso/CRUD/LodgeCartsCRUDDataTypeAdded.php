@@ -33,7 +33,7 @@ class LodgeCartsCRUDDataTypeAdded extends Seeder
                 'slug' => 'lodge-carts',
                 'display_name_singular' => 'Hotel Keranjang',
                 'display_name_plural' => 'Hotel Keranjang',
-                'icon' => NULL,
+                'icon' => 'shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgeCartsController',
@@ -48,7 +48,7 @@ class LodgeCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-05T16:44:03.000000Z',
-                'updated_at' => '2024-04-24T13:31:03.000000Z',
+                'updated_at' => '2024-04-25T08:36:28.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_carts');
@@ -66,7 +66,7 @@ class LodgeCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Keranjang',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_carts',
@@ -78,7 +78,7 @@ class LodgeCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-carts';
                 $menu_item->title = 'Hotel Keranjang';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_carts';

@@ -33,7 +33,7 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
                 'slug' => 'travel-reservations',
                 'display_name_singular' => 'Travel Reservasi',
                 'display_name_plural' => 'Travel Reservasi',
-                'icon' => NULL,
+                'icon' => 'confirmation_number',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Travels\\TravelReservationsController',
@@ -48,7 +48,7 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-28T21:47:03.000000Z',
-                'updated_at' => '2024-04-22T09:08:38.000000Z',
+                'updated_at' => '2024-04-25T08:04:39.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_reservations');
@@ -66,7 +66,7 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Travel Reservasi',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'confirmation_number',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_travel_reservations',
@@ -78,7 +78,7 @@ class TravelReservationsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/travel-reservations';
                 $menu_item->title = 'Travel Reservasi';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'confirmation_number';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_travel_reservations';

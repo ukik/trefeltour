@@ -33,7 +33,7 @@ class TransportRentalsCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-rentals',
                 'display_name_singular' => 'Rental Vendor',
                 'display_name_plural' => 'Rental Vendor',
-                'icon' => NULL,
+                'icon' => 'storefront',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportRentalsController',
@@ -48,7 +48,7 @@ class TransportRentalsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-01-31T08:26:48.000000Z',
-                'updated_at' => '2024-04-23T14:42:16.000000Z',
+                'updated_at' => '2024-04-25T08:08:58.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_rentals');
@@ -66,7 +66,7 @@ class TransportRentalsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Vendor',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'storefront',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_rentals',
@@ -78,7 +78,7 @@ class TransportRentalsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-rentals';
                 $menu_item->title = 'Rental Vendor';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'storefront';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_rentals';

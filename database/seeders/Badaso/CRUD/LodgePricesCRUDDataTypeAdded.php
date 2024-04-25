@@ -28,11 +28,12 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
+                'id' => 120,
                 'name' => 'lodge_prices',
                 'slug' => 'lodge-prices',
                 'display_name_singular' => 'Hotel Harga',
                 'display_name_plural' => 'Hotel Harga',
-                'icon' => NULL,
+                'icon' => 'add_shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgePricesController',
@@ -41,13 +42,13 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
+                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => true,
-                'updated_at' => '2024-04-24T11:05:12.000000Z',
+                'is_soft_delete' => 1,
                 'created_at' => '2024-04-24T11:05:12.000000Z',
-                'id' => 120,
+                'updated_at' => '2024-04-25T08:36:50.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_prices');
@@ -65,7 +66,7 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Harga',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'add_shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_prices',
@@ -77,7 +78,7 @@ class LodgePricesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-prices';
                 $menu_item->title = 'Hotel Harga';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'add_shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_prices';

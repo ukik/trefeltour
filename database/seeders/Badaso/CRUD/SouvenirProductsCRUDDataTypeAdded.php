@@ -33,7 +33,7 @@ class SouvenirProductsCRUDDataTypeAdded extends Seeder
                 'slug' => 'souvenir-products',
                 'display_name_singular' => 'Suvenir Produk',
                 'display_name_plural' => 'Suvenir Produk',
-                'icon' => NULL,
+                'icon' => 'inventory',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Souvenirs\\SouvenirProductsController',
@@ -48,7 +48,7 @@ class SouvenirProductsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:18:46.000000Z',
-                'updated_at' => '2024-04-22T07:12:56.000000Z',
+                'updated_at' => '2024-04-25T08:32:59.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_products');
@@ -66,7 +66,7 @@ class SouvenirProductsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Suvenir Produk',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'inventory',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_souvenir_products',
@@ -78,7 +78,7 @@ class SouvenirProductsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/souvenir-products';
                 $menu_item->title = 'Suvenir Produk';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'inventory';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_souvenir_products';

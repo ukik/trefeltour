@@ -33,7 +33,7 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
                 'slug' => 'talent-payments',
                 'display_name_singular' => 'Talent Pembayaran',
                 'display_name_plural' => 'Talent Pembayaran',
-                'icon' => NULL,
+                'icon' => 'credit_card',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Talents\\TalentPaymentsController',
@@ -48,7 +48,7 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-16T03:31:33.000000Z',
-                'updated_at' => '2024-04-22T07:21:57.000000Z',
+                'updated_at' => '2024-04-25T09:48:19.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_payments');
@@ -66,7 +66,7 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Talent Pembayaran',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'credit_card',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_talent_payments',
@@ -78,7 +78,7 @@ class TalentPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/talent-payments';
                 $menu_item->title = 'Talent Pembayaran';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'credit_card';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_talent_payments';

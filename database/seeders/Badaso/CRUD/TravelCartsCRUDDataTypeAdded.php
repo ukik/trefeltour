@@ -33,7 +33,7 @@ class TravelCartsCRUDDataTypeAdded extends Seeder
                 'slug' => 'travel-carts',
                 'display_name_singular' => 'Travel Keranjang',
                 'display_name_plural' => 'Travel Keranjang',
-                'icon' => NULL,
+                'icon' => 'shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Travels\\TravelCartsController',
@@ -48,7 +48,7 @@ class TravelCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-28T20:15:28.000000Z',
-                'updated_at' => '2024-04-24T13:29:25.000000Z',
+                'updated_at' => '2024-04-25T08:03:44.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('travel_carts');
@@ -66,7 +66,7 @@ class TravelCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Travel Keranjang',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_travel_carts',
@@ -78,7 +78,7 @@ class TravelCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/travel-carts';
                 $menu_item->title = 'Travel Keranjang';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_travel_carts';

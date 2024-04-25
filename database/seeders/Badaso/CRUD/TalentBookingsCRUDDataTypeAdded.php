@@ -33,7 +33,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 'slug' => 'talent-bookings',
                 'display_name_singular' => 'Talent Booking',
                 'display_name_plural' => 'Talent Booking',
-                'icon' => NULL,
+                'icon' => 'local_mall',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Talents\\TalentBookingsController',
@@ -48,7 +48,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-22T17:47:04.000000Z',
-                'updated_at' => '2024-04-22T07:17:05.000000Z',
+                'updated_at' => '2024-04-25T09:29:41.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_bookings');
@@ -66,7 +66,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Talent Booking',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'local_mall',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_talent_bookings',
@@ -78,7 +78,7 @@ class TalentBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/talent-bookings';
                 $menu_item->title = 'Talent Booking';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'local_mall';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_talent_bookings';

@@ -28,12 +28,11 @@ class LodgeProfilesCRUDDataTypeAdded extends Seeder
             }
 
             \DB::table('badaso_data_types')->insert(array (
-                'id' => 77,
                 'name' => 'lodge_profiles',
                 'slug' => 'lodge-profiles',
                 'display_name_singular' => 'Hotel Profile',
                 'display_name_plural' => 'Hotel Profile',
-                'icon' => NULL,
+                'icon' => 'storefront',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgeProfilesController',
@@ -42,13 +41,13 @@ class LodgeProfilesCRUDDataTypeAdded extends Seeder
                 'order_direction' => NULL,
                 'generate_permissions' => true,
                 'server_side' => false,
-                'is_maintenance' => 0,
                 'description' => NULL,
                 'details' => NULL,
                 'notification' => '[]',
-                'is_soft_delete' => 1,
-                'created_at' => '2024-03-02T13:21:17.000000Z',
-                'updated_at' => '2024-04-22T06:44:38.000000Z',
+                'is_soft_delete' => true,
+                'updated_at' => '2024-04-25T15:13:14.000000Z',
+                'created_at' => '2024-04-25T15:13:14.000000Z',
+                'id' => 121,
             ));
 
             Badaso::model('Permission')->generateFor('lodge_profiles');
@@ -66,7 +65,7 @@ class LodgeProfilesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Profile',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'storefront',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_profiles',
@@ -78,7 +77,7 @@ class LodgeProfilesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-profiles';
                 $menu_item->title = 'Hotel Profile';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'storefront';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_profiles';

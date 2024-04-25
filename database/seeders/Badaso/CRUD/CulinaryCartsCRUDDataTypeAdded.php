@@ -33,7 +33,7 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
                 'slug' => 'culinary-carts',
                 'display_name_singular' => 'Kuliner Keranjang',
                 'display_name_plural' => 'Kuliner Keranjang',
-                'icon' => NULL,
+                'icon' => 'shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Culinarys\\CulinaryCartsController',
@@ -48,7 +48,7 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => false,
                 'created_at' => '2024-03-14T06:43:27.000000Z',
-                'updated_at' => '2024-04-24T13:26:08.000000Z',
+                'updated_at' => '2024-04-25T08:41:47.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('culinary_carts');
@@ -66,7 +66,7 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Kuliner Keranjang',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_culinary_carts',
@@ -78,7 +78,7 @@ class CulinaryCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/culinary-carts';
                 $menu_item->title = 'Kuliner Keranjang';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_culinary_carts';

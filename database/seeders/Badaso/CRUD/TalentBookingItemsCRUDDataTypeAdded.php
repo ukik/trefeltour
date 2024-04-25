@@ -33,7 +33,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 'slug' => 'talent-booking-items',
                 'display_name_singular' => 'Talent Booking Item',
                 'display_name_plural' => 'Talent Booking Item',
-                'icon' => NULL,
+                'icon' => 'shopping_basket',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Talents\\TalentBookingsItemsController',
@@ -48,7 +48,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-22T16:48:04.000000Z',
-                'updated_at' => '2024-04-22T07:16:15.000000Z',
+                'updated_at' => '2024-04-25T09:29:33.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_booking_items');
@@ -66,7 +66,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Talent Booking Item',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_basket',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_talent_booking_items',
@@ -78,7 +78,7 @@ class TalentBookingItemsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/talent-booking-items';
                 $menu_item->title = 'Talent Booking Item';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_basket';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_talent_booking_items';

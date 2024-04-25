@@ -33,7 +33,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'slug' => 'lodge-payments-validations',
                 'display_name_singular' => 'Hotel Pembayaran Validasi',
                 'display_name_plural' => 'Hotel Pembayaran Validasi',
-                'icon' => NULL,
+                'icon' => 'card_membership',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgePaymentsValidationsController',
@@ -48,7 +48,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:56:01.000000Z',
-                'updated_at' => '2024-04-22T06:42:01.000000Z',
+                'updated_at' => '2024-04-25T08:36:43.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments_validations');
@@ -66,7 +66,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Pembayaran Validasi',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'card_membership',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_payments_validations',
@@ -78,7 +78,7 @@ class LodgePaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-payments-validations';
                 $menu_item->title = 'Hotel Pembayaran Validasi';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'card_membership';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_payments_validations';

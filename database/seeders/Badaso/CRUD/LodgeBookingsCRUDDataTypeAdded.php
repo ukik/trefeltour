@@ -33,7 +33,7 @@ class LodgeBookingsCRUDDataTypeAdded extends Seeder
                 'slug' => 'lodge-bookings',
                 'display_name_singular' => 'Hotel Booking',
                 'display_name_plural' => 'Hotel Booking',
-                'icon' => NULL,
+                'icon' => 'local_mall',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgeBookingsController',
@@ -48,7 +48,7 @@ class LodgeBookingsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T11:11:43.000000Z',
-                'updated_at' => '2024-04-22T06:27:00.000000Z',
+                'updated_at' => '2024-04-25T08:35:43.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_bookings');
@@ -66,7 +66,7 @@ class LodgeBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Booking',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'local_mall',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_bookings',
@@ -78,7 +78,7 @@ class LodgeBookingsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-bookings';
                 $menu_item->title = 'Hotel Booking';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'local_mall';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_bookings';

@@ -221,18 +221,18 @@
                                 {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
                             </span>
 
-                            <span v-if="dataRow.field == 'get_final_amount'">
+                            <span v-else-if="dataRow.field == 'get_final_amount'">
                                 {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
                             </span>
 
                             <chip-available v-else-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
-                            <chip-payment-selected v-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
+                            <chip-payment-selected v-else-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
                             <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
                             <span v-else-if="dataRow.field == 'total_amount'">
                                 {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
                             </span>
 
-                            <span v-if="dataRow.field == 'general_price'">
+                            <span v-else-if="dataRow.field == 'general_price'">
                                 {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
                             </span>
                             <span v-else-if="dataRow.field == 'discount_price'">

@@ -33,7 +33,7 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
                 'slug' => 'tourism-payments',
                 'display_name_singular' => 'Wisata Pembayaran',
                 'display_name_plural' => 'Wisata Pembayaran',
-                'icon' => NULL,
+                'icon' => 'credit_card',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Tourisms\\TourismPaymentsController',
@@ -48,7 +48,7 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-12T18:03:20.000000Z',
-                'updated_at' => '2024-04-22T08:27:19.000000Z',
+                'updated_at' => '2024-04-25T09:48:12.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_payments');
@@ -66,7 +66,7 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Wisata Pembayaran',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'credit_card',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_tourism_payments',
@@ -78,7 +78,7 @@ class TourismPaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/tourism-payments';
                 $menu_item->title = 'Wisata Pembayaran';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'credit_card';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_tourism_payments';

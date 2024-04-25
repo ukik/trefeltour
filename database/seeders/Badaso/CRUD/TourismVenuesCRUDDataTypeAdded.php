@@ -33,7 +33,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 'slug' => 'tourism-venues',
                 'display_name_singular' => 'Wisata Vendor',
                 'display_name_plural' => 'Wisata Vendor',
-                'icon' => NULL,
+                'icon' => 'landscape',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Tourisms\\TourismVenuesController',
@@ -48,7 +48,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-11T07:07:18.000000Z',
-                'updated_at' => '2024-04-22T08:34:21.000000Z',
+                'updated_at' => '2024-04-25T08:17:58.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('tourism_venues');
@@ -66,7 +66,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Wisata Vendor',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'landscape',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_tourism_venues',
@@ -78,7 +78,7 @@ class TourismVenuesCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/tourism-venues';
                 $menu_item->title = 'Wisata Vendor';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'landscape';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_tourism_venues';

@@ -33,7 +33,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'slug' => 'souvenir-payments-validations',
                 'display_name_singular' => 'Suvenir Payments Validasi',
                 'display_name_plural' => 'Suvenir Payments Validasi',
-                'icon' => NULL,
+                'icon' => 'card_membership',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Souvenirs\\SouvenirPaymentsValidationsController',
@@ -48,7 +48,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-22T13:43:48.000000Z',
-                'updated_at' => '2024-04-22T07:10:58.000000Z',
+                'updated_at' => '2024-04-25T08:32:35.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('souvenir_payments_validations');
@@ -66,7 +66,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Suvenir Payments Validasi',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'card_membership',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_souvenir_payments_validations',
@@ -78,7 +78,7 @@ class SouvenirPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/souvenir-payments-validations';
                 $menu_item->title = 'Suvenir Payments Validasi';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'card_membership';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_souvenir_payments_validations';

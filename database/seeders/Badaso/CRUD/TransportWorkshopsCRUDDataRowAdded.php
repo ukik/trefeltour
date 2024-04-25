@@ -139,7 +139,7 @@ class TransportWorkshopsCRUDDataRowAdded extends Seeder
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'image',
-                    'type' => 'upload_image',
+                    'type' => 'upload_image_multiple',
                     'display_name' => 'Gambar Bengkel',
                     'required' => 1,
                     'browse' => 0,

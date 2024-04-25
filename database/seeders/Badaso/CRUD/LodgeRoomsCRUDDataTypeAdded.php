@@ -33,7 +33,7 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
                 'slug' => 'lodge-rooms',
                 'display_name_singular' => 'Hotel Kamar',
                 'display_name_plural' => 'Hotel Kamar',
-                'icon' => NULL,
+                'icon' => 'meeting_room',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgeRoomsController',
@@ -48,7 +48,7 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T14:40:58.000000Z',
-                'updated_at' => '2024-04-22T06:57:33.000000Z',
+                'updated_at' => '2024-04-25T08:39:32.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_rooms');
@@ -66,7 +66,7 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Kamar',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'meeting_room',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_rooms',
@@ -78,7 +78,7 @@ class LodgeRoomsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-rooms';
                 $menu_item->title = 'Hotel Kamar';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'meeting_room';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_rooms';

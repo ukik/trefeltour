@@ -42,7 +42,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 1 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'uuid',
+                    'field' => 'user_id',
                     'type' => 'text',
                     'display_name' => 'UUID',
                     'required' => 0,
@@ -58,7 +58,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 2 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'user_id',
+                    'field' => 'uuid',
                     'type' => 'relation',
                     'display_name' => 'Akun Hotel',
                     'required' => 0,
@@ -68,7 +68,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'add' => 0,
                     'delete' => 1,
                     'details' => '{}',
-                    'relation' => '{"relation_type":"belongs_to","destination_table":"badaso_users","destination_table_column":"id","destination_table_display_column":"username","destination_table_display_more_column":["id","name","username"]}',
+                    'relation' => NULL,
                     'order' => 3,
                 ),
                 3 => 
@@ -442,7 +442,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 20 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'late_checkout_price',
+                    'field' => 'shuttle_to_airport_price',
                     'type' => 'number',
                 'display_name' => 'Denda Telat Check-Out (Rp)',
                     'required' => 0,
@@ -458,7 +458,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 21 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'shuttle_to_airport_price',
+                    'field' => 'additional_breakfast_price',
                     'type' => 'number',
                 'display_name' => 'Jasa Antar/Jemput Airport (Rp)',
                     'required' => 0,
@@ -474,7 +474,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 22 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'additional_breakfast_price',
+                    'field' => 'late_checkout_price',
                     'type' => 'number',
                 'display_name' => 'Biaya Sarapan Tambahan (Rp)',
                     'required' => 0,
@@ -490,54 +490,6 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                 23 => 
                 array (
                     'data_type_id' => $data_type->id,
-                    'field' => 'is_clean_accomodation',
-                    'type' => 'switch',
-                    'display_name' => 'Is Clean Accomodation',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 24,
-                ),
-                24 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'is_breakfast',
-                    'type' => 'switch',
-                    'display_name' => 'Is Breakfast',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 25,
-                ),
-                25 => 
-                array (
-                    'data_type_id' => $data_type->id,
-                    'field' => 'is_pet',
-                    'type' => 'switch',
-                    'display_name' => 'Is Pet',
-                    'required' => 0,
-                    'browse' => 0,
-                    'read' => 0,
-                    'edit' => 0,
-                    'add' => 0,
-                    'delete' => 0,
-                    'details' => '{}',
-                    'relation' => NULL,
-                    'order' => 26,
-                ),
-                26 => 
-                array (
-                    'data_type_id' => $data_type->id,
                     'field' => 'is_available',
                     'type' => 'switch',
                     'display_name' => 'Available',
@@ -549,9 +501,9 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 27,
+                    'order' => 24,
                 ),
-                27 => 
+                24 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'code_table',
@@ -565,9 +517,9 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 0,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 28,
+                    'order' => 25,
                 ),
-                28 => 
+                25 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'created_at',
@@ -581,9 +533,9 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 29,
+                    'order' => 26,
                 ),
-                29 => 
+                26 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'updated_at',
@@ -597,9 +549,9 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 30,
+                    'order' => 27,
                 ),
-                30 => 
+                27 => 
                 array (
                     'data_type_id' => $data_type->id,
                     'field' => 'deleted_at',
@@ -613,7 +565,7 @@ class LodgeProfilesCRUDDataRowAdded extends Seeder
                     'delete' => 1,
                     'details' => '{}',
                     'relation' => NULL,
-                    'order' => 31,
+                    'order' => 28,
                 ),
             ));
 

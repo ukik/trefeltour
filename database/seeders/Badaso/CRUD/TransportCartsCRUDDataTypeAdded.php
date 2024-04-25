@@ -33,7 +33,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 'slug' => 'transport-carts',
                 'display_name_singular' => 'Rental Keranjang',
                 'display_name_plural' => 'Rental Keranjang',
-                'icon' => NULL,
+                'icon' => 'shopping_cart',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Transports\\TransportCartsController',
@@ -48,7 +48,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-25T17:34:12.000000Z',
-                'updated_at' => '2024-04-22T08:43:11.000000Z',
+                'updated_at' => '2024-04-25T08:06:51.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('transport_carts');
@@ -66,7 +66,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Rental Keranjang',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'shopping_cart',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_transport_carts',
@@ -78,7 +78,7 @@ class TransportCartsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/transport-carts';
                 $menu_item->title = 'Rental Keranjang';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'shopping_cart';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_transport_carts';

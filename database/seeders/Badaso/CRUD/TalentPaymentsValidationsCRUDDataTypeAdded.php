@@ -33,7 +33,7 @@ class TalentPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'slug' => 'talent-payments-validations',
                 'display_name_singular' => 'Talent Pembayaran Validasi',
                 'display_name_plural' => 'Talent Pembayaran Validasi',
-                'icon' => NULL,
+                'icon' => 'card_membership',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Talents\\TalentPaymentsValidationsController',
@@ -48,7 +48,7 @@ class TalentPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-02-16T04:11:46.000000Z',
-                'updated_at' => '2024-04-22T07:33:38.000000Z',
+                'updated_at' => '2024-04-25T09:29:53.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('talent_payments_validations');
@@ -66,7 +66,7 @@ class TalentPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Talent Pembayaran Validasi',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'card_membership',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_talent_payments_validations',
@@ -78,7 +78,7 @@ class TalentPaymentsValidationsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/talent-payments-validations';
                 $menu_item->title = 'Talent Pembayaran Validasi';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'card_membership';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_talent_payments_validations';

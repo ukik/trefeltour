@@ -185,8 +185,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(SouvenirPaymentsCRUDDataRowAdded::class);
         $this->seed(SouvenirPaymentsValidationsCRUDDataTypeAdded::class);
         $this->seed(SouvenirPaymentsValidationsCRUDDataRowAdded::class);
-        $this->seed(LodgeProfilesCRUDDataTypeAdded::class);
-        $this->seed(LodgeProfilesCRUDDataRowAdded::class);
+        
+        
         
         
         $this->seed(LodgeStaffsCRUDDataTypeAdded::class);
@@ -281,5 +281,8 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
         $this->seed(LodgePricesCRUDDataDeleted::class);
         $this->seed(LodgePricesCRUDDataTypeAdded::class);
         $this->seed(LodgePricesCRUDDataRowAdded::class);
+        $this->seed(LodgeProfilesCRUDDataDeleted::class);
+        $this->seed(LodgeProfilesCRUDDataTypeAdded::class);
+        $this->seed(LodgeProfilesCRUDDataRowAdded::class);
     }
 }

@@ -1,6 +1,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 // @import 'node_modules/bootstrap-vue/src/index.scss';
 
+ul.vs-sidebar--group-child-items {
+    margin-bottom: 0px;
+}
+
 .badaso-unauthorize__container {
     z-index: 99994 !important;
 }

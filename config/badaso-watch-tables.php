@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'badaso_menu_items_backup',
+    'badaso_menu_items_backup_1',
+    'badaso_menu_items_backup_2',
     'badaso_users',
     'branches',
     'buffet_bookings',

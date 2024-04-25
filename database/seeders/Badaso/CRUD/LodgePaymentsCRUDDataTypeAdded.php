@@ -33,7 +33,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 'slug' => 'lodge-payments',
                 'display_name_singular' => 'Hotel Pembayaran',
                 'display_name_plural' => 'Hotel Pembayaran',
-                'icon' => NULL,
+                'icon' => 'credit_card',
                 'model_name' => NULL,
                 'policy_name' => NULL,
                 'controller' => 'App\\Http\\Controllers\\Lodges\\LodgePaymentsController',
@@ -48,7 +48,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 'notification' => '[]',
                 'is_soft_delete' => 1,
                 'created_at' => '2024-03-03T13:53:40.000000Z',
-                'updated_at' => '2024-04-22T06:32:31.000000Z',
+                'updated_at' => '2024-04-25T09:48:27.000000Z',
             ));
 
             Badaso::model('Permission')->generateFor('lodge_payments');
@@ -66,7 +66,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->fill([
                     'title' => 'Hotel Pembayaran',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'credit_card',
                     'color' => null,
                     'parent_id' => null,
                     'permissions' => 'browse_lodge_payments',
@@ -78,7 +78,7 @@ class LodgePaymentsCRUDDataTypeAdded extends Seeder
                 $menu_item->url = '/general/lodge-payments';
                 $menu_item->title = 'Hotel Pembayaran';
                 $menu_item->target = '_self';
-                $menu_item->icon_class = '';
+                $menu_item->icon_class = 'credit_card';
                 $menu_item->color = null;
                 $menu_item->parent_id = null;
                 $menu_item->permissions = 'browse_lodge_payments';
