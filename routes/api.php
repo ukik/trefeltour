@@ -140,9 +140,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['sanctum_1','BADASO_ApiRequest'
 });
 
 
-
-return;
-
+/*
 // use Illuminate\Support\Str;
 // use Uasoft\Badaso\Facades\Badaso;
 // use Uasoft\Badaso\Middleware\ApiRequest;
@@ -150,14 +148,25 @@ return;
 // use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
 // use Uasoft\Badaso\Middleware\BadasoCheckPermissionsForCRUD;
 
-// $api_route_prefix = \config('badaso.api_route_prefix');
-// Route::group([
-//     'prefix' => $api_route_prefix,
-//     'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => [ApiRequest::class]], function () {
-//     Route::group(['prefix' => 'v1'], function () {
-//         Route::group(['prefix' => 'dashboard'], function () {
-//             Route::get('/', 'BadasoDashboardController@index')->middleware(BadasoAuthenticate::class);
-//         });
+$api_route_prefix = \config('badaso.api_route_prefix');
+// dd($api_route_prefix);
+Route::group([
+    'prefix' => $api_route_prefix,
+    'namespace' => 'App\Http\Controllers',
+    'as' => 'badaso.',
+    'middleware' => [
+        'sanctum_1',
+        // ApiRequest::class
+        'BADASO_ApiRequest'
+        ]
+    ], function () {
+    Route::group(['prefix' => 'v1'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get('/', function() {
+                return 1111;
+            });
+            // Route::get('/', 'App\Http\Controllers\BadasoDashboardController@index')->middleware(RootBadasoAuthenticate::class);
+        });
 
 //         Route::group(['prefix' => 'data'], function () {
 //             Route::get('/components', 'BadasoDataController@getComponents');
@@ -383,5 +392,6 @@ return;
 //                 Route::get('/count-unread', 'BadasoNotificationsController@getCountUnreadMessage');
 //             });
 //         });
-//     });
-// });
+    });
+});
+*/
