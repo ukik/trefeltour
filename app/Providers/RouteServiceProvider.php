@@ -69,6 +69,8 @@ class RouteServiceProvider extends ServiceProvider
                     require base_path('routes/api-typehead-tourism.php');
                     require base_path('routes/api-typehead-transport.php');
                     require base_path('routes/api-typehead-travel.php');
+
+                    require base_path('routes/api-notification.php');
                 });
 
             Route::middleware('web')

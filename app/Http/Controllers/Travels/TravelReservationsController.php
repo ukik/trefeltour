@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Travels;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -318,6 +319,7 @@ class TravelReservationsController extends Controller
             $customer_id = \BadasoUsers::where('id', $request->data['customer_id'])->value('id');
 
             $req = request()['data'];
+            $uuid = ShortUuid();
             $data = [
                 'customer_id' => $customer_id ,
                 'name_passanger' => $req['name_passanger'] ,
@@ -349,7 +351,7 @@ class TravelReservationsController extends Controller
                 // 'is_reserved' => (!isAdmin()) ?  'false' : ($req['is_reserved'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 // 'is_cancel' => (!isAdmin()) ?  'false' : ($req['is_cancel'] === 'true' ? 'true' : 'false'), // bisa dihapus, cukup via "travel_payment_validations"
                 'code_table' => ($slug) ,
-                'uuid' => ShortUuid(),
+                'uuid' => $uuid,
             ];
 
             $validator = Validator::make($data,
@@ -370,6 +372,9 @@ class TravelReservationsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular.' has been created');
+
+            $payload = \TravelReservations::where('uuid', $uuid)->first();
+            NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'travel', 'travel-reservations', $payload, 'Reservasi Tiket Baru'));
 
             DB::commit();
 

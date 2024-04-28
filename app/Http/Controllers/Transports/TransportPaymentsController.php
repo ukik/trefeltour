@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transports;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Faker\Core\Number;
@@ -382,6 +383,12 @@ class TransportPaymentsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular . ' has been created');
+
+            // NOTIFICATION
+            $payload = TransportPayments::where('booking_id', $request->data['booking_id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'transport', 'transport-payments', $payload, 'Booking Diproses'));
+            }
 
             DB::commit();
 

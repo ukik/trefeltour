@@ -149,6 +149,7 @@
                       {{ dataRow.displayName }}
                     </template>
                   </vs-th>
+                  <vs-th>Pembayaran Valid</vs-th>
                   <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
                 </template>
 
@@ -346,6 +347,10 @@
                               </div>
                         </template>
                       </vs-td>
+                      <vs-td>
+                            <chip-payment-valid :is_valid="record?.travelPaymentsValidation?.isValid"></chip-payment-valid>
+                        </vs-td>
+
                       <vs-td class="crud-generated__button">
                         <badaso-dropdown vs-trigger-click>
                           <vs-button

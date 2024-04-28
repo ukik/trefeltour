@@ -74,14 +74,14 @@
             >
               {{ $t("crudGenerated.maintenanceDialog.title") }}
             </badaso-dropdown-item>
-            <badaso-dropdown-item
-              v-if="dataType.isSoftDelete"
-              icon="restore_from_trash"
-              @click.stop
-              :to="{ name: 'CrudGeneratedBrowseBin' }"
-            >
-              {{ $t("action.showTrash") }}
-            </badaso-dropdown-item>
+          <badaso-dropdown-item
+            v-if="dataType.isSoftDelete && $store.getters['custom/isAdmin']"
+            icon="restore_from_trash"
+            @click.stop
+            :to="{ name: 'CrudGeneratedBrowseBin' }"
+          >
+            {{ $t("action.showTrash") }}
+          </badaso-dropdown-item>
           </template>
         </badaso-breadcrumb-hover>
 

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <vs-chip v-if="is_selected === 'true'" color="success">
+        <vs-chip v-if="is_valid === 'true'" color="success">
             <vs-icon class="mr-2" icon="done" size="14px" color="white"></vs-icon>
-            Valid
+            Sukses
         </vs-chip>
-        <vs-chip v-else-if="is_selected === 'false'" color="danger">
+        <vs-chip v-else-if="is_valid === 'false'" color="danger">
             <vs-icon class="mr-2" icon="close" size="14px" color="white"></vs-icon>
-            Belum Valid
+            Pending
         </vs-chip>
     </div>
 </template>
@@ -14,7 +14,7 @@
 <script>
 export default {
     props: {
-        is_selected: {
+        is_valid: {
             default: '',
         }
     }

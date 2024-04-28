@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Talents;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -118,8 +119,11 @@ class TalentPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('talentPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -171,8 +175,11 @@ class TalentPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('talentPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
             $data = $data->with([
                 'badasoUser',
@@ -252,7 +259,14 @@ class TalentPaymentsValidationsController extends Controller
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TalentPaymentsValidations::where('id', $request->data['id'])->first();
 
+            // NOTIFICATION
+            $payload = TalentPaymentsValidations::where('id', $request->data['id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'talent', 'talent-payments-validations', $payload, 'Pembayaran Valid'));
+            }
+
             DB::commit();
+
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
@@ -330,6 +344,14 @@ class TalentPaymentsValidationsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular . ' has been created');
+
+            // NOTIFICATION
+            $payload = TalentPaymentsValidations::where('payment_id', $request->data['payment_id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'talent', 'talent-payments-validations', $payload, 'Pembayaran Valid'));
+            } else {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'talent', 'talent-payments-validations', $payload, 'Pembayaran Waiting'));
+            }
 
             DB::commit();
 

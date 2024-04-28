@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Souvenirs;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -385,6 +386,7 @@ class SouvenirCartsController extends Controller
             SouvenirBookings::insert($forms);
 
             $bookings = SouvenirBookings::whereIn('uuid', $uuids)->get();
+            if(!$bookings) return ApiResponse::failed("Data tidak tersedia, refresh halaman");
 
             // INSERT BOOKING ITEMS
             $cartItems = [];
@@ -440,6 +442,10 @@ class SouvenirCartsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => [$booking, $booking_items]])
                 ->log($data_type->display_name_singular.' has been created');
+
+            foreach ($bookings as $booking) {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'souvenir', 'souvenir-bookings', $booking, 'Booking Baru'));
+            }
 
             DB::commit();
 

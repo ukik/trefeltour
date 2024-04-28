@@ -1,8 +1,23 @@
 <?php
 
+use App\Notifications\NotifyClientToAdminNotification;
+use Illuminate\Support\Facades\Notification;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Facades\Badaso;
+
+
+
+if (!function_exists('NotifyToAdmin')) {
+    function NotifyToAdmin($sender){
+        $user = BadasoUsers::whereHas('userRoles', function($q){
+            $q->whereIn('role_id',[1,6,7,8,9,10,11,12,authID()]);
+        })->get();
+        Notification::send($user, $sender);
+
+    }
+}
+
 
 if (!function_exists('getSlug')) {
     function getSlug($request){
@@ -456,3 +471,4 @@ if (!function_exists('SqlWithBinding')) {
     # usage example: SqlWithBinding($data->toSql(), $data->getBindings());
     # You can not ->paginate() or ->toSql() after Post::all() / Post::get()
 }
+

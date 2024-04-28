@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Culinarys;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 use CulinaryBookings;
 // use App\Http\Controllers\Controller;
 use Exception;
@@ -112,8 +113,11 @@ class CulinaryPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('culinaryPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
             $data = $data->paginate(request()->perPage);
 
@@ -165,8 +169,11 @@ class CulinaryPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('culinaryPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
             $data = $data->with([
                 'badasoUser',
@@ -240,7 +247,14 @@ class CulinaryPaymentsValidationsController extends Controller
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \CulinaryPaymentsValidations::where('id', $request->data['id'])->first();
 
+            // NOTIFICATION
+            $payload = CulinaryPaymentsValidations::where('id', $request->data['id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'culinary', 'culinary-payments-validations', $payload, 'Pembayaran Valid'));
+            }
+
             DB::commit();
+
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
@@ -318,6 +332,15 @@ class CulinaryPaymentsValidationsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular . ' has been created');
+
+
+            // NOTIFICATION
+            $payload = CulinaryPaymentsValidations::where('payment_id', $request->data['payment_id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'culinary', 'culinary-payments-validations', $payload, 'Pembayaran Valid'));
+            } else {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'culinary', 'culinary-payments-validations', $payload, 'Pembayaran Waiting'));
+            }
 
             DB::commit();
 

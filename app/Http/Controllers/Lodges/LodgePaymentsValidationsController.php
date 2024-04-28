@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Lodges;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -111,7 +112,9 @@ class LodgePaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('lodgePayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
 
             $data = $data->paginate(request()->perPage);
@@ -164,7 +167,9 @@ class LodgePaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('lodgePayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
 
             $data = $data->with([
@@ -238,7 +243,14 @@ class LodgePaymentsValidationsController extends Controller
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \LodgePaymentsValidations::where('id', $request->data['id'])->first();
 
+            // NOTIFICATION
+            $payload = LodgePaymentsValidations::where('id', $request->data['id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'lodge', 'lodge-payments-validations', $payload, 'Pembayaran Valid'));
+            }
+
             DB::commit();
+
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
@@ -316,6 +328,14 @@ class LodgePaymentsValidationsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular . ' has been created');
+
+            // NOTIFICATION
+            $payload = LodgePaymentsValidations::where('payment_id', $request->data['payment_id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'lodge', 'lodge-payments-validations', $payload, 'Pembayaran Valid'));
+            } else {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'lodge', 'lodge-payments-validations', $payload, 'Pembayaran Waiting'));
+            }
 
             DB::commit();
 

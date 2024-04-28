@@ -228,6 +228,7 @@
                             <chip-available v-else-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
                             <chip-payment-selected v-else-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
                             <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
+                            <chip-payment-valid v-else-if="dataRow.field == 'is_valid'" :is_valid="record.isValid"></chip-payment-valid>
                             <span v-else-if="dataRow.field == 'total_amount'">
                                 {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
                             </span>

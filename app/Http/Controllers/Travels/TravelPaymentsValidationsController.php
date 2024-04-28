@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Travels;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Badaso\Controller;
+use App\Notifications\NotifyClientToAdminNotification;
 // use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -112,8 +113,11 @@ class TravelPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('travelPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
 
             $data = $data->paginate(request()->perPage);
@@ -166,8 +170,11 @@ class TravelPaymentsValidationsController extends Controller
             // Role Data
             // Client hanya bisa melihat data mereka sendiri
             if(isClientOnly()) {
-                $data->where('customer_id',authID());
+                $data->whereHas('travelPayment',function($q){
+                    return $q->where('customer_id',authID());
+                });
             }
+
 
             $data = $data->with([
                 'badasoUsers',
@@ -240,7 +247,14 @@ class TravelPaymentsValidationsController extends Controller
             $updated['old_data'] = $table_entity;
             $updated['updated_data'] = \TravelPaymentsValidations::where('id', $request->data['id'])->first();
 
+            // NOTIFICATION
+            $payload = TravelPaymentsValidations::where('id', $request->data['id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'travel', 'travel-payments-validations', $payload, 'Pembayaran Valid'));
+            }
+
             DB::commit();
+
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
@@ -318,6 +332,14 @@ class TravelPaymentsValidationsController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular . ' has been created');
+
+            // NOTIFICATION
+            $payload = TravelPaymentsValidations::where('payment_id', $request->data['payment_id'])->first();
+            if($payload['is_valid'] === 'true') {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'travel', 'travel-payments-validations', $payload, 'Pembayaran Valid'));
+            } else {
+                NotifyToAdmin(new NotifyClientToAdminNotification(Auth::user(), 'travel', 'travel-payments-validations', $payload, 'Pembayaran Waiting'));
+            }
 
             DB::commit();
 

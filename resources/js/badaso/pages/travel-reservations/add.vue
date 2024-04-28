@@ -493,7 +493,7 @@ export default {
 
         temp.forEach(el => {
 
-            if(el.field == 'user_id') {
+            if(el.field == 'customer_id') {
                 el.value = value ? value?.id : '';
             }
         });

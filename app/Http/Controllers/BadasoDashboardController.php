@@ -167,31 +167,63 @@ class BadasoDashboardController extends Controller
     }
 
     private function getCount($model) {
-        if(isClientOnly()) return $model->where('customer_id', authID())->count();
-        return $model->count();
+        if(isClientOnly()) return $model->where('customer_id', authID())
+            ->whereYear('created_at', '=', request()->year)
+            ->whereMonth('created_at', '=', request()->month)
+            ->count();
+        return $model
+            ->whereYear('created_at', '=', request()->year)
+            ->whereMonth('created_at', '=', request()->month)
+            ->count();
+    }
+
+    private function getCountValidation($model, $eager) {
+        if(isClientOnly()) return $model->whereHas($eager, function($q) {
+                return $q->where('customer_id', authID());
+            })
+            ->whereYear('created_at', '=', request()->year)
+            ->whereMonth('created_at', '=', request()->month)
+            ->count();
+        return $model
+            ->whereYear('created_at', '=', request()->year)
+            ->whereMonth('created_at', '=', request()->month)
+            ->count();
+    }
+
+    public function year() {
+        try {
+            $data = \DB::table('years')->select('year')->pluck('year');
+
+            return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return [];
+            return ApiResponse::failed($e);
+        }
     }
 
     public function count_travel()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Travel Vendor",
-                "icon" => 'storefront',
-                "value" => $this->getCount(TravelStores::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Travel Vendor",
+                    "icon" => 'storefront',
+                    "value" => $this->getCount(TravelStores::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Travel Reservasi",
-                "icon" => 'confirmation_number',
-                "value" => $this->getCount(TravelReservations::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Travel Reservasi",
+                    "icon" => 'confirmation_number',
+                    "value" => $this->getCount(TravelReservations::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Travel Harga",
@@ -236,40 +268,42 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Travel Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(TravelPaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(TravelPaymentsValidations::query(),'travelPayment') : $this->getCount(TravelPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_culinary()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Kuliner Toko",
-                "icon" => 'storefront',
-                "value" => $this->getCount(CulinaryStores::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Kuliner Toko",
+                    "icon" => 'storefront',
+                    "value" => $this->getCount(CulinaryStores::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Kuliner Menu",
-                "icon" => 'fastfood',
-                "value" => $this->getCount(CulinaryProducts::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Kuliner Menu",
+                    "icon" => 'fastfood',
+                    "value" => $this->getCount(CulinaryProducts::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Kuliner Harga",
@@ -314,56 +348,58 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Kuliner Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(CulinaryPaymentsValidations::query()),
+                "value" =>  isClientOnly() ? $this->getCountValidation(CulinaryPaymentsValidations::query(),'culinaryPayment') : $this->getCount(CulinaryPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_lodge()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Hotel Profile",
-                "icon" => 'storefront',
-                "value" => $this->getCount(LodgeProfiles::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Hotel Profile",
+                    "icon" => 'storefront',
+                    "value" => (LodgeProfiles::query()->where('user_id', authID())->count()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Hotel Staff",
-                "icon" => 'assignment_ind',
-                "value" => $this->getCount(LodgeStaffs::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Hotel Staff",
+                    "icon" => 'assignment_ind',
+                    "value" => $this->getCount(LodgeStaffs::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Hotel Fasilitas",
-                "icon" => 'room_service',
-                "value" => $this->getCount(LodgeFacility::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Hotel Fasilitas",
+                    "icon" => 'room_service',
+                    "value" => $this->getCount(LodgeFacility::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Hotel Kamar",
-                "icon" => 'meeting_room',
-                "value" => $this->getCount(LodgeRooms::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Hotel Kamar",
+                    "icon" => 'meeting_room',
+                    "value" => $this->getCount(LodgeRooms::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Hotel Harga",
@@ -408,64 +444,66 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Hotel Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(LodgePaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(LodgePaymentsValidations::query(),'lodgePayment') : $this->getCount(LodgePaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_transport()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Rental Vendor",
-                "icon" => 'storefront',
-                "value" => $this->getCount(LodgeProfiles::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Rental Vendor",
+                    "icon" => 'storefront',
+                    "value" => (LodgeProfiles::query()->where('user_id', authID())->count()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Rental Bengkel",
-                "icon" => 'store',
-                "value" => $this->getCount(LodgeStaffs::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Rental Bengkel",
+                    "icon" => 'store',
+                    "value" => $this->getCount(LodgeStaffs::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Rental Supir",
-                "icon" => 'assignment_ind',
-                "value" => $this->getCount(LodgeFacility::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Rental Supir",
+                    "icon" => 'assignment_ind',
+                    "value" => $this->getCount(LodgeFacility::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Rental Kendaraan",
-                "icon" => 'car_repair',
-                "value" => $this->getCount(LodgeRooms::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Rental Kendaraan",
+                    "icon" => 'car_repair',
+                    "value" => $this->getCount(LodgeRooms::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Rental Perawatan",
-                "icon" => 'build',
-                "value" => $this->getCount(LodgeRooms::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Rental Perawatan",
+                    "icon" => 'build',
+                    "value" => $this->getCount(LodgeRooms::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Rental Harga",
@@ -510,48 +548,50 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Rental Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(TransportPaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(TransportPaymentsValidations::query(),'transportPayment') : $this->getCount(TransportPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_tourism()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Wisata Vendor",
-                "icon" => 'storefront',
-                "value" => $this->getCount(TourismVenues::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Wisata Vendor",
+                    "icon" => 'storefront',
+                    "value" => (TourismVenues::query()->where('user_id', authID())->count()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Rental Layanan",
-                "icon" => 'hot_tub',
-                "value" => $this->getCount(TourismServices::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Rental Layanan",
+                    "icon" => 'hot_tub',
+                    "value" => $this->getCount(TourismServices::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Wisata Wahana",
-                "icon" => 'weekend',
-                "value" => $this->getCount(TourismFacilities::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Wisata Wahana",
+                    "icon" => 'weekend',
+                    "value" => $this->getCount(TourismFacilities::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Wisata Harga",
@@ -596,40 +636,42 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Wisata Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(TourismPaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(TourismPaymentsValidations::query(),'tourismPayment') : $this->getCount(TourismPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_talent()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Talent Profile",
-                "icon" => 'storefront',
-                "value" => $this->getCount(TalentProfiles::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Talent Profile",
+                    "icon" => 'storefront',
+                    "value" => (TalentProfiles::query()->where('user_id', authID())->count()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Talent Skill",
-                "icon" => 'emoji_events',
-                "value" => $this->getCount(TalentSkills::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Talent Skill",
+                    "icon" => 'emoji_events',
+                    "value" => $this->getCount(TalentSkills::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Talent Harga",
@@ -674,40 +716,42 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Talent Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(TalentPaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(TalentPaymentsValidations::query(),'talentPayment') : $this->getCount(TalentPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function count_souvenir()
     {
 
-        try {
+        // try {
             $data = [];
 
-            $data[] = [
-                "label" => "Souvenir Toko",
-                "icon" => 'storefront',
-                "value" => $this->getCount(SouvenirStores::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+            if(!isClientOnly()) {
+                $data[] = [
+                    "label" => "Souvenir Toko",
+                    "icon" => 'storefront',
+                    "value" => (SouvenirStores::query()->where('user_id', authID())->count()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
 
-            $data[] = [
-                "label" => "Souvenir Produk",
-                "icon" => 'inventory',
-                "value" => $this->getCount(SouvenirProducts::query()),
-                "prefixValue" => "",
-                "delimiter" => "",
-            ];
+                $data[] = [
+                    "label" => "Souvenir Produk",
+                    "icon" => 'inventory',
+                    "value" => $this->getCount(SouvenirProducts::query()),
+                    "prefixValue" => "",
+                    "delimiter" => "",
+                ];
+            }
 
             $data[] = [
                 "label" => "Souvenir Harga",
@@ -752,17 +796,17 @@ class BadasoDashboardController extends Controller
             $data[] = [
                 "label" => "Souvenir Pembayaran Validasi",
                 "icon" => 'card_membership',
-                "value" => $this->getCount(SouvenirPaymentsValidations::query()),
+                "value" => isClientOnly() ? $this->getCountValidation(SouvenirPaymentsValidations::query(),'souvenirPayment') : $this->getCount(SouvenirPaymentsValidations::query()),
                 "prefixValue" => "",
                 "delimiter" => "",
             ];
 
 
             return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return [];
-            return ApiResponse::failed($e);
-        }
+        // } catch (Exception $e) {
+        //     return [];
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function manifest()

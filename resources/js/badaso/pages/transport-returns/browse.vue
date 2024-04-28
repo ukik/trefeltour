@@ -74,7 +74,7 @@
             {{ $t("crudGenerated.maintenanceDialog.title") }}
           </badaso-dropdown-item>
           <badaso-dropdown-item
-            v-if="dataType.isSoftDelete"
+            v-if="dataType.isSoftDelete && $store.getters['custom/isAdmin']"
             icon="restore_from_trash"
             @click.stop
             :to="{ name: 'CrudGeneratedBrowseBin' }"

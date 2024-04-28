@@ -28,20 +28,14 @@
           <badaso-dropdown-item
             icon="add"
             :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd &&
-              $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
+            v-if="isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)"
           >
             {{ $t("action.add") }}
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
-            v-if="
-              isCanSort &&
-              $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
-            "
+            v-if="isCanSort && $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
           >
             {{ $t("action.sort") }}
           </badaso-dropdown-item>
@@ -66,9 +60,7 @@
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="settings"
-            v-if="
-              $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
-            "
+            v-if="$helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)"
             @click.stop
             @click="openMaintenanceDialog"
           >
@@ -107,21 +99,44 @@
 
               <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/> -->
 
-<div class="row">
-                    <shared-select-payment-method ref="SharedSelectPaymentMethod" @onBubbleEvent="SharedSelectPaymentMethod" class="col-auto" />
-                    <shared-select-payment-status ref="SharedSelectPaymentStatus" @onBubbleEvent="SharedSelectPaymentStatus" class="col-auto" />
-                    <shared-select-payment-selected ref="SharedSelectPaymentSelected" @onBubbleEvent="SharedSelectPaymentSelected" class="col-auto" />
-                    <div class="col pr-0 d-flex align-items-end">
-                        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Pencarian Data" v-model="search" @input="onSearch($event)"/>
-                    </div>
-                    <div class="col-auto d-flex align-items-end justify-content-end">
-                        <vs-button @click="onClear" color="danger" icon="close"></vs-button>
-                    </div>
+              <div class="row">
+                <shared-select-payment-method
+                  ref="SharedSelectPaymentMethod"
+                  @onBubbleEvent="SharedSelectPaymentMethod"
+                  class="col-auto"
+                />
+                <shared-select-payment-status
+                  ref="SharedSelectPaymentStatus"
+                  @onBubbleEvent="SharedSelectPaymentStatus"
+                  class="col-auto"
+                />
+                <shared-select-payment-selected
+                  ref="SharedSelectPaymentSelected"
+                  @onBubbleEvent="SharedSelectPaymentSelected"
+                  class="col-auto"
+                />
+                <div class="col pr-0 d-flex align-items-end">
+                  <vs-input
+                    icon-after="true"
+                    label-placeholder="icon-after"
+                    icon="search"
+                    placeholder="Pencarian Data"
+                    v-model="search"
+                    @input="onSearch($event)"
+                  />
                 </div>
+                <div class="col-auto d-flex align-items-end justify-content-end">
+                  <vs-button @click="onClear" color="danger" icon="close"></vs-button>
+                </div>
+              </div>
             </div>
             <div>
-              <badaso-table ref="badaso_table_1"
-                v-if="dataType.serverSide !== 1" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
+              <badaso-table
+                ref="badaso_table_1"
+                v-if="dataType.serverSide !== 1"
+                :lastPage="lastPage"
+                :currentPage="currentPage"
+                :perPage="perPage"
                 @onChangePage="onChangePage"
                 @onChangeMaxItems="onChangeMaxItems"
                 v-model="selected"
@@ -133,14 +148,12 @@
                 description
                 :description-items="descriptionItems"
                 :description-title="$t('crudGenerated.footer.descriptionTitle')"
-                :description-connector="
-                  $t('crudGenerated.footer.descriptionConnector')
-                "
+                :description-connector="$t('crudGenerated.footer.descriptionConnector')"
                 :description-body="$t('crudGenerated.footer.descriptionBody')"
-                :multiple='$store.getters["custom/isAdmin"]'
+                :multiple="$store.getters['custom/isAdmin']"
               >
                 <template slot="thead">
-                    <vs-th></vs-th>
+                  <vs-th></vs-th>
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     :key="index"
@@ -150,6 +163,7 @@
                       {{ dataRow.displayName }}
                     </template>
                   </vs-th>
+                  <vs-th>Pembayaran Valid</vs-th>
                   <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
                 </template>
 
@@ -164,40 +178,44 @@
                         : 'default'
                     "
                   >
-                      <vs-td>
-                          <vs-button @click="$refs.SharedBrowserModal.onCall({
+                    <vs-td>
+                      <vs-button
+                        @click="
+                          $refs.SharedBrowserModal.onCall({
                             show: true,
                             type: 'detail',
                             selectedData: record,
                             title: 'Detail Pembayaran',
-                            slug: $route.params?.slug })">
-                              <vs-icon icon="visibility" style="font-size: 18px;" class=""></vs-icon>
-                          </vs-button>
-                        </vs-td>
+                            slug: $route.params?.slug,
+                          })
+                        "
+                      >
+                        <vs-icon
+                          icon="visibility"
+                          style="font-size: 18px"
+                          class=""
+                        ></vs-icon>
+                      </vs-button>
+                    </vs-td>
 
                     <template
                       v-if="
-                        !idsOfflineDeleteRecord.includes(
-                          record.id.toString()
-                        ) || !isOnline
+                        !idsOfflineDeleteRecord.includes(record.id.toString()) ||
+                        !isOnline
                       "
                     >
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
                         :key="indexColumn"
                         :data="
-                          data[index][
-                            $caseConvert.stringSnakeToCamel(dataRow.field)
-                          ]
+                          data[index][$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
                       >
                         <template v-if="dataRow.browse == 1">
                           <img
                             v-if="dataRow.type == 'upload_image'"
                             :src="`${
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             }`"
                             width="20%"
                             alt=""
@@ -208,9 +226,7 @@
                           >
                             <img
                               v-for="(image, indexImage) in stringToArray(
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               )"
                               :key="indexImage"
                               :src="`${image}`"
@@ -222,37 +238,25 @@
                           <span
                             v-else-if="dataRow.type == 'editor'"
                             v-html="
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             "
                           ></span>
                           <a
                             v-else-if="dataRow.type == 'url'"
-                            :href="
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            "
+                            :href="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                             target="_blank"
                             >{{
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             }}</a
                           >
                           <a
                             v-else-if="dataRow.type == 'upload_file'"
                             :href="`${
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             }`"
                             target="_blank"
                             >{{
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             }}</a
                           >
                           <div
@@ -261,29 +265,22 @@
                           >
                             <p
                               v-for="(file, indexFile) in arrayToString(
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               )"
                               :key="indexFile"
                             >
-                              <a :href="`${file}`" target="_blank">{{
-                                file
-                              }}</a>
+                              <a :href="`${file}`" target="_blank">{{ file }}</a>
                             </p>
                           </div>
                           <p
                             v-else-if="
-                              dataRow.type == 'radio' ||
-                              dataRow.type == 'select'
+                              dataRow.type == 'radio' || dataRow.type == 'select'
                             "
                           >
                             {{
                               bindSelection(
                                 dataRow.details.items,
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               )
                             }}
                           </p>
@@ -296,51 +293,52 @@
                           >
                             <p
                               v-for="(selected, indexSelected) in stringToArray(
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               )"
                               :key="indexSelected"
                             >
-                              {{
-                                bindSelection(dataRow.details.items, selected)
-                              }}
+                              {{ bindSelection(dataRow.details.items, selected) }}
                             </p>
                           </div>
                           <div v-else-if="dataRow.type == 'color_picker'">
                             <div
                               class="crud-generated__item--color-picker"
                               :style="`background-color: ${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               }`"
                             ></div>
-                            {{
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            }}
+                            {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
                           </div>
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
                           <div v-else>
-                                    <chip-payment-selected v-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
-                                    <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
-                                    <span v-else-if="dataRow.field == 'total_amount'">
-                                        {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                                    </span>
-                                    <span v-else>
-                                    {{
-                                        record[
-                                        $caseConvert.stringSnakeToCamel(dataRow.field)
-                                        ]
-                                    }}
-                                    </span>
-                              </div>
+                            <chip-payment-selected
+                              v-if="dataRow.field == 'is_selected'"
+                              :is_selected="record.isSelected"
+                            ></chip-payment-selected>
+                            <chip-payment-status
+                              v-else-if="dataRow.field == 'status'"
+                              :status="record.status"
+                            ></chip-payment-status>
+                            <span v-else-if="dataRow.field == 'total_amount'">
+                              {{
+                                $rupiah(
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                                )
+                              }}
+                            </span>
+                            <span v-else>
+                              {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
+                            </span>
+                          </div>
                         </template>
                       </vs-td>
+
+                        <vs-td>
+                            <chip-payment-valid :is_valid="record?.travelPaymentsValidation?.isValid"></chip-payment-valid>
+                        </vs-td>
+
                       <vs-td class="crud-generated__button">
                         <badaso-dropdown vs-trigger-click>
                           <vs-button
@@ -349,9 +347,6 @@
                             icon="more_vert"
                           ></vs-button>
                           <vs-dropdown-menu>
-
-
-
                             <badaso-dropdown-item
                               :to="{
                                 name: 'CrudGeneratedRead',
@@ -396,13 +391,8 @@
                               icon="delete"
                               @click="confirmDelete(data[index].id)"
                               v-if="
-                                !idsOfflineDeleteRecord.includes(
-                                  record.id.toString()
-                                ) &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'delete',
-                                  dataType
-                                )
+                                !idsOfflineDeleteRecord.includes(record.id.toString()) &&
+                                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
                               "
                             >
                               Delete
@@ -411,20 +401,14 @@
                               @click="confirmDeleteDataPending(data[index].id)"
                               icon="delete_outline"
                               v-if="
-                                idsOfflineDeleteRecord.includes(
-                                  record.id.toString()
-                                ) && !isShowDataRecycle
+                                idsOfflineDeleteRecord.includes(record.id.toString()) &&
+                                !isShowDataRecycle
                               "
                             >
-                              {{
-                                $t(
-                                  "offlineFeature.crudGenerator.deleteDataPending"
-                                )
-                              }}
+                              {{ $t("offlineFeature.crudGenerator.deleteDataPending") }}
                             </badaso-dropdown-item>
 
                             <!-- <hr class="m-0 my-1"> -->
-
 
                             <!-- ADDITIONAL -->
 
@@ -541,28 +525,27 @@
                             </badaso-dropdown-item> -->
 
                             <!-- --------------------- -->
-
-
                           </vs-dropdown-menu>
                         </badaso-dropdown>
                       </vs-td>
                     </template>
+
                   </vs-tr>
                 </template>
               </badaso-table>
               <div v-else>
-                <badaso-server-side-table  ref="badaso_table_2"
-                  v-model="selected" :lastPage="lastPage" :currentPage="currentPage" :perPage="perPage"
+                <badaso-server-side-table
+                  ref="badaso_table_2"
+                  v-model="selected"
+                  :lastPage="lastPage"
+                  :currentPage="currentPage"
+                  :perPage="perPage"
                   :data="records"
                   stripe
                   :pagination-data="data"
                   :description-items="descriptionItems"
-                  :description-title="
-                    $t('crudGenerated.footer.descriptionTitle')
-                  "
-                  :description-connector="
-                    $t('crudGenerated.footer.descriptionConnector')
-                  "
+                  :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                  :description-connector="$t('crudGenerated.footer.descriptionConnector')"
                   @search="handleSearch"
                   @changePage="handleChangePage"
                   @changeLimit="handleChangeLimit"
@@ -595,44 +578,31 @@
                     >
                       <template
                         v-if="
-                          !idsOfflineDeleteRecord.includes(
-                            record.id.toString()
-                          ) || !isOnline
+                          !idsOfflineDeleteRecord.includes(record.id.toString()) ||
+                          !isOnline
                         "
                       >
                         <vs-td
                           v-for="(dataRow, indexColumn) in dataType.dataRows"
                           :key="`${index}-${indexColumn}`"
-                          :data="
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          "
+                          :data="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                         >
                           <template v-if="dataRow.browse == 1">
                             <img
                               v-if="dataRow.type == 'upload_image'"
                               :src="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               "
                               width="20%"
                               alt=""
                             />
                             <div
-                              v-else-if="
-                                dataRow.type == 'upload_image_multiple'
-                              "
+                              v-else-if="dataRow.type == 'upload_image_multiple'"
                               class="crud-generated__item--upload-image-multiple"
                             >
                               <img
                                 v-for="(image, indexImage) in stringToArray(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 )"
                                 :key="indexImage"
                                 :src="`${image}`"
@@ -644,40 +614,28 @@
                             <span
                               v-else-if="dataRow.type == 'editor'"
                               v-html="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               "
                             ></span>
                             <a
                               v-else-if="dataRow.type == 'url'"
                               :href="
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               "
                               target="_blank"
                               >{{
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               }}</a
                             >
                             <a
                               v-else-if="dataRow.type == 'upload_file'"
                               :href="`${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
+                                record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                               }`"
                               target="_blank"
                               >{{
                                 getDownloadUrl(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 )
                               }}</a
                             >
@@ -687,11 +645,7 @@
                             >
                               <p
                                 v-for="(file, indexFile) in arrayToString(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 )"
                                 :key="indexFile"
                               >
@@ -702,18 +656,13 @@
                             </div>
                             <p
                               v-else-if="
-                                dataRow.type == 'radio' ||
-                                dataRow.type == 'select'
+                                dataRow.type == 'radio' || dataRow.type == 'select'
                               "
                             >
                               {{
                                 bindSelection(
                                   dataRow.details.items,
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 )
                               }}
                             </p>
@@ -725,46 +674,28 @@
                               class="crud-generated__item--select-multiple"
                             >
                               <p
-                                v-for="(
-                                  selected, indexSelected
-                                ) in stringToArray(
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                v-for="(selected, indexSelected) in stringToArray(
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 )"
                                 :key="indexSelected"
                               >
-                                {{
-                                  bindSelection(dataRow.details.items, selected)
-                                }}
+                                {{ bindSelection(dataRow.details.items, selected) }}
                               </p>
                             </div>
                             <div v-else-if="dataRow.type == 'color_picker'">
                               <div
                                 class="crud-generated__item--color-picker"
                                 :style="`background-color: ${
-                                  record[
-                                    $caseConvert.stringSnakeToCamel(
-                                      dataRow.field
-                                    )
-                                  ]
+                                  record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                                 }`"
                               ></div>
-                              {{
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }}
+                              {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
                             </div>
                             <span v-else-if="dataRow.type == 'relation'">{{
                               displayRelationData(record, dataRow)
                             }}</span>
                             <span v-else>{{
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                             }}</span>
                           </template>
                         </vs-td>
@@ -786,10 +717,7 @@
                                 }"
                                 v-if="
                                   isCanRead &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'read',
-                                    dataType
-                                  )
+                                  $helper.isAllowedToModifyGeneratedCRUD('read', dataType)
                                 "
                                 icon="visibility"
                               >
@@ -805,10 +733,7 @@
                                 }"
                                 v-if="
                                   isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  )
+                                  $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
                                 "
                                 icon="edit"
                               >
@@ -833,16 +758,10 @@
                                 @click="confirmDeleteDataPending(record.id)"
                                 icon="delete_outline"
                                 v-if="
-                                  idsOfflineDeleteRecord.includes(
-                                    record.id.toString()
-                                  )
+                                  idsOfflineDeleteRecord.includes(record.id.toString())
                                 "
                               >
-                                {{
-                                  $t(
-                                    "offlineFeature.crudGenerator.deleteDataPending"
-                                  )
-                                }}
+                                {{ $t("offlineFeature.crudGenerator.deleteDataPending") }}
                               </badaso-dropdown-item>
                             </vs-dropdown-menu>
                           </badaso-dropdown>
@@ -855,10 +774,7 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-prompt
-          @accept="saveMaintenanceState"
-          :active.sync="maintenanceDialog"
-        >
+        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog">
           <vs-row>
             <badaso-switch
               :label="$t('crudGenerated.maintenanceDialog.switch')"
@@ -895,9 +811,7 @@
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
             <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
-            <h1 class="badaso-maintenance__text">
-              We are under <br />maintenance
-            </h1>
+            <h1 class="badaso-maintenance__text">We are under <br />maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -940,21 +854,21 @@ export default {
     isMaintenance: false,
     showMaintenancePage: false,
     isShowDataRecycle: false,
-    method: '',
-    status: '',
-    is_selected: '',
-    search:'',
+    method: "",
+    status: "",
+    is_selected: "",
+    search: "",
 
     lastPage: 0,
     currentPage: 1,
-    perPage: 25
+    perPage: 25,
   }),
   watch: {
     $route: {
-        immediate: true,
-        handler (to, from) {
-          this.getEntity();
-        }
+      immediate: true,
+      handler(to, from) {
+        this.getEntity();
+      },
     },
     // page: function(to, from) {
     //   this.handleChangePage(to);
@@ -974,49 +888,49 @@ export default {
   },
   methods: {
     onSearch(val) {
-        this.search = val
-        this.selected = []
-        this.selectedMulti = []
-        this.getEntity();
+      this.search = val;
+      this.selected = [];
+      this.selectedMulti = [];
+      this.getEntity();
     },
     onClear() {
-        this.search = ''
-        this.method = ''
-        this.status = ''
-        this.is_selected = ''
-        this.selected = []
-        this.selectedMulti = []
-        this.getEntity();
-        this.$refs?.SharedSelectPaymentMethod?.onClear()
-        this.$refs?.SharedSelectPaymentStatus?.onClear()
-        this.$refs?.SharedSelectPaymentSelected?.onClear()
+      this.search = "";
+      this.method = "";
+      this.status = "";
+      this.is_selected = "";
+      this.selected = [];
+      this.selectedMulti = [];
+      this.getEntity();
+      this.$refs?.SharedSelectPaymentMethod?.onClear();
+      this.$refs?.SharedSelectPaymentStatus?.onClear();
+      this.$refs?.SharedSelectPaymentSelected?.onClear();
     },
     SharedSelectPaymentMethod(val) {
-        this.method = val
-        this.selected = []
-        this.selectedMulti = []
-        this.getEntity();
+      this.method = val;
+      this.selected = [];
+      this.selectedMulti = [];
+      this.getEntity();
     },
     SharedSelectPaymentStatus(val) {
-        this.status = val
-        this.selected = []
-        this.selectedMulti = []
-        this.getEntity();
+      this.status = val;
+      this.selected = [];
+      this.selectedMulti = [];
+      this.getEntity();
     },
     SharedSelectPaymentSelected(val) {
-        this.is_selected = val
-        this.selected = []
-        this.selectedMulti = []
-        this.getEntity();
+      this.is_selected = val;
+      this.selected = [];
+      this.selectedMulti = [];
+      this.getEntity();
     },
     onChangePage(val) {
-        this.currentPage = val;
-        this.getEntity();
+      this.currentPage = val;
+      this.getEntity();
     },
     onChangeMaxItems(val) {
-        this.currentPage = 1; // reset ke page 1
-        this.perPage = val;
-        this.getEntity();
+      this.currentPage = 1; // reset ke page 1
+      this.perPage = val;
+      this.getEntity();
     },
     getDownloadUrl(item) {
       if (item == null || item == undefined) return;
@@ -1066,13 +980,11 @@ export default {
       });
     },
     getEntity: _.debounce(async function () {
-    // async getEntity() {
+      // async getEntity() {
       this.$openLoader();
       try {
         const {
-            data: {
-                data, total, lastPage, currentPage, perPage
-            }
+          data: { data, total, lastPage, currentPage, perPage },
         } = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
@@ -1087,18 +999,18 @@ export default {
 
           search: this.search,
           perPage: this.perPage,
-          page: this.currentPage
+          page: this.currentPage,
         });
 
-        this.lastPage = lastPage
-        this.currentPage = currentPage
-        this.perPage = perPage
+        this.lastPage = lastPage;
+        this.currentPage = currentPage;
+        this.perPage = perPage;
         let response = {
-            data: {
-                data,
-                total,
-            }
-        }
+          data: {
+            data,
+            total,
+          },
+        };
         // response['data'] = responseX.data
         // response['data']['data'] = data
         // response['data']['total'] = total
@@ -1116,23 +1028,16 @@ export default {
         this.records = response.data.data;
         this.records.map((record) => {
           if (record.createdAt || record.updatedAt) {
-            record.createdAt = moment(record.createdAt).format(
-              "YYYY-MM-DD hh:mm:ss"
-            );
-            record.updatedAt = moment(record.updatedAt).format(
-              "YYYY-MM-DD hh:mm:ss"
-            );
+            record.createdAt = moment(record.createdAt).format("YYYY-MM-DD hh:mm:ss");
+            record.updatedAt = moment(record.updatedAt).format("YYYY-MM-DD hh:mm:ss");
           }
           return record;
         });
 
-        console.log('getEntity this.records', this.records)
-
+        console.log("getEntity this.records", this.records);
 
         this.totalItem =
-          response.data.total > 0
-            ? Math.ceil(response.data.total / this.limit)
-            : 1;
+          response.data.total > 0 ? Math.ceil(response.data.total / this.limit) : 1;
 
         this.dataType = dataType;
         this.isMaintenance = this.dataType.isMaintenance == 1;
@@ -1181,8 +1086,9 @@ export default {
                   let valueIds = fieldData.value.split(",");
                   valueIds = valueIds.filter((valueId, index) => valueId != id);
                   if (valueIds.length != 0) {
-                    data[indexData].requestData.data[indexItem].value =
-                      valueIds.join(",");
+                    data[indexData].requestData.data[indexItem].value = valueIds.join(
+                      ","
+                    );
 
                     newData[newData.length] = data[indexData];
                   }
@@ -1348,9 +1254,7 @@ export default {
         const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
         );
-        this.$caseConvert.stringSnakeToCamel(
-          dataRow.relation.destinationTableColumn
-        );
+        this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableColumn);
         const displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
@@ -1363,18 +1267,18 @@ export default {
             return ls[displayColumn];
           });
           return flatList.join(", ");
-        } else if(relationType == "belongs_to"){
+        } else if (relationType == "belongs_to") {
           const lists = record[table];
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-          for(let list of lists){
-            if (list.id == record[field]){
+          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+          for (let list of lists) {
+            if (list.id == record[field]) {
               return list[displayColumn];
             }
           }
-        }  else if (relationType == "belongs_to_many") {
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-          const lists = record[field]
-          let flatList = []
+        } else if (relationType == "belongs_to_many") {
+          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+          const lists = record[field];
+          let flatList = [];
           Object.keys(lists).forEach(function (ls, key) {
             flatList.push(lists[ls][displayColumn]);
           });
@@ -1386,16 +1290,15 @@ export default {
     },
     prepareExcelExporter() {
       for (const iterator of this.dataType.dataRows) {
-        this.fieldsForExcel[iterator.displayName] =
-          this.$caseConvert.stringSnakeToCamel(iterator.field);
+        this.fieldsForExcel[iterator.displayName] = this.$caseConvert.stringSnakeToCamel(
+          iterator.field
+        );
       }
 
       for (const iterator of this.dataType.dataRows) {
         const string = this.$caseConvert.stringSnakeToCamel(iterator.field);
         if (iterator.browse == 1) {
-          this.fieldsForPdf.push(
-            string.charAt(0).toUpperCase() + string.slice(1)
-          );
+          this.fieldsForPdf.push(string.charAt(0).toUpperCase() + string.slice(1));
         }
       }
     },

@@ -329,12 +329,15 @@
                           <span v-else-if="dataRow.type == 'relation'">{{
                             displayRelationData(record, dataRow)
                           }}</span>
-                            <div v-else>
+                          <div v-else>
+                                <chip-payment-valid v-if="dataRow.field == 'is_valid'" :is_valid="record.isValid"></chip-payment-valid>
+                                <span v-else>
                                 {{
                                     record[
                                     $caseConvert.stringSnakeToCamel(dataRow.field)
                                     ]
                                 }}
+                                </span>
                             </div>
                         </template>
                       </vs-td>

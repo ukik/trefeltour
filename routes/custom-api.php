@@ -164,6 +164,8 @@ Route::group([
         Route::group(['prefix' => 'dashboard'], function () {
             Route::get('/', 'BadasoDashboardController@index')->middleware(RootBadasoAuthenticate::class);
 
+            Route::get('/year', 'BadasoDashboardController@year')->middleware(RootBadasoAuthenticate::class);
+
             Route::get('/count_travel', 'BadasoDashboardController@count_travel')->middleware(RootBadasoAuthenticate::class);
             Route::get('/count_lodge', 'BadasoDashboardController@count_lodge')->middleware(RootBadasoAuthenticate::class);
             Route::get('/count_tourism', 'BadasoDashboardController@count_tourism')->middleware(RootBadasoAuthenticate::class);
