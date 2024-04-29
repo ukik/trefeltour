@@ -24,14 +24,14 @@ use Uasoft\Badaso\Models\DataType;
 class TalentTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminTalent()) {
-            return Auth::user();
-        }
+        // if(isAdminTalent()) {
+        //     return Auth::user();
+        // }
 
         return TalentProfiles::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = TalentProfiles::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = TalentProfiles::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

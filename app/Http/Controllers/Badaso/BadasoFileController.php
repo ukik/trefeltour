@@ -57,7 +57,7 @@ class BadasoFileController extends Controller
     {
 
         $request->validate([
-            'upload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'upload' => 'required|image|mimes:jpeg,png,jpg,gif,svg,pdf,docx,doc,txt|max:2048',
         ]);
 
         // $imageName = time().'.'.$request->upload->extension();

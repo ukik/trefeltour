@@ -27,14 +27,14 @@ use Uasoft\Badaso\Models\DataType;
 class TransportTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminTransport()) {
-            return Auth::user();
-        }
+        // if(isAdminTransport()) {
+        //     return Auth::user();
+        // }
 
         return TransportRentals::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = TransportRentals::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = TransportRentals::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

@@ -121,10 +121,11 @@ class TravelPricesController extends Controller
             }
 
 
-            if(isClientCompany() || isClientAffiliate() || isClientRetail()) {
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
                 $data->where('customer_id',authID());
             }
-
 
             $data = $data->paginate(request()->perPage);
 
@@ -176,7 +177,15 @@ class TravelPricesController extends Controller
             ]);
 
             // $data = $this->getDataDetail($slug, $request->id);
-            $data = \TravelPrices::with([
+            $data = \TravelPrices::query();
+
+            // Role Data
+            // Client hanya bisa melihat data mereka sendiri
+            if(isClientOnly()) {
+                $data->where('customer_id',authID());
+            }
+
+            $data = $data->with([
                 'badasoUser',
                 'badasoUsers',
                 'travelStores',

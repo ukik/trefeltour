@@ -354,6 +354,29 @@ if (!function_exists('isClientOnly')) {
     }
 }
 
+if (!function_exists('isAdminOnly')) {
+    function isAdminOnly(){
+        if(Auth::check()) {
+            foreach (Auth::user()->roles as $key => $value) {
+                switch ($value->name) {
+                    case 'administrator':
+                    case 'staff_admin':
+                    case 'staff_finance':
+                    case 'staff_supervisor':
+                    case 'staff_event':
+                    case 'top_ceo':
+                    case 'top_cfo':
+                    case 'top_cmo':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        } else {
+            return ApiResponse::unauthorized();
+        }
+    }
+}
 
 
 

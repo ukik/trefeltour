@@ -24,14 +24,14 @@ use Uasoft\Badaso\Models\DataType;
 class TourismTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminTourism()) {
-            return Auth::user();
-        }
+        // if(isAdminTourism()) {
+        //     return Auth::user();
+        // }
 
         return TourismVenues::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = TourismVenues::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = TourismVenues::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

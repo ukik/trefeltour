@@ -27,7 +27,7 @@ use \App\Http\Middleware\BadasoAuthenticate as RootBadasoAuthenticate;
 */
 
 Route::group(['prefix' => '/notification', 'middleware' => ['sanctum_1','BADASO_ApiRequest'], 'namespace' => 'App\Http\Controllers'], function ($request) {
-    Route::get('/unread', 'NotificationController@unread');
+    Route::get('/notif', 'NotificationController@notif');
     Route::get('/markasread/{id}', 'NotificationController@markasread');
     // Route::get('/markasread/{id}', function($id){
     //     // return $id;

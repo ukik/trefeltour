@@ -26,14 +26,14 @@ use Uasoft\Badaso\Models\DataType;
 class LodgeTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminLodge()) {
-            return Auth::user();
-        }
+        // if(isAdminLodge()) {
+        //     return Auth::user();
+        // }
 
         return LodgeProfiles::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = LodgeProfiles::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = LodgeProfiles::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

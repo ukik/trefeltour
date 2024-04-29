@@ -16,9 +16,9 @@ class TransportTypeHeadControllerOLD extends Controller
     function getUser() {
         $keyword = request()->keyword;
 
-        if(isAdminTransport()) {
-            return Auth::user();
-        }
+        // if(isAdminTransport()) {
+        //     return Auth::user();
+        // }
 
         return BadasoUsers::orWhere('name','like','%'.$keyword.'%')
             ->orWhere('email','like','%'.$keyword.'%')

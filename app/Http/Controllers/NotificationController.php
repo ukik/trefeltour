@@ -50,19 +50,6 @@ class NotificationController extends Controller
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
-    // public function browse(Request $request)
-    // {
-    //     try {
-    //         return $user = BadasoUsers::has('notifications')->notifications()->paginate();
-
-    //         $data = $this->paginate($user, $perPage = request()->perPage ?: 5, $page = request()->page ?: 1, $options = []);
-
-    //         return ApiResponse::onlyEntity($data);
-    //     } catch (Exception $e) {
-    //         return ApiResponse::failed($e);
-    //     }
-    // }
-
     public function markasread($id) {
 
         try {
@@ -73,21 +60,45 @@ class NotificationController extends Controller
             })
             ->markAsRead();
 
-            // $data = BadasoUsers::has('notifications')->first()->unreadNotifications()->paginate();
+            $data = BadasoUsers::has('notifications')->first()->unreadNotifications()->paginate();
 
-            // $encode = json_encode($data);
-            // $data = json_decode($encode);
+            $encode = json_encode($data);
+            $data = json_decode($encode);
 
-            // $data->nextPage = str_replace('=','',strstr($data->next_page_url, '='));
-            // $data->prevPage = str_replace('=','',strstr($data->prev_page_url, '='));
+            $data->nextPage = str_replace('=','',strstr($data->next_page_url, '='));
+            $data->prevPage = str_replace('=','',strstr($data->prev_page_url, '='));
 
-            return ApiResponse::onlyEntity('Tandai Dibaca');
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
     }
 
-    public function unread(Request $request)
+    public function notif(Request $request)
+    {
+        try {
+            // $data = BadasoUsers::has('notifications')->first()->notifications()->paginate(); // semua notifikasi
+            if(request()->type == 'unread') {
+                $data = BadasoUsers::has('notifications')->first()->unreadNotifications()->paginate(); // hanya notifikasi belum terbaca
+            } else if(request()->type == 'read') {
+                $data = BadasoUsers::has('notifications')->first()->readNotifications()->paginate(); // hanya notifikasi belum terbaca
+            }
+
+            // $user = BadasoUsers::has('notifications')->first()->unreadNotifications;
+
+            $encode = json_encode($data);
+            $data = json_decode($encode);
+
+            $data->nextPage = str_replace('=','',strstr($data->next_page_url, '='));
+            $data->prevPage = str_replace('=','',strstr($data->prev_page_url, '='));
+
+            return ApiResponse::onlyEntity($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browse(Request $request)
     {
         try {
             // $data = BadasoUsers::has('notifications')->first()->notifications()->paginate(); // semua notifikasi
@@ -106,27 +117,5 @@ class NotificationController extends Controller
         }
     }
 
-    public function all(Request $request)
-    {
-        try {
-            $slug = $this->getSlug($request);
-            $data_type = $this->getDataType($slug);
-
-            $builder_params = [
-                'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
-                'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
-            ];
-
-            if ($data_type->model_name) {
-                $records = GetData::clientSideWithModel($data_type, $builder_params);
-            } else {
-                $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
-            }
-
-            return ApiResponse::onlyEntity($records);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
 
 }

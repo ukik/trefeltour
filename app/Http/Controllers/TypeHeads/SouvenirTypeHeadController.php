@@ -25,14 +25,14 @@ use Uasoft\Badaso\Models\DataType;
 class SouvenirTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminSouvenir()) {
-            return Auth::user();
-        }
+        // if(isAdminSouvenir()) {
+        //     return Auth::user();
+        // }
 
         return SouvenirStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = SouvenirStores::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = SouvenirStores::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

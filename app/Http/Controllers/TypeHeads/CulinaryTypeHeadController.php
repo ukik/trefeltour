@@ -25,14 +25,14 @@ use Uasoft\Badaso\Models\DataType;
 class CulinaryTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminCulinary()) {
-            return Auth::user();
-        }
+        // if(isAdminCulinary()) {
+        //     return Auth::user();
+        // }
 
         return CulinaryStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
-        $temp = CulinaryStores::where('id', request()->id)->value('user_id');
-        return BadasoUsers::where('id', $temp)->first();
+        // $temp = CulinaryStores::where('id', request()->id)->value('user_id');
+        // return BadasoUsers::where('id', $temp)->first();
     }
 
 

@@ -2,15 +2,33 @@
     "size": 12,
     "items": [
         {
-            "label": "man",
-            "value": "man"
+            "label": "1. antri",
+            "value": "antri"
         },
         {
-            "label": "woman",
-            "value": "woman"
+            "label": "2. diproses",
+            "value": "diproses"
+        },
+        {
+            "label": "3. disetujui",
+            "value": "disetujui"
+        },
+        {
+            "label": "4. presentasi",
+            "value": "presentasi"
+        },
+        {
+            "label": "5. eksekusi",
+            "value": "eksekusi"
+        },
+        {
+            "label": "6. tuntas",
+            "value": "tuntas"
         }
     ]
 }
+
+diproses,disetujui,presentasi,eksekusi,tuntas
 
 
 {

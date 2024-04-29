@@ -36,14 +36,18 @@
                             alt=""
                         /> -->
                     <vs-row v-if="dataRow.type == 'upload_image'">
-                        <common-light-box
-                            :images="[record[$caseConvert.stringSnakeToCamel(dataRow.field)]]"
-                            ref="lightbox"
-                        />
+                      <common-light-box
+                        :images="[record[$caseConvert.stringSnakeToCamel(dataRow.field)]]"
+                        ref="lightbox"
+                      />
 
                       <vs-col vs-lg="4" vs-sm="12">
                         <div class="badaso-upload-image-multiple__preview">
-                          <img @click="onLightBox(); $refs.lightbox[0].showMultiple();"
+                          <img
+                            @click="
+                              onLightBox();
+                              $refs.lightbox[0].showMultiple();
+                            "
                             class="badaso-upload-image-multiple__preview-image"
                             :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                             width="100%"
@@ -101,7 +105,11 @@
                         >
                           <div class="badaso-upload-image-multiple__preview">
                             <img
-                              @click="onLightBox(); $refs.lightbox[0].index = index; $refs.lightbox[0].showMultiple();"
+                              @click="
+                                onLightBox();
+                                $refs.lightbox[0].index = index;
+                                $refs.lightbox[0].showMultiple();
+                              "
                               :src="val"
                               class="badaso-upload-image-multiple__preview-image"
                             />
@@ -133,14 +141,16 @@
                       v-else-if="dataRow.type == 'upload_file_multiple'"
                       class="crud-generated__item--upload-file-multiple"
                     >
-                      <p
-                        v-for="(file, indexFile) in arrayToString(dataRow.value)"
-                        :key="indexFile"
-                      >
-                        <a :href="`${file}`" target="_blank">{{
-                          getDownloadUrl(file)
-                        }}</a>
-                      </p>
+                      <ol>
+                        <li
+                          v-for="(file, indexFile) in arrayToString(
+                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                          )"
+                          :key="indexFile"
+                        >
+                          <a :href="`${file}`" target="_blank">{{ file }}</a>
+                        </li>
+                      </ol>
                     </div>
                     <p v-else-if="dataRow.type == 'radio' || dataRow.type == 'select'">
                       {{
@@ -201,50 +211,82 @@
                       <span v-else-if="dataRow.field == 'year_exp'">
                         {{ $formatDate(record?.yearExp) }}
                       </span>
-                      <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
+                      <span
+                        v-else-if="dataRow.field == 'customer_id' && record?.customer"
+                      >
                         {{ record?.customer?.username }}
                       </span>
 
-                            <span v-if="dataRow.field == 'get_price'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
-                            <span v-else-if="dataRow.field == 'get_discount'">
-                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
-                            </span>
-                            <span v-else-if="dataRow.field == 'get_cashback'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
-                            <span v-else-if="dataRow.field == 'get_total_amount'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
-                            <span v-else-if="dataRow.field == 'get_final_amount'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
+                      <span v-if="dataRow.field == 'get_price'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
+                      <span v-else-if="dataRow.field == 'get_discount'">
+                        {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}%
+                      </span>
+                      <span v-else-if="dataRow.field == 'get_cashback'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
+                      <span v-else-if="dataRow.field == 'get_total_amount'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
+                      <span v-else-if="dataRow.field == 'get_final_amount'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
 
-                            <span v-else-if="dataRow.field == 'get_final_amount'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
+                      <span v-else-if="dataRow.field == 'get_final_amount'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
 
-                            <chip-available v-else-if="dataRow.field == 'is_available'" :is_available="record.isAvailable"></chip-available>
-                            <chip-payment-selected v-else-if="dataRow.field == 'is_selected'" :is_selected="record.isSelected"></chip-payment-selected>
-                            <chip-payment-status v-else-if="dataRow.field == 'status'" :status="record.status"></chip-payment-status>
-                            <chip-payment-valid v-else-if="dataRow.field == 'is_valid'" :is_valid="record.isValid"></chip-payment-valid>
-                            <span v-else-if="dataRow.field == 'total_amount'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
+                      <chip-available
+                        v-else-if="dataRow.field == 'is_available'"
+                        :is_available="record.isAvailable"
+                      ></chip-available>
+                      <chip-payment-selected
+                        v-else-if="dataRow.field == 'is_selected'"
+                        :is_selected="record.isSelected"
+                      ></chip-payment-selected>
+                      <chip-payment-status
+                        v-else-if="dataRow.field == 'status'"
+                        :status="record.status"
+                      ></chip-payment-status>
+                      <chip-payment-valid
+                        v-else-if="dataRow.field == 'is_valid'"
+                        :is_valid="record.isValid"
+                      ></chip-payment-valid>
+                      <span v-else-if="dataRow.field == 'total_amount'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
 
-                            <span v-else-if="dataRow.field == 'general_price'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
-                            <span v-else-if="dataRow.field == 'discount_price'">
-                                {{ (record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}%
-                            </span>
-                            <span v-else-if="dataRow.field == 'cashback_price'">
-                                {{ $rupiah(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]) }}
-                            </span>
-                            <span v-else-if="dataRow.field == 'customer_id' && record?.customer">
-                                {{ record?.customer?.username }}
-                            </span>
+                      <span v-else-if="dataRow.field == 'general_price'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
+                      <span v-else-if="dataRow.field == 'discount_price'">
+                        {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}%
+                      </span>
+                      <span v-else-if="dataRow.field == 'cashback_price'">
+                        {{
+                          $rupiah(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                        }}
+                      </span>
+                      <span
+                        v-else-if="dataRow.field == 'customer_id' && record?.customer"
+                      >
+                        {{ record?.customer?.username }}
+                      </span>
 
                       <span v-else>
                         {{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}
@@ -296,7 +338,7 @@ export default {
   },
   methods: {
     onLightBox() {
-        console.log('onLightBox', this.$refs.lightbox)
+      console.log("onLightBox", this.$refs.lightbox);
     },
     getDownloadUrl(item) {
       if (item == null || item == undefined) return;

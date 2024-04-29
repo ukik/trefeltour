@@ -26,9 +26,9 @@ use Uasoft\Badaso\Models\DataType;
 class TravelTypeHeadController extends Controller
 {
     function getUser() {
-        if(isAdminTravel()) {
-            return Auth::user();
-        }
+        // if(isAdminTravel()) {
+        //     return Auth::user();
+        // }
 
         return TravelStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
 
@@ -37,17 +37,17 @@ class TravelTypeHeadController extends Controller
     }
 
     function travel_stores_dialog_user() {
-        if(isAdminTravel()) {
-            return Auth::user();
-        }
+        // if(isAdminTravel()) {
+        //     return Auth::user();
+        // }
 
         return TravelStores::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
     }
 
     function travel_reservations_dialog_user() {
-        if(isAdminTravel()) {
-            return Auth::user();
-        }
+        // if(isAdminTravel()) {
+        //     return Auth::user();
+        // }
 
         return TravelReservations::where('id', request()->id)->with('badasoUsers')->first()?->badasoUsers[0];
     }

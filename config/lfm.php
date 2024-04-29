@@ -67,6 +67,8 @@ return [
                 'image/pjpeg',
                 'image/png',
                 'image/gif',
+                'application/pdf',
+                'text/plain',
             ],
         ],
     ],

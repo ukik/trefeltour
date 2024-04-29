@@ -30,7 +30,7 @@
         </vs-sidebar-item>
       </div>
 
-      <div v-if="total > 0" class="d-flex justify-content-center">
+      <div v-if="lastPage > 1" class="d-flex justify-content-center">
         <vs-button
           class="mx-1"
           @click="getMessages(prevPage)"
@@ -53,7 +53,7 @@
         ></vs-button>
       </div>
 
-      <vs-divider class="mt-2"></vs-divider>
+      <vs-divider v-if="lastPage > 1" class="mt-2"></vs-divider>
 
       <vs-sidebar-item
         icon="question_answer"
@@ -99,9 +99,9 @@
         </div>
       </vs-sidebar-item>
 
-      <vs-divider></vs-divider>
+      <vs-divider v-if="lastPage > 1"></vs-divider>
 
-      <div v-if="total > 0" class="d-flex justify-content-center">
+      <div v-if="lastPage > 1" class="d-flex justify-content-center">
         <vs-button
           class="mx-1"
           @click="getMessages(prevPage)"
@@ -388,11 +388,12 @@ export default {
     getMessages: _.debounce(async function (page) {
       this.$openLoader();
       await axios({
-        url: "/api/notification/unread",
+        url: "/api/notification/notif",
         method: "get",
         params: {
           // 'perPage':1,
           page: page,
+          type: 'unread',
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
